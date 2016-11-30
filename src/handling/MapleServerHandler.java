@@ -211,13 +211,7 @@ public class MapleServerHandler extends IoHandlerAdapter {
     }
 
     private boolean isSpamHeader(int opCode) {
-        Set<Integer> spamHeaders = new HashSet();
-        spamHeaders.add(RecvPacketOpcode.NPC_ACTION.getValue());
-        spamHeaders.add(RecvPacketOpcode.MOVE_LIFE.getValue());
-        spamHeaders.add(RecvPacketOpcode.MOVE_PLAYER.getValue());
-        spamHeaders.add(RecvPacketOpcode.QUEST_ACTION.getValue());
-        spamHeaders.add(RecvPacketOpcode.HEAL_OVER_TIME.getValue());
-        return spamHeaders.contains(opCode);
+        return OpcodeManager.isSpamRecvHeader(opCode);
     }
 
     public static void handlePacket(final RecvPacketOpcode header, final LittleEndianAccessor lea, final MapleClient c) throws Exception {
@@ -922,7 +916,9 @@ public class MapleServerHandler extends IoHandlerAdapter {
             case BUTTON_PRESSED:
                 break;
             default:
-                System.out.println("[UNHANDLED] Recv [" + header.toString() + "] found");
+                if(!OpcodeManager.isSpamRecvHeader(header.getValue())) {
+                    System.out.println("[UNHANDLED] Recv [" + header.toString() + "] found");
+                }
                 break;
         }
     }

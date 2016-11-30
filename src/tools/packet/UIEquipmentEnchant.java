@@ -52,10 +52,14 @@ public class UIEquipmentEnchant {
         pw.write(EnhanceTypes.SHOW_STAR_FORCE.getValue()); // nType
         pw.write(canDropStar);
         pw.writeLong(price);
+        pw.writeInt(0); // 0 writing, I know, but it's some info we probably don't need.
         pw.writeLong(oldPrice);
+        pw.writeInt(0); // I'm sure I'll figure this one out soontm
         pw.writeInt(sucChance);
         pw.writeInt(boomChance);
         pw.write(chanceTime);
+        pw.writeInt(0);// old chance?
+        pw.writeInt(0);
         Map<EnhanceStat, Short> addStats = equip.getEnhanceStats();
         int mask = 0;
         for(EnhanceStat key : addStats.keySet()){

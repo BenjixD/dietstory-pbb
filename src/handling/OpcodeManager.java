@@ -2,10 +2,13 @@ package handling;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import client.MapleClient;
+import com.sun.org.apache.regexp.internal.RE;
 import handling.handlers.*;
 import handling.handlers.cashshop.*;
 import handling.handlers.login.*;
@@ -17,6 +20,8 @@ import tools.data.LittleEndianAccessor;
 public class OpcodeManager {
 	
 	private static Map<Integer, Method> handlers = new HashMap<Integer, Method>();
+	public static List<Integer> spamRecvHandlers = new ArrayList<>();
+	public static List<String> spamSendHandlers = new ArrayList<>();
 	
 	private static Class<?>[] packethandlers = new Class<?>[] {
 		
@@ -62,6 +67,7 @@ public class OpcodeManager {
 
 		ItemMoveHandler.class,
 		UseItemHandler.class,
+		UseUpgradeScrollHandler.class,
 		UsePotentialScrollHandler.class,
 		UseMagnifyGlassHandler.class,
 		UseCashItemHandler.class,
@@ -82,6 +88,7 @@ public class OpcodeManager {
 		ChangeMapSpecialHandler.class,
 		UseInnerPortalHandler.class,
 		ChangeKeymapHandler.class
+
 
     };
     
@@ -122,7 +129,9 @@ public class OpcodeManager {
                 method.invoke(null, client, lea);
                 return true;
             } else {
-				System.out.println("[Unhandled] [Recv] (" + HexTool.getOpcodeToString(opcode) + ") " + lea);
+				if(!isSpamRecvHeader(opcode)){
+					System.out.println("[Unhandled] [Recv] (" + HexTool.getOpcodeToString(opcode) + ") " + lea);
+				}
 			}
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -134,4 +143,29 @@ public class OpcodeManager {
         return false;
     }
 
+	public static boolean isSpamRecvHeader(int opcode) {
+		if(spamRecvHandlers.size() == 0){
+			spamRecvHandlers.add(RecvPacketOpcode.UPDATE_HYPER.getValue());
+			spamRecvHandlers.add(RecvPacketOpcode.UPDATE_HYPER_SKILL.getValue());
+			spamRecvHandlers.add(0x165); // UPDATE_HYPER_SKILL
+			spamRecvHandlers.add(0x14D);
+			spamRecvHandlers.add(0x135);
+			spamRecvHandlers.add(RecvPacketOpcode.MOVE_PLAYER.getValue());
+			spamRecvHandlers.add(RecvPacketOpcode.MOVE_LIFE.getValue());
+			spamRecvHandlers.add(0x351); // MOB_MOVE
+		}
+		return spamRecvHandlers.contains(opcode);
+	}
+
+	public static boolean isSpamSendHeader(String packet) {
+		String header = packet.substring(0, 5); // header: XX XX
+		if(spamSendHandlers.size() == 0){
+			spamSendHandlers.add("4A 00"); //
+			spamSendHandlers.add("9F 03"); // MOVE_MONSTER
+			spamSendHandlers.add("9E 03"); // MOVE_MONSTER_REPONSE
+			spamSendHandlers.add("80 02"); // MOVE_PLAYER
+			spamSendHandlers.add("E8 03");
+		}
+		return spamSendHandlers.contains(header);
+	}
 }

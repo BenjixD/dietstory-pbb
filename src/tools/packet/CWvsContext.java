@@ -3055,6 +3055,7 @@ public class CWvsContext {
                 pw.write(1);
                 pw.writeInt(itemId);
                 pw.writeInt(quantity);
+                pw.writeLong(0); // hack, runtime + error 38 otherwise.
             } else {
                 pw.writeShort(SendPacketOpcode.SHOW_STATUS_INFO.getValue());
                 pw.writeShort(0);

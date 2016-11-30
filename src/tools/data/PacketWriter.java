@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
 
+import handling.OpcodeManager;
 import tools.HexTool;
 
 /**
@@ -40,6 +41,9 @@ public class PacketWriter {
      * @return A <code>MaplePacket</code> with the bytes in this stream.
      */
     public final byte[] getPacket() {
+        if(!OpcodeManager.isSpamSendHeader(toString())) {
+            System.out.println("[Send] " + toString());
+        }
         return baos.toByteArray();
     }
 

@@ -213,6 +213,7 @@ public enum RecvPacketOpcode implements IntValueHolder {
 	CRAFT_DONE,
 	CRAFT_EFFECT,
 	CRAFT_MAKE,
+	UPDATE_HYPER_SKILL,
 	CHANGE_ROOM_CHANNEL,
 	EVENT_CARD,
 	CHOOSE_SKILL,

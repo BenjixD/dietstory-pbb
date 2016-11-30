@@ -1263,4 +1263,10 @@ public class Equip extends Item implements Serializable {
     public Map<Byte, Map<EquipStat, Short>> getLastAddedStatsPerStar(){
         return lastAddedStatsPerStar;
     }
+
+    public void setStarStats(String starStats){
+        /*TODO save+load added stats from stars from DB (to ensure nothing goes wrong if server
+          restarts/crashes/etc...)
+        */
+    }
 }

@@ -220,6 +220,8 @@ public class PlayerLoggedInHandler {
 				MapleInventoryManipulator.removeFromSlot(player.getClient(), MapleInventoryType.EQUIPPED, slot, (short) 1, false);
 			}
 		}
+		// hack to make skills update
+		c.getSession().write(CWvsContext.updateLinkSkill(c.getPlayer().getSkills(), true, false, false));
 		// c.getSession().write(CWvsContext.shopDiscount(ServerConstants.SHOP_DISCOUNT));
 		// List<Pair<Integer, String>> npcs = new ArrayList<>();
 		// npcs.add(new Pair<>(9070006, "Why...why has this happened to me?
