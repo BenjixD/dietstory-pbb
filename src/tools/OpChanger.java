@@ -16,9 +16,11 @@ public class OpChanger {
         // the amount that should be applied to all opcodes from that point onwards.
         int change = 7;
         boolean isAfterFromChange = false;
+        // do you want to edit the send ops (true), or recv ops (false)?
         boolean send = true;
         String opType = send ? "send" : "recv";
 
+        // change according to wherever your files are. No relative positions, sorry.
         File input = new File("D:\\MapleDev\\LucidMS\\"+opType+"ops.properties");
         File output = new File("D:\\MapleDev\\LucidMS\\"+opType+"opsNew.properties");
         BufferedReader br = null;
