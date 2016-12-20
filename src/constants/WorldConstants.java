@@ -55,8 +55,8 @@ public class WorldConstants {
         private final byte flag;
         private final boolean show, available;
         private final String worldtip;
-        public static final byte recommended = (byte) Red.getWorld(); //-1 = no recommended
-        public static final String recommendedmsg = "        Join " + getById(recommended).name() + ",       the newest world! (If you have friends who play, consider joining their world instead. Characters can`t move between worlds.)";
+        public static final byte recommended = (byte) Scania.getWorld(); //-1 = no recommended
+        public static final String recommendedmsg = "        Join " + getById(recommended).name() + ",       the only world! (If you have friends who play, consider joining their world instead. Characters can`t move between worlds.)";
 
         WorldOption(int world, byte flag, boolean show, int channels) {
             this.world = world;

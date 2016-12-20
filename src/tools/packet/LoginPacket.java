@@ -21,7 +21,7 @@ public class LoginPacket {
 
     public static byte[] getHello(short mapleVersion, byte[] sendIv, byte[] recvIv) {
         PacketWriter pw = new PacketWriter();
-        pw.writeShort(15);
+        pw.writeShort(SendPacketOpcode.CLIENT_HELLO.getValue());
         pw.writeShort(mapleVersion);
         pw.writeMapleAsciiString(ServerConstants.MAPLE_PATCH);
         pw.write(recvIv);
@@ -38,9 +38,12 @@ public class LoginPacket {
     }
     
     public static final byte[] getStart() {
-    	PacketWriter pw = new PacketWriter(2);
-    	pw.writeShort(0x24);
+    	PacketWriter pw = new PacketWriter();
+    	pw.writeShort(SendPacketOpcode.CLIENT_START.getValue());
     	pw.write(1);
+        pw.writeInt(0);
+        pw.writeInt(0);
+        pw.writeInt(0);
     	return pw.getPacket();
     }
     
@@ -287,7 +290,7 @@ public class LoginPacket {
         pw.write(0); // nDay
         pw.writeMapleAsciiString("normal"); // 174.1
         pw.writeInt(0); // 174.1 ref count?
-       
+
         pw.write(1); // burning event block?
         
         // character locations
@@ -300,11 +303,12 @@ public class LoginPacket {
         pw.write(0);
         
         //pw.writeInt(0); // ? (nSecond)
-        
+
         pw.writeInt(characters.size());
         for (MapleCharacter character : characters) {
-            if (!characters.isEmpty())
+            if (!characters.isEmpty()) {
                 pw.writeInt(character.getId());
+            }
         }
         pw.write(characters.size());
         for (MapleCharacter character : characters) {
@@ -321,9 +325,9 @@ public class LoginPacket {
             }
         }
         pw.write(client.getPicStatus());
-		pw.write(0);
-		pw.writeInt(client.getCharacterSlots());
-        
+        pw.write(0);
+        pw.writeInt(client.getCharacterSlots());
+
         pw.writeInt(0); // buy character count?
         pw.writeInt(-1); // event new char job
         
@@ -355,7 +359,7 @@ public class LoginPacket {
     
     public static byte[] getAccountName(String name) {
         PacketWriter pw = new PacketWriter();
-        pw.writeShort(0x110);
+        pw.writeShort(0x111);
         pw.writeLong(0);
         pw.writeMapleAsciiString(name);
         return pw.getPacket();

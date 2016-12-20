@@ -245,10 +245,10 @@ public class CWvsContext {
     
     /**
      * @function OnChangeSkillRecordResult
-     * @param SetExclRequestSent
-     * @param bShowResult
-     * @param bRemoveLinkSkill
-     * @param bSN
+     * param SetExclRequestSent
+     * param bShowResult
+     * param bRemoveLinkSkill
+     * param bSN
      * @return
      */
     public static byte[] updateLinkSkill(Map<Skill, SkillEntry> update, boolean request, boolean result, boolean remove) {
@@ -3055,7 +3055,6 @@ public class CWvsContext {
                 pw.write(1);
                 pw.writeInt(itemId);
                 pw.writeInt(quantity);
-                pw.writeLong(0); // hack, runtime + error 38 otherwise.
             } else {
                 pw.writeShort(SendPacketOpcode.SHOW_STATUS_INFO.getValue());
                 pw.writeShort(0);

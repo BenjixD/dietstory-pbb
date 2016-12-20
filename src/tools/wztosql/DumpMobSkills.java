@@ -22,12 +22,16 @@
 package tools.wztosql;
 
 import java.awt.Point;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
+import constants.ServerConfig;
 import lib.data.MapleData;
 import lib.data.MapleDataProvider;
 import lib.data.MapleDataProviderFactory;
@@ -163,6 +167,29 @@ public class DumpMobSkills {
                 update = true;
             }
         }
+
+        Properties properties = new Properties();
+        try {
+            properties.load(new FileInputStream("config.properties"));
+        } catch (IOException ex) {
+            System.out.println("Failed to load config.properties");
+        }
+
+        // Load Server Configuration
+        ServerConfig.IP_ADDRESS = properties.getProperty("ip");
+        ServerConfig.SERVER_NAME = properties.getProperty("name");
+        ServerConfig.EVENT_MSG = properties.getProperty("event");
+        ServerConfig.SCROLL_MESSAGE = properties.getProperty("message");
+        ServerConfig.MAX_CHARACTERS = getByte(properties, "characters");
+        ServerConfig.USER_LIMIT = getShort(properties, "users");
+        ServerConfig.CHANNEL_COUNT = getByte(properties, "channels");
+        ServerConfig.SQL_PORT = properties.getProperty("sql_port");
+        ServerConfig.SQL_USER = properties.getProperty("sql_user");
+        ServerConfig.SQL_PASS = properties.getProperty("sql_password");
+        ServerConfig.SQL_DATABASE = properties.getProperty("sql_db");
+
+
+
         int currentQuest = 0;
         try {
             final DumpMobSkills dq = new DumpMobSkills(update);
@@ -184,5 +211,38 @@ public class DumpMobSkills {
             withErrors = " with errors";
         }
         System.out.println("Finished" + withErrors + " in " + elapsedMinutes + " minutes " + elapsedSecs + " seconds");
+    }
+
+
+    /**
+     * Retrieves an byte value.
+     * @param key The key name.
+     * @return The requested value (<code>null</code> if not found).
+     */
+    public static Byte getByte(Properties p, String key)
+    {
+        Byte value = null;
+        String string = p.getProperty(key);
+        if (string != null) {
+            value = new Byte(string);
+        } else {
+            System.out.println("The byte was null.");
+        }
+        return value;
+    }
+
+
+    /**
+     * Retrieves an short value.
+     * @param key The key name.
+     * @return The requested value (<code>null</code> if not found).
+     */
+    public static Short getShort(Properties p, String key)
+    {
+        Short value = null;
+        String string = p.getProperty(key);
+        if (string != null)
+            value = new Short(string);
+        return value;
     }
 }

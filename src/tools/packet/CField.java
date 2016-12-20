@@ -386,26 +386,29 @@ public class CField {
 		return pw.getPacket();
 	}
 
-	public static byte[] updateHonour(int honourLevel, int honourExp, boolean levelup) {
-		/*
-		 * data: 03 00 00 00 69 00 00 00 01
-		 */
-		PacketWriter pw = new PacketWriter();
+/*
+public static byte[] updateHonour(int honourLevel, int honourExp, boolean levelup) {
+/*
+* data: 03 00 00 00 69 00 00 00 01
+* /
+PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.UPDATE_HONOUR.getValue());
+pw.writeShort(SendPacketOpcode.UPDATE_HONOUR.getValue());
 
-		pw.writeInt(honourLevel);
-		pw.writeInt(honourExp);
-		pw.write(levelup ? 1 : 0); // shows level up effect
+pw.writeInt(honourLevel);
+pw.writeInt(honourExp);
+pw.write(levelup ? 1 : 0); // shows level up effect
 
-		return pw.getPacket();
-	}
-	
+return pw.getPacket();
+}
+*/
+
 	public static byte[] getCharInfo(MapleCharacter mc) {
 		return getWarpToMap(mc, null, 0, false);
 	}
-	
+
 	public static byte[] getWarpToMap(MapleCharacter mc, MapleMap to, int spawnPoint, boolean bCharacterData) {
+		//IDA function = setField
 		PacketWriter pw = new PacketWriter();
 		pw.writeShort(SendPacketOpcode.WARP_TO_MAP.getValue());
 		
@@ -444,6 +447,7 @@ public class CField {
 			
 			PacketHelper.addCharacterInfo(pw, mc);
 			pw.writeInt(0); // log out event
+			pw.writeInt(0); // 178 new
 		} else {
 			
 			// bUsingBuffProtector (this will call the revive function, upon death.)
@@ -544,7 +548,6 @@ public class CField {
 		pw.writeInt(0);
 		
 		pw.writeInt(0);
-		
 		return pw.getPacket();
 	}
 
@@ -3992,6 +3995,7 @@ public class CField {
 				pw.writeShort(0);
 			}
 			pw.write(0);
+			pw.write(new byte[30]); // TODO: Tim, properly fix this
 			return pw.getPacket();
 		}
 

@@ -153,6 +153,8 @@ public class OpcodeManager {
 			spamRecvHandlers.add(RecvPacketOpcode.MOVE_PLAYER.getValue());
 			spamRecvHandlers.add(RecvPacketOpcode.MOVE_LIFE.getValue());
 			spamRecvHandlers.add(0x351); // MOB_MOVE
+			spamRecvHandlers.add(0x24B);
+			spamRecvHandlers.add(0x152);
 		}
 		return spamRecvHandlers.contains(opcode);
 	}
@@ -165,7 +167,30 @@ public class OpcodeManager {
 			spamSendHandlers.add("9E 03"); // MOVE_MONSTER_REPONSE
 			spamSendHandlers.add("80 02"); // MOVE_PLAYER
 			spamSendHandlers.add("E8 03");
+			spamSendHandlers.add("4B 00");
 		}
 		return spamSendHandlers.contains(header);
+	}
+
+	public static String getSendOpByHeader(short header){
+		String res = null;
+		for(SendPacketOpcode spo : SendPacketOpcode.values()){
+			if(header == spo.getValue()){
+				res = spo.toString();
+				break;
+			}
+		}
+		return res;
+	}
+
+	public static String getRecvOpByHeader(short header){
+		String res = null;
+		for(RecvPacketOpcode rpo :RecvPacketOpcode.values()){
+			if(header == rpo.getValue()){
+				res = rpo.toString();
+				break;
+			}
+		}
+		return res;
 	}
 }

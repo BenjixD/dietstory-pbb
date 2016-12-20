@@ -29,16 +29,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SimpleTimeZone;
+
+import client.*;
 import com.google.common.collect.ArrayListMultimap;
 
-import client.InnerSkillValueHolder;
-import client.MapleBuffStat;
-import client.MapleBuffStatValueHolder;
-import client.MapleCharacter;
-import client.MapleClient;
-import client.MapleCoolDownValueHolder;
-import client.MapleTrait;
-import client.PartTimeJob;
 import client.inventory.Equip;
 import client.inventory.EquipSpecialStat;
 import client.inventory.EquipStat;
@@ -66,7 +60,6 @@ import tools.BitTools;
 import tools.HexTool;
 import tools.KoreanDateUtil;
 import tools.Pair;
-import tools.Randomizer;
 import tools.StringUtil;
 import tools.Triple;
 import tools.data.PacketWriter;
@@ -179,6 +172,53 @@ public class PacketHelper {
         pw.write(1);
         pw.writeShort(0);
         pw.writeShort(0);
+        pw.writeInt(0); // new 178 idb, something with link skills
+
+        /* ^ means written. This code is in the 178 idb
+        if(byte ^){
+            for(short ^){
+                int1
+                int
+                if(sub(int1)){
+                    int
+                }
+            }
+        }else{
+            for(short){
+                int
+                int
+            }
+            for(short){
+             int
+            }
+            for(short){
+                int
+                long
+            }
+            for(short){
+                int
+            }
+            for(short){
+                int
+                int
+            }
+            for(short){
+                int
+            }
+        }
+        if(short ^){ in 178, got moved from inside the first if, to outside the if.
+            int
+            short
+        }
+        if(int){ new in 178
+            sub:
+                int
+                int
+                int
+                short
+                long
+        }
+         */
         /*PacketWriter pw1 =  new PacketWriter();
          final Map<Skill, SkillEntry> skills = chr.getSkills();
          pw1.write(1);
@@ -314,6 +354,8 @@ public class PacketHelper {
     }
 
     public static void addInventoryInfo(PacketWriter pw, MapleCharacter chr) {
+        // if(mask & 0x8) != 0
+        String before = pw.toString();
     	pw.writeInt(0);
         pw.writeInt(0);
         pw.writeInt(0);
@@ -345,7 +387,7 @@ public class PacketHelper {
         } else {
             pw.writeLong(getTime(-2L));
         }
-        pw.write(0); // new
+        pw.write(0);
         MapleInventory iv = chr.getInventory(MapleInventoryType.EQUIPPED);
         final List<Item> equipped = iv.newList();
         Collections.sort(equipped);
@@ -405,6 +447,7 @@ public class PacketHelper {
         pw.writeShort(0);
         pw.writeShort(0);
         pw.writeShort(0);
+        pw.writeShort(0); // new 178 ?
 
         iv = chr.getInventory(MapleInventoryType.USE);
         for (Item item : iv.list()) {
@@ -444,6 +487,8 @@ public class PacketHelper {
 //            pw.writeInt(-1);
 //        }
         pw.write(new byte[21]); // new
+//        pw.write(new byte[9]); // new (9) -> not needed anymore? (177 -> 178)
+        System.out.println("addInventoryInfo: " + pw.toString().replace(before, ""));
     }
 
     public static void addPotionPotInfo(PacketWriter pw, MapleCharacter chr) {
@@ -465,7 +510,6 @@ public class PacketHelper {
     }
 
     public static void addCharStats(PacketWriter pw, MapleCharacter chr) {
-
         pw.writeInt(chr.getId());
    
         // dwCharacterIDForLog
@@ -488,7 +532,6 @@ public class PacketHelper {
         pw.writeShort(chr.getJob());
         
         chr.getStat().connectData(pw);
-        
         pw.writeShort(chr.getRemainingAp());
         if (GameConstants.isSeparatedSp(chr.getJob())) {
             int size = chr.getRemainingSpSize();
@@ -546,13 +589,23 @@ public class PacketHelper {
         }
         
         pw.writeReversedLong(getTime(System.currentTimeMillis())); // account last login
+
+        // more burning stuff, names + help by Novak
+        pw.writeLong(0); // nBurningEventStartDate
+        pw.writeLong(0); // nBurningEventEndDate
+        pw.writeInt(0); // nBurningMinLvl
+        pw.writeInt(0); // nBurningMaxLvl
+        pw.writeInt(0); //nBurningEffectID?
+        pw.write(0); // bBurning
+        pw.writeInt(0); // nBurningItemID?
+        pw.writeInt(0); // nBurningItemID?
         
-        // is this character burning	
-        pw.write(0); 
-        
-        for (int i = 0; i < 7; i++) {
-            pw.writeInt(0); // not sure what all these 0's are, v177
-        }
+//        for (int i = 0; i < 7; i++) {
+//            pw.writeInt(0); // not sure what all these 0's are, v177
+//        }
+//        for(int i = 0; i < 8; i++){
+//            pw.write(0); // more 0s, v178
+//        }
     }
 
     public static void addCharLook(PacketWriter pw, MapleCharacterLook chr, boolean mega, boolean second) {
@@ -1029,17 +1082,18 @@ public class PacketHelper {
                 pw.writeMapleAsciiString(ultExplorer.getCustomData());
             }
         }
-        
         if ((mask & 2) != 0) {
         	pw.writeLong(chr.getMeso());
         }
-        
+        String before = pw.toString();
         if ((mask & 8) != 0) {
             addInventoryInfo(pw, chr);
         }
-        
+        System.out.println("addInventoryInfo: " + pw.toString().replace(before, ""));
+
         if ((mask & 0x100) != 0) {
             addSkillInfo(pw, chr);
+//            pw.write(HexTool.getByteArrayFromHexString("01 09 00 22 A8 62 02 00 00 00 00 00 80 05 BB 46 E6 17 02 2C A8 62 02 10 00 00 00 00 80 05 BB 46 E6 17 02 80 B8 C4 04 01 00 00 00 00 80 05 BB 46 E6 17 02 8D A8 62 02 01 00 00 00 00 80 05 BB 46 E6 17 02 BA B4 C4 04 01 00 00 00 00 80 05 BB 46 E6 17 02 20 A8 62 02 01 00 00 00 00 80 05 BB 46 E6 17 02 BB B4 C4 04 01 00 00 00 00 80 05 BB 46 E6 17 02 21 A8 62 02 01 00 00 00 00 80 05 BB 46 E6 17 02 69 A8 62 02 00 00 00 00 00 80 05 BB 46 E6 17 02 00 00 01 00 00 00 84 E5 16 00 84 E5 16 00 03 B4 C4 04 01 00 00 40 E0 FD 3B 37 4F 01 "));
         }
         
         if ((mask & 0x8000) != 0) {
@@ -1079,9 +1133,9 @@ public class PacketHelper {
         
         // ?
         pw.writeInt(0);
+
         
-        
-        if ((mask & 0x80000) != 0) {
+        if ((mask & 0x800000) != 0) {
         	pw.writeShort(0);
         }
         
@@ -1093,9 +1147,23 @@ public class PacketHelper {
         	pw.writeShort(0);
         }
 
+        // new 178 idb
+        pw.write(1);
+        /*
+        if(byte ^ && mask & 0x100){
+            for(int){
+                int
+                String
+            }
+        }
+         */
+        // end new 178 idb
+
         if ((mask & 0x1000) != 0) {
         	pw.writeInt(0);
         }
+
+        pw.writeInt(0); // new 178?
         
         if ((mask & 0x200000) != 0) {
             addJaguarInfo(pw, chr);
@@ -1161,6 +1229,10 @@ public class PacketHelper {
     	pw.writeInt(0);
         pw.writeInt(0);
         pw.writeLong(getTime(-2));
+
+        // new 178 ?
+        pw.writeShort(0);
+        pw.writeInt(0);
         
 //        if ((mask & 0x40000) != 0) {
 //        	pw.writeInt(1);
@@ -1181,8 +1253,9 @@ public class PacketHelper {
         	pw.writeInt(0); // farm monsters length (if length > 1 for each monster int id and long expire)
         }
         
-        pw.writeInt(0);
-        pw.writeShort(0);
+//        pw.writeInt(0); // removed 178?
+//        pw.writeShort(0); // removed 178?
+
         // FarmUserInfo::Decode
         // FarmSubInfo::Decode
         if ((mask & 0x40) != 0) {
@@ -1212,30 +1285,92 @@ public class PacketHelper {
             pw.writeLong(getTime(-2));
             pw.writeInt(10);
         }
-        {
-            //new v177
+//        {
+//            //new v177
+//            pw.writeInt(0);
+//            pw.writeInt(0);
+//            pw.writeInt(0);
+//            pw.writeInt(0);
+//        }
+
+        if((mask & 0x80000) != 0){
             pw.writeInt(0);
             pw.writeInt(0);
-            pw.writeInt(0);
-            pw.writeInt(0);
+            /*
+            for(int ^){
+                int
+                byte
+                byte
+                byte
+            }
+            int ^
+             */
         }
+
+        pw.writeShort(0);
+        /*
+        for(short ^){
+            int
+            string
+        }
+         */
+
+        // wtf is this
+        pw.write(HexTool.getByteArrayFromHexString("00 00 00 00 00 00 01 00 09 00 00 00 17 00 63 68 65 63 6B 31 3D 30 3B 63 44 61 74 65 3D 31 36 2F 31 30 2F 31 35"));
+
         // ...
-        pw.writeShort(2);
-        
-        // Monster Collection (int -> string)
-        pw.writeInt(9);
-        pw.writeShort(0);//string
-        
-        pw.writeInt(6);
-        pw.writeShort(0);//string
-        
+        if((mask & 0x40000) != 0) {
+            pw.writeShort(0);
+//            pw.writeShort(2);
+//
+//            // Monster Collection (int -> string)
+//            pw.writeInt(9);
+//            pw.writeShort(0);//string
+//
+//            pw.writeInt(6);
+//            pw.writeShort(0);//string
+        }
         pw.write(0); // m_bFarmOnline
+
         
-        
-        // DecodeTextEquipInfo													
+        // DecodeTextEquipInfo
         pw.writeInt(0);
-        
-        pw.writeInt(0);//177
+        /*
+        for(int ^){
+            int
+            String
+        }
+         */
+
+        // EquipExt
+        if((mask & 100000) != 0) {
+            pw.writeShort(0);
+            /*
+            for(short ^){
+                int
+                int
+            }
+             */
+        }
+
+//        pw.writeInt(0); // new 178 idb
+
+        // new 178 idb
+        if((mask & 200000) != 0){
+            pw.writeInt(0);
+            /*
+            for(int ^){
+                int
+                int
+                int
+                int
+                int
+                int
+                int
+            }
+             */
+        }
+        // end new 178 idb
         
         if ((mask & 0x8000000) != 0) {
         	pw.write(1);
@@ -1248,32 +1383,34 @@ public class PacketHelper {
             pw.writeShort(0);
         }
         
-        if ((mask & 0x10000000) != 0) {
+        if ((mask & 0x8000) != 0) {
         	pw.write(0);
         }
         
-        if ((mask & 0x20000000) != 0) {
+        if ((mask & 0x400000) != 0) { // chosen skills?
         	pw.writeInt(0);
         	pw.writeInt(0);
         }
 
-        if ((mask & 0x2000) != 0) {
+        if ((mask & 0x10000000) != 0) { // 178: 2000 -> 10000000
             addCoreAura(pw, chr); //84 bytes + boolean (85 total)
+//            addStealSkills(pw, chr);
             pw.write(1);
         }
         
-        if ((mask & 0x100000) != 0) {
+        if ((mask & 0x1000000) != 0) { // some huge number, but mask is all 1s, so whatevs again
         	pw.writeShort(0); //for <short> length write 2 shorts
         }
 
-        // red leaf information
-        pw.writeInt(chr.getAccountID());
-        pw.writeInt(chr.getId());
-        pw.writeInt(0);
-        pw.writeInt(0);
-        pw.write(new byte[32]);
-        
-        // addRedLeafInfo(pw, chr);
+        if((mask & 0x20000000) != 0) {
+            // red leaf information
+            pw.writeInt(chr.getAccountID());
+            pw.writeInt(chr.getId());
+            pw.writeInt(0);
+            pw.writeInt(0);
+            pw.write(new byte[32]);
+//         addRedLeafInfo(pw, chr);
+        }
     }
 
     public static int getSkillBook(final int i) {
@@ -1615,7 +1752,8 @@ public class PacketHelper {
         pw.writeInt(0); // nFarmExp
         pw.writeInt(0); // nDecoPoint
         pw.writeInt(0); // nFarmCash
-        pw.write(gender); // nFarmGender
+//        pw.write(gender); // nFarmGender
+        pw.write(0); // nFarmGender
         pw.writeInt(0); // nFarmTheme
         pw.writeInt(0); // nSlotExtend
         pw.writeInt(1); // nLockerSlotCount

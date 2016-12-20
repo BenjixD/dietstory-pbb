@@ -11,18 +11,15 @@ public class OpChanger {
 
     public static void main(String[] args){
 
-        // The opcode the change has to happen from
         String fromChange = "RESULT_CHECK_NAME";
-        // the amount that should be applied to all opcodes from that point onwards.
+        String toChange = "NULL";
         int change = 7;
         boolean isAfterFromChange = false;
-        // do you want to edit the send ops (true), or recv ops (false)?
         boolean send = true;
         String opType = send ? "send" : "recv";
 
-        // change according to wherever your files are. No relative positions, sorry.
-        File input = new File("D:\\MapleDev\\LucidMS\\"+opType+"ops.properties");
-        File output = new File("D:\\MapleDev\\LucidMS\\"+opType+"opsNew.properties");
+        File input = new File("D:\\MapleDev\\LucidMS\\"+opType+"opsNew.properties");
+        File output = new File("D:\\MapleDev\\LucidMS\\"+opType+"opsNew2.properties");
         BufferedReader br = null;
         PrintWriter pw = null;
         try {
@@ -52,6 +49,8 @@ public class OpChanger {
                 String op = infoArray[0];
                 if(op.equalsIgnoreCase(fromChange)){
                     isAfterFromChange = true;
+                }else if(op.equalsIgnoreCase(toChange)){
+                    return;
                 }
                 int val = Integer.valueOf(infoArray[1].replace("0x",""),16);
                 if(isAfterFromChange && val < 0x999) {

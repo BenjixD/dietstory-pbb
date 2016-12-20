@@ -68,14 +68,14 @@ import java.util.Set;
 public class MapleServerHandler extends IoHandlerAdapter {
 	
 	private final byte[] skey = new byte[] {
-    		(byte) 0xA6, 0x00, 0x00, 0x00,
-                (byte) 0x80, 0x00, 0x00, 0x00,
-                (byte) 0x73, 0x00, 0x00, 0x00,
-                (byte) 0x38, 0x00, 0x00, 0x00,
-                (byte) 0xCD, 0x00, 0x00, 0x00,
-                (byte) 0x34, 0x00, 0x00, 0x00,
-                (byte) 0x3B, 0x00, 0x00, 0x00,
-                (byte) 0xE9, 0x00, 0x00, 0x00
+    		(byte) 0x29, 0x00, 0x00, 0x00,
+                (byte) 0xF6, 0x00, 0x00, 0x00,
+                (byte) 0x18, 0x00, 0x00, 0x00,
+                (byte) 0x5E, 0x00, 0x00, 0x00,
+                (byte) 0xCA, 0x00, 0x00, 0x00,
+                (byte) 0x5A, 0x00, 0x00, 0x00,
+                (byte) 0x40, 0x00, 0x00, 0x00,
+                (byte) 0x61, 0x00, 0x00, 0x00
     };
 	
     private static int numDC = 0;
@@ -191,7 +191,7 @@ public class MapleServerHandler extends IoHandlerAdapter {
         int opcode = lea.readShort();
         try {
             if(!isSpamHeader(opcode)){
-                System.out.println("[Recv] ("+HexTool.getOpcodeToString(opcode)+") " + lea.toString());
+                System.out.println("[Recv] (" + HexTool.getOpcodeToString(opcode) + ", " + OpcodeManager.getRecvOpByHeader((short) opcode) +") " + lea.toString());
             }
         	boolean handled = OpcodeManager.handle(c, opcode, lea);
         	if (handled){

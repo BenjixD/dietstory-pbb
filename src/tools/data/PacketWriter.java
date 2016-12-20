@@ -5,7 +5,9 @@ import java.awt.Rectangle;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import handling.OpcodeManager;
+import handling.SendPacketOpcode;
 import tools.HexTool;
 
 /**
@@ -41,8 +43,24 @@ public class PacketWriter {
      * @return A <code>MaplePacket</code> with the bytes in this stream.
      */
     public final byte[] getPacket() {
-        if(!OpcodeManager.isSpamSendHeader(toString())) {
-            System.out.println("[Send] " + toString());
+        String packet = toString();
+        if(!OpcodeManager.isSpamSendHeader(packet)) {
+            String[] header = {packet.substring(0, 2), packet.substring(3,5)}; // header: XX XX
+            int actHeader = Integer.valueOf(header[1] + header[0], 16);
+            String op = null;
+            for(SendPacketOpcode spo : SendPacketOpcode.values()){
+                if(spo.getValue() == actHeader){
+                    op = spo.toString();
+                }
+            }
+            if(op == null){
+                op = "UNKNOWN";
+            }
+            if(packet.length() <= 5){
+                System.out.println("[Send] (" + op + "): No data");
+            }else {
+                System.out.println("[Send] (0x" + Integer.toHexString(actHeader).toUpperCase() + ", " + op + ", " + ((toString().length()+1)/3) + "):" + toString().substring(5));
+            }
         }
         return baos.toByteArray();
     }

@@ -1188,12 +1188,12 @@ public class Equip extends Item implements Serializable {
             case WDEF:
                 setWdef(amount);
                 break;
-            case MDEF:
-                setMdef(amount);
-                break;
-            case ACC:
-                setAcc(amount);
-                break;
+//            case MDEF:
+//                setMdef(amount);
+//                break;
+//            case ACC:
+//                setAcc(amount);
+//                break;
             default:
                 break;
         }
@@ -1223,12 +1223,12 @@ public class Equip extends Item implements Serializable {
             case WDEF:
                 res = getWdef();
                 break;
-            case MDEF:
-                res = getMdef();
-                break;
-            case ACC:
-                res =  getAcc();
-                break;
+//            case MDEF:
+//                res = getMdef();
+//                break;
+//            case ACC:
+//                res =  getAcc();
+//                break;
             default:
                 break;
         }

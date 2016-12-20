@@ -2,10 +2,10 @@ package constants;
 
 public class ServerConstants {
 	
-    public static final short MAPLE_VERSION = (short) 177;
-    public static final String MAPLE_PATCH = "3";
+    public static final short MAPLE_VERSION = (short) 179;
+    public static final String MAPLE_PATCH = "1";
 
-    public static enum PlayerGMRank {
+    public enum PlayerGMRank {
 
         NORMAL('@', 0),
         INTERN('!', 1),
@@ -29,7 +29,7 @@ public class ServerConstants {
         }
     }
 
-    public static enum CommandType {
+    public enum CommandType {
 
         NORMAL(0),
         TRADE(1);

@@ -57,7 +57,8 @@ public class JobConstants {
 		public enum JobFlag {
 
 			DISABLED(0), 
-			ENABLED(1);
+			ENABLED(1),
+			HUNDREDPLUS(2); // requires level 100+ char
 			private final int flag;
 
 			private JobFlag(int flag) {

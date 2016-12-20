@@ -279,7 +279,7 @@ public class MobPacket {
 
 		addMonsterStatus(pw, life);
 		addMonsterInformation(pw, life, true, (byte) spawnType, link, false);
-
+		pw.write(new byte[300]); // TODO: pls no
 		/*pw.writePos(life.getTruePosition());
 		pw.write(0);// ...
 		pw.write(life.getStance());
