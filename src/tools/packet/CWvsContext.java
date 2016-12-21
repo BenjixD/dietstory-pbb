@@ -3936,6 +3936,7 @@ public class CWvsContext {
             pw.write(type.getType());
             pw.writeShort(item.getPosition());
             PacketHelper.addItemInfo(pw, item);
+            pw.write(0); // new 178?
             return pw.getPacket();
         }
 
@@ -3951,6 +3952,7 @@ public class CWvsContext {
             pw.write(type.getType());
             pw.writeShort(item.getPosition());
             pw.writeShort(item.getQuantity());
+            pw.write(0); // new 178?
 
             return pw.getPacket();
         }
@@ -3975,8 +3977,12 @@ public class CWvsContext {
                 pw.writeShort(0);
             }
             if (equipIndicator != -1) {
-                pw.write(equipIndicator);
+//                pw.write(equipIndicator);
+                pw.write(0);
             }
+            boolean unequip = src < 0 && dst > 0;
+            boolean equip = src > 0 && dst < 0;
+            pw.write(unequip ? 0x0D : equip ? 0x0E : 0); // new 178?
 
             return pw.getPacket();
         }
@@ -3997,6 +4003,7 @@ public class CWvsContext {
             pw.write(type.getType());
             pw.writeShort(dst);
             pw.writeShort(total);
+            pw.write(new byte[30]); // new 178?
 
             return pw.getPacket();
         }
@@ -4018,6 +4025,7 @@ public class CWvsContext {
             pw.write(type.getType());
             pw.writeShort(dst);
             pw.writeShort(dstQ);
+            pw.write(0); // new 178?
 
             return pw.getPacket();
         }
@@ -4033,6 +4041,7 @@ public class CWvsContext {
             pw.write((slot > 100) && (type == MapleInventoryType.ETC) ? 7 : 3);
             pw.write(type.getType());
             pw.writeShort(slot);
+            pw.write(0); // new 178?
 
             return pw.getPacket();
         }
@@ -4064,6 +4073,7 @@ public class CWvsContext {
             if (pos < 0) {
                 pw.write(2);
             }
+            pw.write(0); // new 178?
 
             return pw.getPacket();
         }
@@ -4091,6 +4101,7 @@ public class CWvsContext {
             if (pos < 0) {
                 pw.write(1);
             }
+            pw.write(0); // new 178?
 
             return pw.getPacket();
         }
@@ -4107,6 +4118,7 @@ public class CWvsContext {
             pw.write(1);
             pw.writeShort(pos);
             PacketHelper.addItemInfo(pw, eq, chr);
+            pw.write(0); // new 178?
 
             return pw.getPacket();
         }
@@ -4141,6 +4153,7 @@ public class CWvsContext {
             if (equipped) {
                 pw.write(8);
             }
+            pw.write(0); // new 178?
 
             return pw.getPacket();
         }
@@ -4166,6 +4179,7 @@ public class CWvsContext {
             pw.writeShort(oldpos);
             pw.writeShort(newpos);
             pw.write(0);
+            pw.write(0); // new 178?
 
             return pw.getPacket();
         }
@@ -4184,6 +4198,7 @@ public class CWvsContext {
             if (src < 0) {
                 pw.write(1);
             }
+            pw.write(0); // new 178?
 
             return pw.getPacket();
         }
@@ -4200,6 +4215,7 @@ public class CWvsContext {
             pw.write(type.getType());
             pw.writeShort(item.getPosition());
             pw.writeShort(item.getQuantity());
+            pw.write(0); // new 178?
 
             return pw.getPacket();
         }
@@ -4211,6 +4227,7 @@ public class CWvsContext {
             pw.write(1);
             pw.write(0);
             pw.write(0);
+            pw.write(0); // new 178?
 
             return pw.getPacket();
         }
@@ -4222,6 +4239,7 @@ public class CWvsContext {
             pw.write(0);
             pw.write(0);
             pw.write(0);
+            pw.write(0); // new 178?
 
             return pw.getPacket();
         }

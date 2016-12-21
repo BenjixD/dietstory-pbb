@@ -354,8 +354,6 @@ public class PacketHelper {
     }
 
     public static void addInventoryInfo(PacketWriter pw, MapleCharacter chr) {
-        // if(mask & 0x8) != 0
-        String before = pw.toString();
     	pw.writeInt(0);
         pw.writeInt(0);
         pw.writeInt(0);
@@ -488,7 +486,6 @@ public class PacketHelper {
 //        }
         pw.write(new byte[21]); // new
 //        pw.write(new byte[9]); // new (9) -> not needed anymore? (177 -> 178)
-        System.out.println("addInventoryInfo: " + pw.toString().replace(before, ""));
     }
 
     public static void addPotionPotInfo(PacketWriter pw, MapleCharacter chr) {
@@ -1085,11 +1082,9 @@ public class PacketHelper {
         if ((mask & 2) != 0) {
         	pw.writeLong(chr.getMeso());
         }
-        String before = pw.toString();
         if ((mask & 8) != 0) {
             addInventoryInfo(pw, chr);
         }
-        System.out.println("addInventoryInfo: " + pw.toString().replace(before, ""));
 
         if ((mask & 0x100) != 0) {
             addSkillInfo(pw, chr);

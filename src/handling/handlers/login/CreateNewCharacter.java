@@ -261,6 +261,12 @@ public class CreateNewCharacter {
 			newchar.setRemainingSp(3);
 		}
 
+		if(job == JobType.Resistance) {
+			newchar.setMap(310000000);
+			newchar.setLevel((short) 10);
+			newchar.setRemainingAp(50);
+		}
+
 		if (MapleCharacterUtil.canCreateChar(name, c.isGm())
 				&& (!LoginInformationProvider.getInstance().isForbiddenName(name) || c.isGm())
 				&& (c.isGm() || c.canMakeCharacter(c.getWorld()))) {

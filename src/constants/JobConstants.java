@@ -15,29 +15,29 @@ public class JobConstants {
 
 	public enum LoginJob {
 
-		RESISTANCE(0, JobFlag.DISABLED),
+		RESISTANCE(0, JobFlag.ENABLED),
 		EXPLORER(1, JobFlag.ENABLED),
-		CYGNUS(2, JobFlag.DISABLED),
-		ARAN(3, JobFlag.DISABLED),
-		EVAN(4, JobFlag.DISABLED),
+		CYGNUS(2, JobFlag.ENABLED),
+		ARAN(3, JobFlag.ENABLED),
+		EVAN(4, JobFlag.ENABLED),
 		MERCEDES(5, JobFlag.ENABLED),
-		DEMON(6, JobFlag.DISABLED),
-		PHANTOM(7, JobFlag.DISABLED),
-		DUAL_BLADE(8, JobFlag.DISABLED),
-		MIHILE(9, JobFlag.DISABLED),
-		LUMINOUS(10, JobFlag.DISABLED),
+		DEMON(6, JobFlag.ENABLED),
+		PHANTOM(7, JobFlag.ENABLED),
+		DUAL_BLADE(8, JobFlag.ENABLED),
+		MIHILE(9, JobFlag.ENABLED),
+		LUMINOUS(10, JobFlag.ENABLED),
 		KAISER(11, JobFlag.ENABLED),
-		ANGELIC(12, JobFlag.DISABLED),
-		CANNONER(13, JobFlag.DISABLED),
-		XENON(14, JobFlag.DISABLED),
-		ZERO(15, JobFlag.DISABLED),
-		SHADE(16, JobFlag.DISABLED),
-		JETT(17, JobFlag.DISABLED),
-		HAYATO(18, JobFlag.DISABLED),
-		KANNA(19, JobFlag.DISABLED),
-		CHASE(20, JobFlag.DISABLED),
+		ANGELIC(12, JobFlag.ENABLED),
+		CANNONEER(13, JobFlag.ENABLED),
+		XENON(14, JobFlag.ENABLED),
+		ZERO(15, JobFlag.ENABLED),
+		SHADE(16, JobFlag.ENABLED),
+		JETT(17, JobFlag.ENABLED),
+		HAYATO(18, JobFlag.ENABLED),
+		KANNA(19, JobFlag.ENABLED),
+		CHASE(20, JobFlag.ENABLED),
 		PINK_BEAN(21, JobFlag.ENABLED),
-		KINESIS(22, JobFlag.DISABLED);
+		KINESIS(22, JobFlag.ENABLED);
 
 		private final int jobType, flag;
 

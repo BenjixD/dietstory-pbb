@@ -11,15 +11,15 @@ public class OpChanger {
 
     public static void main(String[] args){
 
-        String fromChange = "RESULT_CHECK_NAME";
-        String toChange = "NULL";
-        int change = 7;
+        String fromChange = "ITEM_UPGRADE_UI";
+        String toChange = "WARP_TO_MAP";
+        int change = 3;
         boolean isAfterFromChange = false;
         boolean send = true;
         String opType = send ? "send" : "recv";
 
-        File input = new File("D:\\MapleDev\\LucidMS\\"+opType+"opsNew.properties");
-        File output = new File("D:\\MapleDev\\LucidMS\\"+opType+"opsNew2.properties");
+        File input = new File("D:\\MapleDev\\LucidMS\\"+opType+"ops.properties");
+        File output = new File("D:\\MapleDev\\LucidMS\\"+opType+"ops1.properties");
         BufferedReader br = null;
         PrintWriter pw = null;
         try {
@@ -50,7 +50,12 @@ public class OpChanger {
                 if(op.equalsIgnoreCase(fromChange)){
                     isAfterFromChange = true;
                 }else if(op.equalsIgnoreCase(toChange)){
-                    return;
+                    if(!isAfterFromChange){
+                        System.err.println("toChange op " + toChange + " was encountered before fromChange op " + fromChange + " !" +
+                                "\nExiting...");
+                        return;
+                    }
+                    isAfterFromChange = false;
                 }
                 int val = Integer.valueOf(infoArray[1].replace("0x",""),16);
                 if(isAfterFromChange && val < 0x999) {
@@ -65,7 +70,7 @@ public class OpChanger {
                             }
                         }
                         pw.print(op + " = 0x" + Integer.toHexString(val).toUpperCase() + " # BOT: Old = 0x" +
-                                Integer.toHexString(val - change).toUpperCase() + "(+" + change +" for v" +
+                                Integer.toHexString(val - change).toUpperCase() + " (+" + change +" for v" +
                                 ServerConstants.MAPLE_VERSION + "." + ServerConstants.MAPLE_PATCH + ")"+ added + "\n");
                     }
                 }else{

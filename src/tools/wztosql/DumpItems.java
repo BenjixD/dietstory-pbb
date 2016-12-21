@@ -110,7 +110,8 @@ public class DumpItems {
 
     public void dumpItems(MapleDataProvider d, PreparedStatement psa, PreparedStatement psr, PreparedStatement ps, PreparedStatement pse, boolean charz) throws Exception {
         for (MapleDataDirectoryEntry topDir : d.getRoot().getSubdirectories()) { //requirements first
-            if (!topDir.getName().equalsIgnoreCase("Special") && !topDir.getName().equalsIgnoreCase("Hair") && !topDir.getName().equalsIgnoreCase("Face") && !topDir.getName().equalsIgnoreCase("Afterimage")) {
+            if (!topDir.getName().equalsIgnoreCase("Ring") && !topDir.getName().equalsIgnoreCase("Special") && !topDir.getName().equalsIgnoreCase("Hair") && !topDir.getName().equalsIgnoreCase("Face") && !topDir.getName().equalsIgnoreCase("Afterimage")) {
+                System.out.println(topDir.getName());
                 for (MapleDataFileEntry ifile : topDir.getFiles()) {
                     final MapleData iz = d.getData(topDir.getName() + "/" + ifile.getName());
                     if (charz || topDir.getName().equalsIgnoreCase("Pet")) {
@@ -484,6 +485,7 @@ public class DumpItems {
             currentQuest = dq.currentId();
         } catch (Exception e) {
             hadError = true;
+            e.printStackTrace();
             System.out.println(currentQuest + " quest.");
         }
         long endTime = System.currentTimeMillis();

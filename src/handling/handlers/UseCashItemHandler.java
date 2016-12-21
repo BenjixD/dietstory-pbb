@@ -7,8 +7,10 @@ import client.inventory.Equip;
 import client.inventory.Item;
 import client.inventory.MapleInventoryType;
 import constants.GameConstants;
+import constants.ItemConstants;
 import handling.PacketHandler;
 import handling.RecvPacketOpcode;
+import handling.channel.handler.InventoryHandler;
 import server.MapleItemInformationProvider;
 import tools.ArrayUtil;
 import tools.data.LittleEndianAccessor;
@@ -32,61 +34,70 @@ public class UseCashItemHandler {
         int itemId = lea.readInt();
 
         if(GameConstants.getCashCubeByItemId(itemId) != null) {
-            short dst = lea.readShort();
-            MapleInventoryType mit = dst < 0 ? MapleInventoryType.EQUIPPED : MapleInventoryType.EQUIP;
+            handleCashCubes(c, chr, lea, src, itemId);
+        }else if(ItemConstants.isHyperTeleportRock(itemId)){
+            InventoryHandler.UseTeleRock(lea, c, itemId);
+        }
 
-            Item item = chr.getInventory(MapleInventoryType.CASH).getItem(src);
-            if (item == null) {
-                item = chr.getInventory(MapleInventoryType.USE).getItem(src); //just in case
-            }
-            Equip equip;
-            equip = (Equip) chr.getInventory(mit).getItem(dst);
-            if (item == null || equip == null) {
-                c.getSession().write(CWvsContext.InventoryPacket.getInventoryFull());
-                c.getSession().write(CWvsContext.enableActions());
-                return;
-            }
-
-            if(chr.getLastBlackCubedItem() == null && GameConstants.getCashCubeByItemId(itemId) == GameConstants.Cubes.BLACK){
-                chr.setLastBlackCubedItem(equip);
-                equip.setOldPotential(ArrayUtil.copy(equip.getPotential()));
-            }
-
-            final MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
-            final int reqLevel = ii.getReqLevel(equip.getItemId()) / 10;
-            boolean hasEnoughInsight = chr.getTrait(MapleTrait.MapleTraitType.sense).getLevel() >= GameConstants.getRequiredSense(reqLevel);
-            long price = hasEnoughInsight ? 0 : GameConstants.getMagnifyPrice(equip); // free if above required insight
-
-            if(!chr.checkAndAddMeso(-price, false)){
-                chr.dropMessage(5, "You do not have enough mesos for this action.");
-                c.getSession().write(CWvsContext.enableActions());
-                return;
-            }
-
-            int oldState = equip.getState();
-            equip.renewPotential(GameConstants.getCashCubeByItemId(itemId));
-            equip.revealHiddenPotential();
-            boolean hasRankedUp = oldState != equip.getState();
-
-            // Update
-
-            chr.updateItemsFromScrolling(item, equip, mit);
-
-            c.getSession().write(CWvsContext.enableActions());
-
-            GameConstants.Cubes cube = GameConstants.getCashCubeByItemId(itemId);
-            if(cube == GameConstants.Cubes.BLACK){
-                c.getSession().write(CField.showBlackCubePotentialReset(chr.getId(), true, itemId));
-                c.getSession().write(CWvsContext.onBlackCubeRequest(true, itemId, src, dst, equip));
-            } else if(cube == GameConstants.Cubes.RED){
-                c.getSession().write(CField.showPotentialReset(chr.getId(), true, itemId));
-                c.getSession().write(CWvsContext.onRedCubeResult(chr.getId(), hasRankedUp, itemId, dst, equip));
-            } else{
-                c.getSession().write(CField.showPotentialReset(chr.getId(), true, itemId));
-            }
-        }else{
+        else{
             chr.dropMessage(5, "You have used a cash item currently not known by the server.");
+            chr.dropMessage(5, "Be sure to report this problem. ItemID = " + itemId);
             c.getSession().write(CWvsContext.enableActions());
+        }
+    }
+
+    public static void handleCashCubes(MapleClient c, MapleCharacter chr, LittleEndianAccessor lea, short src, int itemId){
+        short dst = lea.readShort();
+        MapleInventoryType mit = dst < 0 ? MapleInventoryType.EQUIPPED : MapleInventoryType.EQUIP;
+
+        Item item = chr.getInventory(MapleInventoryType.CASH).getItem(src);
+        if (item == null) {
+            item = chr.getInventory(MapleInventoryType.USE).getItem(src); //just in case
+        }
+        Equip equip;
+        equip = (Equip) chr.getInventory(mit).getItem(dst);
+        if (item == null || equip == null) {
+            c.getSession().write(CWvsContext.InventoryPacket.getInventoryFull());
+            c.getSession().write(CWvsContext.enableActions());
+            return;
+        }
+
+        if(chr.getLastBlackCubedItem() == null && GameConstants.getCashCubeByItemId(itemId) == GameConstants.Cubes.BLACK){
+            chr.setLastBlackCubedItem(equip);
+            equip.setOldPotential(ArrayUtil.copy(equip.getPotential()));
+        }
+
+        final MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
+        final int reqLevel = ii.getReqLevel(equip.getItemId()) / 10;
+        boolean hasEnoughInsight = chr.getTrait(MapleTrait.MapleTraitType.sense).getLevel() >= GameConstants.getRequiredSense(reqLevel);
+        long price = hasEnoughInsight ? 0 : GameConstants.getMagnifyPrice(equip); // free if above required insight
+
+        if(!chr.checkAndAddMeso(-price, false)){
+            chr.dropMessage(5, "You do not have enough mesos for this action.");
+            c.getSession().write(CWvsContext.enableActions());
+            return;
+        }
+
+        int oldState = equip.getState();
+        equip.renewPotential(GameConstants.getCashCubeByItemId(itemId));
+        equip.revealHiddenPotential();
+        boolean hasRankedUp = oldState != equip.getState();
+
+        // Update
+
+        chr.updateItemsFromScrolling(item, equip, mit);
+
+        c.getSession().write(CWvsContext.enableActions());
+
+        GameConstants.Cubes cube = GameConstants.getCashCubeByItemId(itemId);
+        if(cube == GameConstants.Cubes.BLACK){
+            c.getSession().write(CField.showBlackCubePotentialReset(chr.getId(), true, itemId));
+            c.getSession().write(CWvsContext.onBlackCubeRequest(true, itemId, src, dst, equip));
+        } else if(cube == GameConstants.Cubes.RED){
+            c.getSession().write(CField.showPotentialReset(chr.getId(), true, itemId));
+            c.getSession().write(CWvsContext.onRedCubeResult(chr.getId(), hasRankedUp, itemId, dst, equip));
+        } else{
+            c.getSession().write(CField.showPotentialReset(chr.getId(), true, itemId));
         }
     }
 }

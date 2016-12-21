@@ -37,25 +37,47 @@ public class LoginInformationProvider {
     public enum JobType {
 
         UltimateAdventurer(-1, 0, 100000000, true, true, false, false, true, false),
-        Resistance(0, 3000, 931000000, true, false, false, false, false, false), // tutorial works 100%
-        Adventurer(1, 0, 4000011, false, true, false, false, false, false),
-        Cygnus(2, 1000, 130030000, false, true, false, false, false, true),
-        Aran(3, 2000, 914000000, true, true, false, false, true, false),
-        Evan(4, 2001, 900010000, true, true, false, false, true, false),//evan starter map - need to test tutorial
-        Mercedes(5, 2002, 910150000, false, false, false, false, false, false),//101050000 - 910150000
-        Demon(6, 3001, 931050310, false, false, true, false, false, false),
-        Phantom(7, 2003, 915000000, false, true, false, false, false, true),
-        DualBlade(8, 0, 103050900, false, true, false, false, false, false),//tutorial fixed
-        Mihile(9, 5000, 913070000, true, true, false, false, true, false),
-        Luminous(10, 2004, 931030000, false, true, false, false, false, true),//Ellinia atm TODO tutorial
-        Kaiser(11, 6000, 940001000, false, true, false, false, false, false),
-        AngelicBuster(12, 6001, 940011000, false, true, false, false, false, false),//400000000 - 940011000 - town now TODO tutorial
-        Cannoneer(13, 0, 3000000, true, true, false, false, true, false),//portal problem
+        Resistance(0, 3000, 310010000, true, false, false, false, false, false), // tutorial works 100%
+        Adventurer(1, 0, 100000000, false, true, false, false, false, false),
+        Cygnus(2, 1000, 130000000, false, true, false, false, false, true),
+        Aran(3, 2000, 140000000, true, true, false, false, true, false),
+        Evan(4, 2001, 100000000, true, true, false, false, true, false),//evan starter map - need to test tutorial
+        Mercedes(5, 2002, 101050000, false, false, false, false, false, false),//101050000 - 910150000
+        Demon(6, 3001, 310010000, false, false, true, false, false, false),
+        Phantom(7, 2003, 150000000, false, true, false, false, false, true),
+        DualBlade(8, 0, 103000000, false, true, false, false, false, false),//tutorial fixed
+        Mihile(9, 5000, 130000000, true, true, false, false, true, false),
+        Luminous(10, 2004, 180000000, false, true, false, false, false, true),//Ellinia atm TODO tutorial
+        Kaiser(11, 6000, 400000000, false, true, false, false, false, false),
+        AngelicBuster(12, 6001, 400000000, false, true, false, false, false, false),//400000000 - 940011000 - town now TODO tutorial
+        Cannoneer(13, 0, 120000000, true, true, false, false, true, false),//portal problem
         Xenon(14, 3002, 931050920, true, true, true, false, false, false),
         Zero(15, 10112, 321000000, false, true, false, false, false, true),//create tutorial plox
         Jett(16, 0, 552000050, false, false, false, false, false, true),//End map for tutorial
         Hayato(17, 4001, 807000000, true, true, false, true, false, false),//half stater map TODO real tutorial
         Kanna(18, 4002, 807040000, true, true, false, true, false, false);
+
+        // actual tutorial map values
+//        UltimateAdventurer(-1, 0, 100000000, true, true, false, false, true, false),
+//        Resistance(0, 3000, 931000000, true, false, false, false, false, false), // tutorial works 100%
+//        Adventurer(1, 0, 4000011, false, true, false, false, false, false),
+//        Cygnus(2, 1000, 130030000, false, true, false, false, false, true),
+//        Aran(3, 2000, 914000000, true, true, false, false, true, false),
+//        Evan(4, 2001, 900010000, true, true, false, false, true, false),//evan starter map - need to test tutorial
+//        Mercedes(5, 2002, 910150000, false, false, false, false, false, false),//101050000 - 910150000
+//        Demon(6, 3001, 931050310, false, false, true, false, false, false),
+//        Phantom(7, 2003, 915000000, false, true, false, false, false, true),
+//        DualBlade(8, 0, 103050900, false, true, false, false, false, false),//tutorial fixed
+//        Mihile(9, 5000, 913070000, true, true, false, false, true, false),
+//        Luminous(10, 2004, 931030000, false, true, false, false, false, true),//Ellinia atm TODO tutorial
+//        Kaiser(11, 6000, 940001000, false, true, false, false, false, false),
+//        AngelicBuster(12, 6001, 940011000, false, true, false, false, false, false),//400000000 - 940011000 - town now TODO tutorial
+//        Cannoneer(13, 0, 3000000, true, true, false, false, true, false),//portal problem
+//        Xenon(14, 3002, 931050920, true, true, true, false, false, false),
+//        Zero(15, 10112, 321000000, false, true, false, false, false, true),//create tutorial plox
+//        Jett(16, 0, 552000050, false, false, false, false, false, true),//End map for tutorial
+//        Hayato(17, 4001, 807000000, true, true, false, true, false, false),//half stater map TODO real tutorial
+//        Kanna(18, 4002, 807040000, true, true, false, true, false, false);
         public int type, id, map;
         public boolean hairColor, skinColor, faceMark, hat, bottom, cape;
 

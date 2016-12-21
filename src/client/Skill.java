@@ -44,7 +44,7 @@ public class Skill implements Comparator<Skill> {
     public static Skill loadFromData(final int id, final MapleData data, final MapleData delayData) {
         Skill ret = new Skill(id);
         									
-        boolean isBuff;
+        boolean isBuff, isVBoostSkill;
         final int skillType = MapleDataTool.getInt("skillType", data, -1);
         final String elem = MapleDataTool.getString("elemAttr", data, null);
         if (elem != null) {
@@ -135,258 +135,265 @@ public class Skill implements Comparator<Skill> {
                     }
                 }
             }
-            switch (id) {
-                case 1076:
-                case 11076:
-                case 2111002:
-                case 2111003:
-                case 2121001:
-                case 2221001:
-                case 2301002:
-                case 2321001:
-                case 4211001:
-                case 12111005:
-                case 22161003:
-                    isBuff = false;
-                    break;
-                case 93:
-                case 1004:
-                case 4121054:
-                case 1026:
-                case 1111002:
-                case 65111100:
-                case 1111007:
-                case 1211009:
-                case 4341054:
-                case 1220013:
-                case 5321054:
-                case 1311007:
-                case 1320009:
-                case 2120010:
-                case 2121009:
-                case 4341052:
-                case 31201002:
-                case 31001001:
-                case 2220010:
-                case 2221009:
-                case 2311006:
-                case 2320011:
-                case 2321010:
-                case 3120006:
-                case 3121002:
-                case 3220005:
-                case 3221002:
-                case 4111001:
-                case 4111009:
-                case 4211003:
-                case 4221013:
-                case 4321000:
-                case 4331003:
-                case 4341002:
-                case 5110001:
-                case 5111005:
-                case 5111007:
-                case 5120011:
-                case 5120012:
-                case 5121003:
-                case 5121009:
-                case 5121015:
-                case 5211001:
-                case 5211002:
-                case 5211006:
-                case 5211007:
-                case 5211009:
-                case 5220002:
-                case 5220011:
-                case 5220012:
-                case 5311004:
-                case 5311005:
-                case 5320007:
-                case 5321003:
-                case 5321004:
-                case 5701005:
-                case 5711001:
-                case 5711011:
-                case 5720005:
-                case 5721002:
-                case 9001004:
-                case 9101004:
-                case 10000093:
-                case 10001004:
-                case 10001026:
-                case 13111005:
-                case 14111007:
-                case 15100004:
-                case 15101006:
-                case 15111002:
-                case 15111005:
-                case 15111006:
-                case 15111011:
-                case 20000093:
-                case 20001004:
-                case 20001026:
-                case 20010093:
-                case 20011004:
-                case 20011026:
-                case 20020093:
-                case 20021026:
-                case 20031209:
-                case 20031210:
-                case 21000000:
-                case 21101003:
-                case 22121001:
-                case 22131001:
-                case 22131002:
-                case 22141002:
-                case 22151002:
-                case 22151003:
-                case 22161002:
-                case 22161004:
-                case 22171000:
-                case 22171004:
-                case 22181000:
-                case 22181003:
-                case 22181004:
-                case 24101005:
-                case 24111002:
-                case 24121008:
-                case 24121009:
-                case 27101202:
-                case 27110007:
-                case 30000093:
-                case 30001026:
-                case 30010093:
-                case 30011026:
-                case 31121005:
-                case 32001003:
-                case 32101003:
-                case 32110000:
-                case 32110007:
-                case 32110008:
-                case 32110009:
-                case 32111005:
-                case 32111006:
-                case 32111012:
-                case 32120000:
-                case 32120001:
-                case 32121003:
-                case 33101006:
-                case 33111003:
-                case 35001001:
-                case 35001002:
-                case 35111003:
-                case 35101005:
-                case 35101007:
-                case 35101009:
-                case 35111001:
-                case 35111002:
-                case 35111004:
-                case 35111005:
-                case 35111009:
-                case 35111010:
-                case 35111011:
-                case 35111013:
-                case 35120000:
-                case 35120014:
-                case 35121003:
-                case 35121005:
-                case 35121006:
-                case 35121009:
-                case 35121010:
-                case 35121013:
-                case 36111006:
-                case 41001001:
-                case 41121003:
-                case 42100010:
-                case 42101002:
-                case 42101004:
-                case 42111006:
-                case 42121008:
-                case 50001214:
-                case 51101003:
-                case 51111003:
-                case 51111004:
-                case 51121004:
-                case 51121005:
-                case 60001216:
-                case 61100005:
-                case 60001217:
-                case 61101002:
-                case 61111008://Kaiser mode
-                case 61120007:
-                case 61120008://Kaiser mode
-                case 61121053://Kaiser Hyper Mode
-                case 61121054://Kaiser's Majesty
-                case 61120011:
-                case 80001000:
-                case 80001089:
-                case 31211003:
-                case 31221004:
-                case 32121054:
-                case 2121054:
-                case 11101021:
-                case 13111024:
-                case 2321054:
-                case 11101022: //polling moon
-                case 11111022:
-                case 36121054:
-                case 31011001:
-                case 31211004:
-                case 32121006:
-                case 3101004:
-                case 3201004:
-                case 5001005:
-                case 5220014://dice2 cosair
-                case 15001003:
-                case 5111010:
-                case 80001079:
-                case 80001080:
-                case 80001081:
-            //    case 33001001:
-                case 1101013:
-                case 36121003:
-                case 33111006:
-                case 35111016: 
-                case 33111007:
-                case 61111004:
-                case 24121054:
-                case 80001155:
-                case 31221054:
-                case 5721054:
-                case 5721052:
-            //    case 27121005:
-                case 27001004: // Ã¬ï¿½ÂµÃ¬Å Â¤Ã­â€¦ï¿½Ã«â€œÅ“ Ã«Â§Ë†Ã«â€šËœ
-                case 27100003: // Ã«Â¸â€�Ã«Â Ë†Ã¬Å Â¤ Ã¬ËœÂ¤Ã«Â¸Å’ Ã«â€¹Â¤Ã­ï¿½Â¬Ã«â€¹Ë†Ã¬Å Â¤
-         //       case 27101202: // Ã«Â³Â´Ã¬ï¿½Â´Ã«â€œÅ“ Ã­â€�â€žÃ«Â Ë†Ã¬â€¦â€�
-                case 27111004: // Ã¬â€¢Ë†Ã­â€¹Â° Ã«Â§Â¤Ã¬Â§ï¿½Ã¬â€°Ëœ
-                case 27111005: // Ã«ï¿½Â¼Ã¬ï¿½Â´Ã­Å Â¸Ã¬â€°ï¿½Ã«ï¿½â€žÃ¬Å¡Â° ÃªÂ°â‚¬Ã«â€œÅ“
-                case 27111006: // Ã­ï¿½Â¬Ã­â€¹Â± Ã«Â©â€�Ã«â€�â€�Ã­â€¦Å’Ã¬ï¿½Â´Ã¬â€¦Ëœ
-          //      case 27110007: // Ã«ï¿½Â¼Ã¬ï¿½Â´Ã­â€�â€ž Ã­Æ’â‚¬Ã¬ï¿½Â´Ã«â€¹Â¬
-                case 27121006: // Ã«â€¹Â¤Ã­ï¿½Â¬Ã«â€¹Ë†Ã¬Å Â¤ Ã¬â€ Å’Ã¬â€žÅ“Ã«Â¦Â¬
-                case 27111202: // Ã«â€¦Â¹Ã¬Å Â¤Ã­â€�Â¼Ã¬â€“Â´
-                case 27121202: // Ã¬â€¢â€žÃ­ï¿½Â¬Ã¬Â¹Â¼Ã«Â¦Â½Ã¬Å Â¤
-                case 27101100: // Ã¬â€¹Â¤Ã­â€�Â¼Ã«â€œÅ“ Ã«Å¾Å“Ã¬â€žÅ“
-                case 27111100: // Ã¬Å Â¤Ã­Å½â„¢Ã­Å Â¸Ã«Å¸Â´ Ã«ï¿½Â¼Ã¬ï¿½Â´Ã­Å Â¸
-                case 27121100: // Ã«ï¿½Â¼Ã¬ï¿½Â´Ã­Å Â¸ Ã«Â¦Â¬Ã­â€�Å’Ã«Â â€°Ã¬â€¦Ëœ
-                case 27111303: // Ã«ï¿½Â°Ã¬Å Â¤ Ã¬â€šÂ¬Ã¬ï¿½Â´Ã«â€œÅ“
-                case 27121303: // Ã¬â€¢Â±Ã¬â€ â€�Ã«Â£Â¨Ã­Å Â¸ Ã­â€šÂ¬
-                case 27121054: // Ã«Â©â€�Ã«ÂªÂ¨Ã«ï¿½Â¼Ã¬ï¿½Â´Ã¬Â¦Ë†
-                case 42101020:
-                case 42101021:
-                case 42101022:
-                case 42101023:
-                case 36121013:
-                case 36121014:
-                case 36121002:
-         //       case 15001022:
-             //   case 1301013:
-                case 1321015:
-                case 20041239:
-                 
-                    isBuff = true;
-            }
-            if (GameConstants.isAngel(id)/* || GameConstants.isSummon(id)*/) {
+            isVBoostSkill = false;
+            if(id/1000 == 400004){
+                isVBoostSkill = true;
                 isBuff = false;
+            }else {
+                switch (id) {
+                    case 1076:
+                    case 11076:
+                    case 2111002:
+                    case 2111003:
+                    case 2121001:
+                    case 2221001:
+                    case 2301002:
+                    case 2321001:
+                    case 4211001:
+                    case 12111005:
+                    case 22161003:
+                        isBuff = false;
+                        break;
+                    case 93:
+                    case 1004:
+                    case 4121054:
+                    case 1026:
+                    case 1111002:
+                    case 65111100:
+                    case 1111007:
+                    case 1211009:
+                    case 4341054:
+                    case 1220013:
+                    case 5321054:
+                    case 1311007:
+                    case 1320009:
+                    case 2120010:
+                    case 2121009:
+                    case 4341052:
+                    case 31201002:
+                    case 31001001:
+                    case 2220010:
+                    case 2221009:
+                    case 2311006:
+                    case 2320011:
+                    case 2321010:
+                    case 3120006:
+                    case 3121002:
+                    case 3220005:
+                    case 3221002:
+                    case 4111001:
+                    case 4111009:
+                    case 4211003:
+                    case 4221013:
+                    case 4321000:
+                    case 4331003:
+                    case 4341002:
+                    case 5110001:
+                    case 5111005:
+                    case 5111007:
+                    case 5120011:
+                    case 5120012:
+                    case 5121003:
+                    case 5121009:
+                    case 5121015:
+                    case 5211001:
+                    case 5211002:
+                    case 5211006:
+                    case 5211007:
+                    case 5211009:
+                    case 5220002:
+                    case 5220011:
+                    case 5220012:
+                    case 5311004:
+                    case 5311005:
+                    case 5320007:
+                    case 5321003:
+                    case 5321004:
+                    case 5701005:
+                    case 5711001:
+                    case 5711011:
+                    case 5720005:
+                    case 5721002:
+                    case 9001004:
+                    case 9101004:
+                    case 10000093:
+                    case 10001004:
+                    case 10001026:
+                    case 13111005:
+                    case 14111007:
+                    case 15100004:
+                    case 15101006:
+                    case 15111002:
+                    case 15111005:
+                    case 15111006:
+                    case 15111011:
+                    case 20000093:
+                    case 20001004:
+                    case 20001026:
+                    case 20010093:
+                    case 20011004:
+                    case 20011026:
+                    case 20020093:
+                    case 20021026:
+                    case 20031209:
+                    case 20031210:
+                    case 21000000:
+                    case 21101003:
+                    case 22121001:
+                    case 22131001:
+                    case 22131002:
+                    case 22141002:
+                    case 22151002:
+                    case 22151003:
+                    case 22161002:
+                    case 22161004:
+                    case 22171000:
+                    case 22171004:
+                    case 22181000:
+                    case 22181003:
+                    case 22181004:
+                    case 24101005:
+                    case 24111002:
+                    case 24121008:
+                    case 24121009:
+                    case 27101202:
+                    case 27110007:
+                    case 30000093:
+                    case 30001026:
+                    case 30010093:
+                    case 30011026:
+                    case 31121005:
+                    case 32001003:
+                    case 32101003:
+                    case 32110000:
+                    case 32110007:
+                    case 32110008:
+                    case 32110009:
+                    case 32111005:
+                    case 32111006:
+                    case 32111012:
+                    case 32120000:
+                    case 32120001:
+                    case 32121003:
+                    case 33101006:
+                    case 33111003:
+                    case 35001001:
+                    case 35001002:
+                    case 35111003:
+                    case 35101005:
+                    case 35101007:
+                    case 35101009:
+                    case 35111001:
+                    case 35111002:
+                    case 35111004:
+                    case 35111005:
+                    case 35111009:
+                    case 35111010:
+                    case 35111011:
+                    case 35111013:
+                    case 35120000:
+                    case 35120014:
+                    case 35121003:
+                    case 35121005:
+                    case 35121006:
+                    case 35121009:
+                    case 35121010:
+                    case 35121013:
+                    case 36111006:
+                    case 41001001:
+                    case 41121003:
+                    case 42100010:
+                    case 42101002:
+                    case 42101004:
+                    case 42111006:
+                    case 42121008:
+                    case 50001214:
+                    case 51101003:
+                    case 51111003:
+                    case 51111004:
+                    case 51121004:
+                    case 51121005:
+                    case 60001216:
+                    case 61100005:
+                    case 60001217:
+                    case 61101002:
+                    case 61111008://Kaiser mode
+                    case 61120007:
+                    case 61120008://Kaiser mode
+                    case 61121053://Kaiser Hyper Mode
+                    case 61121054://Kaiser's Majesty
+                    case 61120011:
+                    case 80001000:
+                    case 80001089:
+                    case 31211003:
+                    case 31221004:
+                    case 32121054:
+                    case 2121054:
+                    case 11101021:
+                    case 13111024:
+                    case 2321054:
+                    case 11101022: //polling moon
+                    case 11111022:
+                    case 36121054:
+                    case 31011001:
+                    case 31211004:
+                    case 32121006:
+                    case 3101004:
+                    case 3201004:
+                    case 5001005:
+                    case 5220014://dice2 cosair
+                    case 15001003:
+                    case 5111010:
+                    case 80001079:
+                    case 80001080:
+                    case 80001081:
+                        //    case 33001001:
+                    case 1101013:
+                    case 36121003:
+                    case 33111006:
+                    case 35111016:
+                    case 33111007:
+                    case 61111004:
+                    case 24121054:
+                    case 80001155:
+                    case 31221054:
+                    case 5721054:
+                    case 5721052:
+                        //    case 27121005:
+                    case 27001004: // Ã¬ï¿½ÂµÃ¬Å Â¤Ã­â€¦ï¿½Ã«â€œÅ“ Ã«Â§Ë†Ã«â€šËœ
+                    case 27100003: // Ã«Â¸â€�Ã«Â Ë†Ã¬Å Â¤ Ã¬ËœÂ¤Ã«Â¸Å’ Ã«â€¹Â¤Ã­ï¿½Â¬Ã«â€¹Ë†Ã¬Å Â¤
+                        //       case 27101202: // Ã«Â³Â´Ã¬ï¿½Â´Ã«â€œÅ“ Ã­â€�â€žÃ«Â Ë†Ã¬â€¦â€�
+                    case 27111004: // Ã¬â€¢Ë†Ã­â€¹Â° Ã«Â§Â¤Ã¬Â§ï¿½Ã¬â€°Ëœ
+                    case 27111005: // Ã«ï¿½Â¼Ã¬ï¿½Â´Ã­Å Â¸Ã¬â€°ï¿½Ã«ï¿½â€žÃ¬Å¡Â° ÃªÂ°â‚¬Ã«â€œÅ“
+                    case 27111006: // Ã­ï¿½Â¬Ã­â€¹Â± Ã«Â©â€�Ã«â€�â€�Ã­â€¦Å’Ã¬ï¿½Â´Ã¬â€¦Ëœ
+                        //      case 27110007: // Ã«ï¿½Â¼Ã¬ï¿½Â´Ã­â€�â€ž Ã­Æ’â‚¬Ã¬ï¿½Â´Ã«â€¹Â¬
+                    case 27121006: // Ã«â€¹Â¤Ã­ï¿½Â¬Ã«â€¹Ë†Ã¬Å Â¤ Ã¬â€ Å’Ã¬â€žÅ“Ã«Â¦Â¬
+                    case 27111202: // Ã«â€¦Â¹Ã¬Å Â¤Ã­â€�Â¼Ã¬â€“Â´
+                    case 27121202: // Ã¬â€¢â€žÃ­ï¿½Â¬Ã¬Â¹Â¼Ã«Â¦Â½Ã¬Å Â¤
+                    case 27101100: // Ã¬â€¹Â¤Ã­â€�Â¼Ã«â€œÅ“ Ã«Å¾Å“Ã¬â€žÅ“
+                    case 27111100: // Ã¬Å Â¤Ã­Å½â„¢Ã­Å Â¸Ã«Å¸Â´ Ã«ï¿½Â¼Ã¬ï¿½Â´Ã­Å Â¸
+                    case 27121100: // Ã«ï¿½Â¼Ã¬ï¿½Â´Ã­Å Â¸ Ã«Â¦Â¬Ã­â€�Å’Ã«Â â€°Ã¬â€¦Ëœ
+                    case 27111303: // Ã«ï¿½Â°Ã¬Å Â¤ Ã¬â€šÂ¬Ã¬ï¿½Â´Ã«â€œÅ“
+                    case 27121303: // Ã¬â€¢Â±Ã¬â€ â€�Ã«Â£Â¨Ã­Å Â¸ Ã­â€šÂ¬
+                    case 27121054: // Ã«Â©â€�Ã«ÂªÂ¨Ã«ï¿½Â¼Ã¬ï¿½Â´Ã¬Â¦Ë†
+                    case 42101020:
+                    case 42101021:
+                    case 42101022:
+                    case 42101023:
+                    case 36121013:
+                    case 36121014:
+                    case 36121002:
+                        //       case 15001022:
+                        //   case 1301013:
+                    case 1321015:
+                    case 20041239:
+
+                        isBuff = true;
+                }
+
+                if (GameConstants.isAngel(id)/* || GameConstants.isSummon(id)*/) {
+                    isBuff = false;
+                }
             }
         }
         ret.chargeskill = data.getChildByPath("keydown") != null;

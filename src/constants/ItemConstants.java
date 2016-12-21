@@ -111,4 +111,8 @@ public class ItemConstants {
     public static int getLevelByEquip(Equip equip){
         return ii.getReqLevel(equip.getItemId());
     }
+
+    public static boolean isHyperTeleportRock(int itemId) {
+        return itemId == 5040004;
+    }
 }

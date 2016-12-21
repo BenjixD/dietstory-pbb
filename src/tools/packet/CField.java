@@ -999,6 +999,7 @@ return pw.getPacket();
 				pw.writeLong(PacketHelper.getTime(-1));
 			}
 		}
+		pw.write(new byte[300]); // TODO // FIXME: 12/20/2016
 
 		return pw.getPacket();
 	}
@@ -4004,7 +4005,7 @@ return pw.getPacket();
 
 			pw.writeShort(SendPacketOpcode.INTRO_DISABLE_UI.getValue());
 			pw.write(enable ? 1 : 0);
-
+			pw.write(new byte[30]); // TODO: Tim, properly fix this
 			return pw.getPacket();
 		}
 

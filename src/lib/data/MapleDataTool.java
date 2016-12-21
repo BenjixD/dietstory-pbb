@@ -67,7 +67,14 @@ public class MapleDataTool {
     }
 
     public static int getInt(MapleData data) {
-        return ((Integer) data.getData()).intValue();
+        int res = 0;
+        try {
+            res = (Integer) data.getData();
+        }catch (ClassCastException e){
+            return res; // TODO FIX THIS PIECE OF GARBO
+//            e.printStackTrace();
+        }
+        return res;
     }
 
     public static int getInt(MapleData data, int def) {

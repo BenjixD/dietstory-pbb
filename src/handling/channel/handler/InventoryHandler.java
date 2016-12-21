@@ -4868,16 +4868,16 @@ case 2431935: {
     }
     
  
-public static final boolean UseTeleRock(LittleEndianAccessor slea, MapleClient c, int itemId) {
+public static final boolean UseTeleRock(LittleEndianAccessor lea, MapleClient c, int itemId) {
         boolean used = false;
         if (itemId == 5040004) {
-            slea.readByte();
+            lea.readByte();
         } 
         if ((itemId == 5040004) || itemId == 5041001)
         {
-            if(slea.readByte() == 0)
+            if(lea.readByte() == 0)
             {
-                final MapleMap target = c.getChannelServer().getMapFactory().getMap(slea.readInt());
+                final MapleMap target = c.getChannelServer().getMapFactory().getMap(lea.readInt());
                 if (target != null){ //Premium and Hyper rocks are allowed to go anywhere. Blocked maps are checked below. 
                     if (!FieldLimitType.VipRock.check(c.getPlayer().getMap().getFieldLimit()) && !FieldLimitType.VipRock.check(target.getFieldLimit()) && !c.getPlayer().isInBlockedMap()) { //Makes sure this map doesn't have a forced return map
                         c.getPlayer().changeMap(target, target.getPortal(0));
@@ -4889,7 +4889,7 @@ public static final boolean UseTeleRock(LittleEndianAccessor slea, MapleClient c
                     c.getPlayer().dropMessage(1, "The place you want to go to does not exist."); 
                 }  
             } else {
-                final String name = slea.readMapleAsciiString();
+                final String name = lea.readMapleAsciiString();
                 final MapleCharacter victim = c.getChannelServer().getPlayerStorage().getCharacterByName(name);
                 if (victim != null && !victim.isIntern() && c.getPlayer().getEventInstance() == null && victim.getEventInstance() == null) {
                     if (!FieldLimitType.VipRock.check(c.getPlayer().getMap().getFieldLimit()) && !FieldLimitType.VipRock.check(c.getChannelServer().getMapFactory().getMap(victim.getMapId()).getFieldLimit()) && !victim.isInBlockedMap() && !c.getPlayer().isInBlockedMap()) {

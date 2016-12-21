@@ -34,7 +34,7 @@ public class CaltechEval {
     }
 
     private void init() {
-        NOPERATORS = 19;
+        NOPERATORS = 20;
         Operators = new String[NOPERATORS];
         OperatorsArgs = new int[NOPERATORS];
         OperatorsLeftRight = new boolean[NOPERATORS];
@@ -134,6 +134,11 @@ public class CaltechEval {
         OperatorsArgs[18] = 1;
         OperatorsLeftRight[18] = false;
         OperatorsPrecedence[18] = 11;
+        
+        Operators[19] = "log";
+        OperatorsArgs[19] = 2;
+        OperatorsLeftRight[19] = false;
+        OperatorsPrecedence[19] = 10;
     }
 
     public double evaluate() {
@@ -194,6 +199,9 @@ public class CaltechEval {
         }
         if (op.equals("min")) {
             return (Math.min(arg1, arg2));
+        }
+        if(op.equals("log")){
+            return (Math.log(arg2) / Math.log(arg1)); // logb(x) == logc(x) / logc(b)
         }
         if (op.equals("u")) {
             return (Math.ceil(arg1));

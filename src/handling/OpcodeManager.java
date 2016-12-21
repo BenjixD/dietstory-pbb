@@ -147,7 +147,7 @@ public class OpcodeManager {
 		if(spamRecvHandlers.size() == 0){
 			spamRecvHandlers.add(RecvPacketOpcode.UPDATE_HYPER.getValue());
 			spamRecvHandlers.add(RecvPacketOpcode.UPDATE_HYPER_SKILL.getValue());
-			spamRecvHandlers.add(0x165); // UPDATE_HYPER_SKILL
+			spamRecvHandlers.add(0x169); // UPDATE_HYPER_SKILL
 			spamRecvHandlers.add(0x14D);
 			spamRecvHandlers.add(0x135);
 			spamRecvHandlers.add(RecvPacketOpcode.MOVE_PLAYER.getValue());
@@ -155,6 +155,7 @@ public class OpcodeManager {
 			spamRecvHandlers.add(0x351); // MOB_MOVE
 			spamRecvHandlers.add(0x24B);
 			spamRecvHandlers.add(0x152);
+			spamRecvHandlers.add(RecvPacketOpcode.NPC_ACTION.getValue());
 		}
 		return spamRecvHandlers.contains(opcode);
 	}
@@ -168,6 +169,7 @@ public class OpcodeManager {
 			spamSendHandlers.add("80 02"); // MOVE_PLAYER
 			spamSendHandlers.add("E8 03");
 			spamSendHandlers.add("4B 00");
+			spamSendHandlers.add("0B 04");
 		}
 		return spamSendHandlers.contains(header);
 	}

@@ -335,7 +335,7 @@ public class InternCommand {
 				if (ch < 0) {
 					MapleMap target = c.getChannelServer().getMapFactory().getMap(Integer.parseInt(splitted[1]));
 					if (target == null) {
-						c.getPlayer().dropMessage(6, "Map does not exist");
+						c.getPlayer().dropMessage(6, "Map does not exist.");
 						return 0;
 					}
 					MaplePortal targetPortal = null;
