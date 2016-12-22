@@ -36,7 +36,7 @@ public class JobConstants {
 		HAYATO(18, JobFlag.ENABLED),
 		KANNA(19, JobFlag.ENABLED),
 		CHASE(20, JobFlag.ENABLED),
-		PINK_BEAN(21, JobFlag.ENABLED),
+		PINK_BEAN(21, JobFlag.DISABLED),
 		KINESIS(22, JobFlag.ENABLED);
 
 		private final int jobType, flag;
