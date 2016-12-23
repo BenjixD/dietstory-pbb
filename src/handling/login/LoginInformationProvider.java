@@ -37,26 +37,29 @@ public class LoginInformationProvider {
     public enum JobType {
 
         UltimateAdventurer(-1, 0, 450004600, true, true, false, false, true, false),
-        Resistance(0, 3000, 450004600, true, false, false, false, false, false), // tutorial works 100%
-        Adventurer(1, 0, 450004600, false, true, false, false, false, false),
-        Cygnus(2, 1000, 450004600, false, true, false, false, false, true),
-        Aran(3, 2000, 450004600, true, true, false, false, true, false),
-        Evan(4, 2001, 450004600, true, true, false, false, true, false),//evan starter map - need to test tutorial
-        Mercedes(5, 2002, 450004600, false, false, false, false, false, false),//101050000 - 910150000
-        Demon(6, 3001, 450004600, false, false, true, false, false, false),
-        Phantom(7, 2003, 450004600, false, true, false, false, false, true),
-        DualBlade(8, 0, 450004600, false, true, false, false, false, false),//tutorial fixed
-        Mihile(9, 5000, 450004600, true, true, false, false, true, false),
-        Luminous(10, 2004, 450004600, false, true, false, false, false, true),//Ellinia atm TODO tutorial
-        Kaiser(11, 6000, 450004600, false, true, false, false, false, false),
-        AngelicBuster(12, 6001, 450004600, false, true, false, false, false, false),//400000000 - 940011000 - town now TODO tutorial
-        Cannoneer(13, 0, 450004600, true, true, false, false, true, false),//portal problem
-        Xenon(14, 3002, 450004600, true, true, true, false, false, false),
-        Zero(15, 10112, 450004600, false, true, false, false, false, true),//create tutorial plox
-        Jett(16, 0, 450004600, false, false, false, false, false, true),//End map for tutorial
-        Hayato(17, 4001, 450004600, true, true, false, true, false, false),//half stater map TODO real tutorial
-        Kanna(18, 4002, 450004600, true, true, false, true, false, false);
-
+        Resistance(0, 3000, 450004600, true, false, false, false, false, false), // works
+        Adventurer(1, 0, 450004600, false, true, false, false, false, false), // works
+        Cygnus(2, 1000, 450004600, false, true, false, false, false, true), // works
+        Aran(3, 2000, 450004600, true, true, false, false, true, false), // cant create char
+        Evan(4, 2001, 450004600, true, true, false, false, true, false),//cant create char
+        Mercedes(5, 2002, 450004600, false, false, false, false, false, false),//works
+        Demon(6, 3001, 450004600, false, false, true, false, false, false),//works
+        Phantom(7, 2003, 450004600, false, true, false, false, false, true),//doesnt warptomap
+        DualBlade(8, 0, 450004600, false, true, false, false, false, false),//works
+        Mihile(9, 5000, 450004600, true, true, false, false, true, false),//works
+        Luminous(10, 2004, 450004600, false, true, false, false, false, true),//doesnt warptomap
+        Kaiser(11, 6000, 450004600, false, true, false, false, false, false),//doesnt warptomap
+        AngelicBuster(12, 6001, 450004600, false, true, false, false, false, false),//doesnt warptomap
+        Cannoneer(13, 0, 450004600, true, true, false, false, true, false),//doesn't warp to the right map
+        Xenon(14, 3002, 450004600, true, true, true, false, false, false),//doesnt warptomap
+        Zero(15, 10112, 450004600, false, true, false, false, false, true),//doesnt warptomap en na char selecteren verwijdert ie zero
+        Jett(16, 0, 450004600, false, false, false, false, false, true),//cant create char (can on acernis 146, gotta compare em)
+        Hayato(18, 4001, 450004600, true, true, false, true, false, false),//half stater map TODO real tutorial
+        Kanna(19, 4002, 450004600, true, true, false, true, false, false);//works
+    	//name(job selection, jobid, startermap, ?,?,?,?,?,?);
+    	//todo add chase/bt(works on acernis146) and shade and kinesis
+    	
+    	
         // actual tutorial map values
 //        UltimateAdventurer(-1, 0, 450004600, true, true, false, false, true, false),
 //        Resistance(0, 3000, 450004600, true, false, false, false, false, false), // tutorial works 100%

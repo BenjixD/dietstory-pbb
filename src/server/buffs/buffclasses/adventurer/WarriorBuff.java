@@ -81,12 +81,14 @@ public class WarriorBuff extends AbstractBuffClass {
                 eff.statups.put(MapleBuffStat.PowerGuard, eff.info.get(MapleStatInfo.x));
                 break;
             case 1101013: //Combo
-                eff.statups.put(MapleBuffStat.ComboCounter, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(MapleBuffStat.ComboCounter,1);
                 eff.info.put(MapleStatInfo.time, 2100000000);
                 //System.out.println("Combo from Warrior Buff");
                 break;
             case 1211010: //HP Recovery
-                eff.statups.put(MapleBuffStat.HP_RECOVER, 1);
+                eff.statups.put(MapleBuffStat.HP_RECOVER, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(MapleBuffStat.HP_RECOVER, eff.info.get(MapleStatInfo.y));
+                eff.statups.put(MapleBuffStat.HP_RECOVER, eff.info.get(MapleStatInfo.z));
                 break;
             case 1211013: //Threaten
                 eff.monsterStatus.put(MonsterStatus.WATK, eff.info.get(MapleStatInfo.x));
