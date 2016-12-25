@@ -3320,15 +3320,21 @@ return pw.getPacket();
 			pw.write(talk.getType());
 			pw.writeInt(talk.getNpcID());
 			pw.write(0); // bool?
+			//pw.write(new byte[6]);//zorgt ervoor dat geen error 38 werkt zolang er 2 bytes bijkomen
 			// pw.writeInt(0);
 			
-			pw.write(talk.getMsg());
+			if(talk.getMsg() == 2){
+				pw.write(3);
+				} else {
+				pw.write(talk.getMsg());
+				}
 			pw.write(talk.getParam());
 			pw.write(talk.getColor()); // 0 = blue; 1 = brown
 			switch(talk.getMsg()) {
 				case 0: // OnSay
 					if ((talk.getParam() & 4) != 0)
 						pw.writeInt(talk.getNpcIDD());
+					pw.write(0);
 					pw.writeMapleAsciiString(talk.getText());
 					pw.write(talk.getPrev());
 					pw.write(talk.getNext());
@@ -3342,6 +3348,7 @@ return pw.getPacket();
 					break;
 				case 2: // OnAskYesNo
 					if((talk.getParam() & 4) != 0)
+						pw.write(0);
 						pw.writeInt(talk.getNpcIDD());
 					pw.writeMapleAsciiString(talk.getText());
 					break;
@@ -3362,6 +3369,7 @@ return pw.getPacket();
 				case 6: // OnAskMenu
 					if ((talk.getParam() & 4) != 0)
 						pw.writeInt(talk.getNpcIDD());
+					pw.write(0);
 					pw.writeMapleAsciiString(talk.getText());
 					break;
 				case 7: // OnInitialQuiz
