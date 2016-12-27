@@ -999,7 +999,7 @@ return pw.getPacket();
 				pw.writeLong(PacketHelper.getTime(-1));
 			}
 		}
-		pw.write(new byte[300]); // TODO // FIXME: 12/20/2016
+		pw.writeInt(0); // TODO // FIXME: 12/20/2016
 
 		return pw.getPacket();
 	}
@@ -3324,6 +3324,7 @@ return pw.getPacket();
 			// pw.writeInt(0);
 			
 			if(talk.getMsg() == 2){
+				
 				pw.write(3);
 				} else {
 				pw.write(talk.getMsg());
@@ -3347,9 +3348,9 @@ return pw.getPacket();
 					}
 					break;
 				case 2: // OnAskYesNo
+					pw.write(0);
 					if((talk.getParam() & 4) != 0)
-						pw.write(0);
-						pw.writeInt(talk.getNpcIDD());
+					pw.writeInt(talk.getNpcIDD());
 					pw.writeMapleAsciiString(talk.getText());
 					break;
 				case 3: // OnAskText
@@ -3396,9 +3397,10 @@ return pw.getPacket();
 				case 13: // OnAskPetAll
 				case 14: // OnAskActionPetEvolution
 				case 16: // OnAskYesNo
+					pw.write(0);
 					if((talk.getParam() & 4) != 0)
 						pw.writeInt(talk.getNpcIDD());
-					pw.writeMapleAsciiString(talk.getText());
+						pw.writeMapleAsciiString(talk.getText());
 					break;
 				case 17: // OnAskBoxText
 				case 18: // OnAskSlideMenu
