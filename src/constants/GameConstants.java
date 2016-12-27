@@ -59,6 +59,10 @@ public class GameConstants {
 		return res;
 	}
 
+	public static boolean isBuffedChannel(int channel) {
+		return channel >= 0 && channel <= 16;
+	}
+
 	public enum Cubes {
 		MIRACLE(5062000),
 		PREMIUM(5062001),

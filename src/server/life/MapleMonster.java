@@ -65,6 +65,7 @@ import tools.packet.MobPacket;
 
 public class MapleMonster extends AbstractLoadedMapleLife {
 
+    private static final int BUFF_AMOUNT = 100;
     private MapleMonsterStats stats;
     private ChangeableStats ostats = null;
     private long hp, nextKill = 0, lastDropTime = 0;
@@ -154,6 +155,9 @@ public class MapleMonster extends AbstractLoadedMapleLife {
     }
 
     public final ChangeableStats getChangedStats() {
+        if(stats.isChangeable() && ostats == null){
+            ostats = new ChangeableStats(stats, stats.getLevel(), false);
+        }
         return ostats;
     }
 
@@ -1723,4 +1727,17 @@ public class MapleMonster extends AbstractLoadedMapleLife {
         endBelong = System.currentTimeMillis() + (stats.isBoss() ? 300000 : 30000); //30 seconds for the person to kill it.
     }
     /* Anti KS */
+
+    public int getAwardedNX(){
+        return (int) (Math.sqrt(getMobMaxHp())/((getMobExp() * 11)+1)) * getMobExp();
+    }
+
+    public void buffForBuffedChannels(){
+        if(!stats.isChangeable()){
+            return;
+        }
+        getChangedStats().hp = getMobMaxHp() * BUFF_AMOUNT;
+        setHp(getMobMaxHp());
+        getChangedStats().exp = getMobExp() * BUFF_AMOUNT;
+    }
 }

@@ -1480,6 +1480,9 @@ public final class MapleMap {
          stats.setPDRate(stats.isBoss() ? MoonlightRevamp.getBossPDRateMultipy(stats.getPDRate()) : (byte) (stats.getPDRate() + MoonlightRevamp.getPDRateAddition(stats.getPDRate())));
          stats.setMDRate(stats.isBoss() ? MoonlightRevamp.getBossMDRateMultipy(stats.getMDRate()) : (byte) (stats.getMDRate() + MoonlightRevamp.getMDRateAddition(stats.getMDRate())));
          }*/
+        if(GameConstants.isBuffedChannel(monster.getMap().getChannel())){
+            monster.buffForBuffedChannels();
+        }
         spawnAndAddRangedMapObject(monster, new DelayedPacketCreation() {
             @Override
             public final void sendPackets(MapleClient c) {

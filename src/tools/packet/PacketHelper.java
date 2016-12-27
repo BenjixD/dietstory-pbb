@@ -1354,6 +1354,7 @@ public class PacketHelper {
         if((mask & 200000) != 0){
             pw.writeInt(0);
             /*
+            // TODO this is the VMatrix block. for(int) encode all vmatrix entries. Ida says 7 ints, while PacketBakery says more. Gotta figure it out.
             for(int ^){
                 int
                 int
