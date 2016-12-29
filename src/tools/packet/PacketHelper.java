@@ -847,15 +847,15 @@ public class PacketHelper {
             if (equip.getStats().contains(EquipStat.WDEF)) {
                 pw.writeShort(equip.getWdef());
             }
-            if (equip.getStats().contains(EquipStat.MDEF)) {
-                pw.writeShort(equip.getMdef());
-            }
-            if (equip.getStats().contains(EquipStat.ACC)) {
-                pw.writeShort(equip.getAcc());
-            }
-            if (equip.getStats().contains(EquipStat.AVOID)) {
-                pw.writeShort(equip.getAvoid());
-            }
+//            if (equip.getStats().contains(EquipStat.MDEF)) {
+//                pw.writeShort(equip.getMdef());
+//            }
+//            if (equip.getStats().contains(EquipStat.ACC)) {
+//                pw.writeShort(equip.getAcc());
+//            }
+//            if (equip.getStats().contains(EquipStat.AVOID)) {
+//                pw.writeShort(equip.getAvoid());
+//            }
             if (equip.getStats().contains(EquipStat.HANDS)) {
                 pw.writeShort(equip.getHands());
             }
