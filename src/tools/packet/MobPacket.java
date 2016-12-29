@@ -279,7 +279,7 @@ public class MobPacket {
 
 		addMonsterStatus(pw, life);
 		addMonsterInformation(pw, life, true, (byte) spawnType, link, false);
-//		pw.write(new byte[300]); // TODO: pls no
+		pw.write(new byte[300]); // TODO: pls no
 		/*pw.writePos(life.getTruePosition());
 		pw.write(0);// ...
 		pw.write(life.getStance());
@@ -384,7 +384,7 @@ public class MobPacket {
 			byte spawnType, int link, boolean newSpawn) {
 		
 		pw.writePos(life.getTruePosition());
-		pw.write(0); // before the if
+		// pw.write(0); // ...
 		pw.write(life.getStance());
 		pw.writeShort(0);
 		pw.writeShort(life.getFh());
@@ -410,12 +410,11 @@ public class MobPacket {
 		}
 		pw.write(life.getCarnivalTeam());
 		
-		long value = Long.MAX_VALUE;
-		// 179: long instead of int
+		int value = Integer.MAX_VALUE;
 		if(life.getHp() > value) {
-			pw.writeLong(value);
+			pw.writeInt(value);
 		} else {
-			pw.writeLong((int) life.getHp());
+			pw.writeInt((int) life.getHp());
 		}
 		
 		pw.writeInt(0);
@@ -425,22 +424,18 @@ public class MobPacket {
 		pw.writeInt(0);
 		
 		pw.writeInt(0);
-		pw.write(0); // if(byte) {int + String}
+		pw.write(0);
 		
 		pw.writeInt(-1);
 		pw.writeInt(-1);
 		pw.write(0);
-
-		pw.writeInt(0); // for(int) { int int }
-
-		pw.writeInt(0x64 *2); // monster scale
-		pw.writeInt(-1); // while (int >= 0) { for (int) { int int } int } // nEliteGrade
-		pw.write(0); // if(byte)
-		pw.write(0); // new 179, if(byte) { int int }
+		pw.writeInt(0);
+		pw.writeInt(0x64); // monster scale
+		pw.writeInt(-1);
+		pw.write(0);
 		pw.writeInt(0);
 		pw.writeInt(0);
-		pw.writeInt(0); // new 179
-//		pw.writeShort(0); // not needed anymore? 179
+		pw.writeShort(0);
 	}
 
 	public static byte[] stopControllingMonster(MapleMonster life, boolean azwan) {
