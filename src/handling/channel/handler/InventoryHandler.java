@@ -46,15 +46,8 @@ import client.PlayerStats;
 import client.Skill;
 import client.SkillEntry;
 import client.SkillFactory;
-import client.inventory.Equip;
+import client.inventory.*;
 import client.inventory.Equip.ScrollResult;
-import client.inventory.Item;
-import client.inventory.ItemFlag;
-import client.inventory.MapleInventory;
-import client.inventory.MapleInventoryIdentifier;
-import client.inventory.MapleInventoryType;
-import client.inventory.MapleMount;
-import client.inventory.MaplePet;
 import client.inventory.MaplePet.PetFlag;
 import constants.GameConstants;
 import constants.MapConstants;
@@ -2409,6 +2402,27 @@ case 2431935: {
                     }
                     break;
                 }
+
+                case 2435902:
+                    MapleInventory mi = chr.getInventory(MapleInventoryType.USE);
+                    Item item = mi.getItem(slot);
+                    if(item != null && item.getItemId() == 2435902) {
+                        VMatrixEntry entry = new VMatrixEntry();
+                        // TODO Logic with cores (chances of own job vs other, for example)
+                        chr.addVMatrixEntry(entry);
+                        c.getSession().write(CWvsContext.nodestoneResult(itemId, entry.getSkillID1(), entry.getSkillID2(), entry.getSkillID3()));
+                        chr.removeItem(itemId, 1);
+                        chr.dropMessage(6, "You used a Nodestone and got a new Node.");
+//                        Map<MapleStat, Long> statMap = new HashMap<>();
+//                        statMap.put(MapleStat.SKIN, (long) 0);
+//                        c.getSession().write(CWvsContext.updatePlayerStats(statMap, chr)); // SendCharacterStat(1, 0); ?
+                        c.getSession().write(CField.itemEffect(chr.getId(), itemId)); // could be incorrect, maybe SHOW_STATUS_INFO?
+
+                    }else{
+                        chr.dropMessage(6, "You tried to open a nodestone without having a nodestone.");
+                        // TODO Anti-cheat measures? Like account flag for example
+                    }
+                    break;
                 
                 
                 //

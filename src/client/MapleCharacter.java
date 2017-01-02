@@ -30,26 +30,12 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Collectors;
 
-import org.apache.mina.common.WriteFuture;
+import client.inventory.*;
 
 import client.MapleTrait.MapleTraitType;
-import client.inventory.Equip;
-import client.inventory.Item;
-import client.inventory.ItemFlag;
-import client.inventory.ItemLoader;
-import client.inventory.MapleAndroid;
-import client.inventory.MapleImp;
 import client.inventory.MapleImp.ImpFlag;
-import client.inventory.MapleInventory;
-import client.inventory.MapleInventoryIdentifier;
-import client.inventory.MapleInventoryType;
-import client.inventory.MapleMount;
-import client.inventory.MaplePet;
-import client.inventory.MaplePotionPot;
-import client.inventory.MapleRing;
 import constants.GameConstants;
 import constants.MapConstants;
-import constants.ServerConstants;
 import handling.channel.ChannelServer;
 import handling.channel.handler.AttackInfo;
 import handling.channel.handler.PlayerHandler;
@@ -230,6 +216,8 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     public boolean keyvalue_changed = false, innerskill_changed = true;
     private boolean changed_wishlist, changed_trocklocations, changed_regrocklocations, changed_hyperrocklocations, changed_skillmacros,
             changed_savedlocations, changed_questinfo, changed_skills, changed_extendedSlots, update_skillswipe;
+
+    private List<VMatrixEntry> vMatrixEntries;
     /*
      * Start of Custom Feature
      */
@@ -261,6 +249,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         }
         quests = new LinkedHashMap<>(); // Stupid erev quest.
         skills = new LinkedHashMap<>(); //Stupid UAs.
+        vMatrixEntries = new LinkedList<>();
         stats = new PlayerStats();
         innerSkills = new LinkedList<>();
         azwanShopList = null;
@@ -582,6 +571,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         ret.expirationTask(false, false);
         ret.stats.recalcLocalStats(true, ret);
         client.setTempIP(ct.tempIP);
+        //TODO VMatrix
 
         return ret;
     }
@@ -601,6 +591,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         ResultSet rs = null;
 
         try {
+            // TODO Add VMatrix in this
             ps = con.prepareStatement("SELECT * FROM characters WHERE id = ?");
             ps.setInt(1, charid);
             rs = ps.executeQuery();
@@ -1200,7 +1191,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         try {
             con.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
             con.setAutoCommit(false);
-//33
+//33        // TODO VMatrix
             
             ps = con.prepareStatement("INSERT INTO characters (level, str, dex, luk, `int`, hp, mp, maxhp, maxmp, sp, hsp, ap, skincolor, gender, job, hair, face, faceMarking, map, meso, party, buddyCapacity, pets, subcategory, elf, friendshippoints, chatcolour, gm, accountid, name, world, starterquest, starterquestid)"
                     + "                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", DatabaseConnection.RETURN_GENERATED_KEYS);
@@ -1417,6 +1408,8 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         ResultSet rs = null;
 
         try {
+
+            //TODO VMatrix
             con.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
             con.setAutoCommit(false);
 
@@ -5592,6 +5585,14 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         this.rebuy = rebuy;
     }
 
+    public List<VMatrixEntry> getvMatrixEntries() {
+        return vMatrixEntries;
+    }
+
+    public void setvMatrixEntries(List<VMatrixEntry> vMatrixEntries) {
+        this.vMatrixEntries = vMatrixEntries;
+    }
+
     public static enum FameStatus {
 
         OK,
@@ -9624,4 +9625,9 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
 
         forceReAddItem(equip, mit);
     }
+
+    public void addVMatrixEntry(VMatrixEntry vme){
+        vMatrixEntries.add(vme);
+    }
+
 }

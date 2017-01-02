@@ -66,11 +66,11 @@ public class ItemConstants {
         equipToEnhanceStats.put(EquipStat.INT, EnhanceStat.INT);
         equipToEnhanceStats.put(EquipStat.LUK, EnhanceStat.LUK);
         equipToEnhanceStats.put(EquipStat.WDEF, EnhanceStat.WDEF);
-        equipToEnhanceStats.put(EquipStat.MDEF, EnhanceStat.MDEF);
+//        equipToEnhanceStats.put(EquipStat.MDEF, EnhanceStat.MDEF);
         equipToEnhanceStats.put(EquipStat.MHP, EnhanceStat.MHP);
         equipToEnhanceStats.put(EquipStat.MMP, EnhanceStat.MMP);
-        equipToEnhanceStats.put(EquipStat.ACC, EnhanceStat.ACC);
-        equipToEnhanceStats.put(EquipStat.AVOID, EnhanceStat.AVOID);
+//        equipToEnhanceStats.put(EquipStat.ACC, EnhanceStat.ACC);
+//        equipToEnhanceStats.put(EquipStat.AVOID, EnhanceStat.AVOID);
         equipToEnhanceStats.put(EquipStat.JUMP, EnhanceStat.JUMP);
         equipToEnhanceStats.put(EquipStat.SPEED, EnhanceStat.SPEED);
     }

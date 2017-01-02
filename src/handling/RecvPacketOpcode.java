@@ -265,6 +265,7 @@ public enum RecvPacketOpcode implements IntValueHolder {
 	NPC_ACTION,
 	ITEM_PICKUP,
 	DAMAGE_REACTOR,
+	UPDATE_MATRIX,
 	TOUCH_REACTOR,
 	CLICK_REACTOR,
 	MAKE_EXTRACTOR,

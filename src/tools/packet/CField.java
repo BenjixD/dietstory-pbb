@@ -999,7 +999,7 @@ return pw.getPacket();
 				pw.writeLong(PacketHelper.getTime(-1));
 			}
 		}
-		pw.write(new byte[300]); // TODO // FIXME: 12/20/2016
+		pw.writeInt(0); // TODO // FIXME: 12/20/2016
 
 		return pw.getPacket();
 	}
@@ -3320,15 +3320,22 @@ return pw.getPacket();
 			pw.write(talk.getType());
 			pw.writeInt(talk.getNpcID());
 			pw.write(0); // bool?
+			//pw.write(new byte[6]);//zorgt ervoor dat geen error 38 werkt zolang er 2 bytes bijkomen
 			// pw.writeInt(0);
 			
-			pw.write(talk.getMsg());
+			if(talk.getMsg() == 2){
+				
+				pw.write(3);
+				} else {
+				pw.write(talk.getMsg());
+				}
 			pw.write(talk.getParam());
 			pw.write(talk.getColor()); // 0 = blue; 1 = brown
 			switch(talk.getMsg()) {
 				case 0: // OnSay
 					if ((talk.getParam() & 4) != 0)
 						pw.writeInt(talk.getNpcIDD());
+					pw.write(0);
 					pw.writeMapleAsciiString(talk.getText());
 					pw.write(talk.getPrev());
 					pw.write(talk.getNext());
@@ -3341,8 +3348,9 @@ return pw.getPacket();
 					}
 					break;
 				case 2: // OnAskYesNo
+					pw.write(0);
 					if((talk.getParam() & 4) != 0)
-						pw.writeInt(talk.getNpcIDD());
+					pw.writeInt(talk.getNpcIDD());
 					pw.writeMapleAsciiString(talk.getText());
 					break;
 				case 3: // OnAskText
@@ -3362,6 +3370,7 @@ return pw.getPacket();
 				case 6: // OnAskMenu
 					if ((talk.getParam() & 4) != 0)
 						pw.writeInt(talk.getNpcIDD());
+					pw.write(0);
 					pw.writeMapleAsciiString(talk.getText());
 					break;
 				case 7: // OnInitialQuiz
@@ -3388,9 +3397,10 @@ return pw.getPacket();
 				case 13: // OnAskPetAll
 				case 14: // OnAskActionPetEvolution
 				case 16: // OnAskYesNo
+					pw.write(0);
 					if((talk.getParam() & 4) != 0)
 						pw.writeInt(talk.getNpcIDD());
-					pw.writeMapleAsciiString(talk.getText());
+						pw.writeMapleAsciiString(talk.getText());
 					break;
 				case 17: // OnAskBoxText
 				case 18: // OnAskSlideMenu

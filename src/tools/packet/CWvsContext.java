@@ -24,11 +24,7 @@ import client.MapleTrait.MapleTraitType;
 import client.MonsterFamiliar;
 import client.Skill;
 import client.SkillEntry;
-import client.inventory.Equip;
-import client.inventory.Item;
-import client.inventory.MapleImp;
-import client.inventory.MapleInventoryType;
-import client.inventory.MaplePet;
+import client.inventory.*;
 import constants.GameConstants;
 import handling.SendPacketOpcode;
 import handling.channel.DojoRankingsData;
@@ -4495,5 +4491,27 @@ public class CWvsContext {
 
             return pw.getPacket();
         }
+    }
+
+    public static byte[] updateVMatrix(List<VMatrixEntry> matrixEntries){
+        PacketWriter pw = new PacketWriter();
+        pw.writeShort(SendPacketOpcode.VMATRIX_UPDATE.getValue());
+        pw.writeInt(matrixEntries.size());
+        for(VMatrixEntry vme : matrixEntries){
+            vme.encode(pw);
+        }
+        pw.write(0);
+        return pw.getPacket();
+    }
+
+    public static byte[] nodestoneResult(int itemID, int skillID1, int skillID2, int skillID3){
+        PacketWriter pw = new PacketWriter();
+        pw.writeShort(SendPacketOpcode.NODESTONE_RESULT.getValue());
+        pw.writeInt(itemID);
+        pw.writeInt(1);
+        pw.writeInt(skillID1);
+        pw.writeInt(skillID2);
+        pw.writeInt(skillID3);
+        return pw.getPacket();
     }
 }

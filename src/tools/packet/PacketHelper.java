@@ -847,15 +847,15 @@ public class PacketHelper {
             if (equip.getStats().contains(EquipStat.WDEF)) {
                 pw.writeShort(equip.getWdef());
             }
-            if (equip.getStats().contains(EquipStat.MDEF)) {
-                pw.writeShort(equip.getMdef());
-            }
-            if (equip.getStats().contains(EquipStat.ACC)) {
-                pw.writeShort(equip.getAcc());
-            }
-            if (equip.getStats().contains(EquipStat.AVOID)) {
-                pw.writeShort(equip.getAvoid());
-            }
+//            if (equip.getStats().contains(EquipStat.MDEF)) {
+//                pw.writeShort(equip.getMdef());
+//            }
+//            if (equip.getStats().contains(EquipStat.ACC)) {
+//                pw.writeShort(equip.getAcc());
+//            }
+//            if (equip.getStats().contains(EquipStat.AVOID)) {
+//                pw.writeShort(equip.getAvoid());
+//            }
             if (equip.getStats().contains(EquipStat.HANDS)) {
                 pw.writeShort(equip.getHands());
             }
@@ -1354,6 +1354,7 @@ public class PacketHelper {
         if((mask & 0x200000) != 0){
             pw.writeInt(0);
             /*
+            // TODO this is the VMatrix block. for(int) encode all vmatrix entries. Ida says 7 ints, while PacketBakery says more. Gotta figure it out.
             for(int ^){
                 int
                 int
