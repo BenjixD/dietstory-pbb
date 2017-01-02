@@ -71,6 +71,15 @@ public enum EquipStat {
         return (flag & value) != 0;
     }
 
+    public EquipStat getEquipStatByString(String str){
+        for(EquipStat es : EquipStat.values()){
+            if(es.toString().equalsIgnoreCase(str)){
+                return es;
+            }
+        }
+        return null;
+    }
+
     public enum EnchantBuff {
 
         UPGRADE_TIER(0x1),

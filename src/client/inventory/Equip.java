@@ -36,7 +36,7 @@ public class Equip extends Item implements Serializable {
     private List<EquipStat> stats = new LinkedList<EquipStat>();
     private List<EquipSpecialStat> specialStats = new LinkedList<EquipSpecialStat>();
     private Map<EquipStat, Long> statsTest = new LinkedHashMap<>();
-    private Map<Byte, Map<EquipStat, Short>> lastAddedStatsPerStar = new HashMap<>();
+    private Map<Byte, Map<EquipStat, Short>> addedStatsPerStar = new HashMap<>();
 
     public Equip(int id, short position, byte flag) {
         super(id, position, (short) 1, flag);
@@ -1148,7 +1148,7 @@ public class Equip extends Item implements Serializable {
             setEquipStat(equipStat, (short) (getEquipStat(equipStat) + enhanceInfo.get(enhStat)));
             addedStats.put(equipStat, enhanceInfo.get(enhStat));
         }
-        getLastAddedStatsPerStar().put(getEnhance(), addedStats);
+        getAddedStatsPerStar().put(getEnhance(), addedStats);
         setEnhance((byte) (getEnhance() + 1));
     }
 
@@ -1157,7 +1157,7 @@ public class Equip extends Item implements Serializable {
         // also, this has to be stored in the DB.
         // Now if the equip class is gone (like after a restart) you won't get your stats removed.
         setEnhance((byte) (getEnhance() - 1));
-        Map<EquipStat, Short> lastAddedStats = getLastAddedStatsPerStar().get(getEnhance());
+        Map<EquipStat, Short> lastAddedStats = getAddedStatsPerStar().get(getEnhance());
         if(lastAddedStats != null) {
             for (EquipStat es : lastAddedStats.keySet()) {
                 setEquipStat(es, (short) (getEquipStat(es)-lastAddedStats.get(es)));
@@ -1260,8 +1260,8 @@ public class Equip extends Item implements Serializable {
         this.successiveEnhanceFails = successiveEnhanceFails;
     }
 
-    public Map<Byte, Map<EquipStat, Short>> getLastAddedStatsPerStar(){
-        return lastAddedStatsPerStar;
+    public Map<Byte, Map<EquipStat, Short>> getAddedStatsPerStar(){
+        return addedStatsPerStar;
     }
 
     public void setStarStats(String starStats){

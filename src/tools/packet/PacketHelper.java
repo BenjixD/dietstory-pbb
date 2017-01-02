@@ -1338,7 +1338,7 @@ public class PacketHelper {
          */
 
         // EquipExt
-        if((mask & 100000) != 0) {
+        if((mask & 0x100000) != 0) {
             pw.writeShort(0);
             /*
             for(short ^){
@@ -1351,7 +1351,7 @@ public class PacketHelper {
 //        pw.writeInt(0); // new 178 idb
 
         // new 178 idb
-        if((mask & 200000) != 0){
+        if((mask & 0x200000) != 0){
             pw.writeInt(0);
             /*
             for(int ^){

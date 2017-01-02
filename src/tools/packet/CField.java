@@ -3982,6 +3982,7 @@ return pw.getPacket();
 			pw.writeShort(SendPacketOpcode.INTRO_LOCK.getValue());
 			pw.write(enable ? 1 : 0);
 			pw.writeInt(0);
+			pw.write(new byte[30]); // TODO: Tim, properly fix this
 
 			return pw.getPacket();
 		}
