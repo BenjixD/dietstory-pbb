@@ -279,7 +279,6 @@ public class MobPacket {
 
 		addMonsterStatus(pw, life);
 		addMonsterInformation(pw, life, true, (byte) spawnType, link, false);
-		pw.write(new byte[300]); // TODO: pls no
 		/*pw.writePos(life.getTruePosition());
 		pw.write(0);// ...
 		pw.write(life.getStance());
@@ -382,7 +381,6 @@ public class MobPacket {
 
 	private static void addMonsterInformation(PacketWriter pw, MapleMonster life, boolean summon,
 			byte spawnType, int link, boolean newSpawn) {
-		
 		pw.writePos(life.getTruePosition());
 		// pw.write(0); // ...
 		pw.write(life.getStance());
@@ -410,11 +408,11 @@ public class MobPacket {
 		}
 		pw.write(life.getCarnivalTeam());
 		
-		int value = Integer.MAX_VALUE;
+		long value = Long.MAX_VALUE; // 179 hp is a long instead of int
 		if(life.getHp() > value) {
-			pw.writeInt(value);
+			pw.writeLong(value);
 		} else {
-			pw.writeInt((int) life.getHp());
+			pw.writeLong(life.getHp());
 		}
 		
 		pw.writeInt(0);

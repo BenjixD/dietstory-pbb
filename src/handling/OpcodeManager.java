@@ -151,11 +151,12 @@ public class OpcodeManager {
 			spamRecvHandlers.add(0x14D);
 			spamRecvHandlers.add(0x135);
 			spamRecvHandlers.add(RecvPacketOpcode.MOVE_PLAYER.getValue());
-			spamRecvHandlers.add(RecvPacketOpcode.MOVE_LIFE.getValue());
-			spamRecvHandlers.add(0x351); // MOB_MOVE
+			//			spamRecvHandlers.add(RecvPacketOpcode.MOVE_LIFE.getValue());
 			spamRecvHandlers.add(0x24B);
 			spamRecvHandlers.add(0x152);
 			spamRecvHandlers.add(RecvPacketOpcode.NPC_ACTION.getValue());
+			spamRecvHandlers.add(RecvPacketOpcode.HEAL_OVER_TIME.getValue());
+			spamRecvHandlers.add(RecvPacketOpcode.AUTO_AGGRO.getValue());
 		}
 		return spamRecvHandlers.contains(opcode);
 	}
