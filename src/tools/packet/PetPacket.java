@@ -64,8 +64,11 @@ public class PetPacket {
         pw.write(pet.getStance());
 //            pw.writeShort(1);//new 141
         pw.writeShort(pet.getFh());
-        pw.writeInt(-1);
-        pw.writeInt(100);//new 141
+        pw.writeInt(-1); // nPetHue
+//        pw.writeInt(100);//new 141
+        pw.writeShort(0); // nGiantRate
+        pw.write(0); // bTransform
+        pw.write(0); // bReinforced
         
         return pw.getPacket();
     }

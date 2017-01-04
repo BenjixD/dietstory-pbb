@@ -59,13 +59,13 @@ import tools.packet.twostate.TSIndex;
 public class CField {
 
 	private static int DEFAULT_BUFFMASK = 0;
-	
+
 	public static byte[] getPacketFromHexString(String hex) {
 		return HexTool.getByteArrayFromHexString(hex);
 	}
 
 	/**
-	 * 
+	 *
 	 * 68 - Suspicious Activity
 	 * 78 - That ID is already logged in.
 	 * @param c
@@ -77,43 +77,43 @@ public class CField {
 		PacketWriter pw = new PacketWriter();
 		pw.writeShort(SendPacketOpcode.SERVER_IP.getValue());
 		pw.write(0); // request
-		pw.write(0); 
-		
+		pw.write(0);
+
 		byte[] svr = new byte[] {8, 31, 99, ((byte) 141)};
 		byte[] chat = new byte[] {8, 31, 99, ((byte) 133)};
-		
+
 		// maple server ip
 		pw.write(svr);
 		pw.writeShort(port);
-		
-                pw.writeInt(0);
-                pw.writeShort(0);
-		// chat server ip 
-		
-                pw.write(new byte[4]);
+
+		pw.writeInt(0);
 		pw.writeShort(0);
-		
+		// chat server ip 
+
+		pw.write(new byte[4]);
+		pw.writeShort(0);
+
 		pw.writeInt(characterid);
-		
+
 		pw.write(0);
-		
+
 		// argument ?
 		pw.writeInt(0);
 		pw.write(0);
 		pw.write(HexTool.getByteArrayFromHexString("2C 74 00 61 00 63 00 6B 00"));
-		 // shutdown ? (timestamp)
+		// shutdown ? (timestamp)
 		//pw.writeLong(PacketHelper.getTime(System.currentTimeMillis()));
-		
+
 		// pw.write(HexTool.getByteArrayFromHexString("3F 01 00 00 00 C8 00 00"));
 		// pw.write(0);
-		
+
 		return pw.getPacket();
 	}
 
 	public static byte[] getChannelChange(MapleClient c, int port) {
 		PacketWriter pw = new PacketWriter();
 		byte[] svr = new byte[] {8, 31, 99, ((byte) 141)};
-		
+
 		pw.writeShort(SendPacketOpcode.CHANGE_CHANNEL.getValue());
 		pw.write(1);
 		pw.write(svr);
@@ -123,7 +123,7 @@ public class CField {
 	}
 
 	public static byte[] getPVPType(int type, List<Pair<Integer, String>> players1, int team, boolean enabled,
-			int lvl) {
+									int lvl) {
 		PacketWriter pw = new PacketWriter();
 
 		pw.writeShort(SendPacketOpcode.ENTER_PVP.getValue());
@@ -188,7 +188,7 @@ public class CField {
 	}
 
 	public static byte[] getPVPResult(List<Pair<Integer, MapleCharacter>> flags, int exp, int winningTeam,
-			int playerTeam) {
+									  int playerTeam) {
 		PacketWriter pw = new PacketWriter();
 
 		pw.writeShort(SendPacketOpcode.SHOW_MODE_RESULT.getValue());
@@ -411,142 +411,142 @@ return pw.getPacket();
 		//IDA function = setField
 		PacketWriter pw = new PacketWriter();
 		pw.writeShort(SendPacketOpcode.WARP_TO_MAP.getValue());
-		
+
 		// size (int + int)
 		pw.writeShort(0);
-		
+
 		pw.writeInt(mc.getClient().getChannel() - 1);
-		
+
 		// bDev
 		pw.write(0);
-		
+
 		// wOldDriverID
 		pw.writeInt(0);
-		
+
 		// Are you logging into the handling? (1), or changing the map? (2)
 		// bPopupDlg
 		pw.write(bCharacterData ? 1 : 2);
-		
+
 		// ?
 		pw.writeInt(0);
-		
+
 		// nFieldWidth
 		pw.writeInt(800);
-		
+
 		// nFieldHeight
 		pw.writeInt(600);
-		
+
 		// Are you logging into the handling? (1), or changing the map? (0)
 		pw.write(bCharacterData);
-		
+
 		// size (string (size->string))
 		pw.writeShort(0);
-		
+
 		if(bCharacterData) {
 			mc.CRand().connectData(pw);
-			
+
 			PacketHelper.addCharacterInfo(pw, mc);
 			pw.writeInt(0); // log out event
 			pw.writeInt(0); // 178 new
 		} else {
-			
+
 			// bUsingBuffProtector (this will call the revive function, upon death.)
 			pw.write(0);
-			
+
 			pw.writeInt(to.getId());
 			pw.write(spawnPoint);
 			pw.writeInt(mc.getStat().getHp());
-			
+
 			// (bool (int + int))
-			pw.write(0); 
+			pw.write(0);
 		}
-		
+
 		// set white fade in-and-out
 		pw.write(0);
-		
+
 		// set overlapping screen animation
 		pw.write(0);
-		
+
 		// some sort of korean event fame-up
 		pw.writeLong(PacketHelper.getTime(System.currentTimeMillis()));
-		
+
 		// ?
 		pw.writeInt(0x64);
-		
+
 		// party map experience.
 		// bool (int + string(bgm) + int(fieldid))
 		pw.write(0);
-		
+
 		// bool
 		pw.write(0);
-		
+
 		// ?
 		pw.write(1);
-		
+
 		// bool (int)
 		pw.write(0);
-		
+
 		// bool ((int + byte(size))->(int, int, int))->(long, int, int)
 		boolean starplanet = false;
 		pw.write(0);
 		if (starplanet) {
-			
+
 			// nRoundID
-			pw.writeInt(0); 
-			
+			pw.writeInt(0);
+
 			// the size, cannot exceed the count of 10
-			pw.write(0); 
-			
-				// anPoint
-				pw.writeInt(0);
-				
-				// anRanking
-				pw.writeInt(0);
-				
-				// atLastCheckRank (timeGetTime - 300000)
-				pw.writeInt(0);
-				
+			pw.write(0);
+
+			// anPoint
+			pw.writeInt(0);
+
+			// anRanking
+			pw.writeInt(0);
+
+			// atLastCheckRank (timeGetTime - 300000)
+			pw.writeInt(0);
+
 			// ftShiningStarExpiredTime
 			pw.writeLong(0);
-			
+
 			//nShiningStarPickedCount
 			pw.writeInt(0);
-			
+
 			//nRoundStarPoint
 			pw.writeInt(0);
-		}			
-		
+		}
+
 		// bool (int + byte + long)
 		boolean aStarPlanetRoundInfo = false;
 		pw.write(aStarPlanetRoundInfo);
 		if(aStarPlanetRoundInfo) {
-			
+
 			// nStarPlanetRoundID
 			pw.writeInt(0);
-			
+
 			// nStarPlanetRoundState
 			pw.write(0);
-			
+
 			// ftStarPlanetRoundEndDate
 			pw.writeLong(0);
 		}
-		
+
 		// int(size)->(int, string)
 		pw.writeInt(0);
-		
+
 		// FreezeHotEventInfo
-		
+
 		// nAccountType
 		pw.write(0);
-		
+
 		// dwAccountID
 		pw.writeInt(0);
-		
+
 		// EventBestFriendInfo
-		
+
 		// dwEventBestFriendAID
 		pw.writeInt(0);
-		
+
 		pw.writeInt(0);
 		return pw.getPacket();
 	}
@@ -655,31 +655,31 @@ return pw.getPacket();
 
 		return pw.getPacket();
 	}
-	
+
 	public static byte[] trembleEffect(int type, int delay) {
 		return environmentChange(null, 1, type, delay);
 	}
-	
+
 	public static byte[] environmentChange(String text, int mode) {
 		return environmentChange(text, mode, 0, 0);
 	}
-	
+
 	public static byte[] showMapEffect(String effect) {
 		return environmentChange(effect, 4, 0, 0);
 	}
-	
+
 	public static byte[] playSound(String sound) {
 		return environmentChange(sound, 5, 0, 0);
 	}
-	
+
 	public static byte[] musicChange(String song) {
 		return environmentChange(song, 7, 0, 0);
 	}
-	
+
 	public static byte[] showEnterEffect(String text) {
 		return environmentChange(text, 12, 0, 0);
 	}
-	
+
 	public static byte[] environmentChange(String text, int mode, int type, int delay) {
 		PacketWriter pw = new PacketWriter();
 		pw.writeShort(SendPacketOpcode.BOSS_ENV.getValue());
@@ -702,11 +702,11 @@ return pw.getPacket();
 				break;
 			case 12:
 				pw.writeMapleAsciiString(text);
-				pw.writeInt(0); 
+				pw.writeInt(0);
 				break;
 			default: throw new UnsupportedOperationException("That mode has not been implemented.");
 		}
-		
+
 		return pw.getPacket();
 	}
 
@@ -1007,24 +1007,24 @@ return pw.getPacket();
 	public static byte[] spawnPlayerMapobject(MapleCharacter chr) {
 		PacketWriter pw = new PacketWriter();
 
-                //02 00 00 00 01 04 00 4D 6F 6F 6E 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 C0 00 00 00 00 00 00 00 00 00 18 00 00 00 00 00 00 00 20 14 00 10 80 00 00 00 00 00 00 80 00 F0 0F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 DA F3 DA 75 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 00 00 00 02 05 5B 00 00 00 00 00 00 00 B3 8F 00 00 05 B0 06 10 00 37 20 E2 11 00 07 C2 5E 10 00 0B F0 DD 13 00 FF FF FF 00 00 00 00 F0 DD 13 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 E7 04 9F 01 00 23 00 00 00 00 01 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0B 00 43 72 65 61 74 69 6E 67 2E 2E 2E 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 FF FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-                
+		//02 00 00 00 01 04 00 4D 6F 6F 6E 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 C0 00 00 00 00 00 00 00 00 00 18 00 00 00 00 00 00 00 20 14 00 10 80 00 00 00 00 00 00 80 00 F0 0F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 DA F3 DA 75 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 00 00 00 02 05 5B 00 00 00 00 00 00 00 B3 8F 00 00 05 B0 06 10 00 37 20 E2 11 00 07 C2 5E 10 00 0B F0 DD 13 00 FF FF FF 00 00 00 00 F0 DD 13 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 E7 04 9F 01 00 23 00 00 00 00 01 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0B 00 43 72 65 61 74 69 6E 67 2E 2E 2E 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 FF FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 
-                //CF 36 0E 01 
-                //01
-                //08 00 61 73 64 30 
-                //00 00 
-                //00 00 00 00 00 00 00 00 
-                //01 
-                //00 00 00 00 
-                
+
+		//CF 36 0E 01
+		//01
+		//08 00 61 73 64 30
+		//00 00
+		//00 00 00 00 00 00 00 00
+		//01
+		//00 00 00 00
+
 		pw.writeShort(SendPacketOpcode.SPAWN_PLAYER.getValue());
 		pw.writeInt(chr.getId()); // dwCharacterID
-		
+
 		// CUserRemote::Init
 		pw.write(chr.getLevel());
 		pw.writeMapleAsciiString(chr.getName());
-                		MapleQuestStatus ultExplorer = chr.getQuestNoAdd(MapleQuest.getInstance(111111));
+		MapleQuestStatus ultExplorer = chr.getQuestNoAdd(MapleQuest.getInstance(111111));
 		if ((ultExplorer != null) && (ultExplorer.getCustomData() != null)) {
 			pw.writeMapleAsciiString(ultExplorer.getCustomData());
 		} else {
@@ -1049,9 +1049,10 @@ return pw.getPacket();
 		pw.writeInt(1); // farmLevel
 		pw.writeInt(0); // NameTagMark
 		//01 00 00 00
-                //00 00 00 00 
-                
-                pw.write(HexTool.getByteArrayFromHexString("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 60 00 00 00 00 00 00 00 00 00 06 00 00 00 00 00 00 00 08 05 00 04 20 00 00 00 00 00 00 20 F8 07 00 00 00 00 00 00 FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 8B C9 00 00 00 00 00 00 00 00 00 00 01 8B C9 00 00 00 00 00 00 00 00 00 00 00 00 01 8B C9 00 00 00 00 00 00 00 00 00 00 00 00 01 8B C9 00 00 00 00 00 00 00 00 00 00 01 8B C9 00 00 00 44 EA 7F CD 00 00 00 00 00 00 00 00 00 00 01 8B C9 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 8B C9 00 00 00 00 00 00 00 00 00 00 00 00 01 8B C9 00 00 00 00"));
+		//00 00 00 00
+
+//		pw.write(HexTool.getByteArrayFromHexString("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 60 00 00 00 00 00 00 00 00 00 06 00 00 00 00 00 00 00 08 05 00 04 20 00 00 00 00 00 00 20 F8 07 00 00 00 00 00 00 FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 8B C9 00 00 00 00 00 00 00 00 00 00 01 8B C9 00 00 00 00 00 00 00 00 00 00 00 00 01 8B C9 00 00 00 00 00 00 00 00 00 00 00 00 01 8B C9 00 00 00 00 00 00 00 00 00 00 01 8B C9 00 00 00 44 EA 7F CD 00 00 00 00 00 00 00 00 00 00 01 8B C9 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 8B C9 00 00 00 00 00 00 00 00 00 00 00 00 01 8B C9 00 00 00 00"));
+		pw.write(HexTool.getByteArrayFromHexString("00 00 00 00 00 00 00 00 00 00 08 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 30 00 00 00 00 00 00 00 00 60 00 00 00 00 00 00 00 08 05 00 20 20 00 00 00 20 00 00 20 00 00 00 00 00 80 7F 00 D8 FF CE F9 41 01 FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 CF 6D 0A 00 00 00 00 00 00 00 00 00 01 CF 6D 0A 00 00 00 00 00 00 00 00 00 00 00 01 CF 6D 0A 00 00 00 00 00 00 00 00 00 00 00 01 CF 6D 0A 00 00 00 00 00 00 00 00 00 01 CF 6D 0A 00 00 DF 87 4D A3 00 00 00 00 00 00 00 00 00 00 01 CF 6D 0A 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 CF 6D 0A 00 00 00 00 00 00 00 00 00 00 00 01 CF 6D 0A 00 00 00"));
 
 //		Map<MapleBuffStat, MapleBuffStatValueHolder> statups = chr.getBuffValues();
 //		List<MapleBuffStat> stats = Arrays.asList(
@@ -1065,13 +1066,13 @@ return pw.getPacket();
 //				MapleBuffStat.BattlePvP_LangE_Protection,
 //				MapleBuffStat.AdrenalinBoost,
 //				MapleBuffStat.RWBarrier);
-//		
+//
 //		for(MapleBuffStat stat : stats) {
 //			statups.putIfAbsent(stat, new MapleBuffStatValueHolder(null, 0, null, 0, 0, chr.getId()));
 //		}
-//		
+//
 //		int[] mask = new int[18];
-//		
+//
 //		List<MapleBuffStat> temporaryStat = Arrays.asList(
 //				MapleBuffStat.EnergyCharged,
 //				MapleBuffStat.Dash_Speed,
@@ -1081,26 +1082,27 @@ return pw.getPacket();
 //				MapleBuffStat.GuidedBullet,
 //				MapleBuffStat.Undead,
 //				MapleBuffStat.RideVehicleExpire);
-//		
+//
 //		// TwoStateTemporaryStat
 //		for(MapleBuffStat statup : temporaryStat) {
 //			mask[statup.getPosition()] |= statup.getValue();
 //		}
-//		
+//
 //		for(MapleBuffStat statup : statups.keySet()) {
 //			mask[statup.getPosition()] |= statup.getValue();
 //		}
-//		
+//
 //		for(int i = mask.length; i >= 2; i--) {
 //			pw.writeInt(mask[i - 1]);
 //		}
-//		
-//                
+//
+//
 //		PacketHelper.decodeForRemote(pw, chr, statups);
-//		
+//
 		pw.writeShort(chr.getJob());
 		pw.writeShort(chr.getSubcategory());
 		pw.writeInt(0); // nTotalCHUC (star force enchantment)
+		pw.writeInt(0); // new 179, maybe arcane force? (total guess)
 		//00 00 00 00 00 00 00 00 01 00 0B 52 00 00 00 00 00 00 00 8F 93 00 00 05 D9 0A 10 00 07 C1 5E 10 00 0B F0 DD 13 00 37 20 E2 11 00 FF FF FF 00 00 00 00 F0 DD 13 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 DB FE E6 00 00 00 00 00 00 00 01 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0B 00 57 65 65 65 65 65 65 6E 69 65 73 FE 33 00 00 01 00 00 00 5A 00 00 00 69 00 00 00 07 00 00 00 02 00 00 00 00 00 00 00 00 01 00 00 00 FF FF FF FF FF 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 		PacketHelper.addCharLook(pw, chr, true, false);
 		if (GameConstants.isZero(chr.getJob())) {
@@ -1109,64 +1111,70 @@ return pw.getPacket();
 
 		pw.writeInt(0); // dwDriverID
 		pw.writeInt(0); // dwPassengerID
+
+		// new sub 177
 		pw.writeInt(0);
 		pw.writeInt(0);
-		pw.writeInt(0);
-		
+		pw.writeInt(0); // for(int) { int int )
+
 		// nChocoCount
 		pw.writeInt(Math.min(250, chr.getInventory(MapleInventoryType.CASH).countById(5110000)));
-		
+
 		// chr.getItemEffect()
 		pw.writeInt(0); // nActiveEffectItemID
 		pw.writeInt(0); // nMonkeyEffectItemID
-		
+
 		// MapleQuestStatus status = chr.getQuestNoAdd(MapleQuest.getInstance(124000));
 		// status != null && status.getCustomData() != null ? Integer.parseInt(status.getCustomData()) : 
 		pw.writeInt(0); // Title
-		
+
 		pw.writeInt(0); // nDamageSkin
 		pw.writeInt(0); // ptPos
 		pw.writeInt(0); // nDemonWing
 		pw.writeInt(0); // nKaiserWingID
 		pw.writeInt(0); // nKaiserTailID
+//		pw.writeInt(0); // new 179? *&pvarg.vt = int, but couldn't find this while sniffing
 		pw.writeInt(0); // nCompletedSetItemID
 		pw.writeShort(-1); // nFieldSeatID
-		
+
 		// nPortableChairID
 
-		pw.writeInt(GameConstants.getInventoryType(chr.getChair()) == 
+		pw.writeInt(GameConstants.getInventoryType(chr.getChair()) ==
 				MapleInventoryType.SETUP ? chr.getChair() : 0);
-		
+
 		pw.writeInt(0);
 		pw.writeInt(0); // lTowerChairIDList
 		pw.writeInt(0); // head title? chr.getHeadTitle()
 		pw.writeInt(0);
-                
-                pw.write(0); // new v177
-                
+
+		pw.write(0); // new v177
+
 		pw.writeShort(chr.getTruePosition().x);
-                pw.writeShort(chr.getTruePosition().y);
+		pw.writeShort(chr.getTruePosition().y);
 		pw.write(chr.getStance());
 		pw.writeShort(chr.getFH());
 
-                pw.write(0);
-                for (int i = 0; i < chr.getPets().size(); i++) {
-                    pw.write(1);
-                    pw.writeInt(i);
-                    PetPacket.addPetData(chr, chr.getPet(i));
-                }
-                
-                pw.write(0);
-                pw.write(0);
-                pw.write(1);
-                pw.write(0);
-                
-		pw.writeInt(chr.getMount().getLevel()); 
+		pw.write(0);
+
+		pw.write(0); // new 179
+
+		for (int i = 0; i < chr.getPets().size(); i++) {
+			pw.write(1);
+			pw.writeInt(i);
+			PetPacket.addPetData(chr, chr.getPet(i));
+		}
+
+		pw.write(0);
+		pw.write(0);
+		pw.write(1);
+		pw.write(0);
+
+		pw.writeInt(chr.getMount().getLevel());
 		pw.writeInt(chr.getMount().getExp());
 		pw.writeInt(chr.getMount().getFatigue());
 
 		PacketHelper.addAnnounceBox(pw, chr);
-		
+
 		pw.write((chr.getChalkboard() != null) && (chr.getChalkboard().length() > 0) ? 1 : 0);
 		if ((chr.getChalkboard() != null) && (chr.getChalkboard().length() > 0)) {
 			pw.writeMapleAsciiString(chr.getChalkboard());
@@ -1188,47 +1196,46 @@ return pw.getPacket();
 			x = chr.getOneInfo(12860, "primium");
 			pw.write(x == null ? 0 : Integer.parseInt(x));
 		}
-		
+
 		pw.writeInt(0); // nSkillID (CUser::SetMakingMeisterSkillEff(..., nSkillID)
-		
+
 		PacketHelper.addFarmInfo(pw, chr.getClient(), (byte) 0);
 		for (int i = 0; i < 5; i++) {
-			pw.write(-1);
+			pw.write(-1); // aActiveEventNameTag
 		}
 
 		pw.writeInt(0); // nItemID
 		pw.write(0); // bSoulEffect
 		pw.write(0); // ?
-		
+
 		// StarPlanetRank::Decode
 		pw.write(0);
-		
+
 		// DecodeStarPlanetTrendShopLook
 		pw.writeInt(0);
-		
+
 		// DecodeTextEquipInfo
 		pw.writeInt(0);
-		
-		// DecodeFreezeHotEventInfo
-		 pw.write(0); // nAccountType
-		 pw.writeInt(0); // dwAccountID
-		 
-		 // DecodeEventBestFriendInfo
-		 pw.writeInt(0); // dwEventBestFriendAID
-		 
-		 pw.write(0); // bOnOff (OnKinesisPsychicEnergyShieldEffect)
-		 pw.write(1); // bBeastFormWingOnOff
-		 pw.writeInt(0); // nMeso
-		 
-		 pw.writeInt(1);
-		 pw.writeInt(0);
-		 pw.writeMapleAsciiString("");
-		 pw.writeInt(0);
-		 pw.write(0);
-		 pw.writeInt(0);
-		 pw.writeInt(0);
-		 pw.writeInt(0);
 
+		// DecodeFreezeHotEventInfo
+		pw.write(0); // nAccountType
+		pw.writeInt(0); // dwAccountID
+
+		// DecodeEventBestFriendInfo
+		pw.writeInt(0); // dwEventBestFriendAID
+
+		pw.write(0); // bOnOff (OnKinesisPsychicEnergyShieldEffect)
+		pw.write(1); // bBeastFormWingOnOff
+		pw.writeInt(0); // nMeso
+
+		pw.writeInt(1);
+		pw.writeInt(0);
+		pw.writeMapleAsciiString("");
+		pw.writeInt(0);
+		pw.write(0);
+		pw.writeInt(0);
+		pw.writeInt(0);
+		pw.writeInt(0);
 		return pw.getPacket();
 	}
 
@@ -1255,7 +1262,7 @@ return pw.getPacket();
 	}
 
 	public static byte[] getScrollEffect(int chr, Equip.ScrollResult scrollSuccess, boolean legendarySpirit, int item,
-			int scroll) {
+										 int scroll) {
 		PacketWriter pw = new PacketWriter();
 
 		pw.writeShort(SendPacketOpcode.SHOW_SCROLL_EFFECT.getValue());
@@ -1329,9 +1336,9 @@ return pw.getPacket();
 	}
 
 	public static byte[] pvpAttack(int cid, int playerLevel, int skill, int skillLevel, int speed, int mastery,
-			int projectile, int attackCount, int chargeTime, int stance, int direction, int range, int linkSkill,
-			int linkSkillLevel, boolean movementSkill, boolean pushTarget, boolean pullTarget,
-			List<AttackPair> attack) {
+								   int projectile, int attackCount, int chargeTime, int stance, int direction, int range, int linkSkill,
+								   int linkSkillLevel, boolean movementSkill, boolean pushTarget, boolean pullTarget,
+								   List<AttackPair> attack) {
 		PacketWriter pw = new PacketWriter();
 
 		pw.writeShort(SendPacketOpcode.PVP_ATTACK.getValue());
@@ -1812,29 +1819,29 @@ return pw.getPacket();
 	}
 
 	public static byte[] closeRangeAttack(int cid, int tbyte, int skill, int level, int display, byte speed,
-			List<AttackPair> damage, boolean energy, int lvl, byte mastery, byte unk, int charge) {
+										  List<AttackPair> damage, boolean energy, int lvl, byte mastery, byte unk, int charge) {
 		return addAttackInfo(energy ? 4 : 0, cid, tbyte, skill, level, display, speed, damage, lvl, mastery, unk, 0,
 				null, 0);
 	}
 
 	public static byte[] rangedAttack(int cid, int tbyte, int skill, int level, int display, byte speed, int itemid,
-			List<AttackPair> damage, Point pos, int lvl, byte mastery, byte unk) {
+									  List<AttackPair> damage, Point pos, int lvl, byte mastery, byte unk) {
 		return addAttackInfo(1, cid, tbyte, skill, level, display, speed, damage, lvl, mastery, unk, itemid, pos, 0);
 	}
 
 	public static byte[] strafeAttack(int cid, int tbyte, int skill, int level, int display, byte speed, int itemid,
-			List<AttackPair> damage, Point pos, int lvl, byte mastery, byte unk, int ultLevel) {
+									  List<AttackPair> damage, Point pos, int lvl, byte mastery, byte unk, int ultLevel) {
 		return addAttackInfo(2, cid, tbyte, skill, level, display, speed, damage, lvl, mastery, unk, itemid, pos,
 				ultLevel);
 	}
 
 	public static byte[] magicAttack(int cid, int tbyte, int skill, int level, int display, byte speed,
-			List<AttackPair> damage, int charge, int lvl, byte unk) {
+									 List<AttackPair> damage, int charge, int lvl, byte unk) {
 		return addAttackInfo(3, cid, tbyte, skill, level, display, speed, damage, lvl, (byte) 0, unk, charge, null, 0);
 	}
 
 	public static byte[] addAttackInfo(int type, int cid, int tbyte, int skill, int level, int display, byte speed,
-			List<AttackPair> damage, int lvl, byte mastery, byte unk, int charge, Point pos, int ultLevel) {
+									   List<AttackPair> damage, int lvl, byte mastery, byte unk, int charge, Point pos, int ultLevel) {
 		PacketWriter pw = new PacketWriter();
 
 		if (type == 0) {
@@ -1962,7 +1969,7 @@ return pw.getPacket();
 	}
 
 	public static byte[] damagePlayer(int cid, int type, int damage, int monsteridfrom, byte direction, int skillid,
-			int pDMG, boolean pPhysical, int pID, byte pType, Point pPos, byte offset, int offset_d, int fake) {
+									  int pDMG, boolean pPhysical, int pID, byte pType, Point pPos, byte offset, int offset_d, int fake) {
 		PacketWriter pw = new PacketWriter();
 
 		pw.writeShort(SendPacketOpcode.DAMAGE_PLAYER.getValue());
@@ -2061,9 +2068,9 @@ return pw.getPacket();
 		pw.writeInt(characterid);
 		pw.writeInt(itemid);
 		pw.writeInt(0);
-                pw.writeInt(0);
-                pw.write(HexTool.getByteArrayFromHexString("AC F4 3F 80 00 00 00 00 00 00 00 00 00"));
-                
+		pw.writeInt(0);
+		pw.write(HexTool.getByteArrayFromHexString("AC F4 3F 80 00 00 00 00 00 00 00 00 00"));
+
 		return pw.getPacket();
 	}
 
@@ -2078,8 +2085,9 @@ return pw.getPacket();
 		addRingInfo(pw, rings.getLeft());
 		addRingInfo(pw, rings.getMid());
 		addMRingInfo(pw, rings.getRight(), chr);
-		pw.writeInt(0); // -> charid to follow (4)
-		pw.writeInt(0);
+		pw.writeInt(0); // -> charid to follow (4) - IDA: nCompletedSetItemID
+		pw.writeInt(0); // nTotalCHUC (star force)
+		pw.writeInt(0); // new 179, maybe arcane force?
 		return pw.getPacket();
 	}
 
@@ -2175,7 +2183,7 @@ return pw.getPacket();
 		return pw.getPacket();
 	}
 
-	
+
 	public static byte[] cancelChair(int id, int characterId) {
 		PacketWriter pw = new PacketWriter();
 
@@ -2197,7 +2205,7 @@ return pw.getPacket();
 		pw.writeShort(SendPacketOpcode.CURRENT_MAP_WARP.getValue());
 		pw.write(0);
 		pw.write(portal); // nUserCallingType
-		
+
 		if (portal <= 0) {
 			pw.writeInt(0); // nIdx
 		} else {
@@ -2394,7 +2402,7 @@ return pw.getPacket();
 
 	public static byte[] skillCooldown(int sid, int time) {
 		PacketWriter pw = new PacketWriter();
-		
+
 		pw.writeShort(SendPacketOpcode.COOLDOWN.getValue());
 		pw.writeInt(1);
 		pw.writeInt(sid);
@@ -2424,11 +2432,11 @@ return pw.getPacket();
 			pw.writeInt(0); // tDelay
 		}
 		pw.write(0); // bExplosiveDrop
-		
+
 		if (drop.getMeso() == 0) {
 			PacketHelper.addExpirationTime(pw, drop.getItem().getExpiration());
 		}
-		
+
 		pw.write(drop.isPlayerDrop() ? 0 : 1); // bByPet
 		pw.write(0); // ?
 		pw.writeShort(0); // nFallingVY
@@ -2471,35 +2479,35 @@ return pw.getPacket();
 	}
 
 	public static byte[] spawnMist(MapleMist mist) {
-        PacketWriter pw = new PacketWriter();
-        
-        pw.writeShort(SendPacketOpcode.SPAWN_MIST.getValue());
-        pw.writeInt(mist.getObjectId());
+		PacketWriter pw = new PacketWriter();
 
-        //pw.write(mist.isMobMist() ? 0 : mist.isPoisonMist());
-        pw.write(0);
-        pw.writeInt(mist.getOwnerId());
-        if (mist.getMobSkill() == null) {
-            pw.writeInt(mist.getSourceSkill().getId());
-        } else {
-            pw.writeInt(mist.getMobSkill().getSkillId());
-        }
-        pw.write(mist.getSkillLevel());
-        pw.writeShort(mist.getSkillDelay());
-        pw.writeRect(mist.getBox());
-        pw.writeInt(0); 
-        pw.writeInt(mist.isShelter() ? 1 : 0);
-        pw.writePos(mist.getPosition());
-        pw.writeInt(0);
-        pw.writeInt(0);
-        pw.write(0);
-        pw.writeInt(0);
-        if (Skill.isFlipAffectedAreaSkill(mist.getSourceSkill().getId()))
-            pw.write(0);
-        pw.writeInt(0);
-        
-        return pw.getPacket();
-    }
+		pw.writeShort(SendPacketOpcode.SPAWN_MIST.getValue());
+		pw.writeInt(mist.getObjectId());
+
+		//pw.write(mist.isMobMist() ? 0 : mist.isPoisonMist());
+		pw.write(0);
+		pw.writeInt(mist.getOwnerId());
+		if (mist.getMobSkill() == null) {
+			pw.writeInt(mist.getSourceSkill().getId());
+		} else {
+			pw.writeInt(mist.getMobSkill().getSkillId());
+		}
+		pw.write(mist.getSkillLevel());
+		pw.writeShort(mist.getSkillDelay());
+		pw.writeRect(mist.getBox());
+		pw.writeInt(0);
+		pw.writeInt(mist.isShelter() ? 1 : 0);
+		pw.writePos(mist.getPosition());
+		pw.writeInt(0);
+		pw.writeInt(0);
+		pw.write(0);
+		pw.writeInt(0);
+		if (Skill.isFlipAffectedAreaSkill(mist.getSourceSkill().getId()))
+			pw.write(0);
+		pw.writeInt(0);
+
+		return pw.getPacket();
+	}
 
 	public static byte[] removeMist(int oid, boolean eruption) {
 		PacketWriter pw = new PacketWriter();
@@ -2588,14 +2596,14 @@ return pw.getPacket();
 		PacketWriter pw = new PacketWriter();
 
 		pw.writeShort(SendPacketOpcode.REACTOR_HIT.getValue());
-        pw.writeInt(reactor.getObjectId()); // m_mReactor
-        pw.write(reactor.getState()); // nState
-        pw.writePos(reactor.getTruePosition()); // ptPos.x, ptPos.y
-        pw.writeShort(stance); // Should be short, KMST IDA && 176.1 IDA
-        pw.write(0); // nProperEventIdx
-        pw.write(4); // tStateEnd (time + 100 * value)
-        pw.writeInt(dwOwnerID); // KMST && 176.1 IDA stated another Int here, dwOwnerID. 
-        
+		pw.writeInt(reactor.getObjectId()); // m_mReactor
+		pw.write(reactor.getState()); // nState
+		pw.writePos(reactor.getTruePosition()); // ptPos.x, ptPos.y
+		pw.writeShort(stance); // Should be short, KMST IDA && 176.1 IDA
+		pw.write(0); // nProperEventIdx
+		pw.write(4); // tStateEnd (time + 100 * value)
+		pw.writeInt(dwOwnerID); // KMST && 176.1 IDA stated another Int here, dwOwnerID.
+
 		return pw.getPacket();
 	}
 
@@ -2650,7 +2658,7 @@ return pw.getPacket();
 	}
 
 	public static byte[] rollSnowball(int type, MapleSnowball.MapleSnowballs ball1,
-			MapleSnowball.MapleSnowballs ball2) {
+									  MapleSnowball.MapleSnowballs ball2) {
 		PacketWriter pw = new PacketWriter();
 
 		pw.writeShort(SendPacketOpcode.ROLL_SNOWBALL.getValue());
@@ -2758,18 +2766,18 @@ return pw.getPacket();
 		pw.writeShort(SendPacketOpcode.RPS_GAME.getValue());
 		pw.write(mode);
 		switch (mode) {
-		case 6:
-			if (mesos == -1) {
+			case 6:
+				if (mesos == -1) {
+					break;
+				}
+				pw.writeInt(mesos);
 				break;
-			}
-			pw.writeInt(mesos);
-			break;
-		case 8:
-			pw.writeInt(9000019);
-			break;
-		case 11:
-			pw.write(selection);
-			pw.write(answer);
+			case 8:
+				pw.writeInt(9000019);
+				break;
+			case 11:
+				pw.write(selection);
+				pw.write(answer);
 		}
 
 		return pw.getPacket();
@@ -2916,28 +2924,28 @@ return pw.getPacket();
 		pw.write(operation);
 
 		switch (operation) {
-		case 9:
-			pw.write(1);
-			break;
-		case 10:
-			pw.write(0);
-			pw.write(packages.size());
+			case 9:
+				pw.write(1);
+				break;
+			case 10:
+				pw.write(0);
+				pw.write(packages.size());
 
-			for (MaplePackageActions dp : packages) {
-				pw.writeInt(dp.getPackageId());
-				pw.writeAsciiString(dp.getSender(), 13);
-				pw.writeInt(dp.getMesos());
-				pw.writeLong(PacketHelper.getTime(dp.getSentTime()));
-				pw.write(new byte[205]);
+				for (MaplePackageActions dp : packages) {
+					pw.writeInt(dp.getPackageId());
+					pw.writeAsciiString(dp.getSender(), 13);
+					pw.writeInt(dp.getMesos());
+					pw.writeLong(PacketHelper.getTime(dp.getSentTime()));
+					pw.write(new byte[205]);
 
-				if (dp.getItem() != null) {
-					pw.write(1);
-					PacketHelper.addItemInfo(pw, dp.getItem());
-				} else {
-					pw.write(0);
+					if (dp.getItem() != null) {
+						pw.write(1);
+						PacketHelper.addItemInfo(pw, dp.getItem());
+					} else {
+						pw.write(0);
+					}
 				}
-			}
-			pw.write(0);
+				pw.write(0);
 		}
 
 		return pw.getPacket();
@@ -3047,7 +3055,7 @@ return pw.getPacket();
 		for (Skill sk : chr.getSkills().keySet()) {
 			if ((sk.canBeLearnedBy(chr.getJob())) && (GameConstants.canSteal(sk))
 					&& (!skillz.contains(Integer.valueOf(sk.getId())))) {
-						 skillz.add(Integer.valueOf(sk.getId()));
+				skillz.add(Integer.valueOf(sk.getId()));
 			}
 		}
 		pw.write(1);
@@ -3182,10 +3190,10 @@ return pw.getPacket();
 			pw.writeInt(life.getObjectId());
 			pw.writeInt(life.getId());
 			getNpcInit(pw, life, show);
-			
+
 			return pw.getPacket();
 		}
-		
+
 		public static byte[] removeNPC(int objectid) {
 			PacketWriter pw = new PacketWriter();
 
@@ -3194,7 +3202,7 @@ return pw.getPacket();
 
 			return pw.getPacket();
 		}
-		
+
 		public static byte[] spawnNPCRequestController(MapleNPC life, boolean show) {
 			PacketWriter pw = new PacketWriter();
 
@@ -3206,7 +3214,7 @@ return pw.getPacket();
 
 			return pw.getPacket();
 		}
-		
+
 		public static byte[] removeNPCController(int objectid) {
 			PacketWriter pw = new PacketWriter();
 
@@ -3216,20 +3224,20 @@ return pw.getPacket();
 
 			return pw.getPacket();
 		}
-		
+
 		private static void getNpcInit(PacketWriter pw, MapleNPC life, boolean show) {
 			pw.writeShort(life.getPosition().x);
 			pw.writeShort(life.getCy());
-			
+
 			pw.write(0); // bMove
 			pw.write(life.getF() == 1 ? 0 : 1); // nMoveAction
 			pw.writeShort(life.getFh());
 			pw.writeShort(life.getRx0());
 			pw.writeShort(life.getRx1());
 			pw.write(show ? 1 : 0); // bEnabled
-			
+
 			pw.writeInt(0); // CNpc::SetPresentItem
-			
+
 			pw.write(0); // nPresentTimeState
 			pw.writeInt(-1); // tPresent
 			pw.writeInt(0); // nNoticeBoardType
@@ -3239,10 +3247,10 @@ return pw.getPacket();
 			 * 	pw.writeInt(0); // nNoticeBoardType
 			 *
 			 */
-			
+
 			pw.writeInt(0);
 			pw.writeInt(0);
-			
+
 			pw.writeMapleAsciiString("");
 			pw.write(0);
 		}
@@ -3307,28 +3315,28 @@ return pw.getPacket();
 			}
 			return pw.getPacket();
 		}
-		
+
 		/**
-		 * 
+		 *
 		 * @param talk
 		 * @return
 		 */
 		public static byte[] getNPCTalk(NPCTalk talk) {
 			PacketWriter pw = new PacketWriter();
-			
+
 			pw.writeShort(SendPacketOpcode.NPC_TALK.getValue());
 			pw.write(talk.getType());
 			pw.writeInt(talk.getNpcID());
 			pw.write(0); // bool?
 			//pw.write(new byte[6]);//zorgt ervoor dat geen error 38 werkt zolang er 2 bytes bijkomen
 			// pw.writeInt(0);
-			
+
 			if(talk.getMsg() == 2){
-				
+
 				pw.write(3);
-				} else {
+			} else {
 				pw.write(talk.getMsg());
-				}
+			}
 			pw.write(talk.getParam());
 			pw.write(talk.getColor()); // 0 = blue; 1 = brown
 			switch(talk.getMsg()) {
@@ -3350,7 +3358,7 @@ return pw.getPacket();
 				case 2: // OnAskYesNo
 					pw.write(0);
 					if((talk.getParam() & 4) != 0)
-					pw.writeInt(talk.getNpcIDD());
+						pw.writeInt(talk.getNpcIDD());
 					pw.writeMapleAsciiString(talk.getText());
 					break;
 				case 3: // OnAskText
@@ -3400,7 +3408,7 @@ return pw.getPacket();
 					pw.write(0);
 					if((talk.getParam() & 4) != 0)
 						pw.writeInt(talk.getNpcIDD());
-						pw.writeMapleAsciiString(talk.getText());
+					pw.writeMapleAsciiString(talk.getText());
 					break;
 				case 17: // OnAskBoxText
 				case 18: // OnAskSlideMenu
@@ -3453,7 +3461,7 @@ return pw.getPacket();
 					break;
 				default: throw new UnsupportedOperationException("This message id has not been implemented.");
 			}
-			
+
 			return pw.getPacket();
 		}
 
@@ -3486,7 +3494,7 @@ return pw.getPacket();
 			pw.write(18);
 			pw.write(0);
 			pw.write(0);
-			
+
 			pw.writeInt(type); // menu type
 			pw.writeInt(type == 0 ? lasticon : 0); // last icon on menu
 			pw.writeMapleAsciiString(sel);
@@ -3499,15 +3507,15 @@ return pw.getPacket();
 			pw.writeShort(SendPacketOpcode.NPC_TALK.getValue());
 			pw.write(3); // nSpeakerTypeID
 			pw.writeInt(0); //nSpeakerTemplateID
-			pw.write(1); 
-                        pw.writeInt(0);
+			pw.write(1);
+			pw.writeInt(0);
 			pw.write(0);//nMsgType
 			pw.write(0x11); //bParam (0x11 is NO_ESC [0x1] and SMP_NPC_REPLACED_BY_USER_LEFT [0x10])
 			pw.write(0); //eColor
 			pw.writeMapleAsciiString(text);
 			pw.write(0);//bPrev
 			pw.write(1); //bNext
-                        pw.writeInt(0); //tWait
+			pw.writeInt(0); //tWait
 			return pw.getPacket();
 		}
 
@@ -3531,7 +3539,7 @@ return pw.getPacket();
 			pw.writeInt(0);
 			pw.write(1);
 			pw.writeInt(0);
-			
+
 			pw.write(2);
 			pw.write(5);
 			pw.writeInt(9010000); // Maple administrator
@@ -3544,15 +3552,15 @@ return pw.getPacket();
 			pw.writeShort(SendPacketOpcode.NPC_TALK.getValue());
 			pw.write(3);
 			pw.writeInt(0);
-			
-			pw.write(1);			
+
+			pw.write(1);
 			pw.writeInt(2159311); // npc
-			
+
 			pw.write(0x17);
 			pw.write(1);
 			pw.write(1);
 			pw.write(0);
-			
+
 			pw.write(new byte[8]);
 			return pw.getPacket();
 		}
@@ -3576,7 +3584,7 @@ return pw.getPacket();
 			PacketWriter pw = new PacketWriter();
 
 			pw.writeShort(SendPacketOpcode.OPEN_NPC_SHOP.getValue());
-			
+
 			pw.write(0);
 			/*
 			 * if ( CInPacket::Decode1(iPacket) )
@@ -3717,13 +3725,13 @@ return pw.getPacket();
 			pw.write(summon.getSkillLevel()); // nSLV (skill level)
 			pw.writePos(summon.getPosition()); // nX, nY
 			pw.write((summon.getSkill() == 32111006) || (summon.getSkill() == 33101005) ? 5 : 4); // nMoveAction
-			
+
 			if ((summon.getSkill() == 35121003) && (summon.getOwner().getMap() != null)) { // Giant Robot SG-88
 				pw.writeShort(summon.getOwner().getMap().getFootholds().findBelow(summon.getPosition()).getId());
 			} else {
 				pw.writeShort(0); // nCurFoothold
 			}
-			
+
 			pw.write(summon.getMovementType().getValue()); // nMoveAbility
 			pw.write(summon.getSummonType()); // nAssistType
 			pw.write(animated ? 1 : 0); // nEnterType
@@ -3732,7 +3740,7 @@ return pw.getPacket();
 			pw.write(0); // bBeforeFirstAttack
 			pw.writeInt(0); // nLookID
 			pw.writeInt(0); // nBulletID
-			
+
 			boolean mirroredTarget = summon.getSkill() == 4341006 && summon.getOwner() != null;
 			pw.write(mirroredTarget);
 			if (mirroredTarget) {
@@ -3745,7 +3753,7 @@ return pw.getPacket();
 				pw.writeShort(0);
 				pw.writeShort(0);
 			}
-			
+
 			pw.write(0); // bJaguarActive
 			pw.writeInt(0); // tSummonTerm
 			pw.write(0); // bAttackActive
@@ -3758,7 +3766,7 @@ return pw.getPacket();
 
 			pw.writeShort(SendPacketOpcode.REMOVE_SUMMON.getValue());
 			pw.writeInt(ownerId);
-			
+
 			pw.writeInt(objId); // dwSummonedID
 			pw.write(10); // nLeaveType
 
@@ -3773,24 +3781,24 @@ return pw.getPacket();
 			pw.writeInt(summon.getObjectId());
 			if (animated) {
 				switch (summon.getSkill()) {
-				case 35121003:
-					pw.write(10);
-					break;
-				case 33101008:
-				case 35111001:
-				case 35111002:
-				case 35111005:
-				case 35111009:
-				case 35111010:
-				case 35111011:
-				case 35121009:
-				case 35121010:
-				case 35121011:
-					pw.write(5);
-					break;
-				default:
-					pw.write(4);
-					break;
+					case 35121003:
+						pw.write(10);
+						break;
+					case 33101008:
+					case 35111001:
+					case 35111002:
+					case 35111005:
+					case 35111009:
+					case 35111010:
+					case 35111011:
+					case 35121009:
+					case 35121010:
+					case 35121011:
+						pw.write(5);
+						break;
+					default:
+						pw.write(4);
+						break;
 				}
 			} else {
 				pw.write(1);
@@ -3798,7 +3806,7 @@ return pw.getPacket();
 
 			return pw.getPacket();
 		}
-		
+
 		public static byte[] moveSummon(int cid, int oid, Point startPos, List<LifeMovementFragment> moves) {
 			PacketWriter pw = new PacketWriter();
 
@@ -3814,12 +3822,12 @@ return pw.getPacket();
 		}
 
 		public static byte[] summonAttack(int cid, int summonSkillId, byte animation,
-				List<Pair<Integer, Integer>> allDamage, int level, boolean darkFlare) {
+										  List<Pair<Integer, Integer>> allDamage, int level, boolean darkFlare) {
 			PacketWriter pw = new PacketWriter();
 
 			pw.writeShort(SendPacketOpcode.SUMMON_ATTACK.getValue());
 			pw.writeInt(cid);
-			
+
 			pw.writeInt(summonSkillId); // pSummoned
 			pw.write(level - 1); // nCharLevel
 			pw.write(animation); // bLeft
@@ -3838,7 +3846,7 @@ return pw.getPacket();
 		}
 
 		public static byte[] pvpSummonAttack(int cid, int playerLevel, int oid, int animation, Point pos,
-				List<AttackPair> attack) {
+											 List<AttackPair> attack) {
 			PacketWriter pw = new PacketWriter();
 
 			pw.writeShort(SendPacketOpcode.PVP_SUMMON.getValue());
@@ -3878,7 +3886,7 @@ return pw.getPacket();
 
 			pw.writeShort(SendPacketOpcode.DAMAGE_SUMMON.getValue());
 			pw.writeInt(cid);
-			
+
 			pw.writeInt(summonSkillId);
 			pw.write(unkByte); // nAttackIdx
 			pw.writeInt(damage); // nDamage
@@ -4199,7 +4207,7 @@ return pw.getPacket();
 			pw.writeInt(0x73);
 			pw.writeInt(points);
 			pw.write(viewonly ? 1 : 0); // if view only, then complete button
-											// is disabled
+			// is disabled
 
 			return pw.getPacket();
 		}
@@ -4367,7 +4375,7 @@ return pw.getPacket();
 		}
 
 		public static byte[] showOwnBuffEffect(int skillid, int effectid, int playerLevel, int skillLevel,
-				byte direction) {
+											   byte direction) {
 			return showBuffeffect(-1, skillid, effectid, playerLevel, skillLevel, direction);
 		}
 
@@ -4376,7 +4384,7 @@ return pw.getPacket();
 		}
 
 		public static byte[] showBuffeffect(int cid, int skillid, int effectid, int playerLevel, int skillLevel,
-				byte direction) {
+											byte direction) {
 			PacketWriter pw = new PacketWriter();
 
 			if (cid == -1) {
@@ -4553,66 +4561,66 @@ return pw.getPacket();
 
 		return pw.getPacket();
 	}
-	
+
 	public static byte[] finalAttack(int skill, int finalattack, int wepType, int oid) {
-        PacketWriter pw = new PacketWriter();
-        
-        pw.writeShort(SendPacketOpcode.FINAL_ATTACK.getValue()); 
-        pw.writeInt(skill);
-        pw.writeInt(finalattack);
-        pw.writeInt(wepType); 
-        pw.writeInt(0); //delay
-        pw.writeInt(oid);
-        pw.writeInt(0); 
-        if (finalattack == 101000102) {
-            pw.write(0); //bLeft
-            pw.writeShort(0);
-            pw.writeShort(0);
-        }
-        return pw.getPacket();
-    }
-    
-    public static byte[] swordEnergy(short energy) {
-        
-        PacketWriter pw = new PacketWriter();
-        
-        pw.writeShort(SendPacketOpcode.SWORD_ENERGY.getValue());
-        pw.writeShort(energy);
-        
-        return pw.getPacket();
-    }
-    
-    public static byte[] ignition(int skillid, int mobid, Point pos) {
-        
-        PacketWriter pw = new PacketWriter();
-        
-        pw.writeShort(SendPacketOpcode.IGNITION.getValue());
-        pw.writeInt(skillid);
-        pw.writeInt(pos.x);
-        pw.writeInt(pos.y);
-        pw.writeInt(mobid);
-        pw.writeInt(5);// unk
-        
-        return pw.getPacket();
-    }
-    
-    public static byte[] openURL(String url) {
-        
-        PacketWriter pw = new PacketWriter();
-        
-        pw.writeShort(SendPacketOpcode.OPEN_URL.getValue());
-        pw.write(1); // if 0, open set nexon url
-        pw.writeMapleAsciiString(url);
-        
-        return pw.getPacket();
-    }
-    
-    public static byte[] elementFlame() {
-        
-        PacketWriter pw = new PacketWriter();
-        
-        pw.writeShort(SendPacketOpcode.ELEMENT_FLAME.getValue());
-        
-        return pw.getPacket();
-    }
+		PacketWriter pw = new PacketWriter();
+
+		pw.writeShort(SendPacketOpcode.FINAL_ATTACK.getValue());
+		pw.writeInt(skill);
+		pw.writeInt(finalattack);
+		pw.writeInt(wepType);
+		pw.writeInt(0); //delay
+		pw.writeInt(oid);
+		pw.writeInt(0);
+		if (finalattack == 101000102) {
+			pw.write(0); //bLeft
+			pw.writeShort(0);
+			pw.writeShort(0);
+		}
+		return pw.getPacket();
+	}
+
+	public static byte[] swordEnergy(short energy) {
+
+		PacketWriter pw = new PacketWriter();
+
+		pw.writeShort(SendPacketOpcode.SWORD_ENERGY.getValue());
+		pw.writeShort(energy);
+
+		return pw.getPacket();
+	}
+
+	public static byte[] ignition(int skillid, int mobid, Point pos) {
+
+		PacketWriter pw = new PacketWriter();
+
+		pw.writeShort(SendPacketOpcode.IGNITION.getValue());
+		pw.writeInt(skillid);
+		pw.writeInt(pos.x);
+		pw.writeInt(pos.y);
+		pw.writeInt(mobid);
+		pw.writeInt(5);// unk
+
+		return pw.getPacket();
+	}
+
+	public static byte[] openURL(String url) {
+
+		PacketWriter pw = new PacketWriter();
+
+		pw.writeShort(SendPacketOpcode.OPEN_URL.getValue());
+		pw.write(1); // if 0, open set nexon url
+		pw.writeMapleAsciiString(url);
+
+		return pw.getPacket();
+	}
+
+	public static byte[] elementFlame() {
+
+		PacketWriter pw = new PacketWriter();
+
+		pw.writeShort(SendPacketOpcode.ELEMENT_FLAME.getValue());
+
+		return pw.getPacket();
+	}
 }

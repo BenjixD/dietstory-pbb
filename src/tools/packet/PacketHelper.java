@@ -688,8 +688,8 @@ public class PacketHelper {
         pw.writeInt(Weapon != null ? Weapon.intValue() : 0);
         
         boolean zero = GameConstants.isZero(chr.getJob());
-        Integer Shield = equip.get(Byte.valueOf((byte) -10));
-        pw.writeInt(!zero && Shield != null ? Shield.intValue() : 0);
+        Integer subWeapon = equip.get(Byte.valueOf((byte) -10));
+        pw.writeInt(!zero && subWeapon != null ? subWeapon.intValue() : 0);
         
         pw.write(0); // mercedes ear
         
@@ -1748,8 +1748,7 @@ public class PacketHelper {
         pw.writeInt(0); // nFarmExp
         pw.writeInt(0); // nDecoPoint
         pw.writeInt(0); // nFarmCash
-//        pw.write(gender); // nFarmGender
-        pw.write(0); // nFarmGender
+        pw.write(gender); // nFarmGender
         pw.writeInt(0); // nFarmTheme
         pw.writeInt(0); // nSlotExtend
         pw.writeInt(1); // nLockerSlotCount
