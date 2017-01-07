@@ -549,6 +549,11 @@ public class Equip extends Item implements Serializable {
         return res;
     }
 
+    public byte getItemGrade(){
+        int pot = getPotentialByLine(0);
+        return (byte) (pot == -LEGENDARY ? 4 : pot == -UNIQUE ? 3 : pot == -EPIC ? 2 : pot == -RARE ? 1 : 0);
+    }
+
     public void resetPotential_Fuse(boolean half) { //maker skill - equip first receive
         //no legendary, 0.16% chance unique, 4% chance epic, else rare
         int potentialState = -RARE;
