@@ -107,12 +107,10 @@ import tools.Pair;
 import tools.Randomizer;
 import tools.Triple;
 import tools.data.LittleEndianAccessor;
-import tools.packet.CField;
+import tools.packet.*;
 import tools.packet.CField.EffectPacket;
 import tools.packet.CField.NPCPacket;
 import tools.packet.CField.SummonPacket;
-import tools.packet.CSPacket;
-import tools.packet.CWvsContext;
 import tools.packet.CWvsContext.BuddylistPacket;
 import tools.packet.CWvsContext.BuffPacket;
 import tools.packet.CWvsContext.InfoPacket;
@@ -122,10 +120,6 @@ import tools.packet.JobPacket.AvengerPacket;
 import tools.packet.JobPacket.LuminousPacket;
 import tools.packet.JobPacket.PhantomPacket;
 import tools.packet.JobPacket.XenonPacket;
-import tools.packet.MobPacket;
-import tools.packet.MonsterCarnivalPacket;
-import tools.packet.PetPacket;
-import tools.packet.PlayerShopPacket;
 
 public class MapleCharacter extends AnimatedMapleMapObject implements Serializable, MapleCharacterLook {
 
@@ -5513,7 +5507,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         }
         if (show && quantity != 0) {
             dropMessage(-1, "You have " + (quantity > 0 ? "gained " : "lost ") + quantity + (type == 1 ? " cash." : " maple points."));
-            client.getSession().write(EffectPacket.showForeignEffect(20));
+            client.getSession().write(EffectPacket.showForeignEffect(EffectType.ITEM_LEVEL_UP.getValue())); //
         }
     }
 
