@@ -175,7 +175,7 @@ public enum SendPacketOpcode implements IntValueHolder {
 	MULTICHAT,
 	WHISPER,
 	SPOUSE_CHAT,
-	BOSS_ENV,
+	FIELD_EFFECT,
 	MOVE_ENV,
 	UPDATE_ENV,
 	MAP_EFFECT,

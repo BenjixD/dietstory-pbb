@@ -189,7 +189,7 @@ public class MobPacket {
 	public static byte[] showBossHP(MapleMonster mob) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.BOSS_ENV.getValue());
+		pw.writeShort(SendPacketOpcode.FIELD_EFFECT.getValue());
 		pw.write(6);
 		pw.writeInt(mob.getId() == 9400589 ? 9300184 : mob.getId());
 		if (mob.getHp() > 2147483647L) {
@@ -211,7 +211,7 @@ public class MobPacket {
 	public static byte[] showBossHP(int monsterId, long currentHp, long maxHp) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.BOSS_ENV.getValue());
+		pw.writeShort(SendPacketOpcode.FIELD_EFFECT.getValue());
 		pw.write(6);
 		pw.writeInt(monsterId);
 		if (currentHp > 2147483647L) {

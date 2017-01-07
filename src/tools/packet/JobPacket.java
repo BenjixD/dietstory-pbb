@@ -329,14 +329,14 @@ public class JobPacket {
 		public static byte[] showRechargeEffect() {
 			PacketWriter pw = new PacketWriter();
 			pw.writeShort(SendPacketOpcode.SHOW_SPECIAL_EFFECT.getValue());
-			pw.write(0x31); // 0x2D
+			pw.write(EffectType.ANGELIC_RECHARGE.getValue());
 			return pw.getPacket();
 		}
 
 		public static byte[] RechargeEffect() {
 			PacketWriter pw = new PacketWriter();
 			pw.writeShort(SendPacketOpcode.SHOW_SPECIAL_EFFECT.getValue());
-			pw.write(0x31); // 0x2D
+			pw.write(EffectType.ANGELIC_RECHARGE.getValue());
 			return pw.getPacket();
 		}
 

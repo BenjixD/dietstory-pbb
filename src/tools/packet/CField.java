@@ -2,16 +2,13 @@ package tools.packet;
 
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import client.MapleBuffStat;
-import client.MapleBuffStatValueHolder;
 import client.MapleCharacter;
 import client.MapleClient;
 import client.MapleKeyLayout;
@@ -51,10 +48,8 @@ import server.shops.MapleShop;
 import tools.AttackPair;
 import tools.HexTool;
 import tools.Pair;
-import tools.Randomizer;
 import tools.Triple;
 import tools.data.PacketWriter;
-import tools.packet.twostate.TSIndex;
 
 public class CField {
 
@@ -682,7 +677,7 @@ return pw.getPacket();
 
 	public static byte[] environmentChange(String text, int mode, int type, int delay) {
 		PacketWriter pw = new PacketWriter();
-		pw.writeShort(SendPacketOpcode.BOSS_ENV.getValue());
+		pw.writeShort(SendPacketOpcode.FIELD_EFFECT.getValue());
 		pw.write(mode);
 		switch(mode) {
 			case 1: // tremble effect
@@ -693,14 +688,14 @@ return pw.getPacket();
 			case 2:
 				pw.writeMapleAsciiString(text);
 				break;
-			case 4:
+			case 4: // map effect
 				pw.writeMapleAsciiString(text);
 				break;
-			case 5:
+			case 5: // sound effect
 				pw.writeMapleAsciiString(text);
 				pw.writeInt(0);
 				break;
-			case 12:
+			case 12: // enter effect
 				pw.writeMapleAsciiString(text);
 				pw.writeInt(0);
 				break;
@@ -1840,8 +1835,8 @@ return pw.getPacket();
 		return addAttackInfo(3, cid, tbyte, skill, level, display, speed, damage, lvl, (byte) 0, unk, charge, null, 0);
 	}
 
-	public static byte[] addAttackInfo(int type, int cid, int tbyte, int skill, int level, int display, byte speed,
-									   List<AttackPair> damage, int lvl, byte mastery, byte unk, int charge, Point pos, int ultLevel) {
+	public static byte[] addAttackInfo(int type, int charid, int mobCount, int skillId, int skillLevel, int display, byte speed,
+									   List<AttackPair> damage, int charLvl, byte mastery, byte unk, int charge, Point pos, int ultLevel) {
 		PacketWriter pw = new PacketWriter();
 
 		if (type == 0) {
@@ -1854,20 +1849,20 @@ return pw.getPacket();
 			pw.writeShort(SendPacketOpcode.ENERGY_ATTACK.getValue());
 		}
 
-		pw.writeInt(cid);
-		pw.write(tbyte);
+		pw.writeInt(charid);
+		pw.write(mobCount);
 		// System.out.println(nMobCount + " - nMobCount");
-		pw.write(lvl);
-		if ((skill > 0) || (type == 3)) {
-			pw.write(level);
-			if (level > 0) {
-				pw.writeInt(skill);
+		pw.write(charLvl);
+		if ((skillId > 0) || (type == 3)) {
+			pw.write(skillLevel);
+			if (skillLevel > 0) {
+				pw.writeInt(skillId);
 			}
 		} else if (type != 2 && type != 3) {
 			pw.write(0);
 		}
 
-		if (GameConstants.isZero(skill / 10000) && skill != 100001283) {
+		if (GameConstants.isZero(skillId / 10000) && skillId != 100001283) {
 			short zero1 = 0;
 			short zero2 = 0;
 			pw.write(zero1 > 0 || zero2 > 0); // boolean
@@ -1884,7 +1879,7 @@ return pw.getPacket();
 				pw.writeInt(3220010);
 			}
 		}
-		if (skill == 40021185 || skill == 42001006) {
+		if (skillId == 40021185 || skillId == 42001006) {
 			pw.write(0); // boolean if true then int
 		}
 		if (type == 0 || type == 1) {
@@ -1905,7 +1900,7 @@ return pw.getPacket();
 				pw.write(7);
 				pw.write(0);
 				pw.write(0);
-				if (skill == 42111002) {
+				if (skillId == 42111002) {
 					pw.write(oned.attack.size());
 					for (Pair eachd : oned.attack) {
 						pw.writeInt(((Integer) eachd.left).intValue());
@@ -1918,13 +1913,13 @@ return pw.getPacket();
 				}
 			}
 		}
-		if (skill == 2321001 || skill == 2221052 || skill == 11121052) {
+		if (skillId == 2321001 || skillId == 2221052 || skillId == 11121052) {
 			pw.writeInt(0);
-		} else if (skill == 65121052 || skill == 101000202 || skill == 101000102) {
+		} else if (skillId == 65121052 || skillId == 101000202 || skillId == 101000102) {
 			pw.writeInt(0);
 			pw.writeInt(0);
 		}
-		if (skill == 42100007) {
+		if (skillId == 42100007) {
 			pw.writeShort(0);
 			pw.write(0);
 		}
@@ -1933,11 +1928,11 @@ return pw.getPacket();
 		} else if (type == 3 && charge > 0) {
 			pw.writeInt(charge);
 		}
-		if (skill == 5321000 || skill == 5311001 || skill == 5321001 || skill == 5011002 || skill == 5311002
-				|| skill == 5221013 || skill == 5221017 || skill == 3120019 || skill == 3121015 || skill == 4121017) {
+		if (skillId == 5321000 || skillId == 5311001 || skillId == 5321001 || skillId == 5011002 || skillId == 5311002
+				|| skillId == 5221013 || skillId == 5221017 || skillId == 3120019 || skillId == 3121015 || skillId == 4121017) {
 			pw.writePos(pos);
 		}
-		pw.write(new byte[30]);// test
+		pw.write(new byte[300]);// test
 
 		return pw.getPacket();
 	}
@@ -2422,11 +2417,14 @@ return pw.getPacket();
 		pw.writeInt(0); // nDropMotionType
 		pw.writeInt(0); // nDropSpeed
 		pw.writeInt(0); // bNoMove
+
 		pw.writeInt(drop.getItemId()); // fRand
 		pw.writeInt(drop.getOwner()); // nInfo
 		pw.write(drop.getDropType()); // dwOwnType
 		pw.writePos(dropto); //ptDrop x, y
 		pw.writeInt(0); // dwSourceID
+		pw.write(0); // new 179
+		pw.write(0); // new 179
 		if (mod != 2) {
 			pw.writePos(dropfrom);
 			pw.writeInt(0); // tDelay
@@ -2441,9 +2439,14 @@ return pw.getPacket();
 		pw.write(0); // ?
 		pw.writeShort(0); // nFallingVY
 		pw.write(0); // nFadeInEffect
-		pw.write(0); // nMakeType
+//		pw.write(0); // nMakeType -removed in v179
 		pw.writeInt(0); // bCollisionPickup
-		pw.write(0); // nItemGrade
+		byte itemGrade = 0;
+		if(drop.getItem() instanceof Equip){
+			Equip equip = (Equip) drop.getItem();
+			itemGrade = equip.getItemGrade();
+		}
+		pw.write(itemGrade); // nItemGrade
 		pw.write(0); // bPrepareCollisionPickUp
 		return pw.getPacket();
 	}
@@ -3979,7 +3982,7 @@ return pw.getPacket();
 		public static byte[] DublStart(boolean dark) {
 			PacketWriter pw = new PacketWriter();
 			pw.writeShort(SendPacketOpcode.SHOW_SPECIAL_EFFECT.getValue());
-			pw.write(0x28);
+			pw.write(EffectType.DARKNESS.getValue());
 			pw.write(dark ? 1 : 0);
 
 			return pw.getPacket();
@@ -4000,7 +4003,7 @@ return pw.getPacket();
 			pw.writeShort(SendPacketOpcode.INTRO_LOCK.getValue());
 			pw.write(enable ? 1 : 0);
 			pw.writeInt(0);
-			pw.write(new byte[30]); // TODO: Tim, properly fix this
+//			pw.write(new byte[30]); // TODO: Tim, properly fix this
 
 			return pw.getPacket();
 		}
@@ -4015,7 +4018,7 @@ return pw.getPacket();
 				pw.writeShort(0);
 			}
 			pw.write(0);
-			pw.write(new byte[30]); // TODO: Tim, properly fix this
+//			pw.write(new byte[30]); // TODO: Tim, properly fix this
 			return pw.getPacket();
 		}
 
@@ -4302,7 +4305,7 @@ return pw.getPacket();
 				pw.writeShort(SendPacketOpcode.SHOW_FOREIGN_EFFECT.getValue());
 				pw.writeInt(cid);
 			}
-			pw.write(30);
+			pw.write(EffectType.HP_RECOVERY_INT.getValue()); // was 30 (0x1E)
 			pw.writeInt(amount);
 
 			return pw.getPacket();
@@ -4321,7 +4324,7 @@ return pw.getPacket();
 				pw.writeShort(SendPacketOpcode.SHOW_FOREIGN_EFFECT.getValue());
 				pw.writeInt(from_playerid);
 			}
-			pw.write(17);
+			pw.write(EffectType.REWARD_ITEM.getValue());
 			pw.writeInt(itemId);
 			pw.write((effect != null) && (effect.length() > 0) ? 1 : 0);
 			if ((effect != null) && (effect.length() > 0)) {
@@ -4354,7 +4357,7 @@ return pw.getPacket();
 				pw.writeShort(SendPacketOpcode.SHOW_FOREIGN_EFFECT.getValue());
 				pw.writeInt(from_playerid);
 			}
-			pw.write(19);
+			pw.write(EffectType.MAKER_SUCCEED.getValue());
 			pw.writeInt(0);
 
 			return pw.getPacket();
@@ -4364,7 +4367,7 @@ return pw.getPacket();
 			PacketWriter pw = new PacketWriter();
 
 			pw.writeShort(SendPacketOpcode.SHOW_SPECIAL_EFFECT.getValue());
-			pw.write(24);
+			pw.write(EffectType.WHEEL_OF_DESTINY.getValue());
 			pw.write(charmsleft);
 
 			return pw.getPacket();

@@ -1,6 +1,5 @@
 package client.inventory;
 
-import sun.misc.VM;
 import tools.data.PacketWriter;
 
 /**
@@ -10,7 +9,7 @@ import tools.data.PacketWriter;
 public class VMatrixEntry {
 
     private boolean active;
-    private int iconID, skillID1, skillID2, skillID3, slv, masterLv, row, exp;
+    private int iconID, skillID1, skillID2, skillID3, skillLv, masterLv, row, exp;
     private long crc;
     // public FileTime ftExpirationDate = FileTime.GetPermanentTime();
 
@@ -21,19 +20,19 @@ public class VMatrixEntry {
      * @param skillid1 The first skillID of this entry.
      * @param skillid2 The second skillID of this entry.
      * @param skillid3 The third skillID of this entry.
-     * @param slv ?
+     * @param skillLv Current level of this entry.
      * @param masterlv Maximum level of this entry.
      * @param row ?
      * @param exp The current exp of this entry.
      * @param crc The crc of this entry?
      */
-    public VMatrixEntry(boolean active, int iconID, int skillid1, int skillid2, int skillid3, int slv, int masterlv, int row, int exp, long crc){
+    public VMatrixEntry(boolean active, int iconID, int skillid1, int skillid2, int skillid3, int skillLv, int masterlv, int row, int exp, long crc){
         this.active = active;
         this.iconID = iconID;
         skillID1 = skillid1;
         skillID2 = skillid2;
         skillID3 = skillid3;
-        this.slv = slv;
+        this.skillLv = skillLv;
         masterLv = masterlv;
         this.row = row;
         this.exp = exp;
@@ -41,7 +40,7 @@ public class VMatrixEntry {
     }
 
     /**
-     * Creates a new inactive VMatrixEntry with given values, and sets the slv, row, exp and crc to 0 and masterlv to 25.
+     * Creates a new inactive VMatrixEntry with given values, and sets the skillLv, row, exp and crc to 0 and masterlv to 25.
      * @param iconID
      * @param skillid1
      * @param skillid2
@@ -65,7 +64,7 @@ public class VMatrixEntry {
     public void encode(PacketWriter pw){
         pw.writeLong(crc);
         pw.writeInt(iconID);
-        pw.writeInt(slv);
+        pw.writeInt(skillLv);
         pw.writeInt(exp);
         pw.writeInt(active ? 2 : 1);
         pw.writeInt(skillID1);
@@ -127,8 +126,8 @@ public class VMatrixEntry {
         return row;
     }
 
-    public int getSlv() {
-        return slv;
+    public int getSkillLv() {
+        return skillLv;
     }
 
     public long getCrc() {
@@ -151,8 +150,8 @@ public class VMatrixEntry {
         this.row = row;
     }
 
-    public void setSlv(int slv) {
-        this.slv = slv;
+    public void setSkillLv(int skillLv) {
+        this.skillLv = skillLv;
     }
 
     /**

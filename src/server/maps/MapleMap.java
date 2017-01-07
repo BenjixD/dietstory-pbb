@@ -459,8 +459,8 @@ public final class MapleMap {
         final int cmServerrate = ChannelServer.getInstance(channel).getMesoRate(chr.getWorld());
         final int chServerrate = ChannelServer.getInstance(channel).getDropRate(chr.getWorld());
         final int caServerrate = ChannelServer.getInstance(channel).getCashRate();
-        final int cashz = (int) ((mob.getStats().isBoss() && mob.getStats().getHPDisplayType() == 0 ? 20 : 1) * caServerrate);
-        final int cashModifier = (int) ((mob.getStats().isBoss() ? (mob.getStats().isPartyBonus() ? (mob.getMobExp() / 1000) : 0) : (mob.getMobExp() / 1000 + mob.getMobMaxHp() / 20000))); //no rate
+        final int cashz = ((mob.getStats().isBoss() && mob.getStats().getHPDisplayType() == 0 ? 20 : 1) * caServerrate);
+        final int cashModifier = (mob.getStats().isBoss() ? (mob.getStats().isPartyBonus() ? (mob.getMobExp() / 1000) : 0) : (mob.getAwardedNX())); //NX
         Item idrop;
         byte d = 1;
         Point pos = new Point(0, mob.getTruePosition().y);

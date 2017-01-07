@@ -231,7 +231,7 @@ public class MapleLifeFactory {
             if (reviveInfo != null) {
                 List<Integer> revives = new LinkedList<>();
                 for (MapleData bdata : reviveInfo) {
-                    revives.add(MapleDataTool.getInt(bdata));
+                    revives.add(MapleDataTool.getIntConvert(bdata));
                 }
                 stats.setRevives(revives);
             }
@@ -272,6 +272,7 @@ public class MapleLifeFactory {
                 try {
                     monsterData = data2.getData(s);
                 } catch(RuntimeException e) {
+                    e.printStackTrace();
                     //System.out.printf("Monster Data not found 3: %d\r\n", mid);
                     return null;
                 }
