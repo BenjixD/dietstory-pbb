@@ -460,7 +460,7 @@ public final class MapleMap {
         final int chServerrate = ChannelServer.getInstance(channel).getDropRate(chr.getWorld());
         final int caServerrate = ChannelServer.getInstance(channel).getCashRate();
         final int cashz = ((mob.getStats().isBoss() && mob.getStats().getHPDisplayType() == 0 ? 20 : 1) * caServerrate);
-        final int cashModifier = (mob.getStats().isBoss() ? (mob.getStats().isPartyBonus() ? (mob.getMobExp() / 1000) : 0) : (mob.getAwardedNX())); //NX
+        final int cashModifier = (mob.getStats().isBoss() ? (mob.getStats().isPartyBonus() ? (mob.getMobExp() / 1000) : mob.getAwardedNX()) : (mob.getAwardedNX())); //NX
         Item idrop;
         byte d = 1;
         Point pos = new Point(0, mob.getTruePosition().y);
@@ -529,7 +529,7 @@ public final class MapleMap {
                     continue;
                 }
                 if (de.itemId == 0) {
-                    chr.modifyCSPoints(1, (int) ((Randomizer.nextInt(cashz) + cashz + cashModifier) * (chr.getStat().cashBuff / 100.0) * chr.getCashMod()), true);
+                    chr.modifyCSPoints(2, (int) ((Randomizer.nextInt(cashz) + cashz + cashModifier) * (chr.getStat().cashBuff / 100.0) * chr.getCashMod()), true);
                 } else if (!gDropsDisabled) {
                     if (droptype == 3) {
                         pos.x = (mobpos + (d % 2 == 0 ? (40 * (d + 1) / 2) : -(40 * (d / 2))));

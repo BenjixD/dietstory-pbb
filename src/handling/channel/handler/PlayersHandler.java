@@ -1474,7 +1474,7 @@ public class PlayersHandler {
         final boolean area = inArea(chr);
         boolean didAttack = false, killed = false;
         if (!area) {
-            List<Pair<Integer, Boolean>> attacks;
+            List<Pair<Long, Boolean>> attacks;
             for (MapleCharacter attacked : chr.getMap().getCharactersIntersect(box)) {
                 if (attacked.getId() != chr.getId() && attacked.isAlive() && !attacked.isHidden() && (type == 0 || attacked.getTeam() != chr.getTeam())) {
                     double rawDamage = maxdamage / Math.max(1, ((magic ? attacked.getStat().mdef : attacked.getStat().wdef) * Math.max(1.0, 100.0 - ignoreDEF) / 100.0) * (type == 3 ? 0.2 : 0.5));
@@ -1529,7 +1529,7 @@ public class PlayersHandler {
                             if (attacked.getBuffedValue(MapleBuffStat.Infinity) != null) {
                                 mploss = 0;
                             }
-                            attacks.add(new Pair<>((int) Math.floor(ourDamage), critical_));
+                            attacks.add(new Pair<>((long) Math.floor(ourDamage), critical_));
 
                             totalHPLoss += Math.floor(ourDamage);
                             totalMPLoss += mploss;

@@ -27,14 +27,14 @@ public class AttackPair {
 
     public int objectid;
     public Point point;
-    public List<Pair<Integer, Boolean>> attack;
+    public List<Pair<Long, Boolean>> attack;
 
-    public AttackPair(int objectid, List<Pair<Integer, Boolean>> attack) {
+    public AttackPair(int objectid, List<Pair<Long, Boolean>> attack) {
         this.objectid = objectid;
         this.attack = attack;
     }
 
-    public AttackPair(int objectid, Point point, List<Pair<Integer, Boolean>> attack) {
+    public AttackPair(int objectid, Point point, List<Pair<Long, Boolean>> attack) {
         this.objectid = objectid;
         this.point = point;
         this.attack = attack;

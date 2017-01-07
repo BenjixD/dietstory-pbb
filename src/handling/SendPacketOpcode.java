@@ -414,8 +414,8 @@ public enum SendPacketOpcode implements IntValueHolder {
 	UPDATE_HIRED_MERCHANT,
 
 	// CDropPool::OnPacket
-	DROP_ITEM_FROM_MAPOBJECT,
-	REMOVE_ITEM_FROM_MAP,
+	ON_DROP_ENTER_FIELD,
+	ON_DROP_LEAVE_FIELD,
 
 	// CMessageBoxPool::OnPacket
 	SPAWN_KITE_ERROR,

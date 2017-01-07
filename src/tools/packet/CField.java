@@ -1366,7 +1366,7 @@ return pw.getPacket();
 			pw.write(0);
 			pw.writeInt(0);
 			for (Pair atk : p.attack) {
-				pw.writeInt(((Integer) atk.left).intValue());
+				pw.writeLong(((Long) atk.left).longValue());
 				pw.writeInt(0);
 				pw.write(((Boolean) atk.right).booleanValue() ? 1 : 0);
 				pw.writeShort(0);
@@ -1903,12 +1903,12 @@ return pw.getPacket();
 				if (skillId == 42111002) {
 					pw.write(oned.attack.size());
 					for (Pair eachd : oned.attack) {
-						pw.writeInt(((Integer) eachd.left).intValue());
+						pw.writeLong(((Long) eachd.left).longValue());
 					}
 				} else {
 					for (Pair eachd : oned.attack) {
 						pw.write(((Boolean) eachd.right).booleanValue() ? 1 : 0);
-						pw.writeInt(((Integer) eachd.left).intValue());
+						pw.writeLong(((Long) eachd.left).longValue());
 					}
 				}
 			}
@@ -2409,7 +2409,7 @@ return pw.getPacket();
 	public static byte[] dropItemFromMapObject(MapleMapItem drop, Point dropfrom, Point dropto, byte mod) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.DROP_ITEM_FROM_MAPOBJECT.getValue());
+		pw.writeShort(SendPacketOpcode.ON_DROP_ENTER_FIELD.getValue());
 		pw.write(0); // eDropType
 		pw.write(mod); // nEnterType
 		pw.writeInt(drop.getObjectId()); // m_mDrop
@@ -2454,7 +2454,7 @@ return pw.getPacket();
 	public static byte[] explodeDrop(int oid) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.REMOVE_ITEM_FROM_MAP.getValue());
+		pw.writeShort(SendPacketOpcode.ON_DROP_LEAVE_FIELD.getValue());
 		pw.write(4);
 		pw.writeInt(oid);
 		pw.writeShort(655);
@@ -2469,7 +2469,7 @@ return pw.getPacket();
 	public static byte[] removeItemFromMap(int oid, int animation, int cid, int slot) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.REMOVE_ITEM_FROM_MAP.getValue());
+		pw.writeShort(SendPacketOpcode.ON_DROP_LEAVE_FIELD.getValue());
 		pw.write(animation);
 		pw.writeInt(oid);
 		if (animation >= 2) {
@@ -3866,7 +3866,7 @@ return pw.getPacket();
 				pw.write(p.attack.size());
 				pw.write(0);
 				for (Pair atk : p.attack) {
-					pw.writeInt(((Integer) atk.left).intValue());
+					pw.writeLong(((Long) atk.left).longValue());
 				}
 			}
 

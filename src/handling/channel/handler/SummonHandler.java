@@ -400,7 +400,7 @@ public static final void MoveDragon(final LittleEndianAccessor slea, final Maple
         }
         final Rectangle box = MapleStatEffect.calculateBoundingBox(chr.getTruePosition(), chr.isFacingLeft(), lt, rb, 0);
         List<AttackPair> ourAttacks = new ArrayList<>();
-        List<Pair<Integer, Boolean>> attacks;
+        List<Pair<Long, Boolean>> attacks;
         maxdamage *= chr.getStat().dam_r / 100.0;
         for (MapleMapObject mo : chr.getMap().getCharactersIntersect(box)) {
             final MapleCharacter attacked = (MapleCharacter) mo;
@@ -431,7 +431,7 @@ public static final void MoveDragon(final LittleEndianAccessor slea, final Maple
                     if (attacked.getBuffedValue(MapleBuffStat.Infinity) != null) {
                         mploss = 0;
                     }
-                    attacks.add(new Pair<>((int) Math.floor(ourDamage), false));
+                    attacks.add(new Pair<>((long) Math.floor(ourDamage), false));
 
                     totalHPLoss += Math.floor(ourDamage);
                     totalMPLoss += mploss;

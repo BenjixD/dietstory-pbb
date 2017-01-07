@@ -883,13 +883,13 @@ public class PlayerHandler {
 		MapleStatEffect effect = null;
 		Skill skill = null;
 
-		String dmg = "";
-		for (AttackPair ae : attack.allDamage) {
-			for (Pair att : ae.attack) {
-				dmg += att.getLeft();
-				dmg += ",";
-			}
-		}
+//		String dmg = "";
+//		for (AttackPair ae : attack.allDamage) {
+//			for (Pair att : ae.attack) {
+//				dmg += att.getLeft();
+//				dmg += ",";
+//			}
+//		}
 
 		if (attack.skillid != 0) {
 			
