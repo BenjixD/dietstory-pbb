@@ -17,7 +17,7 @@ function action(mode, type, selection) {
     } 
     if (status == 0) { 
         if (cm.getPlayer().getLevel() >= 180) {
-            cm.sendYesNo("Oh hello there! Have you heard about Hyper skills?\r\n\r\nThey are really usefull and I could max them out for you if you want."); 
+            cm.sendNext("Oh hello there! Have you heard about Hyper skills?\r\n\r\nThey are really usefull and I could max them out for you if you want."); 
         } else { 
             cm.sendOk("Oh Hi. Looks like you aren't level 180 yet. I'm doing research in Hyper Skills. Come back to me if you reach such a highe level as 180 and we could talk."); 
             cm.dispose(); 
