@@ -306,11 +306,13 @@ public class PlayerStats implements Serializable {
                 final int[] potentials = ArrayUtil.concat(equip.getPotential(), equip.getBonusPotential());
                 for (final int i : potentials) {
                     if (i > 0) {
-                        soc = ii.getPotentialInfo(i).get(ii.getReqLevel(equip.getItemId()) / 10);
-                        if (soc != null) {
-                            localmaxhp_ += soc.get("incMHP");
-                            localmaxmp_ += soc.get("incMMP");
-                            handleItemOption(soc, chra, first_login, sData);
+                        if(ii.getPotentialInfo(i) != null){
+                            soc = ii.getPotentialInfo(i).get(ii.getReqLevel(equip.getItemId()) / 10);
+                            if (soc != null) {
+                                localmaxhp_ += soc.get("incMHP");
+                                localmaxmp_ += soc.get("incMMP");
+                                handleItemOption(soc, chra, first_login, sData);
+                            }
                         }
                     }
                 }
@@ -2929,7 +2931,8 @@ public class PlayerStats implements Serializable {
             case 2215:
             case 2216:
             case 2217:
-            case 2218: { //Evan
+            case 2218: 
+            { //Evan
                 critSkill = SkillFactory.getSkill(22140000);
                 critlevel = player.getTotalSkillLevel(critSkill);
                 if (critlevel > 0) {

@@ -481,7 +481,7 @@ public class NPCHandler {
                 c.removeClickedNPC();
                 NPCScriptManager.getInstance().dispose(c);
                 c.getSession().write(CWvsContext.enableActions());
-                //c.getPlayer().dropMessage(-1, "You already are talking to this NPC. Use @ea if this is not intended.");
+                c.getPlayer().dropMessage(-1, "You already are talking to this NPC. Use @ea if this is not intended.");
             }
             return (Invocable) engine;
         } catch (FileNotFoundException | ScriptException e) {

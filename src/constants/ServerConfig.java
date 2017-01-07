@@ -9,13 +9,13 @@ public class ServerConfig {
 	public static String SQL_PASS = "";
 
 	// Server Configuration	
-	public static String SERVER_NAME;
-	public static String EVENT_MSG;
-	public static String SCROLL_MESSAGE;
-	public static String IP_ADDRESS;
-	public static byte MAX_CHARACTERS;
-	public static byte CHANNEL_COUNT;
-	public static short USER_LIMIT;
+	public static String SERVER_NAME = "LucidMaple";
+	public static String EVENT_MSG =  "Welcome to LucidMs, the rates are (9x 5x 3x)";
+	public static String SCROLL_MESSAGE = "Welcome to LucidMs";
+	public static String IP_ADDRESS = "5.198.133.21";
+	public static byte MAX_CHARACTERS = 20;
+	public static byte CHANNEL_COUNT = 4;
+	public static short USER_LIMIT = 1500;
 
 	/* Rates */
 	public static final int EXP_RATE = 9;

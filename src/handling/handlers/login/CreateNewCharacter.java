@@ -29,7 +29,7 @@ public class CreateNewCharacter {
 		String name;
 		byte gender, skin;
 		short subcategory;
-		int face, hair, hairColor = -1, hat = -1, top, bottom = -1, shoes, weapon, cape = -1, faceMark = -1, shield = -1;
+		int face, hair, hairColor = -1, hat = -1, top, bottom = -1, shoes = -1, weapon = -1, cape = -1, faceMark = -1, shield = -1;
 		
 		name = lea.readMapleAsciiString();
 
@@ -92,10 +92,14 @@ public class CreateNewCharacter {
 		if (job.cape) {
 			cape = lea.readInt();
 		}
-
+                if (job.shoes && job != JobType.KINESIS) {
 		shoes = lea.readInt();
+                }
+                
+                if (job.weapon && job != JobType.KINESIS) {
 		weapon = lea.readInt();
-
+                }
+                
 		if (lea.available() >= 4) {
 			shield = lea.readInt();
 		}
@@ -161,7 +165,7 @@ public class CreateNewCharacter {
 		 * -6 Bottom | -7 Shoes | -9 Cape | -10 Shield | -11 Weapon
 		 * 
 		 */
-		int[][] equips = new int[][] { { hat, -1 }, { top, -5 }, { bottom, -6 }, { cape, -9 }, { shoes, -7 }, { weapon, -11 }, { shield, -10 } };
+		int[][] equips = new int[][] { { hat, -1 }, { top, -5 }, { bottom, -6 }, { cape, -9 },  { shoes, -7 }, { weapon, -11 },  { shield, -10 } };
 		for (int[] i : equips) {
 			if (i[0] > 0) {
 				item = ii.getEquipById(i[0]);
@@ -178,7 +182,7 @@ public class CreateNewCharacter {
 		 * 
 		 */
 		
-		/*int[][] skills = new int[][] { { 80001152 }, // Resistance
+		int[][] skills = new int[][] { { 80001152 }, // Resistance
 				{ 80001152, 1281 }, // Explorer
 				{ 10001244, 10000252, 80001152 }, // Cygnus
 				{ 20000194 }, // Aran
@@ -199,7 +203,7 @@ public class CreateNewCharacter {
 				{ 228, 80001151 }, // Jett
 				{}, // Hayato
 				{ 40020000, 40020001, 40020002, 40021023, 40020109 }// Kanna
-		};
+		}; /*
 
 		if (skills[job.type].length > 0) {
 			final Map<Skill, SkillEntry> ss = new HashMap<>();

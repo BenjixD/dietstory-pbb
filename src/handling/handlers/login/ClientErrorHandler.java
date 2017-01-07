@@ -37,7 +37,7 @@ public class ClientErrorHandler {
         
         String opcode = SendPacketOpcode.getNameByValue(code);
         
-        System.out.printf("[Error %s] (%s) Data: %s%n", errortype, opcode, lea);
+        System.err.printf("[Error %s] (%s) Data: %s%n", errortype, opcode, lea);
 	}
 
 }

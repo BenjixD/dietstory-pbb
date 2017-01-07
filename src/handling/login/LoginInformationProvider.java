@@ -36,26 +36,30 @@ public class LoginInformationProvider {
 
     public enum JobType {
 
-        UltimateAdventurer(-1, 0, 450004600, true, true, false, false, true, false),
-        Resistance(0, 3000, 450004600, true, false, false, false, false, false), // works
-        Adventurer(1, 0, 450004600, false, true, false, false, false, false), // works
-        Cygnus(2, 1000, 450004600, false, true, false, false, false, true), // works
-        Aran(3, 2000, 450004600, true, true, false, false, true, false), // cant create char
-        Evan(4, 2001, 450004600, true, true, false, false, true, false),//cant create char
-        Mercedes(5, 2002, 450004600, false, false, false, false, false, false),//works
-        Demon(6, 3001, 450004600, false, false, true, false, false, false),//works
-        Phantom(7, 2003, 450004600, false, true, false, false, false, true),//doesnt warptomap
-        DualBlade(8, 0, 450004600, false, true, false, false, false, false),//works
-        Mihile(9, 5000, 450004600, true, true, false, false, true, false),//works
-        Luminous(10, 2004, 450004600, false, true, false, false, false, true),//doesnt warptomap
-        Kaiser(11, 6000, 450004600, false, true, false, false, false, false),//doesnt warptomap
-        AngelicBuster(12, 6001, 450004600, false, true, false, false, false, false),//doesnt warptomap
-        Cannoneer(13, 0, 450004600, true, true, false, false, true, false),//doesn't warp to the right map
-        Xenon(14, 3002, 450004600, true, true, true, false, false, false),//doesnt warptomap
-        Zero(15, 10112, 450004600, false, true, false, false, false, true),//doesnt warptomap en na char selecteren verwijdert ie zero
-        Jett(16, 0, 450004600, false, false, false, false, false, true),//cant create char (can on acernis 146, gotta compare em)
-        Hayato(18, 4001, 450004600, true, true, false, true, false, false),//half stater map TODO real tutorial
-        Kanna(19, 4002, 450004600, true, true, false, true, false, false);//works
+        UltimateAdventurer(-1, 0, 450004600, true, true, false, false, true, false, true, true),
+        Resistance(0, 3000, 100000003, true, false, false, false, false, false, true, true), // works
+        Adventurer(1, 0, 100000003, false, true, false, false, false, false, true, true), // works
+        Cygnus(2, 1000, 450004600, false, true, false, false, false, true, true, true), // works
+        Aran(3, 2000, 450004600, true, true, false, false, true, false, true, true), // cant create char
+        Evan(4, 0, 450004600, true, true, false, false, true, false, true, false),//works
+        Mercedes(5, 2002, 450004600, false, false, false, false, false, false, true, true),//works
+        Demon(6, 3001, 450004600, false, false, true, false, false, false, true, true),//works
+        Phantom(7, 2003, 450004600, false, true, false, false, false, true, true, true),//works
+        DualBlade(8, 0, 450004600, false, true, false, false, false, false, true, true),//works
+        Mihile(9, 5000, 450004600, true, true, false, false, true, false, true, true),//works
+        Luminous(10, 2004, 450004600, false, true, false, false, false, true, true, true),//works
+        Kaiser(11, 6000, 450004600, false, true, false, false, false, false, true, true),//works
+        AngelicBuster(12, 6001, 450004600, false, true, false, false, false, false, true, true),//works
+        Cannoneer(13, 0, 450004600, true, true, false, false, true, false, true, true),//doesn't warp to the right map warps to 3000000
+        Xenon(14, 3002, 450004600, true, true, true, false, false, false, true, true),//works
+        Zero(15, 10112, 450004600, false, true, false, false, false, true, true, true),//works
+        Shade(16, 2500, 450004600, false, true, false, false, false, true, true, true),//needs testing
+        Jett(17, 508, 450004600, false, false, false, false, false, true, true, true),//works
+        Hayato(18, 4001, 450004600, true, true, false, true, false, false, true, true),//works
+        Kanna(19, 4002, 450004600, true, true, false, true, false, false, true, true),//works
+        BEAST_TAMER(20, 11212, 450004600, true, true, false, true, false, false, true, true), //needs testing
+        KINESIS(22, 14000, 450004600, true, true, false, true, false, false, true, false); //works
+        
     	//name(job selection, jobid, startermap, ?,?,?,?,?,?);
     	//todo add chase/bt(works on acernis146) and shade and kinesis
     	
@@ -82,9 +86,9 @@ public class LoginInformationProvider {
 //        Hayato(17, 4001, 450004600, true, true, false, true, false, false),//half stater map TODO real tutorial
 //        Kanna(18, 4002, 450004600, true, true, false, true, false, false);
         public int type, id, map;
-        public boolean hairColor, skinColor, faceMark, hat, bottom, cape;
+        public boolean hairColor, skinColor, faceMark, hat, bottom, cape, shoes, weapon;
 
-        private JobType(int type, int id, int map, boolean hairColor, boolean skinColor, boolean faceMark, boolean hat, boolean bottom, boolean cape) {
+        private JobType(int type, int id, int map, boolean hairColor, boolean skinColor, boolean faceMark, boolean hat, boolean bottom, boolean cape, boolean shoes, boolean weapon) {
             this.type = type;
             this.id = id;
             this.map = map;
@@ -94,6 +98,8 @@ public class LoginInformationProvider {
             this.hat = hat;
             this.bottom = bottom;
             this.cape = cape;
+            this.shoes = shoes;
+            this.weapon = weapon;
         }
 
         public static JobType getByType(int g) {
