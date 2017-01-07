@@ -1345,8 +1345,9 @@ public class DamageParse {
 		
 		int skillid = ai.getSkillId();
 		
-		if (Skill.isKeyDownSkill(skillid))
+		if (Skill.isKeyDownSkill(skillid)) {
 			ai.charge = lea.readInt();
+		}
 		
 		lea.skip(1);
 		lea.skip(1);
@@ -1354,8 +1355,9 @@ public class DamageParse {
 		lea.skip(4);
 		lea.skip(1);
 		
-		if (Skill.isEvanForceSkill(skillid))
+		if (Skill.isEvanForceSkill(skillid)) {
 			lea.skip(1); // bEvanForceAction
+		}
 		
 		ai.speed = lea.readByte();
 		ai.lastAttackTickCount = lea.readInt();
@@ -1363,7 +1365,9 @@ public class DamageParse {
 		lea.skip(4); // final attack
 		// lea.skip(2); // slot
 		// lea.skip(2); // csstar
-		
+
+		lea.skip(7); // ???
+
 		ai.allDamage = new ArrayList<>();
 		
 		for(int mob = 0 ; mob < ai.getTargets(); mob++) {
