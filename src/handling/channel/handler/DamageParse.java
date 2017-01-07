@@ -1490,13 +1490,9 @@ public class DamageParse {
 		lea.skip(1);
 		lea.skip(1); // bFieldKey
 		ai.nMobCount = (int) lea.readByte();
-		System.out.println("nMobCount = " + ai.nMobCount);
 		ai.skillid = lea.readInt();
-		System.out.println("skillid = " + ai.skillid);
 		byte skillLevel = lea.readByte();
-		System.out.println("skillLevel = " + skillLevel);
 		byte bAddAttackProc = lea.readByte();
-		System.out.println("bAddAttackProc = " + bAddAttackProc);
 
 		lea.skip(4); // crc
 
@@ -1504,17 +1500,16 @@ public class DamageParse {
 
 		if (Skill.isKeyDownSkill(skillid)) {
 			ai.charge = lea.readInt();
-			System.out.println("ai.charge = " + ai.charge);
 		}
 
 		if (GameConstants.isZero(c.getPlayer().getJob())){
 			lea.readByte();
-			System.out.println("zero readbyte");
 		}
 		// is_userclone_summoned_able_skill
 		// nBySummonedID = lea.readInt();
 		
 		lea.skip(1);
+		ai.slot = ((byte) lea.readShort());
 		lea.skip(1);
 		
 		lea.skip(4);
@@ -1527,7 +1522,6 @@ public class DamageParse {
 		}
 		
 		ai.display = lea.readShort();
-		System.out.println("ai.display = " + ai.display);
 		lea.skip(4);
 		lea.skip(1);
 		
@@ -1538,18 +1532,11 @@ public class DamageParse {
         }
 		
 		ai.speed = lea.readByte();
-		System.out.println("ai.speed = " + ai.speed);
 		ai.lastAttackTickCount = lea.readInt();
-		System.out.println("ai.lastAttackTickCount = " + ai.lastAttackTickCount);
 		lea.skip(4);
 		int finalAttack = lea.readInt();
-		System.out.println("finalAttack = " + finalAttack);
-		ai.slot = ((byte) lea.readShort());
-		System.out.println("ai.slot = " + ai.slot);
 		ai.csstar = ((byte) lea.readShort());
-		System.out.println("ai.csstar = " + ai.csstar);
 		ai.AOE = lea.readByte(); // nShootRange
-		System.out.println("ai.AOE = " + ai.AOE);
 
 		// !is_shoot_skill_not_consuming_bullet
 		// lea.skip(4);
@@ -1559,12 +1546,20 @@ public class DamageParse {
 		lea.skip(2);
 		lea.skip(2);
 
+		lea.skip(5); // ???
+
+		if(skillid == 13111020){
+			lea.skip(4);
+		}
+		if(skillid == 13121001){
+			lea.skip(4);
+		}
+
+
 		ai.allDamage = new ArrayList<>();
 		
 		for(int mob = 0 ; mob < ai.getTargets(); mob++) {
-			System.out.println("mob #" + mob + " /" + ai.getTargets());
 			int oid = lea.readInt();
-			System.out.println("oid = " + oid);
 			lea.skip(1);
 			lea.skip(1);
 			lea.skip(1);
@@ -1603,9 +1598,7 @@ public class DamageParse {
 			
 			List<Pair<Long, Boolean>> damageNumbers = new ArrayList<>();
 			for(int hit = 0; hit < ai.getHits(); hit++) {
-				System.out.println("hit #" + hit + " /" + ai.getHits());
 				long damage = lea.readLong();
-				System.out.println("damage = " + damage);
 				damageNumbers.add(new Pair<>(damage, false));
 			}
 			lea.skip(4); // GetMobUpDownYRange
@@ -1613,7 +1606,6 @@ public class DamageParse {
 			
 			// PACKETMAKER::MakeAttackInfoPacket
 			byte bSkeleton = lea.readByte();
-			System.out.println("bSkeleton = " + bSkeleton);
 			if (bSkeleton == 1) {
 				lea.readMapleAsciiString();
 				lea.readInt();
@@ -1640,14 +1632,12 @@ public class DamageParse {
 			lea.skip(1);
 			ai.allDamage.add(new AttackPair(oid, damageNumbers));
 		}
-		System.out.println("End mob loop");
 		
 		if (Skill.isScreenCenterAttackSkill(skillid)) {
 			lea.skip(2);
 			lea.skip(2);
 		} else {
 			ai.position = lea.readPos();
-			System.out.println("ai.position = " + ai.position);
 		}
 		
 		if (c.getPlayer().getSummonsSize() > 1) {
