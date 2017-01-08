@@ -59,7 +59,7 @@ public class PacketWriter {
             if(packet.length() <= 5){
                 System.out.println("[Send] (" + op + "): No data");
             }else {
-                System.out.println("[Send] (0x" + Integer.toHexString(actHeader).toUpperCase() + ", " + op + ", " + ((toString().length()+1)/3) + "):" + toString().substring(5));
+                System.out.println("[Send] (" + actHeader + ", " + op + ", " + ((toString().length()+1)/3) + "):" + toString().substring(5));
             }
         }
         return baos.toByteArray();

@@ -63,6 +63,10 @@ public class GameConstants {
 		return channel >= 0 && channel <= 16;
 	}
 
+	public static boolean isMercedesSkill(int skillid) {
+		return skillid / 10000 == 2300 || skillid / 10000 == 2310 || skillid / 10000 == 2311 || skillid / 10000 == 2312;
+	}
+
 	public enum Cubes {
 		MIRACLE(5062000),
 		PREMIUM(5062001),
@@ -334,15 +338,15 @@ public class GameConstants {
 	}
 
 	public static boolean isWildHunter(final int job) {
-		return job == 3000 || (job >= 3300 && job <= 3312);
+		return job == 3000 || (job >= 3300 && job <= 3313);
 	}
 
 	public static boolean isDawnWarrior(final int job){
-		return job == 1000 || (job >= 1100 && job <= 1112);
+		return job == 1000 || (job >= 1100 && job <= 1113);
 	}
 
 	public static boolean isWindArcher(final int job) { //woops xD:3
-		return job == 1300 || (job >= 1310 && job <= 1312);
+		return job == 1300 || (job >= 1310 && job <= 1313);
 	}
 
 	public static boolean isSeparatedSp(int job) {
@@ -372,11 +376,11 @@ public class GameConstants {
 	}
 
 	public static boolean isDemonSlayer(final int job) {
-		return job == 3001 || (job >= 3100 && job <= 3112 && job != 3101);
+		return job == 3001 || (job >= 3100 && job <= 3113 && job != 3101);
 	}
 
 	public static boolean isAran(final int job) {
-		return job >= 2000 && job <= 2112 && job != 2001 && job != 2002 && job != 2003;
+		return job >= 2000 && job <= 2113 && job != 2001 && job != 2002 && job != 2003;
 	}
 
 	public static boolean isResist(final int job) {
@@ -388,27 +392,27 @@ public class GameConstants {
 	}
 
 	public static boolean isCannon(final int job) {
-		return job == 1 || job == 501 || (job >= 530 && job <= 532);
+		return job == 1 || job == 501 || (job >= 530 && job <= 533);
 	}
 
 	public static boolean isDualBlade(final int job) {
-		return (job >= 430 && job <= 434);
+		return (job >= 430 && job <= 435);
 	}
 
 	public static boolean isMihile(final int job) {
-		return job == 5000 || (job >= 5100 && job <= 5112);
+		return job == 5000 || (job >= 5100 && job <= 5113);
 	}
 
 	public static boolean isLuminous(final int job) {
-		return job == 2004 || (job >= 2700 && job <= 2712);
+		return job == 2004 || (job >= 2700 && job <= 2713);
 	}
 
 	public static boolean isKaiser(final int job) {
-		return job == 6000 || (job >= 6100 && job <= 6112);
+		return job == 6000 || (job >= 6100 && job <= 6113);
 	}
 
 	public static boolean isAngelicBuster(final int job) {
-		return job == 6001 || (job >= 6500 && job <= 6512);
+		return job == 6001 || (job >= 6500 && job <= 6513);
 	}
 
 	public static boolean isNova(final int job) {
@@ -416,15 +420,15 @@ public class GameConstants {
 	}
 
 	public static boolean isXenon(final int job) {
-		return job == 3002 || (job >= 3600 && job <= 3612);
+		return job == 3002 || (job >= 3600 && job <= 3613);
 	}
 
 	public static boolean isHayato(int job) {
-		return job == 4001 || (job >= 4100 && job <= 4112);
+		return job == 4001 || (job >= 4100 && job <= 4113);
 	}
 
 	public static boolean isKanna(int job) {
-		return job == 4002 || (job >= 4200 && job <= 4212);
+		return job == 4002 || (job >= 4200 && job <= 4213);
 	}
 
 	public static boolean isSengoku(int job) {
@@ -432,11 +436,11 @@ public class GameConstants {
 	}
 
 	public static boolean isDemonAvenger(int job) {
-		return job == 3001 || job == 3101 || (job >= 3120 && job <= 3122);
+		return job == 3001 || job == 3101 || (job >= 3120 && job <= 3123);
 	}
 
 	public static boolean isZero(int job) {
-		return job == 10000 || (job >= 10100 && job <= 10112);
+		return job == 10000 || (job >= 10100 && job <= 10113);
 	}
 
 	public static boolean isExceedAttack(int id) {
