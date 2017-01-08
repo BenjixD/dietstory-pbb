@@ -11,15 +11,15 @@ public class OpChanger {
 
     public static void main(String[] args){
 
-        String fromChange = "ITEM_UPGRADE_UI";
-        String toChange = "WARP_TO_MAP";
-        int change = 3;
+        String fromChange = "DIRECTION_FACIAL_EXPRESSION";
+        String toChange = "SPAWN_SUMMON";
+        int change = 0;
         boolean isAfterFromChange = false;
         boolean send = true;
         String opType = send ? "send" : "recv";
 
         File input = new File("D:\\MapleDev\\LucidMS\\"+opType+"ops.properties");
-        File output = new File("D:\\MapleDev\\LucidMS\\"+opType+"ops1.properties");
+        File output = new File("D:\\MapleDev\\LucidMS\\"+opType+"opsNew.properties");
         BufferedReader br = null;
         PrintWriter pw = null;
         try {
@@ -57,8 +57,8 @@ public class OpChanger {
                     }
                     isAfterFromChange = false;
                 }
-                int val = Integer.valueOf(infoArray[1].replace("0x",""),16);
-                if(isAfterFromChange && val < 0x999) {
+                int val = Integer.valueOf(infoArray[1]);
+                if(isAfterFromChange && val < 9999) {
                     val += change;
                     if (pw != null) {
                         String added = "";
@@ -69,8 +69,8 @@ public class OpChanger {
                                 added = " | Old comment: #" + comment;
                             }
                         }
-                        pw.print(op + " = 0x" + Integer.toHexString(val).toUpperCase() + " # BOT: Old = 0x" +
-                                Integer.toHexString(val - change).toUpperCase() + " (+" + change +" for v" +
+                        pw.print(op + " = " + val + " # BOT: Old = 0x" +
+                                (val - change) + " (+" + change +" for v" +
                                 ServerConstants.MAPLE_VERSION + "." + ServerConstants.MAPLE_PATCH + ")"+ added + "\n");
                     }
                 }else{
