@@ -2648,7 +2648,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
 	public void displayRank(int npcid, List<Triple<Short, String, Integer>> list) {
 		PacketWriter mplew = new PacketWriter();
 
-		mplew.writeShort(SendPacketOpcode.GUILD_OPERATION.getValue());
+		mplew.writeShort(SendPacketOpcode.GUILD_RESULT.getValue());
 		mplew.write(0x50);
 		mplew.writeInt(npcid);
 		mplew.writeInt(list.size());

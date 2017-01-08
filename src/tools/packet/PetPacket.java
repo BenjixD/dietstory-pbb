@@ -169,7 +169,7 @@ public class PetPacket {
     public static final byte[] showPetLevelUp(MapleCharacter chr, byte index) {
         PacketWriter pw = new PacketWriter();
 
-        pw.writeShort(SendPacketOpcode.SHOW_FOREIGN_EFFECT.getValue());
+        pw.writeShort(SendPacketOpcode.EFFECT_REMOTE.getValue());
         pw.writeInt(chr.getId());
         pw.write(6);
         pw.write(0);
@@ -207,7 +207,7 @@ public class PetPacket {
     public static byte[] petStatUpdate(MapleCharacter chr) {
         PacketWriter pw = new PacketWriter();
 
-        pw.writeShort(SendPacketOpcode.UPDATE_STATS.getValue());
+        pw.writeShort(SendPacketOpcode.STAT_CHANGED.getValue());
         pw.write(0);
         pw.writeLong(MapleStat.PET.getValue());
 

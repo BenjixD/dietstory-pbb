@@ -20,7 +20,7 @@ public class EvolvingPacket {
     public static byte[] showEvolvingMessage(int action) {
         PacketWriter pw = new PacketWriter();
         //24 00 1B 01 00
-        pw.writeShort(SendPacketOpcode.SHOW_STATUS_INFO.getValue());
+        pw.writeShort(SendPacketOpcode.MESSAGE.getValue());
         pw.writeShort(284);
         pw.write(action);
         return pw.getPacket();
@@ -29,7 +29,7 @@ public class EvolvingPacket {
     public static byte[] partyCoreInfo(int[] core) {
         PacketWriter pw = new PacketWriter();
         //AF 00 /00 /48 EF 36 00 /D3 FB 36 00 /00 00 00 00 /00 00 00 00/ 00 00 00 00/ 00 00 00 00 /00 00 00 00 /32 F3 36 00 /00 00 00 00 /00 00 00 00
-        pw.writeShort(SendPacketOpcode.EVOLVING_ACTION.getValue());//
+        pw.writeShort(SendPacketOpcode.EVOLVING_RESULT.getValue());//
         pw.write(0);
         for (int i = 0; i < 10; i++) {
             pw.writeInt(core[i]);
@@ -39,7 +39,7 @@ public class EvolvingPacket {
 
     public static byte[] showPartyConnect(MapleCharacter chr) {
         PacketWriter pw = new PacketWriter();
-        pw.writeShort(SendPacketOpcode.EVOLVING_ACTION.getValue());//
+        pw.writeShort(SendPacketOpcode.EVOLVING_RESULT.getValue());//
         pw.write(1);
         pw.write(1);
         pw.write(chr.getParty().getLeader().getId() == chr.getId() ? 1 : 0);
@@ -48,7 +48,7 @@ public class EvolvingPacket {
 
     public static byte[] connectCancel() {
         PacketWriter pw = new PacketWriter();
-        pw.writeShort(SendPacketOpcode.EVOLVING_ACTION.getValue());//
+        pw.writeShort(SendPacketOpcode.EVOLVING_RESULT.getValue());//
         pw.writeShort(1);
         return pw.getPacket();
     }
@@ -56,7 +56,7 @@ public class EvolvingPacket {
     public static byte[] rewardCore(int itemid, int position) {
         //AF 00 02 01 00 00 00 00 00 D0 F2 36 00 01 00 00 00
         PacketWriter pw = new PacketWriter();
-        pw.writeShort(SendPacketOpcode.EVOLVING_ACTION.getValue());//
+        pw.writeShort(SendPacketOpcode.EVOLVING_RESULT.getValue());//
         pw.write(2); //슬롯?
         pw.write(1);
         pw.writeInt(0);
@@ -69,7 +69,7 @@ public class EvolvingPacket {
     public static byte[] showRewardCore(int itemid) {
         //24 00 1D 16 D0 F2 36 00 01 00 00 00
         PacketWriter pw = new PacketWriter();
-        pw.writeShort(SendPacketOpcode.SHOW_STATUS_INFO.getValue());
+        pw.writeShort(SendPacketOpcode.MESSAGE.getValue());
         pw.writeShort(5662);
         pw.writeInt(itemid);
         pw.writeInt(1);
@@ -80,7 +80,7 @@ public class EvolvingPacket {
         //AF 00 03 00 01 02 01 03
         //AF 00 03 00 01 03 01 04
         PacketWriter pw = new PacketWriter();
-        pw.writeShort(SendPacketOpcode.EVOLVING_ACTION.getValue());//
+        pw.writeShort(SendPacketOpcode.EVOLVING_RESULT.getValue());//
         pw.write(3);
         pw.write(0);
         pw.write(equip);
@@ -93,7 +93,7 @@ public class EvolvingPacket {
     public static byte[] dropCore(byte position, short quantity) {
         //AF 00 04 01 /00 /01 00 /00 00
         PacketWriter pw = new PacketWriter();
-        pw.writeShort(SendPacketOpcode.EVOLVING_ACTION.getValue());//
+        pw.writeShort(SendPacketOpcode.EVOLVING_RESULT.getValue());//
         pw.write(4);
         pw.write(1);
         pw.write(position);

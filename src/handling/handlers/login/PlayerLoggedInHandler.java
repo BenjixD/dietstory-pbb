@@ -222,7 +222,7 @@ public class PlayerLoggedInHandler {
 		}
 		// hack to make skills update
 		c.getSession().write(CWvsContext.updateLinkSkill(c.getPlayer().getSkills(), true, false, false));
-		// c.getSession().write(CWvsContext.shopDiscount(ServerConstants.SHOP_DISCOUNT));
+		// c.getSession().write(CWvsContext.shopDiscount(ServerConstants.SET_POTION_DISCOUNT_RATE));
 		// List<Pair<Integer, String>> npcs = new ArrayList<>();
 		// npcs.add(new Pair<>(9070006, "Why...why has this happened to me?
 		// My knightly honor... My knightly pride..."));

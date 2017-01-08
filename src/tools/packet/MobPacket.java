@@ -192,15 +192,15 @@ public class MobPacket {
 		pw.writeShort(SendPacketOpcode.FIELD_EFFECT.getValue());
 		pw.write(6);
 		pw.writeInt(mob.getId() == 9400589 ? 9300184 : mob.getId());
-		if (mob.getHp() > 2147483647L) {
-			pw.writeInt((int) (mob.getHp() / mob.getMobMaxHp() * 2147483647.0D));
+		if (mob.getHp() > Long.MAX_VALUE) {
+			pw.writeLong((long) (mob.getHp() / mob.getMobMaxHp() * 2147483647.0D));
 		} else {
-			pw.writeInt((int) mob.getHp());
+			pw.writeLong(mob.getHp());
 		}
-		if (mob.getMobMaxHp() > 2147483647L) {
-			pw.writeInt(2147483647);
+		if (mob.getMobMaxHp() > Long.MAX_VALUE) {
+			pw.writeLong(Long.MAX_VALUE);
 		} else {
-			pw.writeInt((int) mob.getMobMaxHp());
+			pw.writeLong(mob.getMobMaxHp());
 		}
 		pw.write(mob.getStats().getTagColor());
 		pw.write(mob.getStats().getTagBgColor());
@@ -214,15 +214,15 @@ public class MobPacket {
 		pw.writeShort(SendPacketOpcode.FIELD_EFFECT.getValue());
 		pw.write(6);
 		pw.writeInt(monsterId);
-		if (currentHp > 2147483647L) {
-			pw.writeInt((int) (currentHp / maxHp * 2147483647.0D));
+		if (currentHp > Long.MAX_VALUE) {
+			pw.writeLong(currentHp / maxHp * Long.MAX_VALUE); // can't happen, but whatever
 		} else {
-			pw.writeInt((int) (currentHp <= 0L ? -1L : currentHp));
+			pw.writeLong(currentHp <= 0L ? -1L : currentHp);
 		}
-		if (maxHp > 2147483647L) {
-			pw.writeInt(2147483647);
+		if (maxHp > Long.MAX_VALUE) {
+			pw.writeLong(Long.MAX_VALUE);
 		} else {
-			pw.writeInt((int) maxHp);
+			pw.writeLong(maxHp);
 		}
 		pw.write(6);
 		pw.write(5);

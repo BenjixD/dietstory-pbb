@@ -848,7 +848,7 @@ public class CSPacket {
 
     public static byte[] playCashSong(int itemid, String name) {
         PacketWriter pw = new PacketWriter();
-        pw.writeShort(SendPacketOpcode.CASH_SONG.getValue());
+        pw.writeShort(SendPacketOpcode.PLAY_JUKE_BOX.getValue());
         pw.writeInt(itemid);
         pw.writeMapleAsciiString(name);
         return pw.getPacket();
@@ -930,7 +930,7 @@ public class CSPacket {
         //05 00 // The other character is online now. Please use the whisper function. 
         //05 01 // Please check the name of the receiving character. 
         //05 02 // The receiver's inbox is full. Please try again. 
-        pw.writeShort(SendPacketOpcode.SHOW_NOTES.getValue());
+        pw.writeShort(SendPacketOpcode.MEMO_RESULT.getValue());
         pw.write(act);
         if (act == 5) {
             pw.write(mode);
@@ -942,7 +942,7 @@ public class CSPacket {
     public static byte[] showNotes(final ResultSet notes, final int count) throws SQLException {
         PacketWriter pw = new PacketWriter();
 
-        pw.writeShort(SendPacketOpcode.SHOW_NOTES.getValue());
+        pw.writeShort(SendPacketOpcode.MEMO_RESULT.getValue());
         pw.write(3);
         pw.write(count);
         for (int i = 0; i < count; i++) {
@@ -959,7 +959,7 @@ public class CSPacket {
 
     public static byte[] useChalkboard(final int charid, final String msg) {
         PacketWriter pw = new PacketWriter();
-        pw.writeShort(SendPacketOpcode.CHALKBOARD.getValue());
+        pw.writeShort(SendPacketOpcode.AD_BOARD.getValue());
 
         pw.writeInt(charid);
         if (msg == null || msg.length() <= 0) {
@@ -980,7 +980,7 @@ public class CSPacket {
         // 31 00 09 00 // It's the map you're currently on.
         // 31 00 0A 00 // This map is not available to enter for the list.
         // 31 00 0B 00 // Users below level 7 are not allowed to go out from Maple Island.
-        pw.writeShort(SendPacketOpcode.TROCK_LOCATIONS.getValue());
+        pw.writeShort(SendPacketOpcode.MAP_TRANSFER_RESULT.getValue());
         pw.write(delete ? 2 : 3);
         pw.write(vip);
         if (vip == 1) {

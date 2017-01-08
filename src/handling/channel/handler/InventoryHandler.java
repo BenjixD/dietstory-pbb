@@ -2416,7 +2416,7 @@ case 2431935: {
 //                        Map<MapleStat, Long> statMap = new HashMap<>();
 //                        statMap.put(MapleStat.SKIN, (long) 0);
 //                        c.getSession().write(CWvsContext.updatePlayerStats(statMap, chr)); // SendCharacterStat(1, 0); ?
-                        c.getSession().write(CField.itemEffect(chr.getId(), itemId)); // could be incorrect, maybe SHOW_STATUS_INFO?
+                        c.getSession().write(CField.itemEffect(chr.getId(), itemId)); // could be incorrect, maybe MESSAGE?
 
                     }else{
                         chr.dropMessage(6, "You tried to open a nodestone without having a nodestone.");

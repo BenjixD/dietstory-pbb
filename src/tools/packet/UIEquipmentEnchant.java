@@ -1,7 +1,6 @@
 package tools.packet;
 
 import client.inventory.*;
-import handling.PacketHandler;
 import handling.SendPacketOpcode;
 import tools.data.PacketWriter;
 
@@ -48,7 +47,7 @@ public class UIEquipmentEnchant {
         // Failure (keep/drop a star, depending on canDropStar) = 100 - sucChance - boomChance
         PacketWriter pw = new PacketWriter();
 
-        pw.writeShort(SendPacketOpcode.ITEM_UPGRADE_UI.getValue());
+        pw.writeShort(SendPacketOpcode.EQUIPMENT_ENCHANT.getValue());
         pw.write(EnhanceTypes.SHOW_STAR_FORCE.getValue()); // nType
         pw.write(canDropStar);
         pw.writeLong(price);
@@ -115,7 +114,7 @@ public class UIEquipmentEnchant {
     public static byte[] showStarForceMinigame(){
         PacketWriter pw = new PacketWriter();
 
-        pw.writeShort(SendPacketOpcode.ITEM_UPGRADE_UI.getValue());
+        pw.writeShort(SendPacketOpcode.EQUIPMENT_ENCHANT.getValue());
         pw.writeShort(EnhanceTypes.SHOW_STAR_FORCE_MINIGAME.getValue());
         pw.write(0); // ???
         pw.writeInt(0); // ???
@@ -126,7 +125,7 @@ public class UIEquipmentEnchant {
     public static byte[] showStarForceResult(int result, boolean boom, Equip oldEquip, Equip newEquip){
         PacketWriter pw = new PacketWriter();
 
-        pw.writeShort(SendPacketOpcode.ITEM_UPGRADE_UI.getValue());
+        pw.writeShort(SendPacketOpcode.EQUIPMENT_ENCHANT.getValue());
         pw.write(EnhanceTypes.SHOW_STAR_FORCE_RESULT.getValue()); // nType
         pw.writeInt(result);
         pw.writeBoolean(boom);

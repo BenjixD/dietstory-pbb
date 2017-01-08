@@ -361,7 +361,7 @@ public class CField {
 
 	public static byte[] updateInnerPotential(byte ability, int skill, int level, int rank) {
 		PacketWriter pw = new PacketWriter();
-		pw.writeShort(SendPacketOpcode.ENABLE_INNER_ABILITY.getValue());
+		pw.writeShort(SendPacketOpcode.CHARACTER_POTENTIAL_SET.getValue());
 		pw.write(1); // unlock
 		pw.write(1); // 0 = no update
 		pw.writeShort(ability); // 1-3
@@ -388,7 +388,7 @@ public static byte[] updateHonour(int honourLevel, int honourExp, boolean levelu
 * /
 PacketWriter pw = new PacketWriter();
 
-pw.writeShort(SendPacketOpcode.UPDATE_HONOUR.getValue());
+pw.writeShort(SendPacketOpcode.CHARACTER_HONOR_EXP.getValue());
 
 pw.writeInt(honourLevel);
 pw.writeInt(honourExp);
@@ -549,7 +549,7 @@ return pw.getPacket();
 	public static byte[] serverBlocked(int type) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.SERVER_BLOCKED.getValue());
+		pw.writeShort(SendPacketOpcode.TRANSFER_FIELD_REQ_IGNORED.getValue());
 		pw.write(type);
 
 		return pw.getPacket();
@@ -566,7 +566,7 @@ return pw.getPacket();
 	public static byte[] showEquipEffect() {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.SHOW_EQUIP_EFFECT.getValue());
+		pw.writeShort(SendPacketOpcode.FIELD_SPECIFIC_DATA.getValue());
 
 		return pw.getPacket();
 	}
@@ -574,7 +574,7 @@ return pw.getPacket();
 	public static byte[] showEquipEffect(int team) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.SHOW_EQUIP_EFFECT.getValue());
+		pw.writeShort(SendPacketOpcode.FIELD_SPECIFIC_DATA.getValue());
 		pw.writeShort(team);
 
 		return pw.getPacket();
@@ -583,7 +583,7 @@ return pw.getPacket();
 	public static byte[] multiChat(String name, String chattext, int mode) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.MULTICHAT.getValue());
+		pw.writeShort(SendPacketOpcode.GROUP_MESSAGE.getValue());
 		pw.write(mode);
 		pw.writeMapleAsciiString(name);
 		pw.writeMapleAsciiString(chattext);
@@ -731,7 +731,7 @@ return pw.getPacket();
 	public static byte[] startMapEffect(String msg, int itemid, boolean active) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.MAP_EFFECT.getValue());
+		pw.writeShort(SendPacketOpcode.BLOW_WEATHER.getValue());
 		pw.write(active ? 0 : 1);
 
 		pw.writeInt(itemid);
@@ -748,7 +748,7 @@ return pw.getPacket();
 	public static byte[] getGMEffect(int value, int mode) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.GM_EFFECT.getValue());
+		pw.writeShort(SendPacketOpcode.ADMIN_RESULT.getValue());
 		pw.write(value);
 		pw.write(new byte[17]);
 
@@ -769,7 +769,7 @@ return pw.getPacket();
 	public static byte[] showEventInstructions() {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.GMEVENT_INSTRUCTIONS.getValue());
+		pw.writeShort(SendPacketOpcode.DESC.getValue());
 		pw.write(0);
 
 		return pw.getPacket();
@@ -956,7 +956,7 @@ return pw.getPacket();
 	public static byte[] getAndroidTalkStyle(int npc, String talk, int... args) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.NPC_TALK.getValue());
+		pw.writeShort(SendPacketOpcode.SCRIPT_MESSAGE.getValue());
 		pw.write(4);
 		pw.writeInt(npc);
 		pw.writeShort(10);
@@ -1245,7 +1245,7 @@ return pw.getPacket();
 
 	public static byte[] getChatText(int cidfrom, String text, boolean whiteBG, int show) {
 		PacketWriter pw = new PacketWriter();
-		pw.writeShort(SendPacketOpcode.CHATTEXT.getValue());
+		pw.writeShort(SendPacketOpcode.CHAT.getValue());
 		pw.writeInt(cidfrom);
 		pw.write(whiteBG ? 1 : 0);
 		pw.writeMapleAsciiString(text);
@@ -1260,7 +1260,7 @@ return pw.getPacket();
 										 int scroll) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.SHOW_SCROLL_EFFECT.getValue());
+		pw.writeShort(SendPacketOpcode.SHOW_ITEM_UPGRADE_EFFECT.getValue());
 		pw.writeInt(chr);
 		pw.write(
 				scrollSuccess == Equip.ScrollResult.SUCCESS ? 1 : scrollSuccess == Equip.ScrollResult.CURSE ? 2 : 0);
@@ -1277,7 +1277,7 @@ return pw.getPacket();
 	public static byte[] showMagnifyingEffect(int chr, short pos) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.SHOW_MAGNIFYING_EFFECT.getValue());
+		pw.writeShort(SendPacketOpcode.SHOW_ITEM_RELEASE_EFFECT.getValue());
 		pw.writeInt(chr);
 		pw.writeShort(pos);
 		pw.write(0);// new 143 is in ida?
@@ -1288,7 +1288,7 @@ return pw.getPacket();
 	public static byte[] showPotentialReset(int chr, boolean success, int itemid) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.SHOW_POTENTIAL_RESET.getValue());
+		pw.writeShort(SendPacketOpcode.SHOW_ITEM_UNRELEASE_EFFECT.getValue());
 		pw.writeInt(chr);
 		pw.writeBoolean(success);
 		pw.writeInt(itemid);
@@ -1311,7 +1311,7 @@ return pw.getPacket();
 	public static byte[] showNebuliteEffect(int chr, boolean success) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.SHOW_NEBULITE_EFFECT.getValue());
+		pw.writeShort(SendPacketOpcode.SHOW_ITEM_SKILL_SOCKET_UPGRADE_EFFECT.getValue());
 		pw.writeInt(chr);
 		pw.write(success ? 1 : 0);
 		pw.writeMapleAsciiString(success ? "Successfully mounted Nebulite." : "Failed to mount Nebulite.");
@@ -1322,7 +1322,7 @@ return pw.getPacket();
 	public static byte[] useNebuliteFusion(int cid, int itemId, boolean success) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.SHOW_FUSION_EFFECT.getValue());
+		pw.writeShort(SendPacketOpcode.SHOW_ITEM_SKILL_OPTION_UPGRADE_EFFECT.getValue());
 		pw.writeInt(cid);
 		pw.write(success ? 1 : 0);
 		pw.writeInt(itemId);
@@ -1940,7 +1940,7 @@ return pw.getPacket();
 	public static byte[] skillEffect(MapleCharacter from, int skillId, byte level, short display, byte unk) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.SKILL_EFFECT.getValue());
+		pw.writeShort(SendPacketOpcode.SKILL_PREPARE.getValue());
 		pw.writeInt(from.getId());
 		pw.writeInt(skillId);
 		pw.write(level);
@@ -1956,7 +1956,7 @@ return pw.getPacket();
 	public static byte[] skillCancel(MapleCharacter from, int skillId) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.CANCEL_SKILL_EFFECT.getValue());
+		pw.writeShort(SendPacketOpcode.SKILL_CANCEL.getValue());
 		pw.writeInt(from.getId());
 		pw.writeInt(skillId);
 
@@ -1967,7 +1967,7 @@ return pw.getPacket();
 									  int pDMG, boolean pPhysical, int pID, byte pType, Point pPos, byte offset, int offset_d, int fake) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.DAMAGE_PLAYER.getValue());
+		pw.writeShort(SendPacketOpcode.HIT.getValue());
 		pw.writeInt(cid);
 		pw.write(type);
 		pw.writeInt(damage);
@@ -2000,7 +2000,7 @@ return pw.getPacket();
 	public static byte[] facialExpression(MapleCharacter from, int expression) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.FACIAL_EXPRESSION.getValue());
+		pw.writeShort(SendPacketOpcode.EMOTICON.getValue());
 		pw.writeInt(from.getId());
 		pw.writeInt(expression);
 		pw.writeInt(-1);
@@ -2029,7 +2029,7 @@ return pw.getPacket();
 	public static byte[] itemEffect(int characterid, int itemid) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.SHOW_EFFECT.getValue());
+		pw.writeShort(SendPacketOpcode.SET_ACTIVE_EFFECT_ITEM.getValue());
 		pw.writeInt(characterid);
 		pw.writeInt(itemid);
 
@@ -2039,7 +2039,7 @@ return pw.getPacket();
 	public static byte[] showTitle(int characterid, int itemid) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.SHOW_TITLE.getValue());
+		pw.writeShort(SendPacketOpcode.ACTIVE_NICK_ITEM.getValue());
 		pw.writeInt(characterid);
 		pw.writeInt(itemid);
 
@@ -2049,7 +2049,7 @@ return pw.getPacket();
 	public static byte[] showAngelicBuster(int characterid, int tempid) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.ANGELIC_CHANGE.getValue());
+		pw.writeShort(SendPacketOpcode.SET_KAISER_TRANSFORM_ITEM.getValue());
 		pw.writeInt(characterid);
 		pw.writeInt(tempid);
 
@@ -2059,7 +2059,7 @@ return pw.getPacket();
 	public static byte[] showChair(int characterid, int itemid) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.SHOW_CHAIR.getValue());
+		pw.writeShort(SendPacketOpcode.SET_ACTIVE_PORTABLE_CHAIR.getValue());
 		pw.writeInt(characterid);
 		pw.writeInt(itemid);
 		pw.writeInt(0);
@@ -2072,7 +2072,7 @@ return pw.getPacket();
 	public static byte[] updateCharLook(MapleCharacter chr, boolean second) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.UPDATE_CHAR_LOOK.getValue());
+		pw.writeShort(SendPacketOpcode.AVATAR_MODIFIED.getValue());
 		pw.writeInt(chr.getId());
 		pw.write(1);
 		PacketHelper.addCharLook(pw, chr, false, second);
@@ -2089,7 +2089,7 @@ return pw.getPacket();
 	public static byte[] updatePartyMemberHP(int cid, int curhp, int maxhp) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.UPDATE_PARTYMEMBER_HP.getValue());
+		pw.writeShort(SendPacketOpcode.RECEIVE_HP_REMOTE.getValue());
 		pw.writeInt(cid);
 		pw.writeInt(curhp);
 		pw.writeInt(maxhp);
@@ -2100,7 +2100,7 @@ return pw.getPacket();
 	public static byte[] loadGuildName(MapleCharacter chr) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.LOAD_GUILD_NAME.getValue());
+		pw.writeShort(SendPacketOpcode.GUILD_NAME_CHANGED_REMOTE.getValue());
 		pw.writeInt(chr.getId());
 		if (chr.getGuildId() <= 0) {
 			pw.writeShort(0);
@@ -2119,7 +2119,7 @@ return pw.getPacket();
 	public static byte[] loadGuildIcon(MapleCharacter chr) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.LOAD_GUILD_ICON.getValue());
+		pw.writeShort(SendPacketOpcode.GUILD_MARK_CHANGED_REMOTE.getValue());
 		pw.writeInt(chr.getId());
 		if (chr.getGuildId() <= 0) {
 			pw.write(new byte[6]);
@@ -2141,7 +2141,7 @@ return pw.getPacket();
 	public static byte[] changeTeam(int cid, int type) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.LOAD_TEAM.getValue());
+		pw.writeShort(SendPacketOpcode.PVP_TEAM_CHANGED.getValue());
 		pw.writeInt(cid);
 		pw.write(type);
 
@@ -2151,7 +2151,7 @@ return pw.getPacket();
 	public static byte[] showHarvesting(int cid, int tool) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.SHOW_HARVEST.getValue());
+		pw.writeShort(SendPacketOpcode.GATHER_ACTION_SET.getValue());
 		pw.writeInt(cid);
 		if (tool > 0) {
 			pw.write(1);
@@ -2170,7 +2170,7 @@ return pw.getPacket();
 	public static byte[] getPVPHPBar(int cid, int hp, int maxHp) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.PVP_HP.getValue());
+		pw.writeShort(SendPacketOpcode.UPDATE_PVP_HP_TAG.getValue());
 		pw.writeInt(cid);
 		pw.writeInt(hp);
 		pw.writeInt(maxHp);
@@ -2484,7 +2484,7 @@ return pw.getPacket();
 	public static byte[] spawnMist(MapleMist mist) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.SPAWN_MIST.getValue());
+		pw.writeShort(SendPacketOpcode.AFFECTED_AREA_CREATED.getValue());
 		pw.writeInt(mist.getObjectId());
 
 		//pw.write(mist.isMobMist() ? 0 : mist.isPoisonMist());
@@ -2515,7 +2515,7 @@ return pw.getPacket();
 	public static byte[] removeMist(int oid, boolean eruption) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.REMOVE_MIST.getValue());
+		pw.writeShort(SendPacketOpcode.AFFECTED_AREA_REMOVED.getValue());
 		pw.writeInt(oid);
 		pw.write(eruption ? 1 : 0);
 
@@ -2525,7 +2525,7 @@ return pw.getPacket();
 	public static byte[] spawnDoor(int oid, Point pos, boolean animation) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.SPAWN_DOOR.getValue());
+		pw.writeShort(SendPacketOpcode.TOWN_PORTAL_CREATED.getValue());
 		pw.write(animation ? 0 : 1);
 		pw.writeInt(oid);
 		pw.writePos(pos);
@@ -2535,7 +2535,7 @@ return pw.getPacket();
 
 	public static byte[] removeDoor(int oid, boolean animation) {
 		PacketWriter pw = new PacketWriter();
-		pw.writeShort(SendPacketOpcode.REMOVE_DOOR.getValue());
+		pw.writeShort(SendPacketOpcode.TOWN_PORTAL_REMOVED.getValue());
 		pw.write(animation ? 0 : 1);
 		pw.writeInt(oid);
 
@@ -2575,7 +2575,7 @@ return pw.getPacket();
 	public static byte[] spawnMechDoor(MechDoor md, boolean animated) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.MECH_DOOR_SPAWN.getValue());
+		pw.writeShort(SendPacketOpcode.OPEN_GATE_CREATED.getValue());
 		pw.write(animated ? 0 : 1);
 		pw.writeInt(md.getOwnerId());
 		pw.writePos(md.getTruePosition());
@@ -2587,7 +2587,7 @@ return pw.getPacket();
 	public static byte[] removeMechDoor(MechDoor md, boolean animated) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.MECH_DOOR_REMOVE.getValue());
+		pw.writeShort(SendPacketOpcode.OPEN_GATE_CLOSE.getValue());
 		pw.write(animated ? 0 : 1);
 		pw.writeInt(md.getOwnerId());
 		pw.write(md.getId());
@@ -2598,7 +2598,7 @@ return pw.getPacket();
 	public static byte[] triggerReactor(MapleReactor reactor, short stance, int dwOwnerID) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.REACTOR_HIT.getValue());
+		pw.writeShort(SendPacketOpcode.REACTOR_CHANGE_STATE.getValue());
 		pw.writeInt(reactor.getObjectId()); // m_mReactor
 		pw.write(reactor.getState()); // nState
 		pw.writePos(reactor.getTruePosition()); // ptPos.x, ptPos.y
@@ -2613,7 +2613,7 @@ return pw.getPacket();
 	public static byte[] spawnReactor(MapleReactor reactor) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.REACTOR_SPAWN.getValue());
+		pw.writeShort(SendPacketOpcode.REACTOR_ENTER_FIELD.getValue());
 		pw.writeInt(reactor.getObjectId());
 		pw.writeInt(reactor.getReactorId());
 		pw.write(reactor.getState());
@@ -2627,7 +2627,7 @@ return pw.getPacket();
 	public static byte[] destroyReactor(MapleReactor reactor) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.REACTOR_DESTROY.getValue());
+		pw.writeShort(SendPacketOpcode.REACTOR_LEAVE_FIELD.getValue());
 		pw.writeInt(reactor.getObjectId());
 		pw.write(reactor.getState());
 		pw.writePos(reactor.getPosition());
@@ -2958,7 +2958,7 @@ return pw.getPacket();
 		PacketWriter pw = new PacketWriter();
 
 		pw.writeShort(SendPacketOpcode.KEYMAP.getValue());
-		layout.writeData(pw);
+		layout.encode(pw);
 
 		return pw.getPacket();
 	}
@@ -3053,7 +3053,7 @@ return pw.getPacket();
 	public static byte[] viewSkills(MapleCharacter chr) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.TARGET_SKILL.getValue());
+		pw.writeShort(SendPacketOpcode.SKILL_USE_RESULT.getValue());
 		List<Integer> skillz = new ArrayList<Integer>();
 		for (Skill sk : chr.getSkills().keySet()) {
 			if ((sk.canBeLearnedBy(chr.getJob())) && (GameConstants.canSteal(sk))
@@ -3261,7 +3261,7 @@ return pw.getPacket();
 		public static byte[] getMapSelection(final int npcid, final String sel) {
 			PacketWriter pw = new PacketWriter();
 
-			pw.writeShort(SendPacketOpcode.NPC_TALK.getValue());
+			pw.writeShort(SendPacketOpcode.SCRIPT_MESSAGE.getValue());
 			pw.write(4);
 			pw.writeInt(npcid);
 			pw.writeShort(0x11);
@@ -3327,7 +3327,7 @@ return pw.getPacket();
 		public static byte[] getNPCTalk(NPCTalk talk) {
 			PacketWriter pw = new PacketWriter();
 
-			pw.writeShort(SendPacketOpcode.NPC_TALK.getValue());
+			pw.writeShort(SendPacketOpcode.SCRIPT_MESSAGE.getValue());
 			pw.write(talk.getType());
 			pw.writeInt(talk.getNpcID());
 			pw.write(0); // bool?
@@ -3471,7 +3471,7 @@ return pw.getPacket();
 		public static byte[] getEnglishQuiz(int npc, byte type, int diffNPC, String talk, String endBytes) {
 			PacketWriter pw = new PacketWriter();
 
-			pw.writeShort(SendPacketOpcode.NPC_TALK.getValue());
+			pw.writeShort(SendPacketOpcode.SCRIPT_MESSAGE.getValue());
 			pw.write(4);
 			pw.writeInt(npc);
 			pw.write(10); // not sure
@@ -3490,7 +3490,7 @@ return pw.getPacket();
 			// map selection 3 - tele rock map selection 4 - dojo buff selection
 			PacketWriter pw = new PacketWriter();
 
-			pw.writeShort(SendPacketOpcode.NPC_TALK.getValue());
+			pw.writeShort(SendPacketOpcode.SCRIPT_MESSAGE.getValue());
 			pw.write(4); // slide menu
 			pw.writeInt(npcid);
 			pw.write(0);
@@ -3507,7 +3507,7 @@ return pw.getPacket();
 
 		public static byte[] getSelfTalkText(String text) {
 			PacketWriter pw = new PacketWriter();
-			pw.writeShort(SendPacketOpcode.NPC_TALK.getValue());
+			pw.writeShort(SendPacketOpcode.SCRIPT_MESSAGE.getValue());
 			pw.write(3); // nSpeakerTypeID
 			pw.writeInt(0); //nSpeakerTemplateID
 			pw.write(1);
@@ -3524,7 +3524,7 @@ return pw.getPacket();
 
 		public static byte[] getNPCTutoEffect(String effect) {
 			PacketWriter pw = new PacketWriter();
-			pw.writeShort(SendPacketOpcode.NPC_TALK.getValue());
+			pw.writeShort(SendPacketOpcode.SCRIPT_MESSAGE.getValue());
 			pw.write(3);
 			pw.writeInt(0);
 			pw.write(0);
@@ -3537,7 +3537,7 @@ return pw.getPacket();
 
 		public static byte[] getCutSceneSkip() {
 			PacketWriter pw = new PacketWriter();
-			pw.writeShort(SendPacketOpcode.NPC_TALK.getValue());
+			pw.writeShort(SendPacketOpcode.SCRIPT_MESSAGE.getValue());
 			pw.write(3);
 			pw.writeInt(0);
 			pw.write(1);
@@ -3552,7 +3552,7 @@ return pw.getPacket();
 
 		public static byte[] getDemonSelection() {
 			PacketWriter pw = new PacketWriter();
-			pw.writeShort(SendPacketOpcode.NPC_TALK.getValue());
+			pw.writeShort(SendPacketOpcode.SCRIPT_MESSAGE.getValue());
 			pw.write(3);
 			pw.writeInt(0);
 
@@ -3571,7 +3571,7 @@ return pw.getPacket();
 		public static byte[] getEvanTutorial(String data) {
 			PacketWriter pw = new PacketWriter();
 
-			pw.writeShort(SendPacketOpcode.NPC_TALK.getValue());
+			pw.writeShort(SendPacketOpcode.SCRIPT_MESSAGE.getValue());
 
 			pw.write(8);
 			pw.writeInt(0);
@@ -4228,7 +4228,7 @@ return pw.getPacket();
 			if (cid == -1) {
 				pw.writeShort(SendPacketOpcode.SHOW_SPECIAL_EFFECT.getValue());
 			} else {
-				pw.writeShort(SendPacketOpcode.SHOW_FOREIGN_EFFECT.getValue());
+				pw.writeShort(SendPacketOpcode.EFFECT_REMOTE.getValue());
 				pw.writeInt(cid);
 			}
 			pw.write(effect);
@@ -4254,7 +4254,7 @@ return pw.getPacket();
 			if (cid == -1) {
 				pw.writeShort(SendPacketOpcode.SHOW_SPECIAL_EFFECT.getValue());
 			} else {
-				pw.writeShort(SendPacketOpcode.SHOW_FOREIGN_EFFECT.getValue());
+				pw.writeShort(SendPacketOpcode.EFFECT_REMOTE.getValue());
 				pw.writeInt(cid);
 			}
 			pw.write(3);
@@ -4302,7 +4302,7 @@ return pw.getPacket();
 			if (cid == -1) {
 				pw.writeShort(SendPacketOpcode.SHOW_SPECIAL_EFFECT.getValue());
 			} else {
-				pw.writeShort(SendPacketOpcode.SHOW_FOREIGN_EFFECT.getValue());
+				pw.writeShort(SendPacketOpcode.EFFECT_REMOTE.getValue());
 				pw.writeInt(cid);
 			}
 			pw.write(EffectType.HP_RECOVERY_INT.getValue()); // was 30 (0x1E)
@@ -4321,7 +4321,7 @@ return pw.getPacket();
 			if (from_playerid == -1) {
 				pw.writeShort(SendPacketOpcode.SHOW_SPECIAL_EFFECT.getValue());
 			} else {
-				pw.writeShort(SendPacketOpcode.SHOW_FOREIGN_EFFECT.getValue());
+				pw.writeShort(SendPacketOpcode.EFFECT_REMOTE.getValue());
 				pw.writeInt(from_playerid);
 			}
 			pw.write(EffectType.REWARD_ITEM.getValue());
@@ -4354,7 +4354,7 @@ return pw.getPacket();
 			if (from_playerid == -1) {
 				pw.writeShort(SendPacketOpcode.SHOW_SPECIAL_EFFECT.getValue());
 			} else {
-				pw.writeShort(SendPacketOpcode.SHOW_FOREIGN_EFFECT.getValue());
+				pw.writeShort(SendPacketOpcode.EFFECT_REMOTE.getValue());
 				pw.writeInt(from_playerid);
 			}
 			pw.write(EffectType.MAKER_SUCCEED.getValue());
@@ -4393,7 +4393,7 @@ return pw.getPacket();
 			if (cid == -1) {
 				pw.writeShort(SendPacketOpcode.SHOW_SPECIAL_EFFECT.getValue());
 			} else {
-				pw.writeShort(SendPacketOpcode.SHOW_FOREIGN_EFFECT.getValue());
+				pw.writeShort(SendPacketOpcode.EFFECT_REMOTE.getValue());
 				pw.writeInt(cid);
 			}
 			pw.write(effectid);
@@ -4438,7 +4438,7 @@ return pw.getPacket();
 			if (cid == -1) {
 				pw.writeShort(SendPacketOpcode.SHOW_SPECIAL_EFFECT.getValue());
 			} else {
-				pw.writeShort(SendPacketOpcode.SHOW_FOREIGN_EFFECT.getValue());
+				pw.writeShort(SendPacketOpcode.EFFECT_REMOTE.getValue());
 				pw.writeInt(cid);
 			}
 			pw.write(34); // v140
@@ -4485,7 +4485,7 @@ return pw.getPacket();
 			if (from_playerid == -1) {
 				pw.writeShort(SendPacketOpcode.SHOW_SPECIAL_EFFECT.getValue());
 			} else {
-				pw.writeShort(SendPacketOpcode.SHOW_FOREIGN_EFFECT.getValue());
+				pw.writeShort(SendPacketOpcode.EFFECT_REMOTE.getValue());
 				pw.writeInt(from_playerid);
 			}
 			pw.write(34);
@@ -4520,7 +4520,7 @@ return pw.getPacket();
 	public static byte[] showWeirdEffect(int chrId, String effect, int itemId) {
 		final PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.SHOW_FOREIGN_EFFECT.getValue());
+		pw.writeShort(SendPacketOpcode.EFFECT_REMOTE.getValue());
 		pw.writeInt(chrId);
 		pw.write(0x20);
 		pw.writeMapleAsciiString(effect);

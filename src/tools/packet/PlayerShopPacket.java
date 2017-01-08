@@ -47,7 +47,7 @@ public class PlayerShopPacket {
     public static byte[] sendTitleBox(int mode) {
         PacketWriter pw = new PacketWriter(8);
 
-        pw.writeShort(SendPacketOpcode.SEND_TITLE_BOX.getValue());
+        pw.writeShort(SendPacketOpcode.ENTRUSTED_SHOP_CHECK_RESULT.getValue());
         pw.write(mode);
         if ((mode == 8) || (mode == 16)) {
             pw.writeInt(0);
@@ -67,7 +67,7 @@ public class PlayerShopPacket {
     public static byte[] requestShopPic(final int oid) {
         final PacketWriter pw = new PacketWriter(17);
 
-        pw.writeShort(SendPacketOpcode.SEND_TITLE_BOX.getValue());
+        pw.writeShort(SendPacketOpcode.ENTRUSTED_SHOP_CHECK_RESULT.getValue());
         pw.write(17);
         pw.writeInt(oid);
         pw.writeShort(0);
@@ -79,7 +79,7 @@ public class PlayerShopPacket {
     public static final byte[] addCharBox(final MapleCharacter c, final int type) {
         final PacketWriter pw = new PacketWriter();
 
-        pw.writeShort(SendPacketOpcode.UPDATE_CHAR_BOX.getValue());
+        pw.writeShort(SendPacketOpcode.MINIROOM_BALLOON.getValue());
         pw.writeInt(c.getId());
         PacketHelper.addAnnounceBox(pw, c);
 
@@ -89,7 +89,7 @@ public class PlayerShopPacket {
     public static final byte[] removeCharBox(final MapleCharacter c) {
         final PacketWriter pw = new PacketWriter();
 
-        pw.writeShort(SendPacketOpcode.UPDATE_CHAR_BOX.getValue());
+        pw.writeShort(SendPacketOpcode.MINIROOM_BALLOON.getValue());
         pw.writeInt(c.getId());
         pw.write(0);
 
@@ -99,7 +99,7 @@ public class PlayerShopPacket {
     public static final byte[] sendPlayerShopBox(final MapleCharacter c) {
         final PacketWriter pw = new PacketWriter();
 
-        pw.writeShort(SendPacketOpcode.UPDATE_CHAR_BOX.getValue());
+        pw.writeShort(SendPacketOpcode.MINIROOM_BALLOON.getValue());
         pw.writeInt(c.getId());
         PacketHelper.addAnnounceBox(pw, c);
 
