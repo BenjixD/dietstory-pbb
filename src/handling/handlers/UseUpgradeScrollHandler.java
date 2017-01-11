@@ -11,9 +11,6 @@ import handling.channel.handler.InventoryHandler;
 import tools.data.LittleEndianAccessor;
 import tools.packet.CWvsContext;
 
-/**
- * Created by Tim on 11/28/2016.
- */
 public class UseUpgradeScrollHandler {
 
     @PacketHandler(opcode = RecvPacketOpcode.USE_UPGRADE_SCROLL)

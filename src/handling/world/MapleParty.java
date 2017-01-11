@@ -32,6 +32,9 @@ public class MapleParty implements Serializable {
     private final List<MaplePartyCharacter> members = new LinkedList<>();
     private int id, expeditionLink = -1;
     private boolean disbanded = false;
+    private boolean isAppliable = false;
+    private boolean unkBool = true;
+    private String name = "";
 
     public MapleParty(int id, MaplePartyCharacter chrfor) {
         this.leader = chrfor;
@@ -133,5 +136,29 @@ public class MapleParty implements Serializable {
 
     public void disband() {
         this.disbanded = true;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isAppliable() {
+        return isAppliable;
+    }
+
+    public void setAppliable(boolean appliable) {
+        isAppliable = appliable;
+    }
+
+    public void setUnkBool(boolean unkBool) {
+        this.unkBool = unkBool;
+    }
+
+    public boolean isUnkBool() {
+        return unkBool;
     }
 }

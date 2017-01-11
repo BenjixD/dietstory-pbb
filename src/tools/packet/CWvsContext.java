@@ -2165,19 +2165,21 @@ public class CWvsContext {
 
     public static class PartyPacket {
 
-        public static byte[] partyCreated(int partyid) {
+        public static byte[] partyCreated(MapleParty party) {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.PARTY_RESULT.getValue());
-            pw.write(16);
-            pw.writeInt(partyid);
-            pw.writeInt(999999999);
-            pw.writeInt(999999999);
-            pw.writeInt(0);
-            pw.writeInt(0);
-            pw.write(0);
-            pw.write(1);
-            pw.writeMapleAsciiString("Best party ever!");
+            pw.write(PartyType.PARTY_CREATE.getValue());
+            pw.writeInt(party.getId());
+            pw.writeInt(999999999); // dwTownID
+            pw.writeInt(999999999); // dwFieldID
+            pw.writeInt(0); // nGrade
+            pw.writeShort(0); // pt.x
+            pw.writeShort(0); // pt.y
+            pw.write(party.isAppliable());
+            pw.write(0); // dwCID
+            pw.write(1); // sApplierName._m_pStr
+            pw.writeMapleAsciiString(party.getName());
             
             return pw.getPacket();
         }
@@ -2225,7 +2227,7 @@ public class CWvsContext {
             addPartyStatus(forchannel, party, lew, leaving, false);
         }
 
-        public static void addPartyStatus(int forchannel, MapleParty party, PacketWriter lew, boolean leaving, boolean exped) {
+        public static void addPartyStatus(int forchannel, MapleParty party, PacketWriter pw, boolean leaving, boolean exped) {
             List<MaplePartyCharacter> partymembers;
             if (party == null) {
                 partymembers = new ArrayList<>();
@@ -2236,42 +2238,44 @@ public class CWvsContext {
                 partymembers.add(new MaplePartyCharacter());
             }
             for (MaplePartyCharacter partychar : partymembers) {
-                lew.writeInt(partychar.getId());
+                pw.writeInt(partychar.getId());
             }
             for (MaplePartyCharacter partychar : partymembers) {
-                lew.writeAsciiString(partychar.getName(), 13);
+                pw.writeAsciiString(partychar.getName(), 13);
             }
             for (MaplePartyCharacter partychar : partymembers) {
-                lew.writeInt(partychar.getJobId());
+                pw.writeInt(partychar.getJobId());
             }
             for (MaplePartyCharacter partychar : partymembers) {
-                lew.writeInt(partychar.getLevel());
+                pw.writeInt(partychar.getLevel());
             }
             for (MaplePartyCharacter partychar : partymembers) {
-                lew.writeInt(partychar.isOnline() ? partychar.getChannel() - 1 : -2);
+                pw.writeInt(partychar.isOnline() ? partychar.getChannel() - 1 : -2);
             }
             
-            lew.writeInt(party == null ? 0 : party.getLeader().getId());
+            pw.writeInt(party == null ? 0 : party.getLeader().getId());
             if (exped) {
                 return;
             }
             for (MaplePartyCharacter partychar : partymembers) {
-                lew.writeInt(partychar.getChannel() == forchannel ? partychar.getMapid() : 999999999);
+                pw.writeInt(partychar.getChannel() == forchannel ? partychar.getMapid() : 999999999);
             }
             for (MaplePartyCharacter partychar : partymembers) {
                 if ((partychar.getChannel() == forchannel) && (!leaving)) {
-                    lew.writeInt(partychar.getDoorTown());
-                    lew.writeInt(partychar.getDoorTarget());
-                    lew.writeInt(partychar.getDoorSkill());
-                    lew.writeInt(partychar.getDoorPosition().x);
-                    lew.writeInt(partychar.getDoorPosition().y);
+                    pw.writeInt(partychar.getDoorTown());
+                    pw.writeInt(partychar.getDoorTarget());
+                    pw.writeInt(partychar.getDoorSkill());
+                    pw.writeInt(partychar.getDoorPosition().x);
+                    pw.writeInt(partychar.getDoorPosition().y);
                 } else {
-                    lew.writeInt(leaving ? 999999999 : 0);
-                    lew.writeLong(leaving ? 999999999L : 0L);
-                    lew.writeLong(leaving ? -1L : 0L);
+                    pw.writeInt(leaving ? 999999999 : 0);
+                    pw.writeLong(leaving ? 999999999L : 0L);
+                    pw.writeLong(leaving ? -1L : 0L);
                 }
             }
-            lew.write(1);
+            pw.write(party.isAppliable());
+            pw.write(party.isUnkBool());
+            pw.writeMapleAsciiString(party.getName());
         }
 
         public static byte[] updateParty(int forChannel, MapleParty party, PartyOperation op, MaplePartyCharacter target) {
@@ -2282,7 +2286,7 @@ public class CWvsContext {
                 case DISBAND:
                 case EXPEL:
                 case LEAVE:
-                    pw.write(21); // 18
+                    pw.write(PartyType.PARTY_LEAVE.getValue());
                     pw.writeInt(party.getId());
                     pw.writeInt(target.getId());
                     pw.write(op == PartyOperation.DISBAND ? 0 : 1);
@@ -2294,13 +2298,17 @@ public class CWvsContext {
                     addPartyStatus(forChannel, party, pw, op == PartyOperation.LEAVE);
                     break;
                 case JOIN:
-                    pw.write(24); // 21
+                    pw.write(PartyType.PARTY_JOIN.getValue());
+                    pw.writeInt(party.getId()); // new 179
                     pw.writeMapleAsciiString(target.getName());
+                    pw.write(0); // ? new 179
+                    pw.writeInt(0); // ? new 179
                     addPartyStatus(forChannel, party, pw, false);
                     break;
                 case SILENT_UPDATE:
                 case LOG_ONOFF:
-                    pw.write(16); // 13
+                    pw.write(PartyType.PARTY_UPDATE.getValue());
+                    pw.write(party.isAppliable());
                     pw.writeInt(party.getId());
                     addPartyStatus(forChannel, party, pw, op == PartyOperation.LOG_ONOFF);
                     break;
@@ -2323,6 +2331,25 @@ public class CWvsContext {
             pw.writeInt(targetId);
             pw.writeInt(skillId);
             pw.writePos(position);
+
+            return pw.getPacket();
+        }
+
+        public static byte[] partyMemberCandidateResult(MapleCharacter chr){
+            PacketWriter pw = new PacketWriter();
+
+            pw.writeShort(SendPacketOpcode.PARTY_MEMBER_CANDIDATE_RESULT.getValue());
+            List<MapleCharacter> charList = chr.getMap().getCharacters();
+            pw.write(charList.size());
+            for(MapleCharacter mapleCharacter : charList){
+                if(mapleCharacter.getId() != chr.getId()) {
+                    pw.writeInt(mapleCharacter.getId());
+                    pw.writeMapleAsciiString(mapleCharacter.getName());
+                    pw.writeShort(mapleCharacter.getJob());
+                    pw.writeShort(mapleCharacter.getSubcategory());
+                    pw.write(mapleCharacter.getLevel());
+                }
+            }
 
             return pw.getPacket();
         }
@@ -2399,19 +2426,6 @@ public class CWvsContext {
             }
             pw.writeShort(0);
 
-            return pw.getPacket();
-        }
-
-        public static byte[] showMemberSearch(List<MapleCharacter> chr) {
-            PacketWriter pw = new PacketWriter();
-            pw.writeShort(SendPacketOpcode.PARTY_MEMBER_CANDIDATE_RESULT.getValue());
-            pw.write(chr.size());
-            for (MapleCharacter c : chr) {
-                pw.writeInt(c.getId());
-                pw.writeMapleAsciiString(c.getName());
-                pw.writeShort(c.getJob());
-                pw.write(c.getLevel());
-            }
             return pw.getPacket();
         }
 
@@ -3312,8 +3326,8 @@ public class CWvsContext {
         
         /**
          * This handles the morph gauge for the kaiser class. Using basic attacks will fill the morph gauge.
-         * @param statups
          * @param effect
+         * @param amount
          * @return
          */
         public static byte[] giveBuff(MapleStatEffect effect, int amount) {

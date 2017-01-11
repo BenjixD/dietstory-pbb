@@ -8,9 +8,6 @@ import handling.login.LoginServer;
 import tools.data.LittleEndianAccessor;
 import tools.packet.CField;
 
-/**
- * Created by Tim on 8/27/2016.
- */
 public class CharSelectHandler {
 
     @PacketHandler(opcode = RecvPacketOpcode.CHAR_SELECT)

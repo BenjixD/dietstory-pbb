@@ -9,7 +9,6 @@ import tools.data.LittleEndianAccessor;
 import tools.packet.CWvsContext;
 
 /**
- * Created by Tim on 12/27/2016.
  * Logic based off of PacketBakery's release at http://forum.ragezone.com/f427/xmas-release-matrix-system-5th-1122677/.
  * @Author PacketBakery
  */

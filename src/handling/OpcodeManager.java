@@ -65,6 +65,9 @@ public class OpcodeManager {
 		DistributeApHandler.class,
 		DistributeSpHandler.class,
 
+		PartyOperationHandler.class,
+		PartyMemberCandidateRequestHandler.class,
+
 		ItemMoveHandler.class,
 		UseItemHandler.class,
 		UseUpgradeScrollHandler.class,
@@ -130,7 +133,7 @@ public class OpcodeManager {
                 return true;
             } else {
 				if(!isSpamRecvHeader(opcode)){
-					System.out.println("[Unhandled] [Recv] (" + HexTool.getOpcodeToString(opcode) + ") " + lea);
+					System.out.println("[Unhandled] [Recv] (" + opcode + ") " + lea);
 				}
 			}
         } catch (IllegalAccessException e) {

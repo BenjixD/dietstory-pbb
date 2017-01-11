@@ -2325,7 +2325,7 @@ return pw.getPacket();
 	public static byte[] moveFollow(Point otherStart, Point myStart, Point otherEnd, List<LifeMovementFragment> moves) {
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.FOLLOW_MOVE.getValue());
+		pw.writeShort(SendPacketOpcode.PASSIVE_MOVE.getValue());
 		pw.writeInt(0);
 		pw.writePos(otherStart);
 		pw.writePos(myStart);

@@ -4,9 +4,6 @@ import constants.ServerConstants;
 
 import java.io.*;
 
-/**
- * Created by Tim on 12/3/2016.
- */
 public class OpChanger {
 
     public static void main(String[] args){

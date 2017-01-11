@@ -67,24 +67,26 @@ public class PartyHandler {
         }
     }
 
-    public static final void PartyOperation(LittleEndianAccessor slea, MapleClient c) {
-        int operation = slea.readByte();
+    public static final void PartyOperation(LittleEndianAccessor lea, MapleClient c) {
+        int operation = lea.readByte();
         MapleParty party = c.getPlayer().getParty();
         MaplePartyCharacter partyplayer = new MaplePartyCharacter(c.getPlayer());
 
         switch (operation) {
             case 1:
                 if (party == null) {
-                    party = World.Party.createParty(partyplayer);
+                    boolean appliable = lea.readByte() != 0;
+                    String name = lea.readMapleAsciiString();
+                    party = World.Party.createParty(partyplayer, name, appliable);
                     c.getPlayer().setParty(party);
-                    c.getSession().write(CWvsContext.PartyPacket.partyCreated(party.getId()));
+                    c.getSession().write(CWvsContext.PartyPacket.partyCreated(party));
                 } else {
                     if (party.getExpeditionId() > 0) {
                         c.getPlayer().dropMessage(5, "You may not do party operations while in a raid.");
                         return;
                     }
                     if ((partyplayer.equals(party.getLeader())) && (party.getMembers().size() == 1)) {
-                        c.getSession().write(CWvsContext.PartyPacket.partyCreated(party.getId()));
+                        c.getSession().write(CWvsContext.PartyPacket.partyCreated(party));
                     } else {
                         c.getPlayer().dropMessage(5, "You can't create a party as you are already in one");
                     }
@@ -124,7 +126,7 @@ public class PartyHandler {
                 c.getPlayer().setParty(null);
                 break;
             case 3:
-                int partyid = slea.readInt();
+                int partyid = lea.readInt();
                 if (party == null) {
                     party = World.Party.getParty(partyid);
                     if (party != null) {
@@ -151,10 +153,10 @@ public class PartyHandler {
                 if (party == null) {
                     party = World.Party.createParty(partyplayer);
                     c.getPlayer().setParty(party);
-                    c.getSession().write(CWvsContext.PartyPacket.partyCreated(party.getId()));
+                    c.getSession().write(CWvsContext.PartyPacket.partyCreated(party));
                 }
 
-                String theName = slea.readMapleAsciiString();
+                String theName = lea.readMapleAsciiString();
                 int theCh = World.Find.findChannel(theName);
                 if (theCh > 0) {
                     MapleCharacter invited = ChannelServer.getInstance(theCh).getPlayerStorage().getCharacterByName(theName);
@@ -184,7 +186,7 @@ public class PartyHandler {
                     c.getPlayer().dropMessage(5, "You may not do party operations while in a raid.");
                     return;
                 }
-                MaplePartyCharacter expelled = party.getMemberById(slea.readInt());
+                MaplePartyCharacter expelled = party.getMemberById(lea.readInt());
                 if (expelled != null) {
                     if ((MapConstants.isDojo(c.getPlayer().getMapId())) && (expelled.isOnline())) {
                         MapleDojoAgent.failed(c.getPlayer());
@@ -208,10 +210,19 @@ public class PartyHandler {
                     c.getPlayer().dropMessage(5, "You may not do party operations while in a raid.");
                     return;
                 }
-                MaplePartyCharacter newleader = party.getMemberById(slea.readInt());
+                MaplePartyCharacter newleader = party.getMemberById(lea.readInt());
                 if ((newleader != null) && (partyplayer.equals(party.getLeader()))) {
                     World.Party.updateParty(party.getId(), PartyOperation.CHANGE_LEADER, newleader);
                 }
+                break;
+            case 13:
+                if(party != null){
+                    if ((c.getPlayer().getEventInstance() != null) || (c.getPlayer().getPyramidSubway() != null) || (party.getExpeditionId() > 0) || (MapConstants.isDojo(c.getPlayer().getMapId()))) {
+                        c.getPlayer().dropMessage(5, "You may not do party operations while in a raid.");
+                        return;
+                    }
+                }
+
                 break;
             case 66://was 7
                 if (party != null) {
@@ -226,7 +237,7 @@ public class PartyHandler {
                     }
                     c.getPlayer().setParty(null);
                 }
-                int partyid_ = slea.readInt();
+                int partyid_ = lea.readInt();
                 party = World.Party.getParty(partyid_);
                 if ((party == null) || (party.getMembers().size() >= 8)) {
                     break;
@@ -244,7 +255,7 @@ public class PartyHandler {
                 }
                 break;
             case 8:
-                if (slea.readByte() > 0) {
+                if (lea.readByte() > 0) {
                     c.getPlayer().getQuestRemove(MapleQuest.getInstance(122900));
                 } else {
                     c.getPlayer().getQuestNAdd(MapleQuest.getInstance(122900));
@@ -268,7 +279,7 @@ public class PartyHandler {
             c.getPlayer().dropMessage(5, "You may not do party search here.");
             return;
         }
-        c.getSession().write(CWvsContext.PartyPacket.showMemberSearch(c.getPlayer().getMap().getCharacters()));
+        c.getSession().write(CWvsContext.PartyPacket.partyMemberCandidateResult(c.getPlayer()));
     }
 
     public static final void PartySearch(LittleEndianAccessor slea, MapleClient c) {
@@ -302,7 +313,7 @@ public class PartyHandler {
                 if ((c.getPlayer().getParty() == null) && (World.Party.searchParty(pst).size() < 10)) {
                     MapleParty party = World.Party.createParty(new MaplePartyCharacter(c.getPlayer()), pst.id);
                     c.getPlayer().setParty(party);
-                    c.getSession().write(CWvsContext.PartyPacket.partyCreated(party.getId()));
+                    c.getSession().write(CWvsContext.PartyPacket.partyCreated(party));
                     PartySearch ps = new PartySearch(slea.readMapleAsciiString(), pst.exped ? party.getExpeditionId() : party.getId(), pst);
                     World.Party.addSearch(ps);
                     if (pst.exped) {
@@ -360,7 +371,7 @@ public class PartyHandler {
                             } else if (partyId == 0) {
                                 party = World.Party.createPartyAndAdd(partyplayer, exped.getId());
                                 c.getPlayer().setParty(party);
-                                c.getSession().write(CWvsContext.PartyPacket.partyCreated(party.getId()));
+                                c.getSession().write(CWvsContext.PartyPacket.partyCreated(party));
                                 c.getSession().write(CWvsContext.ExpeditionPacket.expeditionStatus(exped, true, false));
                                 World.Party.expedPacket(exped.getId(), CWvsContext.ExpeditionPacket.expeditionJoined(c.getPlayer().getName()), null);
                                 World.Party.expedPacket(exped.getId(), CWvsContext.ExpeditionPacket.expeditionUpdate(exped.getIndex(party.getId()), party), null);
@@ -404,7 +415,7 @@ public class PartyHandler {
                 if ((et != null) && (c.getPlayer().getParty() == null) && (c.getPlayer().getLevel() <= et.maxLevel) && (c.getPlayer().getLevel() >= et.minLevel)) {
                     MapleParty party = World.Party.createParty(new MaplePartyCharacter(c.getPlayer()), et.exped);
                     c.getPlayer().setParty(party);
-                    c.getSession().write(CWvsContext.PartyPacket.partyCreated(party.getId()));
+                    c.getSession().write(CWvsContext.PartyPacket.partyCreated(party));
                     c.getSession().write(CWvsContext.ExpeditionPacket.expeditionStatus(World.Party.getExped(party.getExpeditionId()), true, false));
                 } else {
                     c.getSession().write(CWvsContext.ExpeditionPacket.expeditionError(0, ""));
@@ -452,7 +463,7 @@ public class PartyHandler {
                             } else if (partyId == 0) {
                                 party = World.Party.createPartyAndAdd(new MaplePartyCharacter(c.getPlayer()), exped.getId());
                                 c.getPlayer().setParty(party);
-                                c.getSession().write(CWvsContext.PartyPacket.partyCreated(party.getId()));
+                                c.getSession().write(CWvsContext.PartyPacket.partyCreated(party));
                                 c.getSession().write(CWvsContext.ExpeditionPacket.expeditionStatus(exped, true, false));
                                 World.Party.expedPacket(exped.getId(), CWvsContext.ExpeditionPacket.expeditionJoined(c.getPlayer().getName()), null);
                                 World.Party.expedPacket(exped.getId(), CWvsContext.ExpeditionPacket.expeditionUpdate(exped.getIndex(party.getId()), party), null);
@@ -621,7 +632,7 @@ public class PartyHandler {
                                     } else {
                                         MapleParty party = World.Party.createPartyAndAdd(expelled, exped.getId());
                                         chr.setParty(party);
-                                        chr.getClient().getSession().write(CWvsContext.PartyPacket.partyCreated(party.getId()));
+                                        chr.getClient().getSession().write(CWvsContext.PartyPacket.partyCreated(party));
                                         chr.getClient().getSession().write(CWvsContext.ExpeditionPacket.expeditionStatus(exped, true, false));
                                         World.Party.expedPacket(exped.getId(), CWvsContext.ExpeditionPacket.expeditionUpdate(exped.getIndex(party.getId()), party), null);
                                     }

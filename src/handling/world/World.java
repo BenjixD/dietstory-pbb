@@ -360,8 +360,14 @@ public class World {
             }
         }
 
-        public static MapleParty createParty(MaplePartyCharacter chrfor) {
+        public static MapleParty createParty(MaplePartyCharacter chrfor){
+            return createParty(chrfor, "Best party ever!", true);
+        }
+
+        public static MapleParty createParty(MaplePartyCharacter chrfor, String name, boolean isAppliable) {
             MapleParty party = new MapleParty(runningPartyId.getAndIncrement(), chrfor);
+            party.setName(name);
+            party.setAppliable(isAppliable);
             parties.put(party.getId(), party);
             return party;
         }
