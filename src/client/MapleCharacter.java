@@ -7834,7 +7834,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         return ret;
     }
 
-    public void onAttack(long maxhp, int maxmp, int skillid, int oid, int totDamage, int critCount) {
+    public void onAttack(long maxhp, int maxmp, int skillid, int oid, long totDamage, int critCount) {
         if (stats.hpRecoverProp > 0) {
             if (Randomizer.nextInt(100) <= stats.hpRecoverProp) {//i think its out of 100, anyway
                 if (stats.hpRecover > 0) {

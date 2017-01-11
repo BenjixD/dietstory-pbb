@@ -324,9 +324,9 @@ public enum SendPacketOpcode implements IntValueHolder {
 	MESSENGER_OPEN,
 
 	// CStage::OnPacket
-	WARP_TO_MAP,
-	FARM_OPEN,
-	CS_OPEN,
+	SET_FIELD,
+	SET_MONSTER_FARM,
+	SET_CASH_SHOP,
 
 	// CField::OnPacket
 	TRANSFER_FIELD_REQ_IGNORED,
