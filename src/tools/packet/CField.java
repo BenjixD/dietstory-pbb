@@ -4640,7 +4640,7 @@ return pw.getPacket();
 
 		PacketWriter pw = new PacketWriter();
 
-		pw.writeShort(SendPacketOpcode.ELEMENT_FLAME.getValue());
+		pw.writeShort(SendPacketOpcode.FLAME_WIZARD_ELEMENT_FLAME_SUMMON.getValue());
 
 		return pw.getPacket();
 	}
