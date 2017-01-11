@@ -405,7 +405,7 @@ return pw.getPacket();
 	public static byte[] getWarpToMap(MapleCharacter mc, MapleMap to, int spawnPoint, boolean bCharacterData) {
 		//IDA function = setField
 		PacketWriter pw = new PacketWriter();
-		pw.writeShort(SendPacketOpcode.WARP_TO_MAP.getValue());
+		pw.writeShort(SendPacketOpcode.SET_FIELD.getValue());
 
 		// size (int + int)
 		pw.writeShort(0);
@@ -1848,8 +1848,8 @@ return pw.getPacket();
 		} else {
 			pw.writeShort(SendPacketOpcode.ENERGY_ATTACK.getValue());
 		}
-
 		pw.writeInt(charid);
+		pw.write(0); // new
 		pw.write(mobCount);
 		// System.out.println(nMobCount + " - nMobCount");
 		pw.write(charLvl);

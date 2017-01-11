@@ -446,7 +446,7 @@ public class MapleServerHandler extends IoHandlerAdapter {
                 break;
             case LIE_DETECTOR:
             case LIE_DETECTOR_SKILL:
-                //PlayersHandler.LieDetector(slea, c, c.getPlayer(), header == RecvPacketOpcode.LIE_DETECTOR);
+                //PlayersHandler.LieDetector(slea, c, c.getPlayer(), header == RecvPacketOpcode.ANTI_MACRO_RESULT);
                 break;
             case LIE_DETECTOR_RESPONSE:
                 //PlayersHandler.LieDetectorResponse(slea, c);

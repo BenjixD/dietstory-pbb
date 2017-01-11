@@ -79,7 +79,7 @@ public class DamageParse {
 				return;
 			}
 		}
-		int totDamage = 0;
+		long totDamage = 0;
 		MapleMap map = player.getMap();
 		if (attack.getSkillId() == 4211006) {
 			for (AttackPair oned : attack.allDamage) {
@@ -105,7 +105,7 @@ public class DamageParse {
 				}
 			}
 		}
-		int totDamageToOneMonster = 0;
+		long totDamageToOneMonster = 0;
 		long hpMob = 0L;
 		PlayerStats stats = player.getStat();
 
@@ -608,7 +608,7 @@ public class DamageParse {
 		// Element element = player.getBuffedValue(MapleBuffStat.ElementalReset) != null ? Element.NEUTRAL : theSkill.getElement();
 
 		double MaxDamagePerHit = 0.0D;
-		int totDamage = 0;
+		long totDamage = 0;
 
 		int CriticalDamage = stats.passive_sharpeye_percent();
 		MapleMap map = player.getMap();
@@ -618,7 +618,7 @@ public class DamageParse {
 			if ((monster != null) && (monster.getLinkCID() <= 0)) {
 				boolean Tempest = (monster.getStatusSourceID(MonsterStatus.FREEZE) == 21120006)
 						&& (!monster.getStats().isBoss());
-				int totDamageToOneMonster = 0;
+				long totDamageToOneMonster = 0;
 				MapleMonsterStats monsterstats = monster.getStats();
 				int fixeddmg = monsterstats.getFixedDamage();
 				if ((!Tempest) && (!player.isGM())) {
@@ -1204,9 +1204,11 @@ public class DamageParse {
 		
 		lea.skip(4);
 		int finalAttack = lea.readInt();
-		
-		if (skillid > 0 && finalAttack > 0)
+
+		// BYTE3(nSkillID) && v18->m_finalAttack.nLastSkillID > 0
+		if (skillid > 0 && finalAttack != 0) {
 			lea.skip(1);
+		}
 		
 		if (skillid == 5111009) // spiral assault
 			lea.skip(1);
@@ -1221,12 +1223,16 @@ public class DamageParse {
 		if (skillid == 25111005) { // spirit frenzy
 			lea.skip(4); // nSpiritCoreEnhance
 		}
-		int skipNr = 6;
+
+		lea.skip(6); // ???
 		if(skillid == 0) {
-			skipNr++;
+			lea.skip(1);
 		}
-		lea.skip(skipNr);
-		
+		if(GameConstants.isMercedesSkill(skillid) && skillid != 23120011){
+			// why is 2312011 the only merc skill that doesn't skip 4? (rolling moonsault)
+			lea.skip(4);
+		}
+
 		ai.allDamage = new ArrayList<>();
 		for(int mob = 0 ; mob < ai.getTargets(); mob++) {
 			int oid = lea.readInt();
@@ -1506,35 +1512,35 @@ public class DamageParse {
 			ai.charge = lea.readInt();
 		}
 
-		if (GameConstants.isZero(c.getPlayer().getJob())){
+		if (GameConstants.isZero(c.getPlayer().getJob())) {
 			lea.readByte();
 		}
 		// is_userclone_summoned_able_skill
 		// nBySummonedID = lea.readInt();
-		
+
 		lea.skip(1);
 		ai.slot = ((byte) lea.readShort());
 		lea.skip(1);
-		
+
 		lea.skip(4);
 		lea.skip(1);
-		
+
 		if (ai.skillid == 3111013) {
 			lea.skip(4);
 			lea.skip(2); // x
 			lea.skip(2); // y
 		}
-		
+
 		ai.display = lea.readShort();
 		lea.skip(4);
 		lea.skip(1);
-		
+
 		if (ai.skillid == 23111001 || ai.skillid == 80001915 || ai.skillid == 36111010) {
-            lea.skip(4);
-            lea.skip(4);
-            lea.skip(4);
-        }
-		
+			lea.skip(4);
+			lea.skip(4);
+			lea.skip(4);
+		}
+
 		ai.speed = lea.readByte();
 		ai.lastAttackTickCount = lea.readInt();
 		lea.skip(4);
@@ -1544,7 +1550,7 @@ public class DamageParse {
 
 		// !is_shoot_skill_not_consuming_bullet
 		// lea.skip(4);
-		
+
 		lea.skip(2);
 		lea.skip(2);
 		lea.skip(2);
@@ -1552,16 +1558,22 @@ public class DamageParse {
 
 		lea.skip(5); // ???
 
-		if(skillid == 13111020){
-			lea.skip(4);
-		}
-		if(skillid == 13121001){
+		if(GameConstants.isMercedesSkill(skillid) && skillid != 23121052){ // ????
 			lea.skip(4);
 		}
 
+		// TODO not good to hardcore, figure out what category these skills fall in
+		if (skillid == 13111020) {
+			lea.skip(4);
+		}
+		if (skillid == 13121001) {
+			lea.skip(4);
+		}
+		if(skillid == 23121000){
+			lea.skip(4);
+		}
 
 		ai.allDamage = new ArrayList<>();
-		
 		for(int mob = 0 ; mob < ai.getTargets(); mob++) {
 			int oid = lea.readInt();
 			lea.skip(1);

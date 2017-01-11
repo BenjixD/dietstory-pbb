@@ -276,7 +276,7 @@ public class CSPacket {
         		{{5533035}, {100000988, 100000989, 100000990, 100000991, 100000992, 100000993, 100000994, 100000995, 100000996, 100000997, }},
         };
         
-        pw.writeShort(SendPacketOpcode.CS_OPEN.getValue());
+        pw.writeShort(SendPacketOpcode.SET_CASH_SHOP.getValue());
         PacketHelper.addCharacterInfo(pw, c.getPlayer());
         
         pw.write(1);
