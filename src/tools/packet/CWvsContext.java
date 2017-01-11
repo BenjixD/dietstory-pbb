@@ -1,12 +1,7 @@
 package tools.packet;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.EnumMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
@@ -2169,7 +2164,7 @@ public class CWvsContext {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.PARTY_RESULT.getValue());
-            pw.write(PartyType.PARTY_CREATE.getValue());
+            pw.write(PartyType.CREATE.getValue());
             pw.writeInt(party.getId());
             pw.writeInt(999999999); // dwTownID
             pw.writeInt(999999999); // dwFieldID
@@ -2202,7 +2197,7 @@ public class CWvsContext {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.PARTY_RESULT.getValue());
-            pw.write(7);
+            pw.write(PartyType.REQUEST_INVITE.getValue());
             pw.writeInt(from.getId());
             pw.writeMapleAsciiString(from.getName());
             pw.writeInt(from.getLevel());
@@ -2246,11 +2241,20 @@ public class CWvsContext {
             for (MaplePartyCharacter partychar : partymembers) {
                 pw.writeInt(partychar.getJobId());
             }
+            for(MaplePartyCharacter partychar : partymembers) {
+                pw.writeInt(60); // unk
+            }
             for (MaplePartyCharacter partychar : partymembers) {
                 pw.writeInt(partychar.getLevel());
             }
             for (MaplePartyCharacter partychar : partymembers) {
                 pw.writeInt(partychar.isOnline() ? partychar.getChannel() - 1 : -2);
+            }
+            for(MaplePartyCharacter partychar : partymembers) {
+                pw.writeInt(90); // unk
+            }
+            for(MaplePartyCharacter partychar : partymembers) {
+                pw.writeInt(30); // unk
             }
             
             pw.writeInt(party == null ? 0 : party.getLeader().getId());
@@ -2286,7 +2290,7 @@ public class CWvsContext {
                 case DISBAND:
                 case EXPEL:
                 case LEAVE:
-                    pw.write(PartyType.PARTY_LEAVE.getValue());
+                    pw.write(PartyType.LEAVE.getValue());
                     pw.writeInt(party.getId());
                     pw.writeInt(target.getId());
                     pw.write(op == PartyOperation.DISBAND ? 0 : 1);
@@ -2298,7 +2302,7 @@ public class CWvsContext {
                     addPartyStatus(forChannel, party, pw, op == PartyOperation.LEAVE);
                     break;
                 case JOIN:
-                    pw.write(PartyType.PARTY_JOIN.getValue());
+                    pw.write(PartyType.JOIN.getValue());
                     pw.writeInt(party.getId()); // new 179
                     pw.writeMapleAsciiString(target.getName());
                     pw.write(0); // ? new 179
@@ -2307,8 +2311,7 @@ public class CWvsContext {
                     break;
                 case SILENT_UPDATE:
                 case LOG_ONOFF:
-                    pw.write(PartyType.PARTY_UPDATE.getValue());
-                    pw.write(party.isAppliable());
+                    pw.write(PartyType.UPDATE.getValue());
                     pw.writeInt(party.getId());
                     addPartyStatus(forChannel, party, pw, op == PartyOperation.LOG_ONOFF);
                     break;
@@ -2339,16 +2342,16 @@ public class CWvsContext {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.PARTY_MEMBER_CANDIDATE_RESULT.getValue());
-            List<MapleCharacter> charList = chr.getMap().getCharacters();
+            Set<MapleCharacter> charList = new HashSet<>(chr.getMap().getCharacters());
+            charList.remove(chr);
             pw.write(charList.size());
             for(MapleCharacter mapleCharacter : charList){
-                if(mapleCharacter.getId() != chr.getId()) {
-                    pw.writeInt(mapleCharacter.getId());
-                    pw.writeMapleAsciiString(mapleCharacter.getName());
-                    pw.writeShort(mapleCharacter.getJob());
-                    pw.writeShort(mapleCharacter.getSubcategory());
-                    pw.write(mapleCharacter.getLevel());
-                }
+                pw.writeInt(mapleCharacter.getId());
+                pw.writeMapleAsciiString(mapleCharacter.getName());
+                pw.writeShort(mapleCharacter.getJob());
+                pw.writeShort(mapleCharacter.getSubcategory());
+                pw.write(mapleCharacter.getLevel());
+
             }
 
             return pw.getPacket();

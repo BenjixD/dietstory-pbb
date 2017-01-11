@@ -167,7 +167,7 @@ public class PartyOperationHandler {
                 }
                 break;
             case 13:
-                if(party != null){
+                if (party != null) {
                     if ((c.getPlayer().getEventInstance() != null) || (c.getPlayer().getPyramidSubway() != null) || (party.getExpeditionId() > 0) || (MapConstants.isDojo(c.getPlayer().getMapId()))) {
                         c.getPlayer().dropMessage(5, "You may not do party operations while in a raid.");
                         return;
@@ -176,11 +176,12 @@ public class PartyOperationHandler {
                     String name = lea.readMapleAsciiString();
                     party.setAppliable(isAppliable);
                     party.setName(name);
-                    for(MaplePartyCharacter mpc : party.getMembers()){
+                    for (MaplePartyCharacter mpc : party.getMembers()) {
                         c.getSession().write(CWvsContext.PartyPacket.updateParty(c.getChannel(), party, PartyOperation.SILENT_UPDATE, mpc));
                     }
+                } else {
+                    c.getPlayer().dropMessage(5, "You cannot do this action, as you are not in a party.");
                 }
-                c.getPlayer().dropMessage(5, "You currently do not have a party to do this action.");
                 break;
             case 66://was 7
                 if (party != null) {

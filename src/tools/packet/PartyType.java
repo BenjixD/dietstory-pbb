@@ -1,10 +1,11 @@
 package tools.packet;
 
 public enum PartyType {
-    PARTY_LEAVE(22),
-    PARTY_UPDATE(16),
-    PARTY_CREATE(17),
-    PARTY_JOIN(25);
+    REQUEST_INVITE(8),
+    UPDATE(16),
+    CREATE(17),
+    LEAVE(22),
+    JOIN(25);
 
 
     private int value;
