@@ -1164,14 +1164,14 @@ public class CSPacket {
     public static byte[] sendMesobagFailed(final boolean random) {
         PacketWriter pw = new PacketWriter();
 
-        pw.writeShort(random ? SendPacketOpcode.R_MESOBAG_FAILURE.getValue() : SendPacketOpcode.MESOBAG_FAILURE.getValue());
+        pw.writeShort(random ? SendPacketOpcode.R_MESOBAG_FAILURE.getValue() : SendPacketOpcode.MESO_GIVE_FAILED.getValue());
 
         return pw.getPacket();
     }
 
     public static byte[] sendMesobagSuccess(int mesos) {
         PacketWriter pw = new PacketWriter();
-        pw.writeShort(SendPacketOpcode.MESOBAG_SUCCESS.getValue());
+        pw.writeShort(SendPacketOpcode.MESO_GIVE_SUCCEEDED.getValue());
         pw.writeInt(mesos);
         return pw.getPacket();
     }

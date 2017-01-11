@@ -273,7 +273,7 @@ public class JobPacket {
 		public static byte[] updateCardStack(final int total) {
 			PacketWriter pw = new PacketWriter();
 
-			pw.writeShort(SendPacketOpcode.PHANTOM_CARD.getValue());
+			pw.writeShort(SendPacketOpcode.INC_JUDGEMENT_STACK_RESPONSE.getValue());
 			pw.write(total);
 
 			return pw.getPacket();
@@ -328,14 +328,14 @@ public class JobPacket {
 
 		public static byte[] showRechargeEffect() {
 			PacketWriter pw = new PacketWriter();
-			pw.writeShort(SendPacketOpcode.SHOW_SPECIAL_EFFECT.getValue());
+			pw.writeShort(SendPacketOpcode.EFFECT.getValue());
 			pw.write(EffectType.ANGELIC_RECHARGE.getValue());
 			return pw.getPacket();
 		}
 
 		public static byte[] RechargeEffect() {
 			PacketWriter pw = new PacketWriter();
-			pw.writeShort(SendPacketOpcode.SHOW_SPECIAL_EFFECT.getValue());
+			pw.writeShort(SendPacketOpcode.EFFECT.getValue());
 			pw.write(EffectType.ANGELIC_RECHARGE.getValue());
 			return pw.getPacket();
 		}
@@ -484,7 +484,7 @@ public class JobPacket {
 		public static byte[] updateLuminousGauge(int darktotal, int lighttotal, int darktype, int lighttype) {
 			PacketWriter pw = new PacketWriter();
 
-			pw.writeShort(SendPacketOpcode.LUMINOUS_COMBO.getValue());
+			pw.writeShort(SendPacketOpcode.INC_LARKNESS_RESPONSE.getValue());
 			pw.writeInt(darktotal);
 			pw.writeInt(lighttotal);
 			pw.writeInt(darktype);

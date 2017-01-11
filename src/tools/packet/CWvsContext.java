@@ -3046,7 +3046,7 @@ public class CWvsContext {
             PacketWriter pw = new PacketWriter();
 
             if (inChat) {
-                pw.writeShort(SendPacketOpcode.SHOW_SPECIAL_EFFECT.getValue());
+                pw.writeShort(SendPacketOpcode.EFFECT.getValue());
                 pw.write(EffectType.SHOW_ITEM_GAIN.getValue());
                 pw.write(1);
                 pw.writeInt(itemId);
@@ -3855,7 +3855,7 @@ public class CWvsContext {
             return pw.getPacket();
         }
 
-                public static byte[] cancelForeignBuff(int cid, List<MapleBuffStat> statups) {
+        public static byte[] cancelForeignBuff(int cid, List<MapleBuffStat> statups) {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.RESET_TEMPORARY_STAT_REMOTE.getValue());
