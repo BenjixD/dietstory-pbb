@@ -785,8 +785,9 @@ public final class MapleMap {
         final int caServerrate = ChannelServer.getInstance(channel).getCashRate();
         final int cashz = monster.getAwardedNX() * caServerrate;
         final int cashModifier = monster.getStats().isBoss() || monster.getStats().isPartyBonus() ? 2 : 1; //no rate
+        int rngNx = cashz/5 + 1;
         if (Randomizer.nextInt(100) < ServerConfig.CASH_DROP_RATE) { //kill nx
-            chr.modifyCSPoints(2, ((Randomizer.nextInt((int) Math.ceil(cashz/10)) + cashz * cashModifier) * (Randomizer.nextInt(2)) * chr.getCashMod()), true);
+            chr.modifyCSPoints(2, ((Randomizer.nextInt(rngNx) + cashz * cashModifier) * (Randomizer.nextInt(2)) * chr.getCashMod()), true);
         }
     }
 
