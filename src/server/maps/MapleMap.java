@@ -458,9 +458,6 @@ public final class MapleMap {
         final int mobpos = mob.getTruePosition().x;
         final int cmServerrate = ChannelServer.getInstance(channel).getMesoRate(chr.getWorld());
         final int chServerrate = ChannelServer.getInstance(channel).getDropRate(chr.getWorld());
-        final int caServerrate = ChannelServer.getInstance(channel).getCashRate();
-        final int cashz = ((mob.getStats().isBoss() && mob.getStats().getHPDisplayType() == 0 ? 20 : 1) * caServerrate);
-        final int cashModifier = (mob.getStats().isBoss() ? (mob.getStats().isPartyBonus() ? (mob.getMobExp() / 1000) : mob.getAwardedNX()) : (mob.getAwardedNX())); //NX
         Item idrop;
         byte d = 1;
         Point pos = new Point(0, mob.getTruePosition().y);
@@ -528,9 +525,7 @@ public final class MapleMap {
                 if (de.questid > 0 && chr.getQuestStatus(de.questid) != 1) {
                     continue;
                 }
-                if (de.itemId == 0) {
-                    chr.modifyCSPoints(2, (int) ((Randomizer.nextInt(cashz) + cashz + cashModifier) * (chr.getStat().cashBuff / 100.0) * chr.getCashMod()), true);
-                } else if (!gDropsDisabled) {
+                if (!gDropsDisabled) {
                     if (droptype == 3) {
                         pos.x = (mobpos + (d % 2 == 0 ? (40 * (d + 1) / 2) : -(40 * (d / 2))));
                     } else {
@@ -788,10 +783,10 @@ public final class MapleMap {
             dropFromMonster(drop, monster, instanced);
         }
         final int caServerrate = ChannelServer.getInstance(channel).getCashRate();
-        final int cashz = (int) ((monster.getStats().isBoss() && monster.getStats().getHPDisplayType() == 0 ? 3 : 1) * caServerrate);
-        final int cashModifier = (int) ((monster.getStats().isBoss() ? (monster.getStats().isPartyBonus() ? (Randomizer.nextInt(6)) : (Randomizer.nextInt(2))) : (Randomizer.nextInt(2)))); //no rate
+        final int cashz = monster.getAwardedNX() * caServerrate;
+        final int cashModifier = monster.getStats().isBoss() || monster.getStats().isPartyBonus() ? 2 : 1; //no rate
         if (Randomizer.nextInt(100) < ServerConfig.CASH_DROP_RATE) { //kill nx
-            chr.modifyCSPoints(1, (int) ((Randomizer.nextInt(cashz) + cashz + cashModifier) * (Randomizer.nextInt(2)) * chr.getCashMod()), true);
+            chr.modifyCSPoints(2, ((Randomizer.nextInt((int) Math.ceil(cashz/10)) + cashz * cashModifier) * (Randomizer.nextInt(2)) * chr.getCashMod()), true);
         }
     }
 

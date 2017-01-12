@@ -1509,7 +1509,12 @@ public class DamageParse {
 		int skillid = ai.skillid;
 
 		if (Skill.isKeyDownSkill(skillid)) {
-			ai.charge = lea.readInt();
+			if(skillid == 5221004) {
+				ai.charge = lea.readByte();
+			}else{
+				ai.charge = lea.readInt();
+			}
+
 		}
 
 		if (GameConstants.isZero(c.getPlayer().getJob())) {

@@ -1729,7 +1729,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
     /* Anti KS */
 
     public int getAwardedNX(){
-        return (int) (Math.sqrt(getMobMaxHp())/((getMobExp() * 11)+1)) * getMobExp();
+        return (int) ((Math.sqrt(getMobMaxHp())/((getMobExp() * 11)+1)) * getMobExp());
     }
 
     public void buffForBuffedChannels(){
