@@ -35,7 +35,7 @@ public class MapleKeyLayout implements Serializable {
         changed = false;
     }
 
-    public final void writeData(final PacketWriter mplew) {
+    public final void encode(final PacketWriter mplew) {
         mplew.write(keymap.isEmpty() ? 1 : 0);
         if (keymap.isEmpty()) {
             return;
