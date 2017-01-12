@@ -994,7 +994,6 @@ return pw.getPacket();
 				pw.writeLong(PacketHelper.getTime(-1));
 			}
 		}
-		pw.writeInt(0); // TODO // FIXME: 12/20/2016
 
 		return pw.getPacket();
 	}

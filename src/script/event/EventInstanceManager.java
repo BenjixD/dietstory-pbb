@@ -403,7 +403,7 @@ public class EventInstanceManager {
         byte ret;
         try {
             ret = ((Double) em.getIv().invokeFunction("playerDisconnected", this, chr)).byteValue();
-        } catch (NoSuchMethodException | ScriptException e) {
+        } catch (NoSuchMethodException | ClassCastException | ScriptException e) {
             ret = 0;
         }
 

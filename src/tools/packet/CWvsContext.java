@@ -3065,6 +3065,7 @@ public class CWvsContext {
             if (inChat) {
                 pw.writeShort(SendPacketOpcode.EFFECT.getValue());
                 pw.write(EffectType.SHOW_ITEM_GAIN.getValue());
+                pw.writeInt(0);
                 pw.write(1);
                 pw.writeInt(itemId);
                 pw.writeInt(quantity);
