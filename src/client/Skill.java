@@ -23,6 +23,8 @@ public class Skill implements Comparator<Skill> {
     private int id, animationTime = 0, masterLevel = 0, maxLevel = 0, delay = 0, trueMax = 0, eventTamingMob = 0, skillTamingMob = 0, skillType = 0, psd = 0, psdSkill = 0; //4 is alert
     private boolean invisible = false, chargeskill = false, timeLimited = false, combatOrders = false, pvpDisabled = false, magic = false, casterMove = false, pushTarget = false, pullTarget = false;
     private int hyper = 0;
+    int vskill = 0; // 0 = ?, 1 = skill, 2 = boost
+    private int boostjob = 0, vSkillIconID = 0;
 
     public Skill(final int id) {
         super();
@@ -43,8 +45,8 @@ public class Skill implements Comparator<Skill> {
 
     public static Skill loadFromData(final int id, final MapleData data, final MapleData delayData) {
         Skill ret = new Skill(id);
-        									
-        boolean isBuff, isVBoostSkill;
+
+        boolean isBuff;
         final int skillType = MapleDataTool.getInt("skillType", data, -1);
         final String elem = MapleDataTool.getString("elemAttr", data, null);
         if (elem != null) {
@@ -56,7 +58,7 @@ public class Skill implements Comparator<Skill> {
         ret.combatOrders = MapleDataTool.getInt("combatOrders", data, 0) > 0;
         ret.hyper = MapleDataTool.getInt("hyper", data, 0);
         ret.masterLevel = MapleDataTool.getInt("masterLevel", data, 0);
-        
+
         ret.psd = MapleDataTool.getInt("psd", data, 0);
         if(ret.psd == 1){
             final MapleData psdskill = data.getChildByPath("psdSkill");
@@ -65,13 +67,76 @@ public class Skill implements Comparator<Skill> {
                 ret.psdSkill = Integer.parseInt(data.getChildByPath("psdSkill").getChildren().get(0).getName());
             }
         }
-        
+
         if ((id == 22111001 || id == 22140000 || id == 22141002)) {
             ret.masterLevel = 5; //hack
         }
         ret.eventTamingMob = MapleDataTool.getInt("eventTamingMob", data, 0);
         ret.skillTamingMob = MapleDataTool.getInt("skillTamingMob", data, 0);
-        
+
+        boolean hasVskillMod = data.getChildByPath("vSkill") != null;
+        if(hasVskillMod) {
+            ret.vskill = MapleDataTool.getInt("vSkill", data); // returns 0 if not found
+            if (ret.vskill == 2) {
+                // TODO WZ this shit
+//                int job = ret.psdSkill / 10000;
+//                if(job == MapleJob.WARRIOR.getId()) { //
+//                    ret.boostjob.add(MapleJob.HERO.getId());
+//                    ret.boostjob.add(MapleJob.PALADIN.getId());
+//                    ret.boostjob.add(MapleJob.DARKKNIGHT.getId());
+//                }else if(job == MapleJob.MAGICIAN.getId()){
+//                    ret.boostjob.add(MapleJob.FP_ARCHMAGE.getId());
+//                    ret.boostjob.add(MapleJob.IL_ARCHMAGE.getId());
+//                    ret.boostjob.add(MapleJob.BISHOP.getId());
+//                }else if(job == MapleJob.BOWMAN.getId()){
+//                    ret.boostjob.add(MapleJob.MARKSMAN.getId());
+//                    ret.boostjob.add(MapleJob.BOWMASTER.getId());
+//                }else if(job == MapleJob.THIEF.getId()){
+//                    ret.boostjob.add(MapleJob.SHADOWER.getId());
+//                    ret.boostjob.add(MapleJob.NIGHTLORD.getId());
+//                }else if(job == MapleJob.PIRATE.getId()){
+//                    ret.boostjob.add(MapleJob.BUCCANEER.getId());
+//                    ret.boostjob.add(MapleJob.CORSAIR.getId());
+//                }else if(job == MapleJob.JETT1.getId()){
+//                    ret.boostjob.add(MapleJob.JETT4.getId());
+//                }else if(job == MapleJob.EVAN1.getId() || job == MapleJob.EVAN2.getId() || job == MapleJob.EVAN3.getId()
+//                        || job == 2200 || job == 2211 || job == 2217){
+//                    ret.boostjob.add(MapleJob.EVAN4.getId());
+//                }else if(job == MapleJob.DEMON_AVENGER1.getId()){
+//                    ret.boostjob.add(MapleJob.DEMON_AVENGER4.getId());
+//                }else if(job == MapleJob.PIRATE_CANNONNEER.getId()){
+//                    ret.boostjob.add(MapleJob.CANNON_MASTER.getId());
+//                }else if(job % 10 == 0) {
+//                    if(job <= 530){
+//                        ret.boostjob.add(job + 2);
+//                        if (!MapleJob.isExist(job + 2)) {
+//                            System.out.println("Oh no-");
+//                        }
+//                    }else {
+//                        ret.boostjob.add(job + 12);
+//                        if (!MapleJob.isExist(job + 12)) {
+//                            System.out.println("Oh no");
+//                        }
+//                    }
+////                }else if(job % 100 == 10){
+////                    ret.boostjob.add(job + 2);
+////                    if(!MapleJob.isExist(job + 12)){
+////                        System.out.println("Oh no");
+////                    }
+//                }else if(job % 10 == 1){
+//                    ret.boostjob.add(job + 1);
+//                    if(!MapleJob.isExist(job + 1)){
+//                        System.out.println("Oh no");
+//                    }
+//                }else{
+//                    ret.boostjob.add(job);
+//                    if(!MapleJob.isExist(job)){
+//                        System.out.println("Oh no");
+//                    }
+//                }
+            }
+        }
+
         final MapleData inf = data.getChildByPath("info");
         if (inf != null) {
             ret.pvpDisabled = MapleDataTool.getInt("pvp", inf, 1) <= 0;
@@ -135,9 +200,7 @@ public class Skill implements Comparator<Skill> {
                     }
                 }
             }
-            isVBoostSkill = false;
-            if(id/1000 == 400004){
-                isVBoostSkill = true;
+            if(ret.vskill == 2){
                 isBuff = false;
             }else {
                 switch (id) {
@@ -399,7 +462,7 @@ public class Skill implements Comparator<Skill> {
         ret.chargeskill = data.getChildByPath("keydown") != null;
 
         final MapleData level = data.getChildByPath("common");
-        
+
         if (level != null) {
             ret.maxLevel = MapleDataTool.getInt("maxLevel", level, 1); //10 just a failsafe, shouldn't actually happens
             ret.psdDamR = MapleDataTool.getString("damR", level, ""); //for the psdSkill tag
@@ -416,7 +479,7 @@ public class Skill implements Comparator<Skill> {
             ret.maxLevel = ret.effects.size();
             ret.trueMax = ret.effects.size();
         }
-        
+
         final MapleData level2 = data.getChildByPath("PVPcommon");
         if (level2 != null) {
             ret.pvpEffects = new ArrayList<>();
@@ -424,14 +487,14 @@ public class Skill implements Comparator<Skill> {
                 ret.pvpEffects.add(MapleStatEffect.loadSkillEffectFromData(level2, id, isBuff, i, "x"));
             }
         }
-        
+
         final MapleData reqDataRoot = data.getChildByPath("req");
         if (reqDataRoot != null) {
             for (final MapleData reqData : reqDataRoot.getChildren()) {
                 ret.requiredSkill.add(new Pair<>(reqData.getName(), MapleDataTool.getInt(reqData, 1)));
             }
         }
-        
+
         ret.animationTime = 0;
         if (effect != null) {
             for (final MapleData effectEntry : effect) {
@@ -498,8 +561,8 @@ public class Skill implements Comparator<Skill> {
     public boolean hasRequiredSkill() {
         return requiredSkill.size() > 0;
     }
-    
-        public int getPsdSkill(){
+
+    public int getPsdSkill(){
         return psdSkill;
     }
     public int getPsd(){
@@ -508,7 +571,7 @@ public class Skill implements Comparator<Skill> {
     public String getPsdDamR(){
         return psdDamR;
     }
-    
+
     public String getPsdtarget() {
         return targetPlus;
     }
@@ -576,8 +639,8 @@ public class Skill implements Comparator<Skill> {
             return false;
         } else if (GameConstants.isZero(skillForJob) && !GameConstants.isZero(job)) {
             return false;
-        //} else if (GameConstants.isBeastTamer(skillForJob) && !GameConstants.isBeastTamer(job)) {
-         //   return false;
+            //} else if (GameConstants.isBeastTamer(skillForJob) && !GameConstants.isBeastTamer(job)) {
+            //   return false;
         } else if (GameConstants.isAngelicBuster(skillForJob) && !GameConstants.isAngelicBuster(job)) {
             return false;
         } else if (GameConstants.isKaiser(skillForJob) && !GameConstants.isKaiser(job)) {
@@ -723,7 +786,7 @@ public class Skill implements Comparator<Skill> {
         if (id / 10000 >= 400 && id / 10000 <= 412) { //nl skill
             return ((id / 10000) % 10) == 4 || getMasterLevel() > 0;
         }
-        
+
         return ((id / 10000) % 10) == 2 && id < 90000000 && !isBeginnerSkill();
     }
 
@@ -779,127 +842,127 @@ public class Skill implements Comparator<Skill> {
     public boolean isPull() {
         return pullTarget;
     }
-    
+
     public static boolean isKeyDownSkill(int skillid) {
-    	switch(skillid) {
-	    	case 1311011: // la mancha spear
-			case 2221011: // freezing breath
-			case 2221052: // lightning orb
-			case 2321001: // big bang
-			case 3101008: // covering fire
-			case 3111013: // arrow blaster
-			case 3121020: // hurricane
-			case 4341002: // final cut
-			case 5221004: // rapid fire
-			case 5221022: // broadside
-			case 5311002: // monkey wave
-			case 60011216: // soul buster
-			case 65121003: // soul resonance
-			case 80001587: // airship lv. 1
-			case 80001389: // ?
-			case 80001390: // ?
-			case 80001391: // ?
-			case 80001392: // ?
-			case 80001629: // ?
-			case 80001836: // vanquisher's charm
-			case 80001880: // liberate the rune of barrage
-			case 80001887: // mille aiguilles
-			case 95001001: // flying battle chair mount
-			case 101110100: // wheel wind
-			case 131001004: // let's roll!
-			case 131001008: // sky jump
-			case 142111010: // kinetic jaunt
-				return true;
-			default:
-				return false;
-    	}
+        switch(skillid) {
+            case 1311011: // la mancha spear
+            case 2221011: // freezing breath
+            case 2221052: // lightning orb
+            case 2321001: // big bang
+            case 3101008: // covering fire
+            case 3111013: // arrow blaster
+            case 3121020: // hurricane
+            case 4341002: // final cut
+            case 5221004: // rapid fire
+            case 5221022: // broadside
+            case 5311002: // monkey wave
+            case 60011216: // soul buster
+            case 65121003: // soul resonance
+            case 80001587: // airship lv. 1
+            case 80001389: // ?
+            case 80001390: // ?
+            case 80001391: // ?
+            case 80001392: // ?
+            case 80001629: // ?
+            case 80001836: // vanquisher's charm
+            case 80001880: // liberate the rune of barrage
+            case 80001887: // mille aiguilles
+            case 95001001: // flying battle chair mount
+            case 101110100: // wheel wind
+            case 131001004: // let's roll!
+            case 131001008: // sky jump
+            case 142111010: // kinetic jaunt
+                return true;
+            default:
+                return false;
+        }
     }
-    
+
     public static boolean isSuperNovaSkill(int skillid) {
-	    switch(skillid) {
-		    case 4221052: // shadow veil
-			case 65121052: // supreme supernova
-				return true;
-			default:
-				return false;
-	    }
+        switch(skillid) {
+            case 4221052: // shadow veil
+            case 65121052: // supreme supernova
+                return true;
+            default:
+                return false;
+        }
     }
-    
+
     public static boolean isRushBombSkill(int skillid) {
-    	switch(skillid) {
-	    	case 2221012: // frozen orb
-			case 5101012: // tornado uppercut
-			case 12121001: // blazing extinction
-			case 61111218: // wing beat
-			case 101120200: // wind cutter
-			case 101120203: // storm break
-			case 101120205: // severe storm break
-				return true;
-			default:
-				return false;
-    	}
+        switch(skillid) {
+            case 2221012: // frozen orb
+            case 5101012: // tornado uppercut
+            case 12121001: // blazing extinction
+            case 61111218: // wing beat
+            case 101120200: // wind cutter
+            case 101120203: // storm break
+            case 101120205: // severe storm break
+                return true;
+            default:
+                return false;
+        }
     }
-    
+
     public static boolean isScreenCenterAttackSkill(int skillid) {
-    	switch(skillid) {
-			case 13121052: // monsoon 
-			case 80001431: // liberate the destructive rune
-			case 100001283: // shadow rain
-				return true;
-			default:
-				return false;
-    	}
+        switch(skillid) {
+            case 13121052: // monsoon
+            case 80001431: // liberate the destructive rune
+            case 100001283: // shadow rain
+                return true;
+            default:
+                return false;
+        }
     }
-    
+
     public static boolean isAranFallingStopSkill(int skillid) {
-    	switch(skillid) {
-	    	case 80001925: // smash swing
-		    case 80001926: // bomb punch
-		    case 80001927: // bomb punch
-		    case 80001936: // ?
-		    case 80001937: // ?
-		    case 80001938: // ?
-		    	return true;
-	    	default:
-	    		return false;
-    	}
+        switch(skillid) {
+            case 80001925: // smash swing
+            case 80001926: // bomb punch
+            case 80001927: // bomb punch
+            case 80001936: // ?
+            case 80001937: // ?
+            case 80001938: // ?
+                return true;
+            default:
+                return false;
+        }
     }
-    
+
     public static boolean isUseBulletMeleeAttack(int skillid) {
-    	return (skillid == 14121052 || (skillid >= 14111022 && skillid <= 14121003) || (skillid <= 14001027 && skillid >= 14000029));
+        return (skillid == 14121052 || (skillid >= 14111022 && skillid <= 14121003) || (skillid <= 14001027 && skillid >= 14000029));
     }
-    
+
     public static boolean isNonConsumingBulletMeleeAttack(int skillid) {
-    	switch(skillid) {
-			case 14000028: // shadow bat
-			case 14000029: // shadow bat
-			case 14121003: // dark omen
-			case 14121052: // dominion
-				return true;
-			default: 
-				return false;
-    	}
+        switch(skillid) {
+            case 14000028: // shadow bat
+            case 14000029: // shadow bat
+            case 14121003: // dark omen
+            case 14121052: // dominion
+                return true;
+            default:
+                return false;
+        }
     }
-    
+
     public static boolean isEvanForceSkill(int skillid) {
-    	switch(skillid) {
-    		case 22110022: // dragon flash
-    		case 22110023: // dragon flash
-    		case 22141011: // thunder circle
-    		case 22171062: // earth circle
-    		case 22140022: // dragon dive
-    		case 80001894: // dragon flash
-    			return true;
-    		default:
-    			return false;
-    	}
+        switch(skillid) {
+            case 22110022: // dragon flash
+            case 22110023: // dragon flash
+            case 22141011: // thunder circle
+            case 22171062: // earth circle
+            case 22140022: // dragon dive
+            case 80001894: // dragon flash
+                return true;
+            default:
+                return false;
+        }
     }
 
     public boolean isSpecialSkill() {
         int jobId = id / 10000;
         return jobId == 900 || jobId == 800 || jobId == 9000 || jobId == 9200 || jobId == 9201 || jobId == 9202 || jobId == 9203 || jobId == 9204;
     }
-	
+
     public static boolean isUserCloneSummonableSkill(int nSkillID) {
         switch (nSkillID) {
             case 14121002:
@@ -917,7 +980,7 @@ public class Skill implements Comparator<Skill> {
 
         }
     }
-	
+
     public static boolean isFlipAffectedAreaSkill(int nSkillID) {
         switch (nSkillID) {
             case 131001207:
@@ -930,9 +993,29 @@ public class Skill implements Comparator<Skill> {
                 return false;
         }
     }
-	
+
     @Override
     public int compare(Skill o1, Skill o2) {
         return (Integer.valueOf(o1.getId()).compareTo(Integer.valueOf(o2.getId())));
+    }
+
+    public int getVskill() {
+        return vskill;
+    }
+
+    public int getBoostjob() {
+        return boostjob;
+    }
+
+    public void setBoostjob(int boostjob) {
+        this.boostjob = boostjob;
+    }
+
+    public int getvSkillIconID() {
+        return vSkillIconID;
+    }
+
+    public void setvSkillIconID(int vSkillIconID) {
+        this.vSkillIconID = vSkillIconID;
     }
 }

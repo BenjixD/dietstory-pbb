@@ -47,8 +47,10 @@ import server.maps.MapleMapObject;
 import server.maps.MapleMapObjectType;
 import server.maps.MapleReactor;
 import server.shops.MapleShopFactory;
+import tools.HexTool;
 import tools.Pair;
 import tools.StringUtil;
+import tools.data.PacketWriter;
 import tools.packet.CField;
 import tools.packet.CWvsContext;
 import tools.packet.CWvsContext.InventoryPacket;
@@ -104,6 +106,17 @@ public class GMCommand {
             }
             c.getPlayer().changeJob((short) jobid);
             c.getPlayer().setSubcategory(c.getPlayer().getSubcategory());
+            return 1;
+        }
+    }
+
+    public static class FifthJob extends CommandExecute {
+
+        @Override
+        public int execute(MapleClient c, String[] splitted) {
+            PacketWriter pw = new PacketWriter();
+            c.getPlayer().forceCompleteQuest(1465);
+            pw.write(HexTool.getByteArrayFromHexString("40 05 03 00 00 00 00 00 00 04 00 00 61 A7 20 00 B4 00 59 6F 75 20 61 72 65 20 6E 6F 77 20 72 65 61 64 79 20 74 6F 20 63 6C 61 69 6D 20 61 20 6E 65 77 20 70 6F 77 65 72 2E 2E 2E 20 48 61 6E 64 20 6D 65 20 74 68 65 20 61 63 74 69 76 61 74 65 64 20 41 72 63 61 6E 65 20 53 74 6F 6E 65 2E 20 49 20 77 69 6C 6C 20 75 73 65 20 74 68 69 73 20 74 6F 20 61 77 61 6B 65 6E 20 61 20 6E 65 77 20 66 6F 72 63 65 20 77 69 74 68 69 6E 20 79 6F 75 2E 0D 0A 0D 0A 23 62 28 50 72 65 73 73 20 4F 6B 20 74 6F 20 63 6F 6D 70 6C 65 74 65 20 74 68 65 20 35 74 68 20 4A 6F 62 20 41 64 76 61 6E 63 65 6D 65 6E 74 2E 29 00 01 00 00 00 00"));
             return 1;
         }
     }

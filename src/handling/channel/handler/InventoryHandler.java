@@ -50,7 +50,6 @@ import client.inventory.*;
 import client.inventory.Equip.ScrollResult;
 import client.inventory.MaplePet.PetFlag;
 import constants.GameConstants;
-import constants.MapConstants;
 import handling.channel.ChannelServer;
 import handling.world.MaplePartyCharacter;
 import handling.world.World;
@@ -2402,22 +2401,51 @@ case 2431935: {
                     }
                     break;
                 }
-
+                case 2435719:
                 case 2435902:
+                    //
                     MapleInventory mi = chr.getInventory(MapleInventoryType.USE);
                     Item item = mi.getItem(slot);
-                    if(item != null && item.getItemId() == 2435902) {
-                        VMatrixEntry entry = new VMatrixEntry();
-                        // TODO Logic with cores (chances of own job vs other, for example)
-                        chr.addVMatrixEntry(entry);
-                        c.getSession().write(CWvsContext.nodestoneResult(itemId, entry.getSkillID1(), entry.getSkillID2(), entry.getSkillID3()));
+                    if(item != null && (item.getItemId() == 2435902 || item.getItemId() == 2435719)) {
+                        List<Integer> skillIds = new LinkedList<>();
+                        int size;
+                        if(Randomizer.isSuccess(GameConstants.OWN_JOB_V_SKILL_CHANCE)){
+                            skillIds.addAll(SkillFactory.getVSkillsByJob(chr.getJob()));
+                        }else if(Randomizer.isSuccess(GameConstants.BEGINNER_V_SKILL_CHANCE)){
+                            skillIds.addAll(SkillFactory.getBeginnerVSkills());
+                        }else{
+                            skillIds.addAll(SkillFactory.getAllVSkills());
+                        }
+                        size = skillIds.size();
+                        // could use an array
+                        int skillid1 = skillIds.get(Randomizer.nextInt(size));
+                        int skillid2 = 0, skillid3 = 0;
+                        Skill skill = SkillFactory.getSkill(skillid1);
+                        int iconid = skill.getvSkillIconID();
+                        // not the most beautiful of code, but meh.
+                        if(skill.getVskill() == 2){
+                            skillIds.clear();
+                            int randomJob = skill.getBoostjob();
+                            List<Integer> randomSkills = SkillFactory.getVSkillsByJob(randomJob);
+                            size = randomSkills.size();
+                            skillIds.addAll(randomSkills);
+                            skillIds.remove(new Integer(skillid1));
+                            size--;
+                            skillid2 = skillIds.get(Randomizer.nextInt(size));
+                            skillIds.remove(new Integer(skillid2));
+                            size--;
+                            skillid3 = skillIds.get(Randomizer.nextInt(size));
+                        }
+                        VMatrixRecord entry = new VMatrixRecord(iconid, skillid1, skillid2, skillid3);
+                        chr.addVMatrixRecord(entry);
+                        c.getSession().write(CWvsContext.nodestoneResult(iconid, entry.getSkillID1(), entry.getSkillID2(), entry.getSkillID3()));
                         chr.removeItem(itemId, 1);
                         chr.dropMessage(6, "You used a Nodestone and got a new Node.");
 //                        Map<MapleStat, Long> statMap = new HashMap<>();
 //                        statMap.put(MapleStat.SKIN, (long) 0);
 //                        c.getSession().write(CWvsContext.updatePlayerStats(statMap, chr)); // SendCharacterStat(1, 0); ?
-                        c.getSession().write(CField.itemEffect(chr.getId(), itemId)); // could be incorrect, maybe MESSAGE?
-
+                        c.getSession().write(CField.itemEffect(chr.getId(), itemId));
+                        c.getSession().write(CWvsContext.updateVMatrix(chr.getVMatrixRecords()));
                     }else{
                         chr.dropMessage(6, "You tried to open a nodestone without having a nodestone.");
                         // TODO Anti-cheat measures? Like account flag for example

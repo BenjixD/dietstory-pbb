@@ -6,7 +6,7 @@ import tools.data.PacketWriter;
  * Created by Sjonnie on 12/27/2016.
  * Logic based off of PacketBakery's release over at http://forum.ragezone.com/f427/xmas-release-matrix-system-5th-1122677/.
  */
-public class VMatrixEntry {
+public class VMatrixRecord {
 
     private boolean active;
     private int iconID, skillID1, skillID2, skillID3, skillLv, masterLv, row, exp;
@@ -14,7 +14,7 @@ public class VMatrixEntry {
     // public FileTime ftExpirationDate = FileTime.GetPermanentTime();
 
     /**
-     * Creates a new VMatrixEntry with the given values.
+     * Creates a new VMatrixRecord with the given values.
      * @param active Activity of this entry.
      * @param iconID The icon of this entry.
      * @param skillid1 The first skillID of this entry.
@@ -26,7 +26,7 @@ public class VMatrixEntry {
      * @param exp The current exp of this entry.
      * @param crc The crc of this entry?
      */
-    public VMatrixEntry(boolean active, int iconID, int skillid1, int skillid2, int skillid3, int skillLv, int masterlv, int row, int exp, long crc){
+    public VMatrixRecord(boolean active, int iconID, int skillid1, int skillid2, int skillid3, int skillLv, int masterlv, int row, int exp, long crc){
         this.active = active;
         this.iconID = iconID;
         skillID1 = skillid1;
@@ -40,25 +40,25 @@ public class VMatrixEntry {
     }
 
     /**
-     * Creates a new inactive VMatrixEntry with given values, and sets the skillLv, row, exp and crc to 0 and masterlv to 25.
+     * Creates a new inactive VMatrixRecord with given values, and sets the skillLv to 1, and row, exp and crc to 0 and masterlv to 25.
      * @param iconID
      * @param skillid1
      * @param skillid2
      * @param skillid3
      */
-    public VMatrixEntry(int iconID, int skillid1, int skillid2, int skillid3){
-        this(false, iconID, skillid1, skillid2, skillid3, 0, 25, 0, 0, 0);
+    public VMatrixRecord(int iconID, int skillid1, int skillid2, int skillid3){
+        this(false, iconID, skillid1, skillid2, skillid3, 1, 25, 0, 0, 0);
     }
 
     /**
-     * Creates a new inactive VMatrixEntry with default values (0/false).
+     * Creates a new inactive VMatrixRecord with default values (0/false).
      */
-    public VMatrixEntry(){
+    public VMatrixRecord(){
         this(false, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
     /**
-     * Encodes this VMatrixEntry given a PacketWriter.
+     * Encodes this VMatrixRecord given a PacketWriter.
      * @param pw The PacketWriter to encode to.
      */
     public void encode(PacketWriter pw){
@@ -155,36 +155,40 @@ public class VMatrixEntry {
     }
 
     /**
-     * Returns true if the given VMatrixEntry has the same iconid, skills, exp and masterLv.
+     * Returns true if the given VMatrixRecord has the same iconid, skills, exp and masterLv.
      * @param o
      * @return
      */
     public boolean equals(Object o){
         boolean result = false;
-        if(o instanceof VMatrixEntry){
-            VMatrixEntry vme = (VMatrixEntry) o;
-            result = vme.getIconID() == getIconID() && vme.getSkillID1() == getSkillID1() &&
-                    vme.getSkillID2() == getSkillID2() && vme.getSkillID3() == getSkillID3() &&
-                    vme.getExp() == getExp() && vme.getMasterLv() == getMasterLv();
+        if(o instanceof VMatrixRecord){
+            VMatrixRecord vmr = (VMatrixRecord) o;
+            result = vmr.getIconID() == getIconID() && vmr.getSkillID1() == getSkillID1() &&
+                    vmr.getSkillID2() == getSkillID2() && vmr.getSkillID3() == getSkillID3() &&
+                    vmr.getExp() == getExp() && vmr.getMasterLv() == getMasterLv();
         }
         return result;
     }
 
     /**
-     * Checks if the given VMatrixEntry has the same skills as this VMatrixEntry. Order dependant.
-     * @param vme
+     * Checks if the given VMatrixRecord has the same skills as this VMatrixRecord. Order dependant.
+     * @param vmr
      * @return
      */
-    public boolean hasSameSkillsAs(VMatrixEntry vme){
-        return vme.getSkillID1() == getSkillID1() && vme.getSkillID2() == getSkillID2() && vme.getSkillID3() == getSkillID3();
+    public boolean hasSameSkillsAs(VMatrixRecord vmr){
+        return vmr.getSkillID1() == getSkillID1() && vmr.getSkillID2() == getSkillID2() && vmr.getSkillID3() == getSkillID3();
     }
 
     /**
-     * Checks if this VMatrixEntry can be used to enhance the given VMatrixEntry.
-     * @param vme The given VMatrixEntry.
+     * Checks if this VMatrixRecord can be used to enhance the given VMatrixRecord.
+     * @param vmr The given VMatrixRecord.
      * @return
      */
-    public boolean canBeUsedFor(VMatrixEntry vme){
-        return vme.getSkillID1() == getSkillID1();
+    public boolean canBeUsedFor(VMatrixRecord vmr){
+        return vmr.getSkillID1() == getSkillID1();
+    }
+
+    public boolean isBoostNode(){
+        return skillID1 != 0 && skillID3 != 0;
     }
 }

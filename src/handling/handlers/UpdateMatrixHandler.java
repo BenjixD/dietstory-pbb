@@ -2,7 +2,9 @@ package handling.handlers;
 
 import client.MapleCharacter;
 import client.MapleClient;
-import client.inventory.VMatrixEntry;
+import client.Skill;
+import client.SkillFactory;
+import client.inventory.VMatrixRecord;
 import handling.PacketHandler;
 import handling.RecvPacketOpcode;
 import tools.data.LittleEndianAccessor;
@@ -20,21 +22,68 @@ public class UpdateMatrixHandler {
         boolean active = lea.readInt() > 0;
         int slot = lea.readInt();
         lea.readInt(); // always -1
-        VMatrixEntry matrixEntry = null;
-        if(slot < chr.getvMatrixEntries().size()) {
-            matrixEntry = chr.getvMatrixEntries().get(slot);
+        VMatrixRecord vmr = null;
+        if(slot < chr.getVMatrixRecords().size()) {
+            vmr = chr.getVMatrixRecords().get(slot);
         }
-        if(matrixEntry != null){
-            if(active){ // this is in the RZ post, but doesn't it have to be !active?
-                matrixEntry.setActive(false);
-                // TODO remove skills from chr
+        if(vmr != null){
+            if(active){
+                vmr.setActive(false);
+                // first skill info
+                Skill skill = chr.getSkill(vmr.getSkillID1());
+                if(chr.getSkill(vmr.getSkillID1()) == null){
+                    skill = SkillFactory.getSkill(vmr.getSkillID1());
+                }
+                int skillLv = chr.getSkillLevel(vmr.getSkillID1()) - vmr.getSkillLv();
+                chr.changeSingleSkillLevel(skill, skillLv, (byte) skill.getMasterLevel());
+                if(vmr.isBoostNode()){
+                    // second skill info
+                    skill = chr.getSkill(vmr.getSkillID2());
+                    if(chr.getSkill(vmr.getSkillID2()) == null){
+                        skill = SkillFactory.getSkill(vmr.getSkillID2());
+                    }
+                    skillLv = chr.getSkillLevel(vmr.getSkillID2()) - vmr.getSkillLv();
+                    chr.changeSingleSkillLevel(skill, skillLv, (byte) skill.getMasterLevel());
+
+                    // third skill info
+                    skill = chr.getSkill(vmr.getSkillID3());
+                    if(chr.getSkill(vmr.getSkillID3()) == null){
+                        skill = SkillFactory.getSkill(vmr.getSkillID3());
+                    }
+                    skillLv = chr.getSkillLevel(vmr.getSkillID3()) - vmr.getSkillLv();
+                    chr.changeSingleSkillLevel(skill, skillLv, (byte) skill.getMasterLevel());
+                }
             }else{
-                matrixEntry.setActive(true);
-                // TODO add skills to char
+                vmr.setActive(true);
+                // first skill info
+                Skill skill = chr.getSkill(vmr.getSkillID1());
+                if(chr.getSkill(vmr.getSkillID1()) == null){
+                    skill = SkillFactory.getSkill(vmr.getSkillID1());
+                }
+                int skillLv = chr.getSkillLevel(vmr.getSkillID1()) + vmr.getSkillLv();
+                chr.changeSingleSkillLevel(skill, skillLv, (byte) skill.getMasterLevel());
+                if(vmr.isBoostNode()){
+                    // second skill info
+                    skill = chr.getSkill(vmr.getSkillID2());
+                    if(chr.getSkill(vmr.getSkillID2()) == null){
+                        skill = SkillFactory.getSkill(vmr.getSkillID2());
+                    }
+                    skillLv = chr.getSkillLevel(vmr.getSkillID2()) + vmr.getSkillLv();
+                    chr.changeSingleSkillLevel(skill, skillLv, (byte) skill.getMasterLevel());
+
+                    // third skill info
+                    skill = chr.getSkill(vmr.getSkillID3());
+                    if(chr.getSkill(vmr.getSkillID3()) == null){
+                        skill = SkillFactory.getSkill(vmr.getSkillID3());
+                    }
+                    skillLv = chr.getSkillLevel(vmr.getSkillID3()) + vmr.getSkillLv();
+                    chr.changeSingleSkillLevel(skill, skillLv, (byte) skill.getMasterLevel());
+                }
             }
-            c.getSession().write(CWvsContext.updateVMatrix(chr.getvMatrixEntries()));
+            c.getSession().write(CWvsContext.updateVMatrix(chr.getVMatrixRecords()));
         }else{
             chr.dropMessage(6, "You tried to update a vSkill that was not in your current list of skills.");
         }
+        c.getSession().write(CWvsContext.updateVMatrix(chr.getVMatrixRecords()));
     }
 }

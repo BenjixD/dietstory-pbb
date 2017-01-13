@@ -1,12 +1,7 @@
 package client;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,6 +18,8 @@ import tools.Triple;
 public class SkillFactory {
 
     private static final Map<Integer, Skill> skills = new HashMap<>();
+    private static final Map<Integer, List<Integer>> vSkillsByJob = new HashMap<>();
+    private static final List<Integer> beginnerVSkills = new ArrayList<>();
     private static final Map<String, Integer> delays = new HashMap<>();
     private static final Map<Integer, CraftingEntry> crafts = new HashMap<>();
     private static final Map<Integer, FamiliarEntry> familiars = new HashMap<>();
@@ -33,6 +30,7 @@ public class SkillFactory {
         final MapleData delayData = MapleDataProviderFactory.getDataProvider("Character.wz").getData("00002000.img");
         
         final MapleData stringData = MapleDataProviderFactory.getDataProvider("String.wz").getData("Skill.img");
+        final MapleData vcoreData = MapleDataProviderFactory.getDataProvider("Etc.wz").getData("VCore.img");
         
         final MapleDataProvider data = MapleDataProviderFactory.getDataProvider("Skill.wz");
         final MapleDataDirectoryEntry root = data.getRoot();
@@ -72,7 +70,46 @@ public class SkillFactory {
                 }	
             }
         }
-        
+
+//        MapleData jobSkillData = vcoreData.getChildByPath("JobSkill");
+//        for(MapleData md : jobSkillData.getChildren()){
+//            for(MapleData jobData : md.getChildren()){
+//                int skillId = MapleDataTool.getIntConvert("id", jobData);
+//                int jobId = Integer.parseInt(jobData.getName());
+//                if(!vSkillsByJob.containsKey(jobId)){
+//                    vSkillsByJob.put(jobId, new LinkedList<>());
+//                }
+//                vSkillsByJob.get(jobId).add(skillId);
+//                getSkill(skillId).setBoostjob(jobId);
+//            }
+//        }
+
+        MapleData coreData = vcoreData.getChildByPath("CoreData");
+        for(MapleData iconId : coreData.getChildren()){
+            MapleData connectSkill = iconId.getChildByPath("connectSkill");
+            if(connectSkill != null) {
+                System.out.println(iconId.getName());
+                int skillid = MapleDataTool.getIntConvert("0", connectSkill);
+                Skill skill = getSkill(skillid);
+                if (skill != null) {
+                    skill.setvSkillIconID(Integer.parseInt(iconId.getName()));
+                    MapleData job = iconId.getChildByPath("job");
+                    String jobString = MapleDataTool.getString("0", job);
+                    if(StringUtil.isNumber(jobString)){
+                        Integer jobId = Integer.parseInt(jobString);
+                        if(!vSkillsByJob.containsKey(jobId)){
+                            vSkillsByJob.put(jobId, new LinkedList<>());
+                        }
+                        vSkillsByJob.get(jobId).add(skillid);
+                        skill.setBoostjob(jobId);
+                    }
+                    else if (jobString.equals("all")) {
+                        beginnerVSkills.add(skillid);
+                    }
+                }
+            }
+        }
+
         data.getData("FamiliarSkill.img").forEach(img -> addFamiliarData(img));
         
         for(byte b = 0; b <= 4; b++) {
@@ -163,6 +200,24 @@ public class SkillFactory {
             return skil.getName();
         }
         return null;
+    }
+
+    public static List<Integer> getVSkillsByJob(int job){
+        List<Integer> res = new LinkedList<>();
+        System.out.println(res);
+        System.out.println(vSkillsByJob);
+        res.addAll(vSkillsByJob.get(job));
+        return res;
+    }
+
+    public static List<Integer> getAllVSkills(){
+        List<Integer> res = new LinkedList<>();
+        for(Integer key : vSkillsByJob.keySet()){
+            res.addAll(vSkillsByJob.get(key));
+        }
+        res.addAll(skillsByJob.get(MapleJob.V_SKILLS.getId()));
+        System.err.println("Beginner V skills: " + skillsByJob.get(MapleJob.V_SKILLS.getId()));
+        return res;
     }
 
     public static Integer getDelay(final String id) {
@@ -556,5 +611,9 @@ public class SkillFactory {
             }
             return null;
         }
+    }
+
+    public static List<Integer> getBeginnerVSkills() {
+        return beginnerVSkills;
     }
 }

@@ -112,7 +112,7 @@ public class PlayerLoggedInHandler {
 		// c.getSession().write(HexTool.getByteArrayFromHexString("18 01 00 00 FF 00 00 FF 00 00 FF 00 00 FF 00 00 FF"));
 		
 		c.getSession().write(CWvsContext.updateCrowns(new int[] { -1, -1, -1, -1, -1 }));
-		c.getSession().write(CField.getWarpToMap(player, null, 0, true));
+		c.getSession().write(CField.setField(player, null, 0, true));
 		
 		PlayersHandler.calcHyperSkillPointCount(c);
 		// c.getSession().write(CSPacket.enableCSUse());

@@ -4511,12 +4511,12 @@ public class CWvsContext {
         }
     }
 
-    public static byte[] updateVMatrix(List<VMatrixEntry> matrixEntries){
+    public static byte[] updateVMatrix(List<VMatrixRecord> matrixRecords){
         PacketWriter pw = new PacketWriter();
         pw.writeShort(SendPacketOpcode.VMATRIX_UPDATE.getValue());
-        pw.writeInt(matrixEntries.size());
-        for(VMatrixEntry vme : matrixEntries){
-            vme.encode(pw);
+        pw.writeInt(matrixRecords.size());
+        for(VMatrixRecord vmr : matrixRecords){
+            vmr.encode(pw);
         }
         pw.write(0);
         return pw.getPacket();

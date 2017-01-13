@@ -211,7 +211,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     private boolean changed_wishlist, changed_trocklocations, changed_regrocklocations, changed_hyperrocklocations, changed_skillmacros,
             changed_savedlocations, changed_questinfo, changed_skills, changed_extendedSlots, update_skillswipe;
 
-    private List<VMatrixEntry> vMatrixEntries;
+    private List<VMatrixRecord> vMatrixRecords;
     /*
      * Start of Custom Feature
      */
@@ -243,7 +243,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         }
         quests = new LinkedHashMap<>(); // Stupid erev quest.
         skills = new LinkedHashMap<>(); //Stupid UAs.
-        vMatrixEntries = new LinkedList<>();
+        vMatrixRecords = new LinkedList<>();
         stats = new PlayerStats();
         innerSkills = new LinkedList<>();
         azwanShopList = null;
@@ -3031,23 +3031,23 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     }
 
     public void changeMap(final MapleMap to, final Point pos) {
-        changeMapInternal(to, pos, CField.getWarpToMap(this, to, 0x80, false), null);
+        changeMapInternal(to, pos, CField.setField(this, to, 0x80, false), null);
     }
 
     public void changeMap(final MapleMap to) {
-        changeMapInternal(to, to.getPortal(0).getPosition(), CField.getWarpToMap(this, to, 0, false), to.getPortal(0));
+        changeMapInternal(to, to.getPortal(0).getPosition(), CField.setField(this, to, 0, false), to.getPortal(0));
     }
 
     public void changeMap(final MapleMap to, final MaplePortal pto) {
-        changeMapInternal(to, pto.getPosition(), CField.getWarpToMap(this, to, pto.getId(), false), null);
+        changeMapInternal(to, pto.getPosition(), CField.setField(this, to, pto.getId(), false), null);
     }
 
     public void changeMapPortal(final MapleMap to, final MaplePortal pto) {
-        changeMapInternal(to, pto.getPosition(), CField.getWarpToMap(this, to, pto.getId(), false), pto);
+        changeMapInternal(to, pto.getPosition(), CField.setField(this, to, pto.getId(), false), pto);
     }
     
     public void changeEvolvingMap(final MapleMap to, final MaplePortal pto, String bgm, int applymap) {
-        changeMapInternal(to, pto.getPosition(), CField.getWarpToMap(this, to, pto.getId(), false), pto);
+        changeMapInternal(to, pto.getPosition(), CField.setField(this, to, pto.getId(), false), pto);
     }
 
     private void changeMapInternal(final MapleMap to, final Point pos, byte[] warpPacket, final MaplePortal pto) {
@@ -3516,6 +3516,15 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
 
     public void changeProfessionLevelExp(int id, int level, int exp) {
         changeSingleSkillLevel(SkillFactory.getSkill(id), ((level & 0xFF) << 24) + (exp & 0xFFFF), (byte) 10);
+    }
+
+    public Skill getSkill(int skillId){
+        for(Skill skill : getSkills().keySet()){
+            if(skill.getId() == skillId){
+                return skill;
+            }
+        }
+        return null;
     }
 
     public void changeSingleSkillLevel(final Skill skill, int newLevel, byte newMasterlevel) { //1 month
@@ -5579,12 +5588,12 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         this.rebuy = rebuy;
     }
 
-    public List<VMatrixEntry> getvMatrixEntries() {
-        return vMatrixEntries;
+    public List<VMatrixRecord> getVMatrixRecords() {
+        return vMatrixRecords;
     }
 
-    public void setvMatrixEntries(List<VMatrixEntry> vMatrixEntries) {
-        this.vMatrixEntries = vMatrixEntries;
+    public void setvMatrixRecords(List<VMatrixRecord> vMatrixRecords) {
+        this.vMatrixRecords = vMatrixRecords;
     }
 
     public static enum FameStatus {
@@ -6242,8 +6251,8 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     }
 
     public void removeItem(int id, int quantity) {
-        MapleInventoryManipulator.removeById(client, GameConstants.getInventoryType(id), id, -quantity, true, false);
-        client.getSession().write(InfoPacket.getShowItemGain(id, (short) quantity, true));
+        MapleInventoryManipulator.removeById(client, GameConstants.getInventoryType(id), id, quantity, true, false);
+        client.getSession().write(InfoPacket.getShowItemGain(id, (short) -quantity, true));
     }
 
     public void removeAll(int id) {
@@ -9620,8 +9629,8 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         forceReAddItem(equip, mit);
     }
 
-    public void addVMatrixEntry(VMatrixEntry vme){
-        vMatrixEntries.add(vme);
+    public void addVMatrixRecord(VMatrixRecord vmr){
+        vMatrixRecords.add(vmr);
     }
 
 }

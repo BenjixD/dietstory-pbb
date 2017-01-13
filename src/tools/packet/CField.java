@@ -399,10 +399,10 @@ return pw.getPacket();
 */
 
 	public static byte[] getCharInfo(MapleCharacter mc) {
-		return getWarpToMap(mc, null, 0, false);
+		return setField(mc, null, 0, false);
 	}
 
-	public static byte[] getWarpToMap(MapleCharacter mc, MapleMap to, int spawnPoint, boolean bCharacterData) {
+	public static byte[] setField(MapleCharacter mc, MapleMap to, int spawnPoint, boolean bCharacterData) {
 		//IDA function = setField
 		PacketWriter pw = new PacketWriter();
 		pw.writeShort(SendPacketOpcode.SET_FIELD.getValue());

@@ -31,18 +31,9 @@ import java.util.Map.Entry;
 import java.util.SimpleTimeZone;
 
 import client.*;
+import client.inventory.*;
 import com.google.common.collect.ArrayListMultimap;
 
-import client.inventory.Equip;
-import client.inventory.EquipSpecialStat;
-import client.inventory.EquipStat;
-import client.inventory.Item;
-import client.inventory.MapleInventory;
-import client.inventory.MapleInventoryType;
-import client.inventory.MaplePet;
-import client.inventory.MaplePotionPot;
-import client.inventory.MapleRing;
-import client.inventory.MapleWeaponType;
 import constants.GameConstants;
 import constants.ItemConstants;
 import handling.Buffstat;
@@ -1352,19 +1343,10 @@ public class PacketHelper {
 
         // new 178 idb
         if((mask & 0x200000) != 0){
-            pw.writeInt(0);
-            /*
-            // TODO this is the VMatrix block. for(int) encode all vmatrix entries. Ida says 7 ints, while PacketBakery says more. Gotta figure it out.
-            for(int ^){
-                int
-                int
-                int
-                int
-                int
-                int
-                int
+            pw.writeInt(chr.getVMatrixRecords().size());
+            for(VMatrixRecord vmr : chr.getVMatrixRecords()){
+                vmr.encode(pw);
             }
-             */
         }
         // end new 178 idb
         
