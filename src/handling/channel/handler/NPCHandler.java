@@ -1,6 +1,6 @@
 /*
  This file is part of the OdinMS Maple Story Server
- Copyright (C) 2008 ~ 2010 Patrick Huy <patrick.huy@frz.cc> 
+ Copyright (C) 2008 ~ 2010 Patrick Huy <patrick.huy@frz.cc>
  Matthias Butz <matze@odinms.de>
  Jan Christian Meyer <vimes@odinms.de>
 
@@ -20,21 +20,6 @@
  */
 package handling.channel.handler;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-
 import client.MapleCharacter;
 import client.MapleClient;
 import client.RockPaperScissors;
@@ -45,6 +30,19 @@ import client.inventory.MapleInventoryType;
 import constants.GameConstants;
 import constants.QuickMove;
 import handling.SendPacketOpcode;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import script.npc.NPCConversationManager;
 import script.npc.NPCScriptManager;
 import server.MapleInventoryManipulator;
@@ -79,7 +77,7 @@ public class NPCHandler {
     }
 
     public static final void NPCTalk(final LittleEndianAccessor slea, final MapleClient c, final MapleCharacter chr) {
-    	
+
         if (chr == null || chr.getMap() == null) {
             return;
         }
@@ -88,9 +86,9 @@ public class NPCHandler {
             return;
         }
         if (chr.hasBlockedInventory()) {
-        	return;
+            return;
         }
-        
+
         if (NPCScriptManager.getInstance().hasScript(c, npc.getId(), null)) { //I want it to come before shop
             NPCScriptManager.getInstance().start(c, npc.getId(), null);
         } else if (npc.hasShop()) {
@@ -243,28 +241,28 @@ public class NPCHandler {
         }
         final NPCConversationManager cm = NPCScriptManager.getInstance().getCM(c);
         /*if (cm != null && lastMsg == 0x17) {
-            c.getPlayer().handleDemonJob(slea.readInt());
-            return;
-        }*/
+         c.getPlayer().handleDemonJob(slea.readInt());
+         return;
+         }*/
         if (cm == null || c.getPlayer().getConversation() == 0 || cm.getLastMsg() != lastMsg) {
             return;
         }
         cm.setLastMsg((byte) -1);
         if (lastMsg == 1) {
             NPCScriptManager.getInstance().action(c, action, lastMsg, -1);
-        } else if (lastMsg == 3) {
-            if (action != 0) {
-                cm.setGetText(slea.readMapleAsciiString());
-                if (cm.getType() == 0) {
-                    NPCScriptManager.getInstance().startQuest(c, action, lastMsg, -1);
-                } else if (cm.getType() == 1) {
-                    NPCScriptManager.getInstance().endQuest(c, action, lastMsg, -1);
-                } else {
-                    NPCScriptManager.getInstance().action(c, action, lastMsg, -1);
-                }
-            } else {
-                cm.dispose();
-            }
+//        } else if (lastMsg == 3) { comment this out for now, this was the cause of yes/no not working
+//            if (action != 0) {
+//                cm.setGetText(slea.readMapleAsciiString());
+//                if (cm.getType() == 0) {
+//                    NPCScriptManager.getInstance().startQuest(c, action, lastMsg, -1);
+//                } else if (cm.getType() == 1) {
+//                    NPCScriptManager.getInstance().endQuest(c, action, lastMsg, -1);
+//                } else {
+//                    NPCScriptManager.getInstance().action(c, action, lastMsg, -1);
+//                }
+//            } else {
+//                cm.dispose();
+//            }
         } else if (lastMsg == 0x17) {
             NPCScriptManager.getInstance().action(c, (byte) 1, lastMsg, action);
         } else {
