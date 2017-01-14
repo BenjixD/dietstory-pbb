@@ -87,10 +87,13 @@ public class OpcodeManager {
 		NpcTalkHandler.class,
 		NpcTalkMoreHandler.class,
 		NpcShopHandler.class,
+		QuickMoveRequestHandler.class,
 		
 		ChangeMapSpecialHandler.class,
 		UseInnerPortalHandler.class,
-		ChangeKeymapHandler.class
+		ChangeKeymapHandler.class,
+
+		UpdateMatrixHandler.class
 
 
     };
@@ -154,7 +157,7 @@ public class OpcodeManager {
 			spamRecvHandlers.add(0x14D);
 			spamRecvHandlers.add(0x135);
 			spamRecvHandlers.add(RecvPacketOpcode.MOVE_PLAYER.getValue());
-			//			spamRecvHandlers.add(RecvPacketOpcode.MOVE_LIFE.getValue());
+			spamRecvHandlers.add(RecvPacketOpcode.MOVE_LIFE.getValue());
 			spamRecvHandlers.add(0x24B);
 			spamRecvHandlers.add(0x152);
 			spamRecvHandlers.add(RecvPacketOpcode.NPC_ACTION.getValue());
@@ -168,12 +171,13 @@ public class OpcodeManager {
 		String header = packet.substring(0, 5); // header: XX XX
 		if(spamSendHandlers.size() == 0){
 			spamSendHandlers.add("4A 00"); //
-			spamSendHandlers.add("9F 03"); // MOVE_MONSTER
-			spamSendHandlers.add("9E 03"); // MOVE_MONSTER_REPONSE
+			spamSendHandlers.add("BD 03"); // MOVE_MONSTER
+			spamSendHandlers.add("BE 03"); // MOVE_MONSTER_REPONSE
 			spamSendHandlers.add("80 02"); // MOVE_PLAYER
 			spamSendHandlers.add("E8 03");
 			spamSendHandlers.add("4B 00");
 			spamSendHandlers.add("0B 04");
+			spamSendHandlers.add("D7 03"); // MONSTER_SKILL
 		}
 		return spamSendHandlers.contains(header);
 	}
