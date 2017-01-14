@@ -224,6 +224,7 @@ public class NPCHandler {
     }
 
     public static void NPCMoreTalk(final LittleEndianAccessor slea, final MapleClient c) {
+        System.out.println("lastmasg6");
         final byte lastMsg = slea.readByte(); // 00 (last msg type I think)
         if (lastMsg == 9 && slea.available() >= 4) {
             slea.readShort();
@@ -240,32 +241,36 @@ public class NPCHandler {
             return;
         }
         final NPCConversationManager cm = NPCScriptManager.getInstance().getCM(c);
+        System.out.println("lastmasg7");
         /*if (cm != null && lastMsg == 0x17) {
          c.getPlayer().handleDemonJob(slea.readInt());
          return;
          }*/
+        System.out.println("LastMsg: " + lastMsg);
         if (cm == null || c.getPlayer().getConversation() == 0 || cm.getLastMsg() != lastMsg) {
+            System.out.println("lastmasg7");
             return;
         }
         cm.setLastMsg((byte) -1);
+
         if (lastMsg == 1) {
             NPCScriptManager.getInstance().action(c, action, lastMsg, -1);
-//        } else if (lastMsg == 3) { comment this out for now, this was the cause of yes/no not working
-//            if (action != 0) {
-//                cm.setGetText(slea.readMapleAsciiString());
-//                if (cm.getType() == 0) {
-//                    NPCScriptManager.getInstance().startQuest(c, action, lastMsg, -1);
-//                } else if (cm.getType() == 1) {
-//                    NPCScriptManager.getInstance().endQuest(c, action, lastMsg, -1);
-//                } else {
-//                    NPCScriptManager.getInstance().action(c, action, lastMsg, -1);
-//                }
-//            } else {
-//                cm.dispose();
-//            }
+            if (action != 0) {
+                cm.setGetText(slea.readMapleAsciiString());
+                if (cm.getType() == 0) {
+                    NPCScriptManager.getInstance().startQuest(c, action, lastMsg, -1);
+                } else if (cm.getType() == 1) {
+                    NPCScriptManager.getInstance().endQuest(c, action, lastMsg, -1);
+                } else {
+                    NPCScriptManager.getInstance().action(c, action, lastMsg, -1);
+                }
+            } else {
+                cm.dispose();
+            }
         } else if (lastMsg == 0x17) {
             NPCScriptManager.getInstance().action(c, (byte) 1, lastMsg, action);
         } else {
+            System.out.println("lastmasg");
             int selection = -1;
             if (slea.available() >= 4) {
                 selection = slea.readInt();
@@ -273,10 +278,12 @@ public class NPCHandler {
                 selection = slea.readByte();
             }
             if (lastMsg == 4 && selection == -1) {
+                System.out.println("lastmasg2");
                 cm.dispose();
                 return;//h4x
             }
             if (selection >= -1 && action != -1) {
+                System.out.println("lastmasg3");
                 if (cm.getType() == 0) {
                     NPCScriptManager.getInstance().startQuest(c, action, lastMsg, selection);
                 } else if (cm.getType() == 1) {
