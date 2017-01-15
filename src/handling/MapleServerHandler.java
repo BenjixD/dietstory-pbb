@@ -53,7 +53,6 @@ import handling.channel.handler.UserInterfaceHandler;
 import handling.login.LoginServer;
 import handling.login.handler.CharLoginHandler;
 import net.mina.MaplePacketDecoder;
-import tools.HexTool;
 import tools.MapleAESOFB;
 import tools.Randomizer;
 import tools.data.ByteArrayByteStream;
@@ -61,9 +60,6 @@ import tools.data.LittleEndianAccessor;
 import tools.packet.CField;
 import tools.packet.CSPacket;
 import tools.packet.LoginPacket;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class MapleServerHandler extends IoHandlerAdapter {
 	
@@ -655,8 +651,8 @@ public class MapleServerHandler extends IoHandlerAdapter {
             case PARTY_OPERATION:
                 PartyHandler.PartyOperation(lea, c);
                 break;
-            case DENY_PARTY_REQUEST:
-                PartyHandler.DenyPartyRequest(lea, c);
+            case PARTY_REQUEST_RESPONSE:
+                PartyHandler.PartyRequestResponse(lea, c);
                 break;
             case ALLOW_PARTY_INVITE:
                 PartyHandler.AllowPartyInvite(lea, c);

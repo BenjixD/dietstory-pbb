@@ -25,7 +25,7 @@ import tools.packet.PartyType;
 
 public class PartyHandler {
 
-    public static final void DenyPartyRequest(LittleEndianAccessor slea, MapleClient c) {
+    public static final void PartyRequestResponse(LittleEndianAccessor slea, MapleClient c) {
         int action = slea.readByte();
         if ((action == 50)) {
             MapleCharacter chr = c.getPlayer().getMap().getCharacterById(slea.readInt());
@@ -45,19 +45,19 @@ public class PartyHandler {
                     c.getPlayer().dropMessage(5, "You may not do party operations while in a raid.");
                     return;
                 }
-                if (action == 35) {//was 31 // 35== inv
+                if (action == PartyType.PARTY_REQUEST_ACCEPT.getValue()) {
                     if (party.getMembers().size() < 8) {
                         c.getPlayer().setParty(party);
                         World.Party.updateParty(partyid, PartyOperation.JOIN, new MaplePartyCharacter(c.getPlayer()));
                         c.getPlayer().receivePartyMemberHP();
                         c.getPlayer().updatePartyMemberHP();
                     } else {
-                        c.getSession().write(CWvsContext.PartyPacket.partyStatusMessage(22, null));
+                        c.getSession().write(CWvsContext.PartyPacket.partyStatusMessage(PartyType.PARTY_FULL_ERROR.getValue(), null));
                     }
-                } else if (action != 30) {//30 == party join
+                } else if (action != PartyType.PARTY_REQUEST_ACCEPT.getValue()) {
                     MapleCharacter cfrom = c.getChannelServer().getPlayerStorage().getCharacterById(party.getLeader().getId());
                     if (cfrom != null) {
-                        cfrom.getClient().getSession().write(CWvsContext.PartyPacket.partyStatusMessage(23, c.getPlayer().getName()));
+                        cfrom.getClient().getSession().write(CWvsContext.PartyPacket.partyStatusMessage(29, c.getPlayer().getName()));
                     }
                 }
             } else {

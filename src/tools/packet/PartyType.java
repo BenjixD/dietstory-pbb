@@ -1,6 +1,7 @@
 package tools.packet;
 
 public enum PartyType {
+    PARTY_INVITE(4),
     REQUEST_INVITE(8),
     UPDATE(16),
     CREATE(17),
@@ -12,6 +13,8 @@ public enum PartyType {
     ALREADY_JOINED_PARTY_2(27),
     PARTY_FULL_ERROR(28),
     INVITE_MESSAGE(34),
+    PARTY_REQUEST_DECLINE(38),
+    PARTY_REQUEST_ACCEPT(39),
     INVITE_MESSAGE_2(40),
     CANNOT_KICK_IN_THIS_MAP(47),
     KICK_FUNCTION_UNAVAILABLE(49),

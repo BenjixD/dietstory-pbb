@@ -2179,7 +2179,7 @@ public class CWvsContext {
             return pw.getPacket();
         }
 
-        public static byte[] partyInvite(MapleCharacter from) {
+        public static byte[] partyInviteOld(MapleCharacter from) {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.PARTY_RESULT.getValue());
@@ -2193,11 +2193,11 @@ public class CWvsContext {
             return pw.getPacket();
         }
 
-        public static byte[] partyInviteTest(MapleCharacter from) {
+        public static byte[] partyInvite(MapleCharacter from) {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.PARTY_RESULT.getValue());
-            pw.write(4); // 18
+            pw.write(PartyType.PARTY_INVITE.getValue()); // 18
             pw.writeInt(from.getParty() == null ? 0 : from.getParty().getId()); // idk
             pw.writeMapleAsciiString(from.getName());
             pw.writeInt(from.getLevel());
