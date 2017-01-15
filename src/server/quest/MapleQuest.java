@@ -15,6 +15,7 @@ import lib.ReadBin;
 import script.npc.NPCScriptManager;
 import tools.Pair;
 import tools.packet.CField.EffectPacket;
+import tools.packet.EffectType;
 
 public class MapleQuest implements Serializable {
 
@@ -314,8 +315,8 @@ public class MapleQuest implements Serializable {
                 a.runEnd(c, selection);
             }
 
-            c.getClient().getSession().write(EffectPacket.showForeignEffect(12)); // Quest completion
-            c.getMap().broadcastMessage(c, EffectPacket.showForeignEffect(c.getId(), 12), false);
+            c.getClient().getSession().write(EffectPacket.showForeignEffect(EffectType.QUEST_COMPLETION.getValue())); // Quest completion
+            c.getMap().broadcastMessage(c, EffectPacket.showForeignEffect(c.getId(), EffectType.QUEST_COMPLETION.getValue()), false);
         }
     }
 

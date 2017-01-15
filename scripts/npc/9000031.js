@@ -6,7 +6,7 @@ function start() {
     // destinyweapons = cm.getPlayer().getDestinyWeapons();
     // a = 0;
     // cm.sendSimple("Hello, what may I do for you?\r\n#L0#Tell me about the #bDestiny Weapons#k.#l\r\n#L1#What is the #bReward System#k?#l\r\n");
-	cm.sendOk("Hi, I'm currently disabled. Enjoy Acernis!");
+	cm.sendOk("Hi, I'm currently disabled. Enjoy Lucid!");
 	cm.dispose();
 	return;
 }

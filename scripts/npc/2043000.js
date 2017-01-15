@@ -21,7 +21,7 @@ function action(mode, type, selection) {
         else
             status--;
         if (status == 0) {
-    cm.sendSimple ("Hello #r#h ##k, Welcome to the #rAcernis VotePoint Exchanger. \r\n You have #r[" + cm.getVPoints() +"]#k Votepoints#k. \r\n #e#rTHERE ARE NO REFUNDS." +
+    cm.sendSimple ("Hello #r#h ##k, Welcome to the #rLucid VotePoint Exchanger. \r\n You have #r[" + cm.getVPoints() +"]#k Votepoints#k. \r\n #e#rTHERE ARE NO REFUNDS." +
                 "\r\n#L1##e#bNexon Cash#l" + 
                 "\r\n#L2##rMiracle Cubes#l");
         } else if (selection == 1) {

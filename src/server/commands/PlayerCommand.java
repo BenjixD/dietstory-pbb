@@ -409,7 +409,7 @@ public class PlayerCommand {
 			sb.append("\r\n@check < Displays various information; also use if you are stuck or unable to talk to NPC >");
 			//sb.append("\r\n@npc < Universal NPC >");
 			sb.append("\r\n@callgm < Send a message to all online GameMasters.");
-			sb.append("\r\n@home < Warp to Acernis base >");
+			sb.append("\r\n@home < Warp to Lucid base >");
 			sb.append("\r\n@fm < Warp to the FreeMarket instantly. >");
 			sb.append("\r\n@job < Job advancements! >");
 			sb.append("\r\n@save < Fixes your experience and saves your character >");

@@ -14,7 +14,7 @@ public enum EffectType {
     UNK_34(0x0A),
     RESIST(0x0B),
     UNK_41(0x0C), // byte byte byte int (something with skills?)
-    UNK_42(0x0D),
+    QUEST_COMPLETION(0x0D),
     KANNA_JOB_ADV(0x0E),
     SMALL_OUTWARDS_RING(0x0F), // used for experience gain?
     HP_RECOVERY(0x10), // byte amount, 0 = miss

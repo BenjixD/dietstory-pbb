@@ -14,6 +14,7 @@ import server.events.MapleDojoAgent;
 import server.quest.MapleQuest;
 import tools.data.LittleEndianAccessor;
 import tools.packet.CWvsContext;
+import tools.packet.PartyType;
 
 public class PartyOperationHandler {
 
@@ -117,8 +118,8 @@ public class PartyOperationHandler {
                             return;
                         }
                         if (party.getMembers().size() < 8) {
-                            c.getSession().write(CWvsContext.PartyPacket.partyStatusMessage(30, invited.getName()));
-                            invited.getClient().getSession().write(CWvsContext.PartyPacket.partyInvite(c.getPlayer()));
+                            c.getSession().write(CWvsContext.PartyPacket.partyStatusMessage(PartyType.INVITE_MESSAGE.getValue(), invited.getName()));
+                            invited.getClient().getSession().write(CWvsContext.PartyPacket.partyInviteTest(c.getPlayer()));
                         } else {
                             c.getSession().write(CWvsContext.PartyPacket.partyStatusMessage(22, null));
                         }
