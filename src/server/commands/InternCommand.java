@@ -203,6 +203,14 @@ public class InternCommand {
 
 			builder.append(" || hasTrade: ");
 			builder.append(other.getTrade() != null);
+
+
+			builder.append("\r\nJob : ");
+			builder.append(other.getJob());
+			builder.append(" || Map : ");
+			builder.append(other.getMapId());
+			builder.append(" || Channel : ");
+			builder.append(other.getClient().getChannel());
 			// builder.append(" || Latency: ");
 			// builder.append(other.getClient().getLatency());
 			// builder.append(" || PING: ");
