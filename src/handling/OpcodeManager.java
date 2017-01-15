@@ -93,8 +93,8 @@ public class OpcodeManager {
 		UseInnerPortalHandler.class,
 		ChangeKeymapHandler.class,
 
-		UpdateMatrixHandler.class
-
+		UpdateMatrixHandler.class,
+		BattleAnalysisRequestHandler.class
 
     };
     

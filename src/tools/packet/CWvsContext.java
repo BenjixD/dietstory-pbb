@@ -2193,6 +2193,28 @@ public class CWvsContext {
             return pw.getPacket();
         }
 
+        public static byte[] partyInviteTest(MapleCharacter from) {
+            PacketWriter pw = new PacketWriter();
+
+            pw.writeShort(SendPacketOpcode.PARTY_RESULT.getValue());
+            pw.write(4); // 18
+            pw.writeInt(from.getParty() == null ? 0 : from.getParty().getId()); // idk
+            pw.writeMapleAsciiString(from.getName());
+            pw.writeInt(from.getLevel());
+            pw.writeInt(from.getJob());
+            pw.writeInt(from.getSubcategory());
+            pw.write(0); // idk
+            pw.write(0); // something with party member (accessed as &v219 to get B_nPartyID)
+            boolean unk = false;
+            pw.write(unk);
+            if(unk){
+                pw.write(0);
+            }
+//            CWvsContext.PartyPacket.addPartyStatus(from.getClient().getChannel(), from.getParty(), pw, false);
+
+            return pw.getPacket();
+        }
+
         public static byte[] partyRequestInvite(MapleCharacter from) { // does not seems to exist anywhere
             PacketWriter pw = new PacketWriter();
 

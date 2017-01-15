@@ -306,6 +306,7 @@ public enum RecvPacketOpcode implements IntValueHolder {
 	BLACK_FRIDAY,
 	UPDATE_RED_LEAF,
 	QUICK_MOVE_REQUEST,
+	BATTLE_RECORD_CALC_REQUEST,
 
 	CHANGE_FM_MAP,
 

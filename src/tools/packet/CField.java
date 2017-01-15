@@ -98,7 +98,7 @@ public class CField {
 		// shutdown ? (timestamp)
         //pw.writeLong(PacketHelper.getTime(System.currentTimeMillis()));
 
-		// pw.write(HexTool.getByteArrayFromHexString("3F 01 00 00 00 C8 00 00"));
+        // pw.write(HexTool.getByteArrayFromHexString("3F 01 00 00 00 C8 00 00"));
         // pw.write(0);
         return pw.getPacket();
     }
@@ -415,7 +415,7 @@ public class CField {
         // wOldDriverID
         pw.writeInt(0);
 
-		// Are you logging into the handling? (1), or changing the map? (2)
+        // Are you logging into the handling? (1), or changing the map? (2)
         // bPopupDlg
         pw.write(bCharacterData ? 1 : 2);
 
@@ -465,7 +465,7 @@ public class CField {
         // ?
         pw.writeInt(0x64);
 
-		// party map experience.
+        // party map experience.
         // bool (int + string(bgm) + int(fieldid))
         pw.write(0);
 
@@ -526,14 +526,14 @@ public class CField {
         // int(size)->(int, string)
         pw.writeInt(0);
 
-		// FreezeHotEventInfo
+        // FreezeHotEventInfo
         // nAccountType
         pw.write(0);
 
         // dwAccountID
         pw.writeInt(0);
 
-		// EventBestFriendInfo
+        // EventBestFriendInfo
         // dwEventBestFriendAID
         pw.writeInt(0);
 
@@ -997,8 +997,8 @@ public class CField {
     public static byte[] spawnPlayerMapobject(MapleCharacter chr) {
         PacketWriter pw = new PacketWriter();
 
-		//02 00 00 00 01 04 00 4D 6F 6F 6E 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 C0 00 00 00 00 00 00 00 00 00 18 00 00 00 00 00 00 00 20 14 00 10 80 00 00 00 00 00 00 80 00 F0 0F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 DA F3 DA 75 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 00 00 00 02 05 5B 00 00 00 00 00 00 00 B3 8F 00 00 05 B0 06 10 00 37 20 E2 11 00 07 C2 5E 10 00 0B F0 DD 13 00 FF FF FF 00 00 00 00 F0 DD 13 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 E7 04 9F 01 00 23 00 00 00 00 01 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0B 00 43 72 65 61 74 69 6E 67 2E 2E 2E 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 FF FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-		//CF 36 0E 01
+        //02 00 00 00 01 04 00 4D 6F 6F 6E 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 C0 00 00 00 00 00 00 00 00 00 18 00 00 00 00 00 00 00 20 14 00 10 80 00 00 00 00 00 00 80 00 F0 0F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 DA F3 DA 75 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 00 00 01 FF FF FF 7F 00 00 00 00 00 00 00 00 00 00 00 02 05 5B 00 00 00 00 00 00 00 B3 8F 00 00 05 B0 06 10 00 37 20 E2 11 00 07 C2 5E 10 00 0B F0 DD 13 00 FF FF FF 00 00 00 00 F0 DD 13 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 E7 04 9F 01 00 23 00 00 00 00 01 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 0B 00 43 72 65 61 74 69 6E 67 2E 2E 2E 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 FF FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+        //CF 36 0E 01
         //01
         //08 00 61 73 64 30
         //00 00
@@ -1111,7 +1111,7 @@ public class CField {
         pw.writeInt(0); // nActiveEffectItemID
         pw.writeInt(0); // nMonkeyEffectItemID
 
-		// MapleQuestStatus status = chr.getQuestNoAdd(MapleQuest.getInstance(124000));
+        // MapleQuestStatus status = chr.getQuestNoAdd(MapleQuest.getInstance(124000));
         // status != null && status.getCustomData() != null ? Integer.parseInt(status.getCustomData()) :
         pw.writeInt(0); // Title
 
@@ -1124,7 +1124,7 @@ public class CField {
         pw.writeInt(0); // nCompletedSetItemID
         pw.writeShort(-1); // nFieldSeatID
 
-		// nPortableChairID
+        // nPortableChairID
         pw.writeInt(GameConstants.getInventoryType(chr.getChair())
                 == MapleInventoryType.SETUP ? chr.getChair() : 0);
 
@@ -3122,7 +3122,7 @@ public class CField {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.PLAYER_INTERACTION.getValue());
-			// pw.write(PlayerInteractionHandler.Interaction.START_TRADE.action);
+            // pw.write(PlayerInteractionHandler.Interaction.START_TRADE.action);
             // if (number != 0){//13 a0
             //// pw.write(HexTool.getByteArrayFromHexString("13 01 01 03 FE
             // 53 00 00 40 08 00 00 00 E2 7B 00 00 01 E9 50 0F 00 03 62 98 0F 00
@@ -3366,14 +3366,14 @@ public class CField {
                         pw.writeMapleAsciiString((String) obj);
                     }
                     break;
-                case 2: // OnAskYesNo
+                case 3: // OnAskYesNo
                     pw.write(0);
                     if ((talk.getParam() & 4) != 0) {
                         pw.writeInt(talk.getNpcIDD());
                     }
                     pw.writeMapleAsciiString(talk.getText());
                     break;
-                case 3: // OnAskText
+                case 4: // OnAskText
                     if ((talk.getParam() & 4) != 0) {
                         pw.writeInt(talk.getNpcIDD());
                     }
@@ -3382,7 +3382,7 @@ public class CField {
                     pw.writeShort(talk.getMin());
                     pw.writeShort(talk.getMax());
                     break;
-                case 4: // OnAskNumber
+                case 5: // OnAskNumber
                     pw.writeMapleAsciiString(talk.getText());
                     pw.writeInt(talk.getAmount());
                     pw.writeInt(talk.getMin());
@@ -3415,32 +3415,33 @@ public class CField {
                     }
                     break;
                 case 11: // OnAskAndroid
-                case 12: // OnAskPet
-                case 13: // OnAskPetAll
-                case 14: // OnAskActionPetEvolution
-                case 16: // OnAskYesNo
+                case 13: // OnAskPet
+                case 14: // OnAskPetAll
+                case 15: // OnAskActionPetEvolution
+                case 17: // OnAskYesNo
                     pw.write(0);
                     if ((talk.getParam() & 4) != 0) {
                         pw.writeInt(talk.getNpcIDD());
                     }
                     pw.writeMapleAsciiString(talk.getText());
                     break;
-                case 17: // OnAskBoxText
-                case 18: // OnAskSlideMenu
-                case 22: // OnAskAvatar
-                case 23: // OnAskSelectMenu
-                case 24: // OnAskAngelicBuster
+                case 19: // OnAskBoxText
+                case 20: // OnAskSlideMenu
+                case 25: // OnAskAvatar
+                case 26: // OnAskSelectMenu
+                case 27: // OnAskAngelicBuster
                     break;
-                case 25: // OnSayIllustration
-                case 26: // OnSayIllustration
-                case 27: // OnAskYesNoIllustration
-                case 28: // OnAskYesNoIllustration
-                case 30: // OnAskMenuIllustration
+                case 28: // OnSayIllustration
+                case 29: // OnSayIllustration
+                case 30: // OnAskYesNoIllustration
                 case 31: // OnAskYesNoIllustration
                 case 32: // OnAskMenuIllustration
-                case 34: // OnAskAvatarZero
-                case 38: // OnAskWeaponBox
-                case 39: // OnAskBoxText_BgImg
+                case 33: // OnAskYesNoIllustration
+                case 34: // OnAskYesNoIllustration
+                case 35: // OnAskMenuIllustration
+                case 37: // OnAskAvatarZero
+                case 41: // OnAskWeaponBox
+                case 42: // OnAskBoxText_BgImg
                     pw.writeShort(0); // background index
                     pw.writeMapleAsciiString("");
                     pw.writeMapleAsciiString("");
@@ -3449,29 +3450,29 @@ public class CField {
                     pw.writeShort(0); // font size
                     pw.writeShort(0); // top font margin
                     break;
-                case 40: // OnAskUserSurvey
+                case 43: // OnAskUserSurvey
                     pw.writeInt(0); // talk type
                     pw.write(1); // show exit button
                     pw.writeMapleAsciiString(talk.getText());
                     break;
-                case 42: // OnAskMixHair
-                case 43: // OnAskMixHairExZero
-                case 44: // OnAskCustomMixHair
-                case 45: // OnAskCustomMixHairAndProb
+                case 45: // OnAskMixHair
+                case 46: // OnAskMixHairExZero
+                case 47: // OnAskCustomMixHair
+                case 48: // OnAskCustomMixHairAndProb
                     pw.write(0); // bAngelicBuster
                     pw.writeInt(0); // left percentage
                     pw.writeInt(0); // right percentage
                     pw.writeMapleAsciiString(talk.getText());
                     break;
-                case 46: // OnAskMixHairNew
-                case 47: // OnAskMixHairNewExZero
-                case 49: // OnAskScreenShinningStarMsg
+                case 49: // OnAskMixHairNew
+                case 50: // OnAskMixHairNewExZero
+                case 52: // OnAskScreenShinningStarMsg
                     break;
-                case 51: // OnAskNumberUseKeyPad
+                case 55: // OnAskNumberUseKeyPad
                     pw.writeInt(0); // result
                     break;
-                case 52: // OnSpinOffGuitarRhythmGame
-                case 53: // OnGhostParkEnter
+                case 56: // OnSpinOffGuitarRhythmGame
+                case 57: // OnGhostParkEnter
                     pw.writeInt(0); // size
                     break;
                 default:
@@ -3499,7 +3500,7 @@ public class CField {
         }
 
         public static byte[] getSlideMenu(int npcid, int type, int lasticon, String sel) {
-			// Types: 0 - map selection 1 - neo city map selection 2 - korean
+            // Types: 0 - map selection 1 - neo city map selection 2 - korean
             // map selection 3 - tele rock map selection 4 - dojo buff selection
             PacketWriter pw = new PacketWriter();
 
@@ -4186,7 +4187,7 @@ public class CField {
         }
 
         public static byte[] setRedLeafStatus(int joejoe, int hermoninny, int littledragon, int ika) {
-			// packet made to set status
+            // packet made to set status
             // should remove it and make a handler for it, it's a recv opcode
 			/*
              * slea: E2 9F 72 00 5D 0A 73 01 E2 9F 72 00 04 00 00 00 00 00 00 00

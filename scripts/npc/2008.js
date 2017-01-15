@@ -19,7 +19,7 @@ function action(mode, type, selection) {
     } 
      
     if (status == 0) {
-        cm.sendNext("Hi welcome to Acernis. Have fun telling you own story!");
+        cm.sendNext("Hi welcome to Lucid. Have fun telling you own story!");
     } else if (status == 1) {
         cm.sendOk("You are now at Maple Island. Here you can calmly discover the basics of the game and train until you are at least level 10.\r\n\r\nOn the far right is a harbour, you can leave the island there when you are level 10.\r\n\r\nMaple Island also exists to evaluate your job decision. You may at the end of the island pick the job you prefer. You will get a starter pack and will be sent of to start your adventure!\r\n\r\nYou may also use @help! for a few commands! @home is useful, but you need to be level 50 in order to use it. Have fun!~~");
     } else {
