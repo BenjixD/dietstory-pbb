@@ -2183,7 +2183,7 @@ public class CWvsContext {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.PARTY_RESULT.getValue());
-            pw.write(24); // 18
+            pw.write(25); // 18
             pw.writeInt(from.getParty() == null ? 0 : from.getParty().getId());
             pw.writeMapleAsciiString(from.getName());
             pw.writeInt(from.getLevel());
@@ -2233,7 +2233,7 @@ public class CWvsContext {
 
             pw.writeShort(SendPacketOpcode.PARTY_RESULT.getValue());
             pw.write(message);
-            if (message == 33) {
+            if (message == PartyType.INVITE_MESSAGE.getValue()) {
                 pw.writeMapleAsciiString(charname);
             }
 

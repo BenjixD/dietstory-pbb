@@ -119,7 +119,7 @@ public class PartyOperationHandler {
                         }
                         if (party.getMembers().size() < 8) {
                             c.getSession().write(CWvsContext.PartyPacket.partyStatusMessage(PartyType.INVITE_MESSAGE.getValue(), invited.getName()));
-                            invited.getClient().getSession().write(CWvsContext.PartyPacket.partyInviteTest(c.getPlayer()));
+                            invited.getClient().getSession().write(CWvsContext.PartyPacket.partyInvite(c.getPlayer()));
                         } else {
                             c.getSession().write(CWvsContext.PartyPacket.partyStatusMessage(22, null));
                         }
