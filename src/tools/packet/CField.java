@@ -2072,7 +2072,7 @@ public class CField {
         pw.writeInt(itemid);
         pw.writeInt(0);
         pw.writeInt(0);
-        pw.write(HexTool.getByteArrayFromHexString("AC F4 3F 80 00 00 00 00 00 00 00 00 00"));
+        pw.write(HexTool.getByteArrayFromHexString( "FA 2D 99 7E 00 00 00 00 00 00 00 00 00 00"));
 
         return pw.getPacket();
     }
