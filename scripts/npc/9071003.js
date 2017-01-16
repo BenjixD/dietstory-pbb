@@ -13,10 +13,9 @@ function start() {
 function action(mode, type, selection) {
     if (mode == 1) {
         if (m == 1) {
-            cm.warp(cm.getSavedLocation("MONSTER_PARK"));
+            cm.warp(100000000);
         } else {
             cm.warp(951000000);
-            cm.saveReturnLocation("MONSTER_PARK");
         }
     }
     cm.dispose();
