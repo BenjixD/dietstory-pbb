@@ -448,7 +448,7 @@ public class NPCHandler {
             return;
         }
         for (QuickMove qm : QuickMove.values()) {
-            if (qm.getMap() == c.getPlayer().getMapId()) {
+            if (qm.getMap() != c.getPlayer().getMapId()) {
                 List<QuickMove.QuickMoveNPC> qmn = new LinkedList();
                 int npcs = qm.getNPCFlag();
                 for (QuickMove.QuickMoveNPC npc : QuickMove.QuickMoveNPC.values()) {

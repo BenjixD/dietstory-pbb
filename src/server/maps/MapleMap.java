@@ -2019,9 +2019,9 @@ public final class MapleMap {
             chr.updatePartyMemberHP();
             chr.receivePartyMemberHP();
         }
-        if (!chr.isInBlockedMap() && chr.getLevel() > 10 && isTown() && chr.getMapId() % 1000000 == 0 && chr.getMapId() <= 600000000) {
+        if (!chr.isInBlockedMap() && chr.getLevel() > 10) {
             for (QuickMove qm : QuickMove.values()) {
-                if (qm.getMap() == chr.getMapId()) {
+                if (qm.getMap() != chr.getMapId()) {
                     List<QuickMoveNPC> qmn = new LinkedList<>();
                     int npcs = qm.getNPCFlag();
                     for (QuickMoveNPC npc : QuickMoveNPC.values()) {
