@@ -50,6 +50,8 @@ import tools.Pair;
 import tools.Randomizer;
 import tools.StringUtil;
 import tools.data.PacketWriter;
+import tools.packet.enums.EffectType;
+import tools.packet.enums.PartyType;
 
 public class CWvsContext {
 

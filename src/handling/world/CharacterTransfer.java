@@ -20,10 +20,7 @@ import client.MapleTrait.MapleTraitType;
 import client.MonsterFamiliar;
 import client.Skill;
 import client.SkillEntry;
-import client.inventory.Item;
-import client.inventory.MapleImp;
-import client.inventory.MapleMount;
-import client.inventory.MaplePet;
+import client.inventory.*;
 import server.quest.MapleQuest;
 import server.quest.MapleQuestStatus;
 import tools.Pair;
@@ -60,6 +57,7 @@ public class CharacterTransfer implements Externalizable {
     /*Start of Custom Feature*/
     /*All custom shit declare here*/
     public int reborns, apstorage, str, dex, int_, luk, remainingAp;
+    public List<VMatrixRecord> vMatrixRecords;
     /*End of Custom Feature*/
 
     public CharacterTransfer() {
@@ -70,6 +68,7 @@ public class CharacterTransfer implements Externalizable {
         keymap = new LinkedHashMap<>();
         familiars = new LinkedHashMap<>();
         mbook = new LinkedHashMap<>();
+        vMatrixRecords =  new ArrayList<>();
     }
 
     public CharacterTransfer(final MapleCharacter chr) {
@@ -224,6 +223,7 @@ public class CharacterTransfer implements Externalizable {
         this.honourlevel = chr.getHonorLevel();
         this.innerSkills = chr.getInnerSkills();
         this.azwanShopList = chr.getAzwanShop();
+        this.vMatrixRecords = chr.getVMatrixRecords();
 
         final MapleMount mount = chr.getMount();
         this.mount_itemid = mount.getItemId();

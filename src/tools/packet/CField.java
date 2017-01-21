@@ -49,6 +49,7 @@ import tools.HexTool;
 import tools.Pair;
 import tools.Triple;
 import tools.data.PacketWriter;
+import tools.packet.enums.EffectType;
 
 public class CField {
 
@@ -4017,7 +4018,6 @@ public class CField {
             pw.writeShort(SendPacketOpcode.SET_DIRECTION_MODE.getValue());
             pw.write(enable ? 1 : 0);
             pw.writeInt(0);
-//			pw.write(new byte[30]); // TODO: Tim, properly fix this
 
             return pw.getPacket();
         }
@@ -4032,7 +4032,6 @@ public class CField {
                 pw.writeShort(0);
             }
             pw.write(0);
-//			pw.write(new byte[30]); // TODO: Tim, properly fix this
             return pw.getPacket();
         }
 
@@ -4041,7 +4040,6 @@ public class CField {
 
             pw.writeShort(SendPacketOpcode.SET_STAND_ALONE_MODE.getValue());
             pw.write(enable ? 1 : 0);
-            pw.write(new byte[30]); // TODO: Tim, properly fix this
             return pw.getPacket();
         }
 

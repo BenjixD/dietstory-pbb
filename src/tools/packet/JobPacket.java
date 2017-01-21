@@ -14,6 +14,7 @@ import java.util.Map;
 import server.MapleStatEffect;
 import tools.Randomizer;
 import tools.data.PacketWriter;
+import tools.packet.enums.EffectType;
 
 /**
  *

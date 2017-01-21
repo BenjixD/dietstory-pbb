@@ -1,4 +1,4 @@
-package tools.packet;
+package tools.packet.enums;
 
 
 public enum ReviveType {

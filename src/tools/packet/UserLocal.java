@@ -2,6 +2,7 @@ package tools.packet;
 
 import handling.SendPacketOpcode;
 import tools.data.PacketWriter;
+import tools.packet.enums.ReviveType;
 
 public class UserLocal {
 

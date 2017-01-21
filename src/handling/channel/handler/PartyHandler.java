@@ -21,7 +21,7 @@ import server.maps.FieldLimitType;
 import server.quest.MapleQuest;
 import tools.data.LittleEndianAccessor;
 import tools.packet.CWvsContext;
-import tools.packet.PartyType;
+import tools.packet.enums.PartyType;
 
 public class PartyHandler {
 

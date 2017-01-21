@@ -76,13 +76,13 @@ public class BuddyListHandler {
         return ret;
     }
 
-    public static final void BuddyOperation(final LittleEndianAccessor slea, final MapleClient c) {
-        final int mode = slea.readByte();
+    public static final void BuddyOperation(final LittleEndianAccessor lea, final MapleClient c) {
+        final int mode = lea.readByte();
         final BuddyList buddylist = c.getPlayer().getBuddylist();
 
         if (mode == 1) { // add
-            final String addName = slea.readMapleAsciiString();
-            final String groupName = slea.readMapleAsciiString();
+            final String addName = lea.readMapleAsciiString();
+            final String groupName = lea.readMapleAsciiString();
             final BuddylistEntry ble = buddylist.get(addName);
 
             if (addName.length() > 13 || groupName.length() > 16) {
@@ -172,7 +172,7 @@ public class BuddyListHandler {
                 }
             }
         } else if (mode == 2) { // accept buddy
-            int otherCid = slea.readInt();
+            int otherCid = lea.readInt();
             final BuddylistEntry ble = buddylist.get(otherCid);
             if (!buddylist.isFull() && ble != null && !ble.isVisible()) {
                 final int channel = World.Find.findChannel(otherCid);
@@ -183,7 +183,7 @@ public class BuddyListHandler {
                 c.getSession().write(BuddylistPacket.buddylistMessage((byte) 24));//11
             }
         } else if (mode == 3) { // delete
-            final int otherCid = slea.readInt();
+            final int otherCid = lea.readInt();
             final BuddylistEntry blz = buddylist.get(otherCid);
             if (blz != null && blz.isVisible()) {
                 notifyRemoteChannel(c, World.Find.findChannel(otherCid), otherCid, blz.getGroup(), DELETED);

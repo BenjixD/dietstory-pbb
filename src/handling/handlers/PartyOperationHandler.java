@@ -14,7 +14,7 @@ import server.events.MapleDojoAgent;
 import server.quest.MapleQuest;
 import tools.data.LittleEndianAccessor;
 import tools.packet.CWvsContext;
-import tools.packet.PartyType;
+import tools.packet.enums.PartyType;
 
 public class PartyOperationHandler {
 

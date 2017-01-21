@@ -120,6 +120,7 @@ import tools.packet.JobPacket.AvengerPacket;
 import tools.packet.JobPacket.LuminousPacket;
 import tools.packet.JobPacket.PhantomPacket;
 import tools.packet.JobPacket.XenonPacket;
+import tools.packet.enums.EffectType;
 
 public class MapleCharacter extends AnimatedMapleMapObject implements Serializable, MapleCharacterLook {
 
@@ -561,11 +562,11 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         ret.numClones = ct.clonez;
         ret.imps = ct.imps;
         ret.rebuy = ct.rebuy;
+        ret.vMatrixRecords = ct.vMatrixRecords;
         ret.mount = new MapleMount(ret, ct.mount_itemid, PlayerStats.getSkillByJob(1004, ret.job), ct.mount_Fatigue, ct.mount_level, ct.mount_exp);
         ret.expirationTask(false, false);
         ret.stats.recalcLocalStats(true, ret);
         client.setTempIP(ct.tempIP);
-        //TODO VMatrix
 
         return ret;
     }
@@ -585,7 +586,6 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         ResultSet rs = null;
 
         try {
-            // TODO Add VMatrix in this
             ps = con.prepareStatement("SELECT * FROM characters WHERE id = ?");
             ps.setInt(1, charid);
             rs = ps.executeQuery();
@@ -733,6 +733,22 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 ret.characterCard.setCards(cads);
             } else { // load
                 ret.characterCard.loadCards(client, channelserver);
+            }
+
+            ps = con.prepareStatement("SELECT * FROM vmatrix WHERE characterid = ?");
+            ps.setInt(1, charid);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                boolean active = rs.getBoolean("active");
+                int iconId = rs.getInt("iconid");
+                int skillid1 = rs.getInt("skillid1");
+                int skillid2 = rs.getInt("skillid2");
+                int skillid3 = rs.getInt("skillid3");
+                int skillLv = rs.getInt("skillLv");
+                int masterLv = rs.getInt("masterLv");
+                int exp = rs.getInt("experience");
+                VMatrixRecord vmr = new VMatrixRecord(active, iconId, skillid1, skillid2, skillid3, skillLv, masterLv, 0, exp, 0);
+                ret.addVMatrixRecord(vmr);
             }
 
             ps = con.prepareStatement("SELECT * FROM queststatus WHERE characterid = ?");
@@ -1185,7 +1201,6 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         try {
             con.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
             con.setAutoCommit(false);
-//33        // TODO VMatrix
             
             ps = con.prepareStatement("INSERT INTO characters (level, str, dex, luk, `int`, hp, mp, maxhp, maxmp, sp, hsp, ap, skincolor, gender, job, hair, face, faceMarking, map, meso, party, buddyCapacity, pets, subcategory, elf, friendshippoints, chatcolour, gm, accountid, name, world, starterquest, starterquestid)"
                     + "                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", DatabaseConnection.RETURN_GENERATED_KEYS);
@@ -1300,6 +1315,22 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             }
             ps.close();
 
+            ps = con.prepareStatement("INSERT INTO vmatrix (characterid, active, iconid, skillid1, skillid2, skillid3, skillLv, masterLv, experience) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            ps.setInt(1, chr.id);
+            for(VMatrixRecord vmr : chr.getVMatrixRecords()){
+                ps.setBoolean(2, vmr.isActive());
+                ps.setInt(3, vmr.getIconID());
+                ps.setInt(4, vmr.getSkillID1());
+                ps.setInt(5, vmr.getSkillID2());
+                ps.setInt(6, vmr.getSkillID3());
+                ps.setInt(7, vmr.getSkillLv());
+                ps.setInt(8, vmr.getMasterLv());
+                ps.setInt(9, vmr.getExp());
+                ps.execute();
+            }
+            ps.close();
+
             //TODO {TEST} SAVE NEW JETT CORE AURA
             ps = con.prepareStatement("INSERT INTO coreauras (cid, str, dex, `int`, luk, att, magic, total, expire) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             ps.setInt(1, chr.id);
@@ -1403,7 +1434,6 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
 
         try {
 
-            //TODO VMatrix
             con.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
             con.setAutoCommit(false);
 
@@ -1609,6 +1639,23 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 }
                 ps.close();
             }
+
+            deleteWhereCharacterId(con, "DELETE FROM vmatrix WHERE characterid = ?");
+            ps = con.prepareStatement("INSERT INTO vmatrix (characterid, active, iconid, skillid1, skillid2, skillid3, skillLv, masterLv, experience) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            ps.setInt(1, id);
+            for(VMatrixRecord vmr : getVMatrixRecords()){
+                ps.setBoolean(2, vmr.isActive());
+                ps.setInt(3, vmr.getIconID());
+                ps.setInt(4, vmr.getSkillID1());
+                ps.setInt(5, vmr.getSkillID2());
+                ps.setInt(6, vmr.getSkillID3());
+                ps.setInt(7, vmr.getSkillLv());
+                ps.setInt(8, vmr.getMasterLv());
+                ps.setInt(9, vmr.getExp());
+                ps.execute();
+            }
+            ps.close();
 
             //TODO {TEST} SAVE NEW JETT CORE AURA
             deleteWhereCharacterId(con, "DELETE FROM coreauras WHERE cid = ?");

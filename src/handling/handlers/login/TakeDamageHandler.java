@@ -19,6 +19,7 @@ import tools.Pair;
 import tools.Randomizer;
 import tools.data.LittleEndianAccessor;
 import tools.packet.*;
+import tools.packet.enums.ReviveType;
 
 public class TakeDamageHandler {
 

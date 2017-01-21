@@ -15,7 +15,7 @@ import lib.ReadBin;
 import script.npc.NPCScriptManager;
 import tools.Pair;
 import tools.packet.CField.EffectPacket;
-import tools.packet.EffectType;
+import tools.packet.enums.EffectType;
 
 public class MapleQuest implements Serializable {
 
