@@ -2408,7 +2408,6 @@ case 2431935: {
                     Item item = mi.getItem(slot);
                     if(item != null && (item.getItemId() == 2435902 || item.getItemId() == 2435719)) {
                         List<Integer> skillIds = new LinkedList<>();
-                        int size;
                         if(Randomizer.isSuccess(GameConstants.OWN_JOB_V_SKILL_CHANCE)){
                             skillIds.addAll(SkillFactory.getVSkillsByJob(chr.getJob()));
                         }else if(Randomizer.isSuccess(GameConstants.BEGINNER_V_SKILL_CHANCE)){
@@ -2416,9 +2415,8 @@ case 2431935: {
                         }else{
                             skillIds.addAll(SkillFactory.getAllVSkills());
                         }
-                        size = skillIds.size();
                         // could use an array
-                        int skillid1 = skillIds.get(Randomizer.nextInt(size));
+                        int skillid1 = skillIds.get(Randomizer.nextInt(skillIds.size()));
                         int skillid2 = 0, skillid3 = 0;
                         Skill skill = SkillFactory.getSkill(skillid1);
                         int iconid = skill.getvSkillIconID();
@@ -2427,14 +2425,18 @@ case 2431935: {
                             skillIds.clear();
                             int randomJob = skill.getBoostjob();
                             List<Integer> randomSkills = SkillFactory.getVSkillsByJob(randomJob);
-                            size = randomSkills.size();
                             skillIds.addAll(randomSkills);
+                            int toBeRemoved = 0;
+                            for(Integer i : skillIds){
+                                if(i/10000 % 10 != 0){
+                                    toBeRemoved = i;
+                                }
+                            }
+                            skillIds.remove(new Integer(toBeRemoved));
                             skillIds.remove(new Integer(skillid1));
-                            size--;
-                            skillid2 = skillIds.get(Randomizer.nextInt(size));
+                            skillid2 = skillIds.get(Randomizer.nextInt(skillIds.size()));
                             skillIds.remove(new Integer(skillid2));
-                            size--;
-                            skillid3 = skillIds.get(Randomizer.nextInt(size));
+                            skillid3 = skillIds.get(Randomizer.nextInt(skillIds.size()));
                         }
                         VMatrixRecord entry = new VMatrixRecord(iconid, skillid1, skillid2, skillid3);
                         chr.addVMatrixRecord(entry);

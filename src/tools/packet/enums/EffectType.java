@@ -1,4 +1,4 @@
-package tools.packet;
+package tools.packet.enums;
 
 public enum EffectType {
     LEVEL_UP(0x00),
