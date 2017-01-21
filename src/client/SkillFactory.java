@@ -88,7 +88,6 @@ public class SkillFactory {
         for(MapleData iconId : coreData.getChildren()){
             MapleData connectSkill = iconId.getChildByPath("connectSkill");
             if(connectSkill != null) {
-                System.out.println(iconId.getName());
                 int skillid = MapleDataTool.getIntConvert("0", connectSkill);
                 Skill skill = getSkill(skillid);
                 if (skill != null) {

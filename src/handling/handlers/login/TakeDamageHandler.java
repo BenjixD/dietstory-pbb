@@ -2,13 +2,7 @@ package handling.handlers.login;
 
 import java.awt.Point;
 
-import client.MapleBuffStat;
-import client.MapleClient;
-import client.MonsterStatus;
-import client.MonsterStatusEffect;
-import client.PlayerStats;
-import client.Skill;
-import client.SkillFactory;
+import client.*;
 import client.inventory.Item;
 import client.inventory.MapleInventoryType;
 import constants.GameConstants;
@@ -24,9 +18,7 @@ import server.maps.MapleMap;
 import tools.Pair;
 import tools.Randomizer;
 import tools.data.LittleEndianAccessor;
-import tools.packet.CField;
-import tools.packet.CWvsContext;
-import tools.packet.JobPacket;
+import tools.packet.*;
 
 public class TakeDamageHandler {
 
@@ -255,5 +247,14 @@ public class TakeDamageHandler {
 
 		c.getPlayer().getMap().broadcastMessage(c.getPlayer(), CField.damagePlayer(c.getPlayer().getId(), type, damage, monsteridfrom, direction,
 				skillid, pDMG, pPhysical, pID, pType, pPos, offset, offset_d, fake), false);
+		if(!c.getPlayer().isAlive()){
+			MapleCharacter chr = c.getPlayer();
+
+			boolean hasExpProtector = chr.hasExpProtector();
+			boolean hasBuffProtector = chr.hasBuffProtector();
+			boolean hasWheel = chr.hasWheel();
+			int reviveType = hasWheel ? ReviveType.CURRENT_MAP.getValue() : ReviveType.DEFAULT.getValue();
+			c.getSession().write(UserLocal.openUIOnDead(true, hasBuffProtector, hasExpProtector, reviveType));
+		}
 	}
 }

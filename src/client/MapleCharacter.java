@@ -3723,6 +3723,20 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         }
     }
 
+    public boolean hasExpProtector(){
+        // ID for a use tab safety charm
+        int useProtectors = getInventory(MapleInventoryType.USE).countById(2432263);
+        // ID for a cash tab safety charm
+        int cashProtectors = getInventory(MapleInventoryType.USE).countById(5130000);
+        return useProtectors + cashProtectors > 0;
+    }
+
+    public boolean hasBuffProtector(){
+        MapleInventory cash = getInventory(MapleInventoryType.CASH);
+        // both IDs are "buff freezer"
+        return cash.countById(5133000) > 0 || cash.countById(5133001) > 0;
+    }
+
     public void updatePartyMemberHP() {
         if (party != null && client.getChannelServer() != null) {
             final int channel = client.getChannel();
@@ -5594,6 +5608,10 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
 
     public void setvMatrixRecords(List<VMatrixRecord> vMatrixRecords) {
         this.vMatrixRecords = vMatrixRecords;
+    }
+
+    public boolean hasWheel() {
+        return getInventory(MapleInventoryType.USE).countById(2432262) > 0;
     }
 
     public static enum FameStatus {
