@@ -45,7 +45,7 @@ function action(mode, type, selection) {
 		}
 
 		if (status == 0) {
-			cm.sendNext("I am YourStory's Gachapon Chair NPC.\r\nThe tickets look like this: #i5680021#");
+			cm.sendNext("I am LucidMaple's Gachapon Chair NPC.\r\nThe tickets look like this: #i5680021#");
 		} else if (status == 1) {
 			if (!cm.haveItem(5680021)) {
 				cm.sendOk("You dont have any #bChair Gachapon Tickets#k.");

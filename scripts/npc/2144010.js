@@ -5,7 +5,7 @@ function start() {
 }
 
 function action(mode, type, selection) {
-    if (mode == 1 && cm.getMap().getAllMonstersThreadsafe().size() == 0) {
+    if (mode == 1) {
         cm.removeNpc(cm.getMapId(), 2144010);
         cm.spawnMob(8860010, 0, -181);
         if (!cm.getPlayer().isGM()) {
