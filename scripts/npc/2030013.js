@@ -7,16 +7,8 @@ var status = 0;
 
 function action(mode, type, selection) {
 	if (cm.getPlayer().getMapId() == 211042200) {
-		if (selection < 100) {
-			cm.sendSimple("#r#L100#Zakum#l\r\n#L101#Chaos Zakum#l");
-		} else {
-			if (selection == 100) {
-				cm.warp(211042300,0);
-			} else if (selection == 101) {
-				cm.warp(211042301,0);
-			}
-			cm.dispose();
-		}
+		cm.warp(211042300,0);
+		cm.dispose();
 		return;
 	} else if (cm.getPlayer().getMapId() == 211042401) {
     switch (status) {
@@ -26,11 +18,7 @@ function action(mode, type, selection) {
 			cm.dispose();
 			return;
 		}
-		if (cm.getPlayer().getClient().getChannel() != 7 && cm.getPlayer().getClient().getChannel() != 8) {
-			cm.sendOk("Chaos Zakum may only be attempted on channel 7 and 8.");
-			cm.dispose();
-			return;
-		}
+
 	    var em = cm.getEventManager("ChaosZakum");
 
 	    if (em == null) {
@@ -240,12 +228,8 @@ function action(mode, type, selection) {
 			cm.dispose();
 			return;
 		}
-		if (cm.getPlayer().getClient().getChannel() != 3 && cm.getPlayer().getClient().getChannel() != 2 && cm.getPlayer().getClient().getChannel() != 4) {
-			cm.sendOk("Zakum may only be attempted on channel 2, 3 and 4.");
-			cm.dispose();
-			return;
-		}
-	    var em = cm.getEventManager("ZakumBattle");
+		//normalzak start
+		var em = cm.getEventManager("ZakumBattle");
 
 	    if (em == null) {
 		cm.sendOk("The event isn't started, please contact a GM.");
