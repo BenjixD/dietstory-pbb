@@ -40,6 +40,7 @@ import handling.world.World;
 import net.DatabaseConnection;
 import tools.data.LittleEndianAccessor;
 import tools.packet.CWvsContext.BuddylistPacket;
+import tools.packet.enums.BuddyType;
 
 public class BuddyListHandler {
 
@@ -89,12 +90,12 @@ public class BuddyListHandler {
                 return;
             }
             if (ble != null && (ble.getGroup().equals(groupName) || !ble.isVisible())) {
-                c.getSession().write(BuddylistPacket.buddylistMessage((byte) 24));//11
+                c.getSession().write(BuddylistPacket.buddylistMessage((byte) BuddyType.FULL_BUDDYLIST.getValue()));//11
             } else if (ble != null && ble.isVisible()) {
                 ble.setGroup(groupName);
                 c.getSession().write(BuddylistPacket.updateBuddylist(buddylist.getBuddies(), 10));
             } else if (buddylist.isFull()) {
-                c.getSession().write(BuddylistPacket.buddylistMessage((byte) 24));//11
+                c.getSession().write(BuddylistPacket.buddylistMessage((byte) BuddyType.FULL_BUDDYLIST.getValue()));//11
             } else {
                 try {
                     CharacterIdNameBuddyCapacity charWithId = null;

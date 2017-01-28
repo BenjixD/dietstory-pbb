@@ -41,6 +41,9 @@ public class RangedAttackHandler {
 			return;
 		}
 		AttackInfo attack = DamageParse.parseRangedAttack(lea, c);
+		if(attack.position == null) {
+			attack.position = c.getPlayer().getTruePosition();
+		}
 		if (attack == null) {
 			c.getSession().write(CWvsContext.enableActions());
 			return;

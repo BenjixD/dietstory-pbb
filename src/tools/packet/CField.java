@@ -14,6 +14,7 @@ import client.inventory.MapleInventoryType;
 import client.inventory.MapleRing;
 import constants.GameConstants;
 import constants.QuickMove.QuickMoveNPC;
+import constants.SkillConstants;
 import handling.SendPacketOpcode;
 import handling.channel.handler.PlayerInteractionHandler;
 import handling.world.World;
@@ -96,7 +97,7 @@ public class CField {
         pw.writeInt(0);
         pw.write(0);
         pw.write(HexTool.getByteArrayFromHexString("2C 74 00 61 00 63 00 6B 00"));
-		// shutdown ? (timestamp)
+        // shutdown ? (timestamp)
         //pw.writeLong(PacketHelper.getTime(System.currentTimeMillis()));
 
         // pw.write(HexTool.getByteArrayFromHexString("3F 01 00 00 00 C8 00 00"));
@@ -117,7 +118,7 @@ public class CField {
     }
 
     public static byte[] getPVPType(int type, List<Pair<Integer, String>> players1, int team, boolean enabled,
-            int lvl) {
+                                    int lvl) {
         PacketWriter pw = new PacketWriter();
 
         pw.writeShort(SendPacketOpcode.ENTER_PVP.getValue());
@@ -182,7 +183,7 @@ public class CField {
     }
 
     public static byte[] getPVPResult(List<Pair<Integer, MapleCharacter>> flags, int exp, int winningTeam,
-            int playerTeam) {
+                                      int playerTeam) {
         PacketWriter pw = new PacketWriter();
 
         pw.writeShort(SendPacketOpcode.SHOW_MODE_RESULT.getValue());
@@ -1249,7 +1250,7 @@ public class CField {
     }
 
     public static byte[] getScrollEffect(int chr, Equip.ScrollResult scrollSuccess, boolean legendarySpirit, int item,
-            int scroll) {
+                                         int scroll) {
         PacketWriter pw = new PacketWriter();
 
         pw.writeShort(SendPacketOpcode.SHOW_ITEM_UPGRADE_EFFECT.getValue());
@@ -1322,9 +1323,9 @@ public class CField {
     }
 
     public static byte[] pvpAttack(int cid, int playerLevel, int skill, int skillLevel, int speed, int mastery,
-            int projectile, int attackCount, int chargeTime, int stance, int direction, int range, int linkSkill,
-            int linkSkillLevel, boolean movementSkill, boolean pushTarget, boolean pullTarget,
-            List<AttackPair> attack) {
+                                   int projectile, int attackCount, int chargeTime, int stance, int direction, int range, int linkSkill,
+                                   int linkSkillLevel, boolean movementSkill, boolean pushTarget, boolean pullTarget,
+                                   List<AttackPair> attack) {
         PacketWriter pw = new PacketWriter();
 
         pw.writeShort(SendPacketOpcode.PVP_ATTACK.getValue());
@@ -1805,31 +1806,30 @@ public class CField {
     }
 
     public static byte[] closeRangeAttack(int cid, int tbyte, int skill, int level, int display, byte speed,
-            List<AttackPair> damage, boolean energy, int lvl, byte mastery, byte unk, int charge) {
+                                          List<AttackPair> damage, boolean energy, int lvl, byte mastery, byte unk, int charge) {
         return addAttackInfo(energy ? 4 : 0, cid, tbyte, skill, level, display, speed, damage, lvl, mastery, unk, 0,
                 null, 0);
     }
 
     public static byte[] rangedAttack(int cid, int tbyte, int skill, int level, int display, byte speed, int itemid,
-            List<AttackPair> damage, Point pos, int lvl, byte mastery, byte unk) {
+                                      List<AttackPair> damage, Point pos, int lvl, byte mastery, byte unk) {
         return addAttackInfo(1, cid, tbyte, skill, level, display, speed, damage, lvl, mastery, unk, itemid, pos, 0);
     }
 
     public static byte[] strafeAttack(int cid, int tbyte, int skill, int level, int display, byte speed, int itemid,
-            List<AttackPair> damage, Point pos, int lvl, byte mastery, byte unk, int ultLevel) {
+                                      List<AttackPair> damage, Point pos, int lvl, byte mastery, byte unk, int ultLevel) {
         return addAttackInfo(2, cid, tbyte, skill, level, display, speed, damage, lvl, mastery, unk, itemid, pos,
                 ultLevel);
     }
 
     public static byte[] magicAttack(int cid, int tbyte, int skill, int level, int display, byte speed,
-            List<AttackPair> damage, int charge, int lvl, byte unk) {
+                                     List<AttackPair> damage, int charge, int lvl, byte unk) {
         return addAttackInfo(3, cid, tbyte, skill, level, display, speed, damage, lvl, (byte) 0, unk, charge, null, 0);
     }
 
-    public static byte[] addAttackInfo(int type, int charid, int mobCount, int skillId, int skillLevel, int display, byte speed,
-            List<AttackPair> damage, int charLvl, byte mastery, byte unk, int charge, Point pos, int ultLevel) {
+    public static byte[] addAttackInfo(int type, int charid, int mobCount, int skillId, int skillLevel, int action, byte speed,
+                                       List<AttackPair> damage, int charLvl, byte mastery, byte mask, int charge, Point pos, int ultLevel) {
         PacketWriter pw = new PacketWriter();
-
         if (type == 0) {
             pw.writeShort(SendPacketOpcode.CLOSE_RANGE_ATTACK.getValue());
         } else if (type == 1 || type == 2) {
@@ -1849,7 +1849,7 @@ public class CField {
             if (skillLevel > 0) {
                 pw.writeInt(skillId);
             }
-        } else if (type != 2 && type != 3) {
+        } else { //if (type != 2 && type != 3) {
             pw.write(0);
         }
 
@@ -1861,6 +1861,7 @@ public class CField {
                 pw.writeShort(zero1);
                 pw.writeShort(zero2);
                 // there is a full handler so better not write zero
+                // CUserZeroSub::OnTagAssist
             }
         }
 
@@ -1871,45 +1872,78 @@ public class CField {
             }
         }
 
-        // new part is new
-        if (skillId == 80001850 || skillId == 42001000 || (skillId > 42001004 && skillId <= 42001006)
-                || skillId == 80011067) {
-            boolean unk_1 = false;
-            pw.write(unk_1);
-            if (unk_1) {
-                pw.writeInt(0);
-            }
+        if(SkillConstants.isShikigamiHaunting(skillId)){
+            int passiveSkillLv = 0;
+            pw.write(passiveSkillLv);
+            int unk2 = 0;
+            pw.writeInt(0);
         }
 
-        if (skillId == 40021185 || skillId == 42001006) {
-            pw.write(0); // boolean if true then int
-        }
+//        if (skillId == 40021185 || skillId == 42001006) {
+//            pw.write(0); // boolean if true then int
+//        }
 
-        if (type == 0 || type == 1) {
-            pw.write(0);
+//        if (type == 0 || type == 1) {
+//            pw.write(0);
+//        }
+
+
+        boolean repeatAttack = false;
+        boolean shadowPartner = false;
+        if(repeatAttack) {
+            mask |= 4;
         }
-        pw.write(unk);// always 0?
-        pw.write(0); // new
+        if(shadowPartner){
+            mask |= 8;
+        }
+        pw.write(mask);
+        byte buckshotMask = 0;
+        boolean buckshot = false;
+        boolean manaBurn = false;
+        int passiveAddAttackCount = 0;
+        if(manaBurn) {
+            buckshotMask |= 1;
+        }
+        if(buckshot){
+            buckshotMask |= 2;
+        }
+        if(passiveAddAttackCount > 0 ){
+            buckshotMask |= 8;
+        }
+        pw.write(buckshotMask);
         pw.writeInt(0); // nOption3
         pw.writeInt(0); // nBySummonedID
-        if ((unk & 2) != 0) {
-            pw.writeInt(0);
-            pw.writeInt(0);
+        if (buckshot) {
+            int buckshotSkillID = 0;
+            int buckshotSkillLv = 0;
+            pw.writeInt(buckshotSkillID);
+            pw.writeInt(buckshotSkillLv);
         }
-        if ((unk & 8) != 8) {
-            pw.write(0);
+        if (passiveAddAttackCount > 0) {
+            pw.write(passiveAddAttackCount);
         }
-        pw.writeShort(display);
+        pw.writeShort(action);
+        pw.write(0); // before the x + y
+        short x = 0;
+        pw.writeShort(x);
+        short y = 0;
+        pw.writeShort(y);
+        boolean showFixedDamage = false;
+        pw.write(showFixedDamage);
+        boolean unk = false;
+        pw.write(-33);
         pw.write(speed);
+
         pw.write(mastery);
-        pw.writeInt(charge);
+        pw.writeInt(charge); // nBulletItemId ?
         for (AttackPair oned : damage) {
             if (oned.attack != null) {
                 pw.writeInt(oned.objectid);
                 pw.write(7);
                 pw.write(0);
                 pw.write(0);
-                if (skillId == 42111002) {
+                pw.writeShort(0); // idk, in 176 (kmst)
+                if (SkillConstants.isSoulShear(skillId)) { // soul shear
                     pw.write(oned.attack.size());
                     for (Pair eachd : oned.attack) {
                         pw.writeLong(((Long) eachd.left).longValue());
@@ -1920,28 +1954,88 @@ public class CField {
                         pw.writeLong(((Long) eachd.left).longValue());
                     }
                 }
+                if(SkillConstants.isKinesisPsychicLockSkill(skillId)) {
+                    pw.writeInt(0);
+                }
+                if(skillId == SkillConstants.ROCKET_RUSH){
+                    pw.write(0); // boolean
+                }
             }
         }
         if (skillId == 2321001 || skillId == 2221052 || skillId == 11121052) {
-            pw.writeInt(0);
-        } else if (skillId == 65121052 || skillId == 101000202 || skillId == 101000102) {
-            pw.writeInt(0);
-            pw.writeInt(0);
+            pw.writeInt(0); //tKeyDown
+        } else if (SkillConstants.isSuperNovaSkill(skillId) || SkillConstants.isScreenCenterAttackSkill(skillId) ||
+                skillId == 101000202 || skillId == 101000102 || skillId == 80001762) {
+            if(pos != null) {
+                pw.writeInt((int) pos.getX());
+                pw.writeInt((int) pos.getY());
+            } else {
+                pw.writeInt(0);
+                pw.writeInt(0);
+            }
         }
-        if (skillId == 42100007) {
-            pw.writeShort(0);
+        if(SkillConstants.isKeydownSkillRectMoveXY(skillId)) {
+            pw.writePos(pos);
+        }
+        if(showFixedDamage) {
+            // bShowFixedDamage = decode1...
             pw.write(0);
         }
-        if (type == 1 || type == 2) {
-            pw.writePos(pos);
-        } else if (type == 3 && charge > 0) {
-            pw.writeInt(charge);
+
+        if(skillId == 112110003) { // formation attack
+            pw.writeInt(0);
         }
-        if (skillId == 5321000 || skillId == 5311001 || skillId == 5321001 || skillId == 5011002 || skillId == 5311002
-                || skillId == 5221013 || skillId == 5221017 || skillId == 3120019 || skillId == 3121015 || skillId == 4121017) {
-            pw.writePos(pos);
+
+        if(skillId == 42100007) { // soul bomb
+            pw.writeShort(0);
+            byte count = 0;
+            pw.write(count);
+            for(; count > 0; count--) {
+                pw.writeShort(0);
+                pw.writeShort(0);
+            }
         }
-        pw.write(new byte[300]);// test
+
+        if(skillId == 21120019 || skillId == 37121052 || (skillId >= 400041002 && skillId <= 400041005)
+                || skillId == 11121014) {
+            // Finisher - Hunter's Prey, Hyper Magnum Punch, shadow assault, 11121013 + 1 = impaling rays +1
+            pw.writeInt(0);
+            pw.writeInt(0);
+        }
+
+        if(skillId == 400020009 || skillId == 400020010 || skillId == 400020011) {
+            // psychic tornado
+            pw.writeShort(0);
+            pw.writeShort(0);
+        }
+
+        if(skillId == 400051003 || skillId == 400051008 || skillId == 400011004
+                || (skillId >= 400021009 && skillId <= 400021011)) {
+            // amazing transformation, big huge gigantic rocket, psychic tornado, spear of darkness
+            pw.writeInt(0);
+            pw.write(0);
+        }
+
+//        if(skillId == 21120019 || skillId == 37121052) {
+//            pw.writeInt((int) pos.getX());
+//            pw.writeInt((int) pos.getY());
+//        }
+
+
+
+
+//        if (skillId == 42100007 || skillId == 13111020) {
+//            pw.writePos(pos);
+//        }
+//        if (type == 1 || type == 2) {
+//            pw.writePos(pos);
+//        } else if (type == 3 && charge > 0) {
+//            pw.writeInt(charge);
+//        }
+//        if (skillId == 5321000 || skillId == 5311001 || skillId == 5321001 || skillId == 5011002 || skillId == 5311002
+//                || skillId == 5221013 || skillId == 5221017 || skillId == 3120019 || skillId == 3121015 || skillId == 4121017) {
+//            pw.writePos(pos);
+//        }
 
         return pw.getPacket();
     }
@@ -1973,7 +2067,7 @@ public class CField {
     }
 
     public static byte[] damagePlayer(int cid, int type, int damage, int monsteridfrom, byte direction, int skillid,
-            int pDMG, boolean pPhysical, int pID, byte pType, Point pPos, byte offset, int offset_d, int fake) {
+                                      int pDMG, boolean pPhysical, int pID, byte pType, Point pPos, byte offset, int offset_d, int fake) {
         PacketWriter pw = new PacketWriter();
 
         pw.writeShort(SendPacketOpcode.HIT.getValue());
@@ -2670,7 +2764,7 @@ public class CField {
     }
 
     public static byte[] rollSnowball(int type, MapleSnowball.MapleSnowballs ball1,
-            MapleSnowball.MapleSnowballs ball2) {
+                                      MapleSnowball.MapleSnowballs ball2) {
         PacketWriter pw = new PacketWriter();
 
         pw.writeShort(SendPacketOpcode.ROLL_SNOWBALL.getValue());
@@ -3840,7 +3934,7 @@ public class CField {
         }
 
         public static byte[] summonAttack(int cid, int summonSkillId, byte animation,
-                List<Pair<Integer, Integer>> allDamage, int level, boolean darkFlare) {
+                                          List<Pair<Integer, Integer>> allDamage, int level, boolean darkFlare) {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.SUMMON_ATTACK.getValue());
@@ -3864,7 +3958,7 @@ public class CField {
         }
 
         public static byte[] pvpSummonAttack(int cid, int playerLevel, int oid, int animation, Point pos,
-                List<AttackPair> attack) {
+                                             List<AttackPair> attack) {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.PVP_SUMMON.getValue());
@@ -4390,7 +4484,7 @@ public class CField {
         }
 
         public static byte[] showOwnBuffEffect(int skillid, int effectid, int playerLevel, int skillLevel,
-                byte direction) {
+                                               byte direction) {
             return showBuffeffect(-1, skillid, effectid, playerLevel, skillLevel, direction);
         }
 
@@ -4399,7 +4493,7 @@ public class CField {
         }
 
         public static byte[] showBuffeffect(int cid, int skillid, int effectid, int playerLevel, int skillLevel,
-                byte direction) {
+                                            byte direction) {
             PacketWriter pw = new PacketWriter();
 
             if (cid == -1) {

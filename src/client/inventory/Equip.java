@@ -1248,7 +1248,7 @@ public class Equip extends Item implements Serializable {
         for(EnhanceStat es : upgradeStats){
             short currentStat = getEquipStat(ItemConstants.getEquipStatByEnhanceStat(es));
             if(currentStat > 0) {
-                if(es == EnhanceStat.WDEF || es == EnhanceStat.MDEF){
+                if(es == EnhanceStat.WDEF){
                     base = 10;
                 }
                 res.put(es, (short) (base + getEnhance()/5 + currentStat/50)); // base + more per 5 stars + more per 50 stat
