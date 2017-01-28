@@ -490,7 +490,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             final MapleMapFactory mapFactory = ChannelServer.getInstance(client.getChannel()).getMapFactory();
             ret.map = mapFactory.getMap(ret.mapid);
             if (ret.map == null) { //char is on a map that doesn't exist warp it to spinel forest
-                ret.map = mapFactory.getMap(950000100);
+                ret.map = mapFactory.getMap(100000000);
             } else {
                 if (ret.map.getForcedReturnId() != 999999999 && ret.map.getForcedReturnMap() != null) {
                     ret.map = ret.map.getForcedReturnMap();
@@ -675,7 +675,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 MapleMapFactory mapFactory = ChannelServer.getInstance(client.getChannel()).getMapFactory();
                 ret.map = mapFactory.getMap(ret.mapid);
                 if (ret.map == null) { //char is on a map that doesn't exist warp it to spinel forest
-                    ret.map = mapFactory.getMap(950000100);
+                    ret.map = mapFactory.getMap(100000000);
                 }
                 MaplePortal portal = ret.map.getPortal(ret.initialSpawnPoint);
                 if (portal == null) {

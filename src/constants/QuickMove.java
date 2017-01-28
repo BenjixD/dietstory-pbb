@@ -49,7 +49,7 @@ public enum QuickMove {
         PVP(0x1, 0, false, 9070004, 30, "Move to the Battle Mode zone #cBattle Square#, where you can fight against other users.\n#cLv. 30 or above can participate in Battle Square."),
         MIRROR(0x2, 2, true, 9010022, 10, "Use the #cDimensional Mirror# to move to a variety of party quests."),
         MONSTER_PARK(0x4, 1, true, 9071003, 20, "Move to the party zone \n#cMonster Park#, where you can fight against strong monsters with your party members.\n#cOnly Lv. 20 or above can participate in the Monster Park."),
-        WORLD_TRANSPORT(0x8, 5, true, 9000086, 0, "Move to the closest #cIntercontinental Station# to your current location."), //Boats, Airplanes
+        WORLD_TRANSPORT(0x8, 5, true, 9000086, 0, "Utilize various controls"), //unpc
         ISLAND_TRANSPORT(0x10, 6, true, 9000089, 0, "Take the #cTaxi# to move to major areas quickly."), //Taxi, Camel
         MARKET(0x20, 3, true, 9000087, 0, "Move to the #cFree Market#, where you can trade items with other users."),
         CRAFTING(0x40, 4, true, 9000088, 30, "Move to #cArdentmill#, the town of Professions.\n#cOnly Lv. 30 or above can move to Ardentmill"),

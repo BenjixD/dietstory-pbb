@@ -23,8 +23,10 @@ public class NpcShopHandler {
 		}
 
 		byte bmode = lea.readByte();
-		short slot = lea.readShort();
-
+		short slot = 0;
+        if(bmode >= 0 && bmode <= 2) {
+            slot = lea.readShort();
+        }
 		switch (bmode) {
 		case 0: {
 			slot++;

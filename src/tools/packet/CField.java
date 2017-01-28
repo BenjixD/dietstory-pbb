@@ -3696,7 +3696,6 @@ public class CField {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.OPEN_NPC_SHOP.getValue());
-
             pw.write(0);
             /*
              * if ( CInPacket::Decode1(iPacket) )
@@ -3704,6 +3703,7 @@ public class CField {
              */
             pw.writeInt(0); // m_nSelectNpcItemID
             pw.writeInt(shop.getNpcId()); // m_dwNpcTemplateID
+            pw.writeShort(0);
             pw.writeInt(0); // m_nStarCoin
             pw.writeInt(0); // m_nShopVerNo
             PacketHelper.addShopInfo(pw, shop, c);
