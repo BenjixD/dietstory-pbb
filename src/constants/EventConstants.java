@@ -60,6 +60,7 @@ public class EventConstants {
 			"Ghost",
 			"OrbisPQ",
 			"Romeo",
+			"JobAdvance2",
 			"Juliet",
 			"Pirate",
 			"Amoria",
