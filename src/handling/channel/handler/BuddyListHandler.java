@@ -93,7 +93,7 @@ public class BuddyListHandler {
                 c.getSession().write(BuddylistPacket.buddylistMessage((byte) BuddyType.FULL_BUDDYLIST.getValue()));//11
             } else if (ble != null && ble.isVisible()) {
                 ble.setGroup(groupName);
-                c.getSession().write(BuddylistPacket.updateBuddylist(buddylist.getBuddies(), 10));
+                c.getSession().write(BuddylistPacket.updateBuddylist(buddylist.getBuddies(), false, true));
             } else if (buddylist.isFull()) {
                 c.getSession().write(BuddylistPacket.buddylistMessage((byte) BuddyType.FULL_BUDDYLIST.getValue()));//11
             } else {
@@ -146,7 +146,7 @@ public class BuddyListHandler {
                             ps.close();
                         }
                         if (buddyAddResult == BuddyAddResult.BUDDYLIST_FULL) {
-                            c.getSession().write(BuddylistPacket.buddylistMessage((byte) 25));//12
+                            c.getSession().write(BuddylistPacket.buddylistMessage((byte) BuddyType.FULL_BUDDYLIST.getValue()));
                         } else {
                             int displayChannel = -1;
                             int otherCid = charWithId.getId();
@@ -163,10 +163,11 @@ public class BuddyListHandler {
                                 }
                             }
                             buddylist.put(new BuddylistEntry(charWithId.getName(), otherCid, groupName, displayChannel, true));
-                            c.getSession().write(BuddylistPacket.updateBuddylist(buddylist.getBuddies(), 10));
+                            c.getSession().write(BuddylistPacket.requestMessage(charWithId.getName()));
+                            c.getSession().write(BuddylistPacket.updateBuddylist(buddylist.getBuddies(), false, true));
                         }
                     } else {
-                        c.getSession().write(BuddylistPacket.buddylistMessage((byte) 25));//was15
+                        c.getSession().write(BuddylistPacket.buddylistMessage((byte) BuddyType.CHAR_NOT_REGISTERED.getValue()));//was15
                     }
                 } catch (SQLException e) {
                     System.err.println("SQL THROW" + e);
@@ -178,7 +179,7 @@ public class BuddyListHandler {
             if (!buddylist.isFull() && ble != null && !ble.isVisible()) {
                 final int channel = World.Find.findChannel(otherCid);
                 buddylist.put(new BuddylistEntry(ble.getName(), otherCid, "ETC", channel, true));
-                c.getSession().write(BuddylistPacket.updateBuddylist(buddylist.getBuddies(), 10));
+                c.getSession().write(BuddylistPacket.updateBuddylist(buddylist.getBuddies(), false, true));
                 notifyRemoteChannel(c, channel, otherCid, "ETC", ADDED);
             } else {
                 c.getSession().write(BuddylistPacket.buddylistMessage((byte) 24));//11
@@ -190,7 +191,9 @@ public class BuddyListHandler {
                 notifyRemoteChannel(c, World.Find.findChannel(otherCid), otherCid, blz.getGroup(), DELETED);
             }
             buddylist.remove(otherCid);
-            c.getSession().write(BuddylistPacket.updateBuddylist(buddylist.getBuddies(), 18));
+            c.getSession().write(BuddylistPacket.updateBuddylist(buddylist.getBuddies(), true, false));
+        } else if (mode == 12) { // edit
+            // TODO add new info
         }
     }
 

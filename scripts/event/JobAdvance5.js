@@ -1,4 +1,4 @@
-var eventmapid = 706041720;
+var eventmapid = 450004600;
 var returnmap = 100000000;
 
 var monster = new Array(

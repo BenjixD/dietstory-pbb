@@ -1,13 +1,13 @@
-var eventmapid = 706041720;
+var eventmapid = 230040420;
 var returnmap = 100000000;
 
 var monster = new Array(
-    9400609, 	// andras
-	9400623, 	// amdusias
-    9400611, 	// crocell
-    9400612, 	// marbas
-    9400613, 	// valefor
-    8220007		// blue mushmom
+	9001000, // dancing with balrog
+	9001001, // grendel
+	9001002, // athena pierce
+	9001003, // dark lord
+	9001004, // kyrin
+	6400005  // balrog
     );
 
 function init() {
@@ -15,7 +15,7 @@ function init() {
 }
 
 function setup(partyid) {
-    var instanceName = "JobAdvance2" + partyid;
+    var instanceName = "JobAdvance3" + partyid;
 
     var eim = em.newInstance(instanceName);
     // If there are more than 1 map for this, you'll need to do mapid + instancename
@@ -39,12 +39,10 @@ function monsterSpawn(eim) { // Custom function
     var monsterid = monster[parseInt(eim.getProperty("monster_number"))];
     var mob = em.getMonster(monsterid);
     switch (monsterid) {
-	case 9400609:
-	case 9400623:
-	case 9400610:
-	case 9400611:
-	case 9400612:
-	case 9400613:
+	case 9001001:
+	case 9001002:
+	case 9001003:
+	case 9001004:
 	    var modified = em.newMonsterStats();
 	    modified.setOExp(mob.getMobExp() * 10);
 	    modified.setOHp(mob.getMobMaxHp() * 4);
@@ -52,6 +50,11 @@ function monsterSpawn(eim) { // Custom function
 
 	    mob.setOverrideStats(modified);
 	    break;
+	case 6400005:
+		var modified = em.newMonsterStats();
+	    modified.setOExp(mob.getMobExp() * 10);
+	    modified.setOHp(mob.getMobMaxHp() * 8);
+	    modified.setOMp(mob.getMobMaxMp() * 1.5);
 	    }
     
     eim.registerMonster(mob);
@@ -81,7 +84,7 @@ function scheduledTimeout(eim) {
     } else {
 	//eim.disposeIfPlayerBelow(100, returnmap);
     	for (var i = 0; i < party.size(); i++) {
-    		party.get(i).forceCompleteQuest(2013);
+    		party.get(i).forceCompleteQuest(2014);
     	}
     }
 // When event timeout..

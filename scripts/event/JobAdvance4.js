@@ -1,13 +1,11 @@
-var eventmapid = 706041720;
+var eventmapid = 865000001;
 var returnmap = 100000000;
 
 var monster = new Array(
-    9400609, 	// andras
-	9400623, 	// amdusias
-    9400611, 	// crocell
-    9400612, 	// marbas
-    9400613, 	// valefor
-    8220007		// blue mushmom
+    8180001, //griffey
+	9300511, // manon
+	9300293 // leviathan
+
     );
 
 function init() {
@@ -15,7 +13,7 @@ function init() {
 }
 
 function setup(partyid) {
-    var instanceName = "JobAdvance2" + partyid;
+    var instanceName = "JobAdvance4" + partyid;
 
     var eim = em.newInstance(instanceName);
     // If there are more than 1 map for this, you'll need to do mapid + instancename
@@ -38,22 +36,7 @@ function beginQuest(eim) { // Custom function
 function monsterSpawn(eim) { // Custom function
     var monsterid = monster[parseInt(eim.getProperty("monster_number"))];
     var mob = em.getMonster(monsterid);
-    switch (monsterid) {
-	case 9400609:
-	case 9400623:
-	case 9400610:
-	case 9400611:
-	case 9400612:
-	case 9400613:
-	    var modified = em.newMonsterStats();
-	    modified.setOExp(mob.getMobExp() * 10);
-	    modified.setOHp(mob.getMobMaxHp() * 4);
-	    modified.setOMp(mob.getMobMaxMp() * 1.5);
-
-	    mob.setOverrideStats(modified);
-	    break;
-	    }
-    
+   
     eim.registerMonster(mob);
 
     var map = eim.getMapInstance(0);
@@ -81,7 +64,7 @@ function scheduledTimeout(eim) {
     } else {
 	//eim.disposeIfPlayerBelow(100, returnmap);
     	for (var i = 0; i < party.size(); i++) {
-    		party.get(i).forceCompleteQuest(2013);
+    		party.get(i).forceCompleteQuest(2015);
     	}
     }
 // When event timeout..

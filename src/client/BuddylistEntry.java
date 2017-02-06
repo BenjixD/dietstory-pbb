@@ -1,10 +1,40 @@
 package client;
 
+import tools.data.PacketWriter;
+
 public class BuddylistEntry {
 
-    private String name, group;
-    private int cid, channel;
-    private boolean visible;
+    private String name;
+    private String group;
+    private String nick;
+    private String memo;
+    private int cid;
+    private int channel;
+    private int mobile;
+    private int accountID;
+    private boolean visible, inShop;
+
+    /**
+     *
+     * @param name
+     * @param characterId
+     * @param group
+     * @param channel should be -1 if the buddy is offline
+     * @param visible
+     */
+    public BuddylistEntry(String name, int characterId, String group, int channel, boolean visible, int mobile, int accountID, String nick, String memo, boolean inShop) {
+        super();
+        this.cid = characterId;
+        this.name = name;
+        this.channel = channel;
+        this.group = group;
+        this.visible = visible;
+        this.mobile = mobile;
+        this.accountID = accountID;
+        this.nick = nick;
+        this.memo = memo;
+        this.inShop = inShop;
+    }
 
     /**
      *
@@ -15,12 +45,7 @@ public class BuddylistEntry {
      * @param visible
      */
     public BuddylistEntry(String name, int characterId, String group, int channel, boolean visible) {
-        super();
-        this.name = name;
-        this.cid = characterId;
-        this.group = group;
-        this.channel = channel;
-        this.visible = visible;
+        this(name, characterId, group, channel, visible, 0, characterId, name, "", false);
     }
 
     /**
@@ -88,5 +113,59 @@ public class BuddylistEntry {
         }
         final BuddylistEntry other = (BuddylistEntry) obj;
         return cid == other.cid;
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
+    }
+
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
+    }
+
+    public int getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(int mobile) {
+        this.mobile = mobile;
+    }
+
+    public int getAccountID() {
+        return accountID;
+    }
+
+    public void setAccountID(int accountID) {
+        this.accountID = accountID;
+    }
+
+    public boolean isInShop() {
+        return inShop;
+    }
+
+    public void setInShop(boolean inShop) {
+        this.inShop = inShop;
+    }
+
+    public void encode(PacketWriter pw) {
+        pw.writeInt(getCharacterId());
+        pw.writeAsciiString(getName(), 13);
+        pw.write(isVisible() ? 0 : 1);//if adding = 2 <= nFlag
+        pw.writeInt(getChannel() == -1 ? -1 : getChannel());
+        pw.writeAsciiString(getGroup(), 17);
+        pw.writeInt(getMobile());
+        pw.writeInt(getAccountID());
+        pw.writeAsciiString(getNick(), 13);
+        pw.writeAsciiString(getMemo(), 256);
+        pw.writeInt(isInShop() ? 1 : 0);
+        // total size: 317/0x13D
     }
 }
