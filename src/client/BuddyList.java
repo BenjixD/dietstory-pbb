@@ -117,8 +117,10 @@ public class BuddyList implements Serializable {
     }
 
     public void addBuddyRequest(MapleClient c, int cidFrom, String nameFrom, int channelFrom, int levelFrom, int jobFrom) {
-        put(new BuddylistEntry(nameFrom, cidFrom, "ETC", channelFrom, false));
-        c.getSession().write(BuddylistPacket.requestBuddylistAdd(cidFrom, nameFrom, levelFrom, jobFrom));
+        BuddylistEntry ble = new BuddylistEntry(nameFrom, cidFrom, "ETC", channelFrom, false);
+        put(ble);
+        c.getSession().write(BuddylistPacket.requestBuddyAdd(false, cidFrom, c.getPlayer().getAccountID(),
+                nameFrom, levelFrom, jobFrom, 0, ble));
     }
 
     public void setChanged(boolean v) {

@@ -68,6 +68,8 @@ public class OpcodeManager {
 		PartyOperationHandler.class,
 		PartyMemberCandidateRequestHandler.class,
 
+		BuddylistModifyHandler.class,
+
 		ItemMoveHandler.class,
 		UseItemHandler.class,
 		UseUpgradeScrollHandler.class,
@@ -173,11 +175,13 @@ public class OpcodeManager {
 			spamSendHandlers.add("4A 00"); //
 			spamSendHandlers.add("BD 03"); // MOVE_MONSTER
 			spamSendHandlers.add("BE 03"); // MOVE_MONSTER_REPONSE
-			spamSendHandlers.add("80 02"); // MOVE_PLAYER
+			spamSendHandlers.add("93 02"); // MOVE_PLAYER
 			spamSendHandlers.add("E8 03");
 			spamSendHandlers.add("4B 00");
 			spamSendHandlers.add("0B 04");
 			spamSendHandlers.add("D7 03"); // MONSTER_SKILL
+			spamSendHandlers.add("B7 03"); // MONSTER_ENTER_FIELD
+			spamSendHandlers.add("B8 03"); // MONSTER_LEAVE_FIELD
 		}
 		return spamSendHandlers.contains(header);
 	}

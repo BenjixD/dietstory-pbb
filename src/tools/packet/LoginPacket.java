@@ -92,7 +92,7 @@ public class LoginPacket {
     
     public static final byte[] sendAllowedCreation() {
     	PacketWriter pw = new PacketWriter();
-    	pw.writeShort(0x2E);
+    	pw.writeShort(SendPacketOpcode.ALLOWED_CREATION.getValue());
     	getAvailableJobs(pw);
     	return pw.getPacket();
     }

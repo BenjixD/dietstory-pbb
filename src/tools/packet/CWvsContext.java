@@ -50,6 +50,7 @@ import tools.Pair;
 import tools.Randomizer;
 import tools.StringUtil;
 import tools.data.PacketWriter;
+import tools.packet.enums.BuddyType;
 import tools.packet.enums.EffectType;
 import tools.packet.enums.PartyType;
 
@@ -1970,21 +1971,17 @@ public class CWvsContext {
     public static class BuddylistPacket {
 
         public static byte[] updateBuddylist(Collection<BuddylistEntry> buddylist) {
-            return updateBuddylist(buddylist, 7);
+            return updateBuddylist(buddylist, false, false);
         }
 
-        public static byte[] updateBuddylist(Collection<BuddylistEntry> buddylist, int deleted) {
+        public static byte[] updateBuddylist(Collection<BuddylistEntry> buddylist, boolean deleted, boolean add) {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.FRIEND_RESULT.getValue());
-            pw.write(deleted);
+            pw.write(deleted ? BuddyType.UPDATE.getValue() : add ? BuddyType.UPDATE.getValue() : BuddyType.UPDATE.getValue()); // TODO find add/delete values
             pw.write(buddylist.size());
             for (BuddylistEntry buddy : buddylist) {
-                pw.writeInt(buddy.getCharacterId());
-                pw.writeAsciiString(buddy.getName(), 13);
-                pw.write(buddy.isVisible() ? 0 : 1);//if adding = 2
-                pw.writeInt(buddy.getChannel() == -1 ? -1 : buddy.getChannel());
-                pw.writeAsciiString(buddy.getGroup(), 17);
+                buddy.encode(pw);
             }
             for (int x = 0; x < buddylist.size(); x++) {
                 pw.writeInt(0);
@@ -2005,11 +2002,23 @@ public class CWvsContext {
             return pw.getPacket();
         }
 
+        public static byte[] requestMessage(String toName) {
+            PacketWriter pw = new PacketWriter();
+
+            pw.writeShort(SendPacketOpcode.FRIEND_RESULT.getValue());
+            pw.write(BuddyType.SEND_REQUEST.getValue());
+            pw.writeMapleAsciiString(toName);
+
+            return pw.getPacket();
+        }
+
+        @Deprecated
         public static byte[] requestBuddylistAdd(int cidFrom, String nameFrom, int levelFrom, int jobFrom) {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.FRIEND_RESULT.getValue());
-            pw.write(9);
+            pw.write(BuddyType.REQUEST_ADD.getValue());
+            // need 317?
             pw.writeInt(cidFrom);
             pw.writeMapleAsciiString(nameFrom);
             pw.writeInt(levelFrom);
@@ -2021,6 +2030,23 @@ public class CWvsContext {
             pw.writeInt(0);
             pw.writeAsciiString("ETC", 16);
             pw.writeShort(0);//was1
+            return pw.getPacket();
+        }
+
+        public static byte[] requestBuddyAdd(boolean inShop, int id, int accId, String name, int level, int job, int subJob, BuddylistEntry ble) {
+            PacketWriter pw = new PacketWriter();
+
+            pw.writeShort(SendPacketOpcode.FRIEND_RESULT.getValue());
+            pw.write(BuddyType.SEND_REQUEST.getValue());
+            pw.write(inShop);
+            pw.writeInt(id);
+            pw.writeInt(accId);
+            pw.writeMapleAsciiString(name);
+            pw.writeInt(level);
+            pw.writeInt(job);
+            pw.writeInt(subJob);
+            // GW_Friend::Encode
+            ble.encode(pw);
 
             return pw.getPacket();
         }
