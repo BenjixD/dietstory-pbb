@@ -1621,7 +1621,7 @@ public class PacketHelper {
      * 83 - Ika
      */
     public static void addShopItemInfo(PacketWriter pw, MapleShopItem item, MapleShop shop, MapleItemInformationProvider ii, Item i, MapleCharacter chr) {
-        pw.writeInt(item.getItemId()); // nItemID
+    	pw.writeInt(item.getItemId()); // nItemID
         pw.writeInt(item.getPrice());  // nPrice
         pw.writeInt(0); // nTokenItemID
         pw.writeInt(0); // nTokenPrice
@@ -1636,12 +1636,12 @@ public class PacketHelper {
         pw.writeShort(0); // nShowLevMin
         pw.writeShort(0); // nShowLevMax
         pw.writeInt(0); // nQuestID
-        pw.write(0);
+      //  pw.write(0);
         pw.writeLong(getTime(-2L)); // ftSellStart
         pw.writeLong(getTime(-1L)); // ftSellEnd
         pw.writeInt(item.getCategory()); // nTabIndex
         
-        pw.write(0); // bWorldBlock
+       // pw.write(0); // bWorldBlock
         /*if (GameConstants.isEquip(item.getItemId())) { // // bWorldBlock
             pw.write(item.hasPotential() ? 1 : 0);
         } else {
