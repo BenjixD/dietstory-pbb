@@ -34,6 +34,7 @@ public enum SendPacketOpcode implements IntValueHolder {
 	PIC_RESPONSE,
 	CLIENT_START,
 	SERVERSTATUS,
+	ALLOWED_CREATION,
 	AUTHSERVER,
 	REGISTER_PIC_RESPONSE,
 	SPECIAL_CREATION,
@@ -933,7 +934,7 @@ public enum SendPacketOpcode implements IntValueHolder {
 	VICIOUS_HAMMER,
 	LOGOUT_GIFT,
 	PACKAGE_OPERATION;
-	private int code = -2;
+    private int code = -2;
 
     @Override
     public void setValue(int code) {
