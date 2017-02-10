@@ -98,14 +98,14 @@ public class WarriorBuff extends AbstractBuffClass {
                 break;
             case 1211014: //Parashock Guard
                 eff.statups.put(MapleBuffStat.PARASHOCK_GUARD, eff.info.get(MapleStatInfo.x));
-                eff.statups.put(MapleBuffStat.CrossOverChain, eff.info.get(MapleStatInfo.y));
+                eff.statups.put(MapleBuffStat.ChargeBuff, eff.info.get(MapleStatInfo.y));
                 eff.statups.put(MapleBuffStat.IndiePAD, eff.info.get(MapleStatInfo.indiePad));
                 eff.statups.put(MapleBuffStat.IndiePDDR, eff.info.get(MapleStatInfo.z));
                 //TODO
                 break;
             case 1211011: //Combat Orders
-                eff.statups.put(MapleBuffStat.TeleportMasteryOn, eff.info.get(MapleStatInfo.x));
-                eff.statups.put(MapleBuffStat.BlessingArmor, eff.info.get(MapleStatInfo.damR));
+                eff.statups.put(MapleBuffStat.CombatOrders, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(MapleBuffStat.KeyDownAreaMoving, eff.info.get(MapleStatInfo.damR));
                 break;
             case 1221015: //Void Elemental
                 eff.statups.put(MapleBuffStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));

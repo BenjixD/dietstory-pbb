@@ -96,13 +96,13 @@ public class MagicianBuff extends AbstractBuffClass {
                 eff.statups.put(MapleBuffStat.Invincible, eff.info.get(MapleStatInfo.x));
                 break;
             case 2111011: //Elemental Adaptation (Fire, Poison)
-            	eff.statups.put(MapleBuffStat.MasterMagicOn, eff.info.get(MapleStatInfo.asrR));
+            	eff.statups.put(MapleBuffStat.AsrR, eff.info.get(MapleStatInfo.asrR));
             	break;
             case 2211012: //Elemental Adaptation (Ice, Lightning)
-               eff.statups.put(MapleBuffStat.MasterMagicOn, eff.info.get(MapleStatInfo.asrR));
+               eff.statups.put(MapleBuffStat.AsrR, eff.info.get(MapleStatInfo.asrR));
                 break;
             case 2311012: //Divine Protection
-                eff.statups.put(MapleBuffStat.MasterMagicOn, eff.info.get(MapleStatInfo.asrR));
+                eff.statups.put(MapleBuffStat.AsrR, eff.info.get(MapleStatInfo.asrR));
             	break;
             case 2111008: //Elemental Decrease
             case 2211008: //Elemental Decrease
@@ -116,7 +116,7 @@ public class MagicianBuff extends AbstractBuffClass {
             case 2311007: //Teleport Mastery
                 eff.info.put(MapleStatInfo.mpCon, eff.info.get(MapleStatInfo.y));
                 eff.info.put(MapleStatInfo.time, 2100000000);
-                eff.statups.put(MapleBuffStat.DamR, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(MapleBuffStat.TeleportMasteryOn, eff.info.get(MapleStatInfo.x));
                 eff.monsterStatus.put(MonsterStatus.STUN, eff.info.get(MapleStatInfo.subProp));
                 break;
             case 2311009: //Holy Magic Shield
