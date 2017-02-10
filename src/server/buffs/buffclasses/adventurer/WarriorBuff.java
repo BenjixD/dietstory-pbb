@@ -36,6 +36,7 @@ public class WarriorBuff extends AbstractBuffClass {
             1311013, //Evil Eye of Domination
             1311015, //Cross Surge
             1121000, //Maple Warrior
+            1220005, //Achilles
             1121010, //Enrage
             1221000, //Maple Warrior
             1221002, //Power Stance
@@ -83,12 +84,10 @@ public class WarriorBuff extends AbstractBuffClass {
             case 1101013: //Combo
                 eff.statups.put(MapleBuffStat.ComboCounter,1);
                 eff.info.put(MapleStatInfo.time, 2100000000);
-                //System.out.println("Combo from Warrior Buff");
+               //System.out.println("Combo from Warrior Buff");
                 break;
             case 1211010: //HP Recovery
-                eff.statups.put(MapleBuffStat.HP_RECOVER, eff.info.get(MapleStatInfo.x));
-                eff.statups.put(MapleBuffStat.HP_RECOVER, eff.info.get(MapleStatInfo.y));
-                eff.statups.put(MapleBuffStat.HP_RECOVER, eff.info.get(MapleStatInfo.z));
+                eff.statups.put(MapleBuffStat.IndieMHPR, eff.info.get(MapleStatInfo.x));
                 break;
             case 1211013: //Threaten
                 eff.monsterStatus.put(MonsterStatus.WATK, eff.info.get(MapleStatInfo.x));
@@ -99,12 +98,14 @@ public class WarriorBuff extends AbstractBuffClass {
                 break;
             case 1211014: //Parashock Guard
                 eff.statups.put(MapleBuffStat.PARASHOCK_GUARD, eff.info.get(MapleStatInfo.x));
-                eff.statups.put(MapleBuffStat.PARASHOCK_GUARD, eff.info.get(MapleStatInfo.y));
+                eff.statups.put(MapleBuffStat.CrossOverChain, eff.info.get(MapleStatInfo.y));
                 eff.statups.put(MapleBuffStat.IndiePAD, eff.info.get(MapleStatInfo.indiePad));
+                eff.statups.put(MapleBuffStat.IndiePDDR, eff.info.get(MapleStatInfo.z));
                 //TODO
                 break;
             case 1211011: //Combat Orders
-                eff.statups.put(MapleBuffStat.CombatOrders, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(MapleBuffStat.TeleportMasteryOn, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(MapleBuffStat.BlessingArmor, eff.info.get(MapleStatInfo.damR));
                 break;
             case 1221015: //Void Elemental
                 eff.statups.put(MapleBuffStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));
@@ -134,6 +135,9 @@ public class WarriorBuff extends AbstractBuffClass {
             case 1321000: //Maple Warrior
                 eff.statups.put(MapleBuffStat.BasicStatUp, eff.info.get(MapleStatInfo.x));
                 break;
+            case 1220005: // Achilles
+            	eff.statups.put(MapleBuffStat.IndiePDDR, eff.info.get(MapleStatInfo.t));
+            	break;
             case 1121053: //Epic Adventure
             case 1221053: //Epic Adventure
             case 1321053: //Epic Adventure
