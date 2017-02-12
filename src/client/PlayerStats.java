@@ -2368,10 +2368,10 @@ public class PlayerStats implements Serializable {
         if (buff != null) {
             wdef += buff.intValue();
         }
-        buff = chra.getBuffedValue(MapleBuffStat.EMDD);
-        if (buff != null) {
-            mdef += buff.intValue();
-        }
+     //   buff = chra.getBuffedValue(MapleBuffStat.EMDD);
+      //  if (buff != null) {
+       //     mdef += buff.intValue();
+       // }
         buff = chra.getBuffedValue(MapleBuffStat.PDD);
         if (buff != null) {
             wdef += buff.intValue();
