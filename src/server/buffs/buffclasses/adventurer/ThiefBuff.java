@@ -43,6 +43,7 @@ public class ThiefBuff extends AbstractBuffClass {
             4341053, // Epic Adventure
             4121053, //Epic Adventure
             4121054, //Bleed Dart
+            4220015, //prime critical
             4221053, //Epic Adventure
             4221054, //Flip of the Coin
         };
@@ -79,7 +80,7 @@ public class ThiefBuff extends AbstractBuffClass {
                 break;
             case 4211003: //Pick Pocket
                 eff.info.put(MapleStatInfo.time, 2100000000);
-                eff.statups.put(MapleBuffStat.PickPocket, eff.info.get(MapleStatInfo.x));
+            //    eff.statups.put(MapleBuffStat.PickPocket, eff.info.get(MapleStatInfo.x));
                 break;
             case 4111002: //Shadow Partner
             case 4211008: //Shadow Partner
@@ -105,6 +106,9 @@ public class ThiefBuff extends AbstractBuffClass {
                 break;
             case 4121054: //Bleed Dart
                 break;
+            case 4220015: //prime critical
+            	eff.statups.put(MapleBuffStat.BasicStatUp, eff.info.get(MapleStatInfo.x));
+                break;    
             case 4341054: // Blade Clone
                 eff.statups.put(MapleBuffStat.StackBuff, eff.info.get(MapleStatInfo.x));
                 eff.statups.put(MapleBuffStat.ARIANT_COSS_IMU2, Integer.valueOf(1));

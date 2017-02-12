@@ -5,6 +5,8 @@
 package server.buffs.buffclasses.adventurer;
 
 import client.MapleBuffStat;
+import client.MonsterStatus;
+import client.MapleDisease;
 import constants.GameConstants;
 import server.MapleStatEffect;
 import server.MapleStatInfo;
@@ -18,8 +20,8 @@ public class MagicianBuff extends AbstractBuffClass {
 
     public MagicianBuff() {
         buffs = new int[]{
-            2001002, //Magic Guard
-            2001003, //Magic Armour
+            2001001, //Magic Guard
+            2001002, //Magic Armour
             2101001, //Meditation
             2201001, //Meditation
             2300009, //Blessed Ensemble - passive but buff?
@@ -71,14 +73,19 @@ public class MagicianBuff extends AbstractBuffClass {
     @Override
     public void handleBuff(MapleStatEffect eff, int skill) {
         switch (skill) {
-            case 2001002: //Magic Guard
+            case 2001001: //Magic Guard
                 eff.statups.put(MapleBuffStat.MagicGuard, eff.info.get(MapleStatInfo.x));
+                break;
+            case 2001002: //Magic armour
+                eff.statups.put(MapleBuffStat.MagicShield, eff.info.get(MapleStatInfo.pdd));
                 break;
             case 2300009: //Blessed Ensemble
                 eff.statups.put(MapleBuffStat.PASSIVE_BLESS, eff.info.get(MapleStatInfo.x));
                 break;
             case 2301004: //Bless   
-                eff.statups.put(MapleBuffStat.Bless, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(MapleBuffStat.IndiePAD, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(MapleBuffStat.IndieMAD, eff.info.get(MapleStatInfo.y));
+                eff.statups.put(MapleBuffStat.IndiePDD, eff.info.get(MapleStatInfo.z));
                 break;
             case 2101008: //Magic Booster
             case 2201010: //Magic Booster
@@ -89,10 +96,14 @@ public class MagicianBuff extends AbstractBuffClass {
                 eff.statups.put(MapleBuffStat.Invincible, eff.info.get(MapleStatInfo.x));
                 break;
             case 2111011: //Elemental Adaptation (Fire, Poison)
+            	eff.statups.put(MapleBuffStat.AsrR, eff.info.get(MapleStatInfo.asrR));
+            	break;
             case 2211012: //Elemental Adaptation (Ice, Lightning)
-            case 2311012: //Divine Protection
-                eff.statups.put(MapleBuffStat.KeyDownAreaMoving, eff.info.get(MapleStatInfo.x));
+               eff.statups.put(MapleBuffStat.AsrR, eff.info.get(MapleStatInfo.asrR));
                 break;
+            case 2311012: //Divine Protection
+                eff.statups.put(MapleBuffStat.AsrR, eff.info.get(MapleStatInfo.asrR));
+            	break;
             case 2111008: //Elemental Decrease
             case 2211008: //Elemental Decrease
                 eff.statups.put(MapleBuffStat.ElementalReset, eff.info.get(MapleStatInfo.x));
@@ -106,7 +117,7 @@ public class MagicianBuff extends AbstractBuffClass {
                 eff.info.put(MapleStatInfo.mpCon, eff.info.get(MapleStatInfo.y));
                 eff.info.put(MapleStatInfo.time, 2100000000);
                 eff.statups.put(MapleBuffStat.TeleportMasteryOn, eff.info.get(MapleStatInfo.x));
-                //eff.monsterStatus.put(MonsterStatus.STUN, Integer.valueOf(1));
+                eff.monsterStatus.put(MonsterStatus.STUN, eff.info.get(MapleStatInfo.subProp));
                 break;
             case 2311009: //Holy Magic Shield
                 eff.statups.put(MapleBuffStat.HolyMagicShell, eff.info.get(MapleStatInfo.x));
@@ -115,12 +126,17 @@ public class MagicianBuff extends AbstractBuffClass {
             case 2221004: //Infinity
             case 2321004: //Infinity
                 eff.statups.put(MapleBuffStat.Infinity, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(MapleBuffStat.IndieMHPR, eff.info.get(MapleStatInfo.y));
                 eff.statups.put(MapleBuffStat.Stance, eff.info.get(MapleStatInfo.prop));
+
                 break;
             case 2321005: //Advanced Blessing
-                eff.statups.put(MapleBuffStat.AdvancedBless, eff.info.get(MapleStatInfo.x));
-                eff.statups.put(MapleBuffStat.IncMaxHP, eff.info.get(MapleStatInfo.indieMhp));
-                eff.statups.put(MapleBuffStat.IncMaxMP, eff.info.get(MapleStatInfo.indieMmp));
+                eff.statups.put(MapleBuffStat.UsefulAdvancedBless, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(MapleBuffStat.IndieMAD, eff.info.get(MapleStatInfo.y));
+                eff.statups.put(MapleBuffStat.IndiePDD, eff.info.get(MapleStatInfo.z));
+                eff.statups.put(MapleBuffStat.IndieMHP, eff.info.get(MapleStatInfo.indieMhp));
+                eff.statups.put(MapleBuffStat.IndieMMP, eff.info.get(MapleStatInfo.indieMmp));
+                
                 break;
             case 2121000: //Maple Warrior
             case 2221000: //Maple Warrior

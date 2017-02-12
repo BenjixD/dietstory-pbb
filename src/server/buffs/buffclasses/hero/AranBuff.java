@@ -52,7 +52,6 @@ public class AranBuff extends AbstractBuffClass {
                 eff.statups.put(MapleBuffStat.KnockBack, eff.info.get(MapleStatInfo.x));
                 eff.statups.put(MapleBuffStat.EPAD, eff.info.get(MapleStatInfo.epad));
                 eff.statups.put(MapleBuffStat.EPDD, eff.info.get(MapleStatInfo.epdd));
-                eff.statups.put(MapleBuffStat.EMDD, eff.info.get(MapleStatInfo.emdd));
                 break;
             case 21111009: // Combo Recharge
                 eff.statups.put(MapleBuffStat.ComboAbilityBuff, eff.info.get(MapleStatInfo.x));

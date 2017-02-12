@@ -18,8 +18,10 @@ public class BowmanBuff extends AbstractBuffClass {
 
     public BowmanBuff() {
         buffs = new int[]{
+        	3100010, // quiver cardrige	
             3101002, //Bow Booster
             3101004, //SoulArrow
+            3111011, // reckless hunt
             3201002, //Bow Booster
             3201004, //Soul Arrow xBow
             3121000, //MapleWarrior
@@ -45,6 +47,13 @@ public class BowmanBuff extends AbstractBuffClass {
     @Override
     public void handleBuff(MapleStatEffect eff, int skill) {
         switch (skill) {
+        case 3100010: // quiver cartridge
+        	eff.statups.put(MapleBuffStat.ExtremeArchery, eff.info.get(MapleStatInfo.x));
+        	break;
+        case 3111011: // reckless hunt
+        	eff.statups.put(MapleBuffStat.BlessEnsenble, eff.info.get(MapleStatInfo.x));
+        	eff.statups.put(MapleBuffStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));
+        	break;
             case 3101002: //Bow Booster
             case 3201002: //Bow Booster
                 eff.statups.put(MapleBuffStat.Booster, eff.info.get(MapleStatInfo.x));
@@ -64,7 +73,8 @@ public class BowmanBuff extends AbstractBuffClass {
                 break;
             case 3121002: //Sharp Eyes
             case 3221002: //Sharp Eye
-                eff.statups.put(MapleBuffStat.SharpEyes, (eff.info.get(MapleStatInfo.x) << 8) + eff.info.get(MapleStatInfo.criticaldamageMax));
+            	eff.statups.put(MapleBuffStat.SharpEyes, eff.info.get(MapleStatInfo.y));
+            	eff.statups.put(MapleBuffStat.SharpEyes, eff.info.get(MapleStatInfo.x));
                 break;
             case 3121007: //Illusion Step
             case 3221006: //Illusion Step

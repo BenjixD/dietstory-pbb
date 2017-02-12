@@ -72,7 +72,7 @@ public class EvanBuff extends AbstractBuffClass  {
             case 22181000: // Blessing of the Onyx
                 eff.statups.put(MapleBuffStat.EMAD, eff.info.get(MapleStatInfo.emad));
                 eff.statups.put(MapleBuffStat.EPDD, eff.info.get(MapleStatInfo.epdd));
-                eff.statups.put(MapleBuffStat.EMDD, eff.info.get(MapleStatInfo.emdd));
+            //    eff.statups.put(MapleBuffStat.EMDD, eff.info.get(MapleStatInfo.emdd));
                 break;
             case 22171054: // Frenzied Soul
                 eff.statups.put(MapleBuffStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));

@@ -389,7 +389,7 @@ public class MapleStatEffect implements Serializable {
             addBuffStatPairToListIfNotZero(ret.statups, MapleBuffStat.EPAD, ret.info.get(MapleStatInfo.epad));
             addBuffStatPairToListIfNotZero(ret.statups, MapleBuffStat.EMAD, ret.info.get(MapleStatInfo.emad));
             addBuffStatPairToListIfNotZero(ret.statups, MapleBuffStat.EPDD, ret.info.get(MapleStatInfo.epdd));
-            addBuffStatPairToListIfNotZero(ret.statups, MapleBuffStat.EMDD, ret.info.get(MapleStatInfo.emdd));
+       //     addBuffStatPairToListIfNotZero(ret.statups, MapleBuffStat.EMDD, ret.info.get(MapleStatInfo.emdd));
             addBuffStatPairToListIfNotZero(ret.statups, MapleBuffStat.Inflation, Integer.valueOf(ret.inflation));
             addBuffStatPairToListIfNotZero(ret.statups, MapleBuffStat.STR, ret.info.get(MapleStatInfo.str));
             addBuffStatPairToListIfNotZero(ret.statups, MapleBuffStat.DEX, ret.info.get(MapleStatInfo.dex));
