@@ -1970,6 +1970,16 @@ public class CWvsContext {
 
     public static class BuddylistPacket {
 
+        public static byte[] declinedRequest(String declinedName) {
+            PacketWriter pw = new PacketWriter();
+
+            pw.writeShort(SendPacketOpcode.FRIEND_RESULT.getValue());
+            pw.write(BuddyType.DECLINE_MESSAGE.getValue());
+            pw.writeMapleAsciiString(declinedName);
+
+            return pw.getPacket();
+        }
+
         public static byte[] updateBuddylist(Collection<BuddylistEntry> buddylist) {
             return updateBuddylist(buddylist, false, false);
         }
@@ -2006,38 +2016,38 @@ public class CWvsContext {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.FRIEND_RESULT.getValue());
-            pw.write(BuddyType.SEND_REQUEST.getValue());
+            pw.write(BuddyType.REQUEST_SENT.getValue());
             pw.writeMapleAsciiString(toName);
 
             return pw.getPacket();
         }
 
-        @Deprecated
-        public static byte[] requestBuddylistAdd(int cidFrom, String nameFrom, int levelFrom, int jobFrom) {
-            PacketWriter pw = new PacketWriter();
-
-            pw.writeShort(SendPacketOpcode.FRIEND_RESULT.getValue());
-            pw.write(BuddyType.REQUEST_ADD.getValue());
-            // need 317?
-            pw.writeInt(cidFrom);
-            pw.writeMapleAsciiString(nameFrom);
-            pw.writeInt(levelFrom);
-            pw.writeInt(jobFrom);
-            pw.writeInt(0);//v115
-            pw.writeInt(cidFrom);
-            pw.writeAsciiString(nameFrom, 13);
-            pw.write(1);
-            pw.writeInt(0);
-            pw.writeAsciiString("ETC", 16);
-            pw.writeShort(0);//was1
-            return pw.getPacket();
-        }
+//        @Deprecated
+//        public static byte[] requestBuddylistAdd(int cidFrom, String nameFrom, int levelFrom, int jobFrom) {
+//            PacketWriter pw = new PacketWriter();
+//
+//            pw.writeShort(SendPacketOpcode.FRIEND_RESULT.getValue());
+//            pw.write(BuddyType.REQUEST_ADD.getValue());
+//            // need 317?
+//            pw.writeInt(cidFrom);
+//            pw.writeMapleAsciiString(nameFrom);
+//            pw.writeInt(levelFrom);
+//            pw.writeInt(jobFrom);
+//            pw.writeInt(0);//v115
+//            pw.writeInt(cidFrom);
+//            pw.writeAsciiString(nameFrom, 13);
+//            pw.write(1);
+//            pw.writeInt(0);
+//            pw.writeAsciiString("ETC", 16);
+//            pw.writeShort(0);//was1
+//            return pw.getPacket();
+//        }
 
         public static byte[] requestBuddyAdd(boolean inShop, int id, int accId, String name, int level, int job, int subJob, BuddylistEntry ble) {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.FRIEND_RESULT.getValue());
-            pw.write(BuddyType.SEND_REQUEST.getValue());
+            pw.write(BuddyType.RECEIVE_REQUEST.getValue());
             pw.write(inShop);
             pw.writeInt(id);
             pw.writeInt(accId);
@@ -2045,7 +2055,7 @@ public class CWvsContext {
             pw.writeInt(level);
             pw.writeInt(job);
             pw.writeInt(subJob);
-            // GW_Friend::Encode
+
             ble.encode(pw);
 
             return pw.getPacket();
@@ -2055,7 +2065,7 @@ public class CWvsContext {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.FRIEND_RESULT.getValue());
-            pw.write(21);
+            pw.write(BuddyType.UPDATE_FRIEND_MAX.getValue());
             pw.write(capacity);
 
             return pw.getPacket();
@@ -2066,6 +2076,16 @@ public class CWvsContext {
 
             pw.writeShort(SendPacketOpcode.FRIEND_RESULT.getValue());
             pw.write(message);
+
+            return pw.getPacket();
+        }
+
+        public static byte[] addBuddy(BuddylistEntry ble) {
+            PacketWriter pw = new PacketWriter();
+
+            pw.writeShort(SendPacketOpcode.FRIEND_RESULT.getValue());
+            pw.write(BuddyType.ADD.getValue());
+            ble.encode(pw);
 
             return pw.getPacket();
         }

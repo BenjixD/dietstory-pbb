@@ -23,6 +23,8 @@ package handling.channel.handler;
 import static client.BuddyList.BuddyOperation.ADDED;
 import static client.BuddyList.BuddyOperation.DELETED;
 
+import java.nio.channels.Channel;
+import java.nio.channels.Channels;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -178,20 +180,31 @@ public class BuddyListHandler {
             final BuddylistEntry ble = buddylist.get(otherCid);
             if (!buddylist.isFull() && ble != null && !ble.isVisible()) {
                 final int channel = World.Find.findChannel(otherCid);
-                buddylist.put(new BuddylistEntry(ble.getName(), otherCid, "ETC", channel, true));
+                buddylist.put(new BuddylistEntry(ble.getName(), otherCid, ble.getGroup(), channel, true));
                 c.getSession().write(BuddylistPacket.updateBuddylist(buddylist.getBuddies(), false, true));
-                notifyRemoteChannel(c, channel, otherCid, "ETC", ADDED);
+                notifyRemoteChannel(c, channel, otherCid, ble.getGroup(), ADDED);
             } else {
-                c.getSession().write(BuddylistPacket.buddylistMessage((byte) 24));//11
+                c.getSession().write(BuddylistPacket.buddylistMessage((byte) BuddyType.FULL_BUDDYLIST.getValue()));
             }
-        } else if (mode == 3) { // delete
+        } else if (mode == 5) { // delete
             final int otherCid = lea.readInt();
+            if(otherCid < 0) {
+                c.getSession().write(BuddylistPacket.buddylistMessage((byte) BuddyType.FRIEND_NOT_FOUND.getValue()));
+            }
+
             final BuddylistEntry blz = buddylist.get(otherCid);
             if (blz != null && blz.isVisible()) {
                 notifyRemoteChannel(c, World.Find.findChannel(otherCid), otherCid, blz.getGroup(), DELETED);
             }
             buddylist.remove(otherCid);
             c.getSession().write(BuddylistPacket.updateBuddylist(buddylist.getBuddies(), true, false));
+        } else if (mode == 6) { // deny request
+            int otherId = lea.readInt();
+            int channel = World.Find.findChannel(otherId);
+            MapleCharacter mc = ChannelServer.getInstance(channel).getPlayerStorage().getCharacterById(otherId);
+            mc.getClient().getSession().write(BuddylistPacket.declinedRequest(c.getPlayer().getName()));
+        } else if(mode == 11) { // convert to account buddy
+
         } else if (mode == 12) { // edit
             // TODO add new info
         }

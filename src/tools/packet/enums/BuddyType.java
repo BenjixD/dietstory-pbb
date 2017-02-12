@@ -2,9 +2,8 @@ package tools.packet.enums;
 
 
 public enum BuddyType {
-    REQUEST_ADD(53),
-    SEND_REQUEST(25),
     UPDATE(24),
+    RECEIVE_REQUEST(25),
     REQUEST_SENT(26),
     FULL_BUDDYLIST(27),
     USER_BUDDYLIST_FULL(28),
@@ -16,6 +15,7 @@ public enum BuddyType {
     CHAR_NOT_REGISTERED(34),
     YOU_WAITING_FOR_BUDDY(36),
     ADD(38), // pure guess
+    UPDATE_FRIEND_MAX(44),
     STILL_RECOVERING(50),
     DECLINE_MESSAGE(51),
     BESTIE_REQUEST(52),
