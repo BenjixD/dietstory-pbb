@@ -117,7 +117,8 @@ public class BuddyListHandler {
                     if (charWithId != null) {
                         BuddyAddResult buddyAddResult = null;
                         if (channel > 0) {
-                            buddyAddResult = World.Buddy.requestBuddyAdd(addName, c.getChannel(), c.getPlayer().getId(), c.getPlayer().getName(), c.getPlayer().getLevel(), c.getPlayer().getJob());
+                            buddyAddResult = World.Buddy.requestBuddyAdd(addName, c.getChannel(), c.getPlayer().getId(),
+                                    c.getPlayer().getName(), c.getPlayer().getLevel(), c.getPlayer().getJob(), groupName);
                         } else {
                             Connection con = DatabaseConnection.getConnection();
                             PreparedStatement ps = con.prepareStatement("SELECT COUNT(*) as buddyCount FROM buddies WHERE characterid = ? AND pending = 0");

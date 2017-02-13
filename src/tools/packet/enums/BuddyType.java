@@ -2,7 +2,7 @@ package tools.packet.enums;
 
 
 public enum BuddyType {
-    UPDATE(24),
+    UPDATE(23),
     RECEIVE_REQUEST(25),
     REQUEST_SENT(26),
     FULL_BUDDYLIST(27),

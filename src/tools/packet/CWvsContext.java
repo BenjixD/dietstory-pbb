@@ -1989,7 +1989,7 @@ public class CWvsContext {
 
             pw.writeShort(SendPacketOpcode.FRIEND_RESULT.getValue());
             pw.write(deleted ? BuddyType.UPDATE.getValue() : add ? BuddyType.UPDATE.getValue() : BuddyType.UPDATE.getValue()); // TODO find add/delete values
-            pw.write(buddylist.size());
+            pw.writeInt(buddylist.size());
             for (BuddylistEntry buddy : buddylist) {
                 buddy.encode(pw);
             }

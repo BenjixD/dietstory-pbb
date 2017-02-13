@@ -577,7 +577,7 @@ public class World {
             }
         }
 
-        public static BuddyAddResult requestBuddyAdd(String addName, int channelFrom, int cidFrom, String nameFrom, int levelFrom, int jobFrom) {
+        public static BuddyAddResult requestBuddyAdd(String addName, int channelFrom, int cidFrom, String nameFrom, int levelFrom, int jobFrom, String groupName) {
             int ch = Find.findChannel(cidFrom);
             if (ch > 0) {
                 final MapleCharacter addChar = ChannelServer.getInstance(ch).getPlayerStorage().getCharacterByName(addName);
@@ -587,7 +587,7 @@ public class World {
                         return BuddyAddResult.BUDDYLIST_FULL;
                     }
                     if (!buddylist.contains(cidFrom)) {
-                        buddylist.addBuddyRequest(addChar.getClient(), cidFrom, nameFrom, channelFrom, levelFrom, jobFrom);
+                        buddylist.addBuddyRequest(addChar.getClient(), cidFrom, nameFrom, channelFrom, levelFrom, jobFrom, groupName);
                     } else {
                         if (buddylist.containsVisible(cidFrom)) {
                             return BuddyAddResult.ALREADY_ON_LIST;

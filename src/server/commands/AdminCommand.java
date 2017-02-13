@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 
+import client.BuddylistEntry;
 import client.inventory.*;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
@@ -18,6 +19,7 @@ import client.SkillFactory;
 import constants.EventConstants;
 import constants.GameConstants;
 import constants.ServerConstants.PlayerGMRank;
+import handling.SendPacketOpcode;
 import handling.cashshop.CashShopServer;
 import handling.channel.ChannelServer;
 import handling.world.CharacterTransfer;
@@ -35,10 +37,12 @@ import server.Timer.WorldTimer;
 import tools.HexTool;
 import tools.Randomizer;
 import tools.StringUtil;
+import tools.data.PacketWriter;
 import tools.packet.CField;
 import tools.packet.CField.NPCPacket;
 import tools.packet.CWvsContext;
 import tools.packet.PetPacket;
+import tools.packet.enums.BuddyType;
 
 public class AdminCommand {
 
@@ -114,6 +118,31 @@ public class AdminCommand {
                     c.getSession().write(CField.EffectPacket.showRewardItemAnimation(2028162, "")); //sealed box
                 }
             }, 10000);
+            return 1;
+        }
+    }
+
+    public static class TestBuddy extends CommandExecute {
+        @Override
+        public int execute(MapleClient c, String[] splitted) {
+            PacketWriter pw = new PacketWriter();
+
+//            pw.write(HexTool.getByteArrayFromHexString(splitted[1]));
+            MapleCharacter chr = c.getPlayer();
+            BuddylistEntry ble = new BuddylistEntry(chr.getName(), chr.getId(), "Testing yo", 1,
+                    true, 0, chr.getAccountID(), "God", "Baas", false);
+//            c.getSession().write(CWvsContext.BuddylistPacket.requestBuddylistAddTest(chr.getId(), chr.getName(), chr.getLevel(), chr.getJob(), Byte.valueOf(splitted[1])));
+            c.getSession().write(CWvsContext.BuddylistPacket.requestBuddyAdd(false, chr.getId(),
+                    chr.getAccountID(), chr.getName(), chr.getLevel(), chr.getJob(), chr.getSubcategory(), ble));
+
+            return 1;
+        }
+    }
+
+    public static class TestUpdate extends CommandExecute {
+        @Override
+        public int execute(MapleClient c, String[] splitted) {
+            c.getSession().write(CWvsContext.BuddylistPacket.updateBuddylist(c.getPlayer().getBuddylist().getBuddies()));
             return 1;
         }
     }
