@@ -3835,22 +3835,25 @@ public class CField {
             pw.writeInt(summon.getSkill()); // nSkillID
             pw.write(summon.getOwnerLevel() - 1); // nCharLevel
             pw.write(summon.getSkillLevel()); // nSLV (skill level)
+            pw.write(0);
             pw.writePos(summon.getPosition()); // nX, nY
-            pw.write((summon.getSkill() == 32111006) || (summon.getSkill() == 33101005) ? 5 : 4); // nMoveAction
+           // pw.write((summon.getSkill() == 32111006) || (summon.getSkill() == 33101005) ? 5 : 4); // nMoveAction
 
             if ((summon.getSkill() == 35121003) && (summon.getOwner().getMap() != null)) { // Giant Robot SG-88
-                pw.writeShort(summon.getOwner().getMap().getFootholds().findBelow(summon.getPosition()).getId());
+          //      pw.writeShort(summon.getOwner().getMap().getFootholds().findBelow(summon.getPosition()).getId());
             } else {
-                pw.writeShort(0); // nCurFoothold
+            //    pw.write(0); // nCurFoothold
             }
 
-            pw.write(summon.getMovementType().getValue()); // nMoveAbility
+            pw.writeShort(summon.getMovementType().getValue()); // nMoveAbility
             pw.write(summon.getSummonType()); // nAssistType
             pw.write(animated ? 1 : 0); // nEnterType
+            pw.write(1);
+            pw.write(0);
             pw.writeInt(0); // dwMobID
             pw.write(1); // bFlyMob
             pw.write(0); // bBeforeFirstAttack
-            pw.writeInt(0); // nLookID
+            pw.writeShort(0); // nLookID
             pw.writeInt(0); // nBulletID
 
             boolean mirroredTarget = summon.getSkill() == 4341006 && summon.getOwner() != null;
@@ -3865,10 +3868,14 @@ public class CField {
                 pw.writeShort(0);
                 pw.writeShort(0);
             }
-
             pw.write(0); // bJaguarActive
-            pw.writeInt(0); // tSummonTerm
             pw.write(0); // bAttackActive
+            pw.writeInt(0);
+            pw.write(1);
+            pw.writeInt(0);
+            pw.write(1);
+            pw.writeInt(0); // tSummonTerm
+
 
             return pw.getPacket();
         }

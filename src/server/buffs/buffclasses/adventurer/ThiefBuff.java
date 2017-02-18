@@ -110,8 +110,12 @@ public class ThiefBuff extends AbstractBuffClass {
             	eff.statups.put(MapleBuffStat.BasicStatUp, eff.info.get(MapleStatInfo.x));
                 break;    
             case 4341054: // Blade Clone
-                eff.statups.put(MapleBuffStat.StackBuff, eff.info.get(MapleStatInfo.x));
-                eff.statups.put(MapleBuffStat.ARIANT_COSS_IMU2, Integer.valueOf(1));
+                eff.statups.put(MapleBuffStat.IndiePADR, eff.info.get(MapleStatInfo.damage));
+                eff.statups.put(MapleBuffStat.FinalAttackProp, Integer.valueOf(1));
+                break;
+            case 4221054: // flip of the coin
+            	eff.statups.put(MapleBuffStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));
+            	eff.statups.put(MapleBuffStat.IndieCr, eff.info.get(MapleStatInfo.x));
                 break;
             case 4121053: //Epic Adventure
             case 4221053: //Epic Adventure

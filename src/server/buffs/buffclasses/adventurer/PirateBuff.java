@@ -81,7 +81,7 @@ public class PirateBuff extends AbstractBuffClass {
             case 5211007: // Roll Of The Dice
             case 5311005: // Luck of the Die
             case 5711011: // Roll of the Dice
-                eff.statups.put(MapleBuffStat.Dice, 0);
+                eff.statups.put(MapleBuffStat.Dice, 1);
                 break;
             case 5111010: // Admiral's Wings
                 //TODO
@@ -90,7 +90,7 @@ public class PirateBuff extends AbstractBuffClass {
                 eff.statups.put(MapleBuffStat.DamR, eff.info.get(MapleStatInfo.x));
                 break;
             case 5121009: // Speed Infusion
-                eff.statups.put(MapleBuffStat.Speed, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(MapleBuffStat.Speed, 0);
                 break;
             case 5121054: // Stimulating Conversation
                 //TODO
@@ -147,6 +147,8 @@ public class PirateBuff extends AbstractBuffClass {
                 eff.statups.put(MapleBuffStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));
                 eff.statups.put(MapleBuffStat.IncMaxDamage, eff.info.get(MapleStatInfo.indieMaxDamageOver));
                 break;
+                case 5221021: // quickdraw
+                    break;
             default:
                 //System.out.println("Pirate skill not coded: " + skill);
                 break;

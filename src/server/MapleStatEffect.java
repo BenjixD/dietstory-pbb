@@ -3131,13 +3131,13 @@ public class MapleStatEffect implements Serializable {
                 applyto.getClient().getSession().write(BuffPacket.giveBuff(sourceid, localDuration, localstatups, this));
                 normal = false;
                 break;
-            case 3211005: {// golden eagle
+            case 3211005: {// freezer
                 if (applyfrom.getTotalSkillLevel(3220005) > 0) {
                     SkillFactory.getSkill(3220005).getEffect(applyfrom.getTotalSkillLevel(3220005)).applyBuffEffect(applyfrom, applyto, primary, newDuration);
                 }
                 break;
             }
-            case 3111005: {// golden hawk
+            case 3111005: {// phoenix
                 if (applyfrom.getTotalSkillLevel(3120006) > 0) {
                     SkillFactory.getSkill(3120006).getEffect(applyfrom.getTotalSkillLevel(3120006)).applyBuffEffect(applyfrom, applyto, primary, newDuration);
                 }
@@ -4110,7 +4110,6 @@ public class MapleStatEffect implements Serializable {
             case 3201007:
             case 33111005:
             case 3221005: // frostprey
-            case 3121006: // phoenix
             case 23111008:
             case 23111009:
             case 23111010:
@@ -4139,6 +4138,7 @@ public class MapleStatEffect implements Serializable {
             case 35111009: // satellite 1
             case 42101021: // Foxfire
             case 42121021: // Foxfire
+            case 3121006: // phoenix
                 return SummonMovementType.FOLLOW;
         }
         if (isAngel()) {

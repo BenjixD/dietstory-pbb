@@ -175,8 +175,8 @@ public class MapleSummon extends AnimatedMapleMapObject {
             case 35121003:
             case 3101007:
             case 3201007:
-            case 3111005:
-            case 3211005:
+            case 3111005: // phoenix
+            case 3211005: // freezer
             case 5321003:
             case 5321004:
             case 23111008:

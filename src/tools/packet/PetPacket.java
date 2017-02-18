@@ -37,7 +37,7 @@ public class PetPacket {
         PacketWriter pw = new PacketWriter();
 
         pw.writeShort(SendPacketOpcode.INVENTORY_OPERATION.getValue());
-        pw.write(0);
+        pw.writeInt(0);
         pw.write(2);
         pw.write(0);//new141
         pw.write(3);
@@ -56,7 +56,7 @@ public class PetPacket {
     public static final byte[] addPetData(MapleCharacter chr, MaplePet pet) {
         PacketWriter pw = new PacketWriter();
         
-        pw.writeInt(pet.getPetItemId());
+        pw.writeLong(pet.getPetItemId());
         pw.writeMapleAsciiString(pet.getName());
         pw.writeLong(pet.getUniqueId());
         pw.writeShort(pet.getPos().x);
@@ -79,9 +79,11 @@ public class PetPacket {
         pw.writeInt(chr.getId());
         pw.write(chr.getPetIndex(pet));
         if (remove) {
-            pw.write(0);
+            pw.writeInt(0);
             pw.write(hunger ? 1 : 0); // int now?
         } else {
+        	pw.writeShort(0);
+        	pw.write(0);
             pw.write(1);
             pw.write(1);//was 0
             pw.writeInt(pet.getPetItemId());
