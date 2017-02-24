@@ -3,7 +3,7 @@ package client;
 import handling.Buffstat;
 import java.io.Serializable;
 
-public enum MapleBuffStat implements Serializable, Buffstat {
+public enum CharacterTemporaryStat implements Serializable, Buffstat {
 
     IndiePAD(0),
     IndieMAD(1),
@@ -121,6 +121,7 @@ public enum MapleBuffStat implements Serializable, Buffstat {
     DojangShield(112),
     SoulMasterFinal(113),
     WindBreakerFinal(114),
+    BladeClone(114),
     ElementalReset(115),
     HideAttack(116),
     EventRate(117),
@@ -177,7 +178,7 @@ public enum MapleBuffStat implements Serializable, Buffstat {
     Web(167),
     Bless(168),
     TimeBomb(169),
-    DisOrder(170),
+    Disorder(170),
     Thread(171),
     Team(172),
     Explosion(173),
@@ -281,6 +282,7 @@ public enum MapleBuffStat implements Serializable, Buffstat {
     SoulExalt(273),
     IgnorePCounter(274),
     IgnoreAllCounter(275),
+    Unknown275(999),
     IgnorePImmune(276),
     IgnoreAllImmune(277),
     FinalJudgement(278),
@@ -293,6 +295,7 @@ public enum MapleBuffStat implements Serializable, Buffstat {
     IncEffectHPPotion(285),
     IncEffectMPPotion(286),
     BleedingToxin(287),
+    Unknown287(999),
     IgnoreMobDamR(288),
     Asura(289),
     FlipTheCoin(290),
@@ -363,6 +366,7 @@ public enum MapleBuffStat implements Serializable, Buffstat {
     TimeFastBBuff(353),
     GatherDropR(354),
     AimBox2D(355),
+    Unknown355(999),
     IncMonsterBattleCaptureRate(356),
     CursorSniping(357),
     DebuffTolerance(358),
@@ -465,6 +469,49 @@ public enum MapleBuffStat implements Serializable, Buffstat {
     RWMovingEvar(453),
     Stigma(454),
     // Sengoku/Hayato is 455 -> 473/479
+    Unknown240(999),
+    Unknown241(999),
+    Unknown402(999),
+    Unknown403(999),
+    Unknown404(999),
+    Unknown457(457),
+    Unknown462(462),
+    Unknown463(463),
+    Unknown464(464),
+    Unknown465(465),
+    Unknown466(466),
+    Unknown467(467),
+    Unknown468(468),
+    Unknown472(472),
+    Unknown473(473),
+    Unknown474(474),
+    Unknown483(483),
+    Unknown485(485),
+    Unknown496(469),
+    Unknown505(505),
+    Unknown506(506),
+    Unknown510(510),
+    Unknown514(514),
+    Unknown515(515),
+    Unknown516(516),
+    Unknown518(518),
+    Unknown519(519),
+    Unknown520(520),
+    //needed buffstats
+    AnimalChange(999),
+    TeamRoar(999),
+    HayatoStance(999),
+    HayatoStanceBonus(999),
+    HayatoPAD(999),
+    HayatoHPR(999),
+    HayatoMPR(999),
+    HayatoCr(999),
+    KannaBDR(999),
+    Battoujutsu(999),
+    EyeForEye(999),
+    FamiliarShadow(999),
+    
+    
     // Beast Tamer 480 -> 491
 
     // TwoStateTemporaryStats 492 -> 499
@@ -478,7 +525,7 @@ public enum MapleBuffStat implements Serializable, Buffstat {
     RideVehicleExpire(499),
     // 500 -> 543 Variety of interesting flags.
     // SoulMasterFinal = DropBuffRate && WindBreakerFinal = BladeClone
-
+    Unknown504(504),
     // TODO:
     SUMMON(74),
     DRAGONBLOOD(76),
@@ -588,13 +635,13 @@ public enum MapleBuffStat implements Serializable, Buffstat {
     private final int nPos;
     private final boolean isIndie;
 
-    private MapleBuffStat(int nValue, int nPos) {
+    private CharacterTemporaryStat(int nValue, int nPos) {
         this.nValue = nValue;
         this.nPos = nPos;
         this.isIndie = false;
     }
 
-    private MapleBuffStat(int flag) {
+    private CharacterTemporaryStat(int flag) {
         this.nValue = (1 << (31 - (flag % 32)));
         this.nPos = 17 - (byte) Math.floor(flag / 32);
         this.isIndie = name().contains("Indie");
@@ -681,7 +728,7 @@ public enum MapleBuffStat implements Serializable, Buffstat {
         }
     }
 
-    public static MapleBuffStat getCTSFromTSIndex(int index) {
+    public static CharacterTemporaryStat getCTSFromTSIndex(int index) {
         switch (index) {
             case 0:
                 return EnergyCharged;

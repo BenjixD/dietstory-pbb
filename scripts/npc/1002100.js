@@ -22,6 +22,8 @@ function action(mode, type, selection) {
 	return;
     } else if (status >= 3 && mode == 0) {
 	cm.sendNext("I still have quite a few of the materials you got me before. The items are all there so take your time choosing.");
+	cm.startquest(2013);
+	//cm.forceCompleteQuest(2013);
 	cm.dispose();
 	return;
     }
