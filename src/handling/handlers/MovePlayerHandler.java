@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import client.MapleCharacter;
 import client.MapleClient;
 import handling.PacketHandler;
@@ -107,10 +107,10 @@ public class MovePlayerHandler {
                 c.getPlayer().setFallCounter(0);
             }
             c.getPlayer().setOldPosition(pos);
-            if ((!samepos) && (c.getPlayer().getBuffSource(MapleBuffStat.BMageAura) == 32120000)) {
-                c.getPlayer().getStatForBuff(MapleBuffStat.BMageAura).applyMonsterBuff(c.getPlayer());
-            } else if ((!samepos) && (c.getPlayer().getBuffSource(MapleBuffStat.BMageAura) == 32120001)) {
-                c.getPlayer().getStatForBuff(MapleBuffStat.BMageAura).applyMonsterBuff(c.getPlayer());
+            if ((!samepos) && (c.getPlayer().getBuffSource(CharacterTemporaryStat.BMageAura) == 32120000)) {
+                c.getPlayer().getStatForBuff(CharacterTemporaryStat.BMageAura).applyMonsterBuff(c.getPlayer());
+            } else if ((!samepos) && (c.getPlayer().getBuffSource(CharacterTemporaryStat.BMageAura) == 32120001)) {
+                c.getPlayer().getStatForBuff(CharacterTemporaryStat.BMageAura).applyMonsterBuff(c.getPlayer());
             }
         }
 	}

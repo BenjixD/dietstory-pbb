@@ -1,6 +1,6 @@
 package tools.packet.twostate;
 
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import client.MapleCharacter;
 import client.inventory.Item;
 import client.inventory.MapleInventoryType;
@@ -13,7 +13,7 @@ public class RideVehicle extends TemporaryStat {
 	public void encode(PacketWriter pw, MapleCharacter chr) {
 		
 		int mount = 0;
-		int nReason = chr.getBuffSource(MapleBuffStat.RideVehicle);
+		int nReason = chr.getBuffSource(CharacterTemporaryStat.RideVehicle);
 		
 		Item b_mount = chr.getInventory(MapleInventoryType.EQUIPPED).getItem((short) -118);
 		Item c_mount = chr.getInventory(MapleInventoryType.EQUIPPED).getItem((short) -18);

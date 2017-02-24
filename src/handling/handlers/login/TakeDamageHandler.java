@@ -179,13 +179,13 @@ public class TakeDamageHandler {
 		damage = ((Double) modify.left).intValue();
 		if (damage > 0) {
 
-			if (c.getPlayer().getBuffedValue(MapleBuffStat.Morph) != null) {
+			if (c.getPlayer().getBuffedValue(CharacterTemporaryStat.Morph) != null) {
 				c.getPlayer().cancelMorphs();
 			}
 
-			boolean mpAttack = (c.getPlayer().getBuffedValue(MapleBuffStat.Mechanic) != null)
-					&& (c.getPlayer().getBuffSource(MapleBuffStat.Mechanic) != 35121005);
-			if (c.getPlayer().getBuffedValue(MapleBuffStat.MagicGuard) != null) {
+			boolean mpAttack = (c.getPlayer().getBuffedValue(CharacterTemporaryStat.Mechanic) != null)
+					&& (c.getPlayer().getBuffSource(CharacterTemporaryStat.Mechanic) != 35121005);
+			if (c.getPlayer().getBuffedValue(CharacterTemporaryStat.MagicGuard) != null) {
 				int hploss = 0;
 				int mploss = 0;
 				if (isDeadlyAttack) {
@@ -195,15 +195,15 @@ public class TakeDamageHandler {
 					if (stats.getMp() > 1) {
 						mploss = stats.getMp() - 1;
 					}
-					if (c.getPlayer().getBuffedValue(MapleBuffStat.Infinity) != null) {
+					if (c.getPlayer().getBuffedValue(CharacterTemporaryStat.Infinity) != null) {
 						mploss = 0;
 					}
 					c.getPlayer().addMPHP(-hploss, -mploss);
 				} else {
-					mploss = (int) (damage * (c.getPlayer().getBuffedValue(MapleBuffStat.MagicGuard).doubleValue() / 100.0D))
+					mploss = (int) (damage * (c.getPlayer().getBuffedValue(CharacterTemporaryStat.MagicGuard).doubleValue() / 100.0D))
 							+ mpattack;
 					hploss = damage - mploss;
-					if (c.getPlayer().getBuffedValue(MapleBuffStat.Infinity) != null) {
+					if (c.getPlayer().getBuffedValue(CharacterTemporaryStat.Infinity) != null) {
 						mploss = 0;
 					} else if (mploss > stats.getMp()) {
 						mploss = stats.getMp();
@@ -215,7 +215,7 @@ public class TakeDamageHandler {
 				int mesoloss = (int) (damage * (c.getPlayer().getStat().mesoGuardMeso / 100.0D));
 				if (c.getPlayer().getMeso() < mesoloss) {
 					c.getPlayer().gainMeso(-c.getPlayer().getMeso(), false);
-					c.getPlayer().cancelBuffStats(new MapleBuffStat[] { MapleBuffStat.MesoGuard });
+					c.getPlayer().cancelBuffStats(new CharacterTemporaryStat[] { CharacterTemporaryStat.MesoGuard });
 				} else {
 					c.getPlayer().gainMeso(-mesoloss, false);
 				}

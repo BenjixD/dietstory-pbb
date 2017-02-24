@@ -7,24 +7,24 @@ import tools.Randomizer;
 
 public enum MapleDisease implements Serializable, Buffstat {
 
-    SEAL(MapleBuffStat.Seal, 120),
-    DARKNESS(MapleBuffStat.Darkness, 121),
-    WEAKEN(MapleBuffStat.Weakness, 122),
-    STUN(MapleBuffStat.Stun, 123),
-    CURSE(MapleBuffStat.Curse, 124),
-    POISON(MapleBuffStat.Poison, 125),
-    SLOW(MapleBuffStat.SLOWNESS, 126),
-    SEDUCE(MapleBuffStat.Attract, 128),
-    REVERSE_DIRECTION(MapleBuffStat.ReverseInput, 132),
-    ZOMBIFY(MapleBuffStat.Undead, 133),
-    POTION(MapleBuffStat.POTION_CURSE, 134),
-    SHADOW(MapleBuffStat.SHADOW, 135), //receiving damage/moving
-    BLIND(MapleBuffStat.BLINDNESS, 136),
-    FREEZE(MapleBuffStat.Frozen, 137),
-    DISABLE_POTENTIAL(MapleBuffStat.DispelItemOption, 138),
-    MORPH(MapleBuffStat.Morph, 172),
-    TORNADO(MapleBuffStat.TORNADO_CURSE, 173),
-    FLAG(MapleBuffStat.PVP_FLAG, 799); // PVP - Capture the Flag
+    SEAL(CharacterTemporaryStat.Seal, 120),
+    DARKNESS(CharacterTemporaryStat.Darkness, 121),
+    WEAKEN(CharacterTemporaryStat.Weakness, 122),
+    STUN(CharacterTemporaryStat.Stun, 123),
+    CURSE(CharacterTemporaryStat.Curse, 124),
+    POISON(CharacterTemporaryStat.Poison, 125),
+    SLOW(CharacterTemporaryStat.SLOWNESS, 126),
+    SEDUCE(CharacterTemporaryStat.Attract, 128),
+    REVERSE_DIRECTION(CharacterTemporaryStat.ReverseInput, 132),
+    ZOMBIFY(CharacterTemporaryStat.Undead, 133),
+    POTION(CharacterTemporaryStat.POTION_CURSE, 134),
+    SHADOW(CharacterTemporaryStat.SHADOW, 135), //receiving damage/moving
+    BLIND(CharacterTemporaryStat.BLINDNESS, 136),
+    FREEZE(CharacterTemporaryStat.Frozen, 137),
+    DISABLE_POTENTIAL(CharacterTemporaryStat.DispelItemOption, 138),
+    MORPH(CharacterTemporaryStat.Morph, 172),
+    TORNADO(CharacterTemporaryStat.TORNADO_CURSE, 173),
+    FLAG(CharacterTemporaryStat.PVP_FLAG, 799); // PVP - Capture the Flag
     // 127 = 1 snow?
     // 129 = turn?
     // 131 = poison also, without msg
@@ -35,7 +35,7 @@ public enum MapleDisease implements Serializable, Buffstat {
     private final int first;
     private final int disease;
 
-    private MapleDisease(MapleBuffStat buffstat, int disease) {
+    private MapleDisease(CharacterTemporaryStat buffstat, int disease) {
         this.buffstat = buffstat.getValue();
         this.first = buffstat.getPosition();
         this.disease = disease;

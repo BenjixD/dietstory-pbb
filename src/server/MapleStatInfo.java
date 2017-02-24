@@ -45,7 +45,7 @@ public enum MapleStatInfo {
 	indieBDR(0),
 	indieStance(0),
 	indiePadR(0),
-    
+    madR(0),
     PVPdamage(0), //Battle Mode ATT Increase
     abnormalDamR(0), //Additional Damage on Targets with Abnormal Status
     acc(0), //Increase Accuracy +
@@ -181,6 +181,7 @@ public enum MapleStatInfo {
     tdR(0), //Increases damage by a set percentage when attacking a tower
     terR(0), //Elemental Resistance %
     time(-1), //bufflength
+    killRecoveryR(0), //buffstat draining aura
     s(0),
     t(0), //Damage taken reduce
     u(0),

@@ -1,6 +1,6 @@
 package tools.packet;
 
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import client.MapleCharacter;
 import client.MapleClient;
 import client.MapleKeyLayout;
@@ -48,6 +48,7 @@ import server.shops.MapleShop;
 import tools.AttackPair;
 import tools.HexTool;
 import tools.Pair;
+import tools.Randomizer;
 import tools.Triple;
 import tools.data.PacketWriter;
 import tools.packet.enums.EffectType;
@@ -1045,39 +1046,39 @@ public class CField {
 
 //		Map<MapleBuffStat, MapleBuffStatValueHolder> statups = chr.getBuffValues();
 //		List<MapleBuffStat> stats = Arrays.asList(
-//				MapleBuffStat.PyramidEffect,
-//				MapleBuffStat.KillingPoint,
-//				MapleBuffStat.PinkbeanRollingGrade,
-//				MapleBuffStat.ZeroAuraStr,
-//				MapleBuffStat.ZeroAuraSpd,
-//				MapleBuffStat.BMageAura,
-//				MapleBuffStat.BattlePvP_Helena_Mark,
-//				MapleBuffStat.BattlePvP_LangE_Protection,
-//				MapleBuffStat.AdrenalinBoost,
-//				MapleBuffStat.RWBarrier);
+//				CharacterTemporaryStat.PyramidEffect,
+//				CharacterTemporaryStat.KillingPoint,
+//				CharacterTemporaryStat.PinkbeanRollingGrade,
+//				CharacterTemporaryStat.ZeroAuraStr,
+//				CharacterTemporaryStat.ZeroAuraSpd,
+//				CharacterTemporaryStat.BMageAura,
+//				CharacterTemporaryStat.BattlePvP_Helena_Mark,
+//				CharacterTemporaryStat.BattlePvP_LangE_Protection,
+//				CharacterTemporaryStat.AdrenalinBoost,
+//				CharacterTemporaryStat.RWBarrier);
 //
-//		for(MapleBuffStat stat : stats) {
+//		for(CharacterTemporaryStat stat : stats) {
 //			statups.putIfAbsent(stat, new MapleBuffStatValueHolder(null, 0, null, 0, 0, chr.getId()));
 //		}
 //
 //		int[] mask = new int[18];
 //
 //		List<MapleBuffStat> temporaryStat = Arrays.asList(
-//				MapleBuffStat.EnergyCharged,
-//				MapleBuffStat.Dash_Speed,
-//				MapleBuffStat.Dash_Jump,
-//				MapleBuffStat.RideVehicle,
-//				MapleBuffStat.PartyBooster,
-//				MapleBuffStat.GuidedBullet,
-//				MapleBuffStat.Undead,
-//				MapleBuffStat.RideVehicleExpire);
+//				CharacterTemporaryStat.EnergyCharged,
+//				CharacterTemporaryStat.Dash_Speed,
+//				CharacterTemporaryStat.Dash_Jump,
+//				CharacterTemporaryStat.RideVehicle,
+//				CharacterTemporaryStat.PartyBooster,
+//				CharacterTemporaryStat.GuidedBullet,
+//				CharacterTemporaryStat.Undead,
+//				CharacterTemporaryStat.RideVehicleExpire);
 //
 //		// TwoStateTemporaryStat
-//		for(MapleBuffStat statup : temporaryStat) {
+//		for(CharacterTemporaryStat statup : temporaryStat) {
 //			mask[statup.getPosition()] |= statup.getValue();
 //		}
 //
-//		for(MapleBuffStat statup : statups.keySet()) {
+//		for(CharacterTemporaryStat statup : statups.keySet()) {
 //			mask[statup.getPosition()] |= statup.getValue();
 //		}
 //
@@ -3144,13 +3145,13 @@ public class CField {
     }
 
     static {
-        DEFAULT_BUFFMASK |= MapleBuffStat.EnergyCharged.getValue();
-        DEFAULT_BUFFMASK |= MapleBuffStat.Dash_Speed.getValue();
-        DEFAULT_BUFFMASK |= MapleBuffStat.Dash_Jump.getValue();
-        DEFAULT_BUFFMASK |= MapleBuffStat.RideVehicle.getValue();
-        DEFAULT_BUFFMASK |= MapleBuffStat.Speed.getValue();
-        DEFAULT_BUFFMASK |= MapleBuffStat.StopForceAtomInfo.getValue();
-        DEFAULT_BUFFMASK |= MapleBuffStat.DEFAULT_BUFFSTAT.getValue();
+        DEFAULT_BUFFMASK |= CharacterTemporaryStat.EnergyCharged.getValue();
+        DEFAULT_BUFFMASK |= CharacterTemporaryStat.Dash_Speed.getValue();
+        DEFAULT_BUFFMASK |= CharacterTemporaryStat.Dash_Jump.getValue();
+        DEFAULT_BUFFMASK |= CharacterTemporaryStat.RideVehicle.getValue();
+        DEFAULT_BUFFMASK |= CharacterTemporaryStat.Speed.getValue();
+        DEFAULT_BUFFMASK |= CharacterTemporaryStat.StopForceAtomInfo.getValue();
+        DEFAULT_BUFFMASK |= CharacterTemporaryStat.DEFAULT_BUFFSTAT.getValue();
     }
 
     public static byte[] viewSkills(MapleCharacter chr) {
@@ -3946,7 +3947,6 @@ public class CField {
 
             pw.writeShort(SendPacketOpcode.SUMMON_ATTACK.getValue());
             pw.writeInt(cid);
-
             pw.writeInt(summonSkillId); // pSummoned
             pw.write(level - 1); // nCharLevel
             pw.write(animation); // bLeft
@@ -4744,5 +4744,1257 @@ public class CField {
         pw.writeShort(SendPacketOpcode.FLAME_WIZARD_ELEMENT_FLAME_SUMMON.getValue());
 
         return pw.getPacket();
+    }
+    private static void encodeRemoteTwoStateTemporaryStat(PacketWriter pw, MapleCharacter chr) {
+        int nullValueTCur = Randomizer.nextInt();
+        if (chr.getBuffedValue(CharacterTemporaryStat.EnergyCharged) == null || chr.getBuffSource(CharacterTemporaryStat.EnergyCharged) <= 0) {
+            pw.writeInt(0);//Value
+            pw.writeInt(0);//Reason
+            //EncodeTime(tLastUpdated)
+            pw.write(1);
+            pw.writeInt(nullValueTCur);//tCur
+        } else {
+            pw.writeInt(chr.getBuffedValue(CharacterTemporaryStat.EnergyCharged));//Value
+            pw.writeInt(chr.getBuffSource(CharacterTemporaryStat.EnergyCharged));//Reason
+            //EncodeTime(tLastUpdated)
+            pw.write(1);
+            pw.writeInt(nullValueTCur);//tCur
+        }
+
+        if (chr.getBuffedValue(CharacterTemporaryStat.Dash_Speed) == null || chr.getBuffSource(CharacterTemporaryStat.Dash_Speed) <= 0) {
+            pw.writeInt(0);//Value
+            pw.writeInt(0);//Reason
+            //EncodeTime(tLastUpdated)
+            pw.write(1);
+            pw.writeInt(nullValueTCur);//tCur
+            pw.writeShort(0);//usExpireTerm
+        } else {
+            pw.writeInt(chr.getBuffedValue(CharacterTemporaryStat.Dash_Speed));//Value
+            pw.writeInt(chr.getBuffSource(CharacterTemporaryStat.Dash_Speed));//Reason
+            //EncodeTime(tLastUpdated)
+            pw.write(1);
+            pw.writeInt(nullValueTCur);//tCur
+            pw.writeShort(0);//usExpireTerm
+        }
+
+        if (chr.getBuffedValue(CharacterTemporaryStat.Dash_Jump) == null || chr.getBuffSource(CharacterTemporaryStat.Dash_Jump) <= 0) {
+            pw.writeInt(0);//Value
+            pw.writeInt(0);//Reason
+            //EncodeTime(tLastUpdated)
+            pw.write(1);
+            pw.writeInt(nullValueTCur);//tCur
+            pw.writeShort(0);//usExpireTerm
+        } else {
+            pw.writeInt(chr.getBuffedValue(CharacterTemporaryStat.Dash_Jump));//Value
+            pw.writeInt(chr.getBuffSource(CharacterTemporaryStat.Dash_Jump));//Reason
+            //EncodeTime(tLastUpdated)
+            pw.write(1);
+            pw.writeInt(nullValueTCur);//tCur
+            pw.writeShort(0);//usExpireTerm
+        }
+
+        int monsterRidingCause = chr.getBuffSource(CharacterTemporaryStat.RideVehicle);
+        int mountid = 0;
+        if (monsterRidingCause > 0) {
+            Item c_mount = chr.getInventory(MapleInventoryType.EQUIPPED).getItem((short) -118);
+            Item mount = chr.getInventory(MapleInventoryType.EQUIPPED).getItem((short) -18);
+            if ((GameConstants.getMountItem(monsterRidingCause, chr) == 0) && (c_mount != null) && (chr.getInventory(MapleInventoryType.EQUIPPED).getItem((short) -119) != null)) {
+                mountid = c_mount.getItemId();
+            } else if ((GameConstants.getMountItem(monsterRidingCause, chr) == 0) && (mount != null) && (chr.getInventory(MapleInventoryType.EQUIPPED).getItem((short) -19) != null)) {
+                mountid = mount.getItemId();
+            } else {
+                mountid = GameConstants.getMountItem(monsterRidingCause, chr);
+            }
+            pw.writeInt(mountid);//Value(MountID)
+            pw.writeInt(monsterRidingCause);//Reason(SkillID)
+            //EncodeTime(tLastUpdated)
+            pw.write(1);
+            pw.writeInt(nullValueTCur);//tCur
+        } else {
+            pw.writeInt(0);//Value
+            pw.writeInt(0);//Reason
+            //EncodeTime(tLastUpdated)
+            pw.write(1);
+            pw.writeInt(nullValueTCur);//tCur
+        }
+
+        if (chr.getBuffedValue(CharacterTemporaryStat.PartyBooster) == null || chr.getBuffSource(CharacterTemporaryStat.PartyBooster) <= 0) {
+            pw.writeInt(0);//Value
+            pw.writeInt(0);//Reason
+            //EncodeTime(tLastUpdated)
+            pw.write(1);
+            pw.writeInt(nullValueTCur);//tCur
+            pw.write(0);
+            pw.write(HexTool.getByteArrayFromHexString("86 39 95 7D"));
+            pw.writeShort(0);//usExpireTerm
+        } else {
+            pw.writeInt(chr.getBuffedValue(CharacterTemporaryStat.PartyBooster));//Value
+            pw.writeInt(chr.getBuffSource(CharacterTemporaryStat.PartyBooster));//Reason
+            //EncodeTime(tLastUpdated)
+            pw.write(1);
+            pw.writeInt(nullValueTCur);//tCur
+            pw.write(0);
+            pw.writeInt(0);//tCur
+            pw.writeShort(0);//usExpireTerm
+        }
+
+        if (chr.getBuffedValue(CharacterTemporaryStat.GuidedBullet) == null || chr.getBuffSource(CharacterTemporaryStat.GuidedBullet) <= 0) {
+            pw.writeInt(0);//Value
+            pw.writeInt(0);//Reason
+            //EncodeTime(tLastUpdated)
+            pw.write(1);
+            pw.writeInt(nullValueTCur);//tCur
+            pw.writeInt(0);
+            pw.writeInt(0);
+        } else {
+            pw.writeInt(chr.getBuffedValue(CharacterTemporaryStat.GuidedBullet));//Value
+            pw.writeInt(chr.getBuffSource(CharacterTemporaryStat.GuidedBullet));//Reason
+            //EncodeTime(tLastUpdated)
+            pw.write(1);
+            pw.writeInt(nullValueTCur);//tCur
+            pw.writeInt(0);//dwMobID
+            pw.writeInt(chr.getId());//dwUserID (Note: This isn't in v90, but since it's in KMS it's likely in your version. it's new)
+        }
+
+        if (chr.getBuffedValue(CharacterTemporaryStat.Undead) == null || chr.getBuffSource(CharacterTemporaryStat.Undead) <= 0) {
+            pw.writeInt(0);//Value
+            pw.writeInt(0);//Reason
+            //EncodeTime(tLastUpdated)
+            pw.write(1);
+            pw.writeInt(nullValueTCur);//tCur
+            pw.writeShort(0);
+        } else {
+            pw.writeInt(chr.getBuffedValue(CharacterTemporaryStat.Undead));//Value
+            pw.writeInt(chr.getBuffSource(CharacterTemporaryStat.Undead));//Reason
+            //EncodeTime(tLastUpdated)
+            pw.write(1);
+            pw.writeInt(nullValueTCur);//tCur
+            pw.writeShort(0);//usExpireTerm
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.RideVehicleExpire) == null || chr.getBuffSource(CharacterTemporaryStat.RideVehicleExpire) <= 0) {
+            pw.writeInt(0);//Value
+            pw.writeInt(0);//Reason
+            //EncodeTime(tLastUpdated)	
+            pw.write(1);
+            pw.writeInt(nullValueTCur);//tCur
+            pw.writeShort(0);
+        } else {
+            pw.writeInt(chr.getBuffedValue(CharacterTemporaryStat.RideVehicleExpire));//Value
+            pw.writeInt(chr.getBuffSource(CharacterTemporaryStat.RideVehicleExpire));//Reason
+            //EncodeTime(tLastUpdated)
+            pw.write(1);
+            pw.writeInt(nullValueTCur);//tCur
+            pw.writeShort(0);//usExpireTerm
+        }
+    }
+    public static void encodeForRemote(tools.data.PacketWriter pw, MapleCharacter chr) {
+        final ArrayList<Pair<Integer, Integer>> uFlagData = new ArrayList<>();
+        final ArrayList<CharacterTemporaryStat> aDefaultFlags = new ArrayList<>();
+        final int[] uFlagTemp = new int[GameConstants.CFlagSize];
+        aDefaultFlags.add(CharacterTemporaryStat.StopForceAtomInfo);
+        aDefaultFlags.add(CharacterTemporaryStat.PyramidEffect);
+        aDefaultFlags.add(CharacterTemporaryStat.KillingPoint);
+        aDefaultFlags.add(CharacterTemporaryStat.ZeroAuraStr);
+        aDefaultFlags.add(CharacterTemporaryStat.ZeroAuraSpd);
+        aDefaultFlags.add(CharacterTemporaryStat.BMageAura);
+        aDefaultFlags.add(CharacterTemporaryStat.BattlePvP_Helena_Mark);
+        aDefaultFlags.add(CharacterTemporaryStat.BattlePvP_LangE_Protection);
+        aDefaultFlags.add(CharacterTemporaryStat.PinkbeanRollingGrade);
+        aDefaultFlags.add(CharacterTemporaryStat.AdrenalinBoost);
+        aDefaultFlags.add(CharacterTemporaryStat.RWBarrier);
+        aDefaultFlags.add(CharacterTemporaryStat.Unknown474);
+        aDefaultFlags.add(CharacterTemporaryStat.EnergyCharged);
+        aDefaultFlags.add(CharacterTemporaryStat.Dash_Speed);
+        aDefaultFlags.add(CharacterTemporaryStat.Dash_Jump);
+        aDefaultFlags.add(CharacterTemporaryStat.RideVehicle);
+        aDefaultFlags.add(CharacterTemporaryStat.PartyBooster);
+        aDefaultFlags.add(CharacterTemporaryStat.GuidedBullet);
+        aDefaultFlags.add(CharacterTemporaryStat.Undead);
+        aDefaultFlags.add(CharacterTemporaryStat.RideVehicleExpire);
+
+        if (chr.getBuffedValue(CharacterTemporaryStat.Speed) != null || aDefaultFlags.contains(CharacterTemporaryStat.Speed)) {
+            uFlagTemp[CharacterTemporaryStat.Speed.getPosition()] |= CharacterTemporaryStat.Speed.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Speed), 1));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.ComboCounter) != null || aDefaultFlags.contains(CharacterTemporaryStat.ComboCounter)) {
+            uFlagTemp[CharacterTemporaryStat.ComboCounter.getPosition()] |= CharacterTemporaryStat.ComboCounter.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ComboCounter), 1));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.WeaponCharge) != null || aDefaultFlags.contains(CharacterTemporaryStat.WeaponCharge)) {
+            uFlagTemp[CharacterTemporaryStat.WeaponCharge.getPosition()] |= CharacterTemporaryStat.WeaponCharge.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.WeaponCharge), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.WeaponCharge), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.ElementalCharge) != null || aDefaultFlags.contains(CharacterTemporaryStat.ElementalCharge)) {
+            uFlagTemp[CharacterTemporaryStat.ElementalCharge.getPosition()] |= CharacterTemporaryStat.ElementalCharge.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ElementalCharge), 2));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Stun) != null || aDefaultFlags.contains(CharacterTemporaryStat.Stun)) {
+            uFlagTemp[CharacterTemporaryStat.Stun.getPosition()] |= CharacterTemporaryStat.Stun.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Stun), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Stun), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Shock) != null || aDefaultFlags.contains(CharacterTemporaryStat.Shock)) {
+            uFlagTemp[CharacterTemporaryStat.Shock.getPosition()] |= CharacterTemporaryStat.Shock.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Shock), 1));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Darkness) != null || aDefaultFlags.contains(CharacterTemporaryStat.Darkness)) {
+            uFlagTemp[CharacterTemporaryStat.Darkness.getPosition()] |= CharacterTemporaryStat.Darkness.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Darkness), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Darkness), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Seal) != null || aDefaultFlags.contains(CharacterTemporaryStat.Seal)) {
+            uFlagTemp[CharacterTemporaryStat.Seal.getPosition()] |= CharacterTemporaryStat.Seal.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Seal), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Seal), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Weakness) != null || aDefaultFlags.contains(CharacterTemporaryStat.Weakness)) {
+            uFlagTemp[CharacterTemporaryStat.Weakness.getPosition()] |= CharacterTemporaryStat.Weakness.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Weakness), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Weakness), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.WeaknessMdamage) != null || aDefaultFlags.contains(CharacterTemporaryStat.WeaknessMdamage)) {
+            uFlagTemp[CharacterTemporaryStat.WeaknessMdamage.getPosition()] |= CharacterTemporaryStat.WeaknessMdamage.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.WeaknessMdamage), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.WeaknessMdamage), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Curse) != null || aDefaultFlags.contains(CharacterTemporaryStat.Curse)) {
+            uFlagTemp[CharacterTemporaryStat.Curse.getPosition()] |= CharacterTemporaryStat.Curse.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Curse), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Curse), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Slow) != null || aDefaultFlags.contains(CharacterTemporaryStat.Slow)) {
+            uFlagTemp[CharacterTemporaryStat.Slow.getPosition()] |= CharacterTemporaryStat.Slow.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Slow), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Slow), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.PvPRaceEffect) != null || aDefaultFlags.contains(CharacterTemporaryStat.PvPRaceEffect)) {
+            uFlagTemp[CharacterTemporaryStat.PvPRaceEffect.getPosition()] |= CharacterTemporaryStat.PvPRaceEffect.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.PvPRaceEffect), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.PvPRaceEffect), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.IceKnight) != null || aDefaultFlags.contains(CharacterTemporaryStat.IceKnight)) {
+            uFlagTemp[CharacterTemporaryStat.IceKnight.getPosition()] |= CharacterTemporaryStat.IceKnight.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.IceKnight), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.IceKnight), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.TimeBomb) != null || aDefaultFlags.contains(CharacterTemporaryStat.TimeBomb)) {
+            uFlagTemp[CharacterTemporaryStat.TimeBomb.getPosition()] |= CharacterTemporaryStat.TimeBomb.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.TimeBomb), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.TimeBomb), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Team) != null || aDefaultFlags.contains(CharacterTemporaryStat.Team)) {
+            uFlagTemp[CharacterTemporaryStat.Team.getPosition()] |= CharacterTemporaryStat.Team.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Team), 1));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Disorder) != null || aDefaultFlags.contains(CharacterTemporaryStat.Disorder)) {
+            uFlagTemp[CharacterTemporaryStat.Disorder.getPosition()] |= CharacterTemporaryStat.Disorder.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Disorder), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Disorder), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Thread) != null || aDefaultFlags.contains(CharacterTemporaryStat.Thread)) {
+            uFlagTemp[CharacterTemporaryStat.Thread.getPosition()] |= CharacterTemporaryStat.Thread.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Thread), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Thread), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Poison) != null || aDefaultFlags.contains(CharacterTemporaryStat.Poison)) {
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Poison), 2));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Poison) != null || aDefaultFlags.contains(CharacterTemporaryStat.Poison)) {
+            uFlagTemp[CharacterTemporaryStat.Poison.getPosition()] |= CharacterTemporaryStat.Poison.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Poison), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Poison), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.ShadowPartner) != null || aDefaultFlags.contains(CharacterTemporaryStat.ShadowPartner)) {
+            uFlagTemp[CharacterTemporaryStat.ShadowPartner.getPosition()] |= CharacterTemporaryStat.ShadowPartner.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ShadowPartner), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ShadowPartner), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.DarkSight) != null || aDefaultFlags.contains(CharacterTemporaryStat.DarkSight)) {
+            uFlagTemp[CharacterTemporaryStat.DarkSight.getPosition()] |= CharacterTemporaryStat.DarkSight.getValue();
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.SoulArrow) != null || aDefaultFlags.contains(CharacterTemporaryStat.SoulArrow)) {
+            uFlagTemp[CharacterTemporaryStat.SoulArrow.getPosition()] |= CharacterTemporaryStat.SoulArrow.getValue();
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Morph) != null || aDefaultFlags.contains(CharacterTemporaryStat.Morph)) {
+            uFlagTemp[CharacterTemporaryStat.Morph.getPosition()] |= CharacterTemporaryStat.Morph.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Morph), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Morph), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Ghost) != null || aDefaultFlags.contains(CharacterTemporaryStat.Ghost)) {
+            uFlagTemp[CharacterTemporaryStat.Ghost.getPosition()] |= CharacterTemporaryStat.Ghost.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Ghost), 2));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Attract) != null || aDefaultFlags.contains(CharacterTemporaryStat.Attract)) {
+            uFlagTemp[CharacterTemporaryStat.Attract.getPosition()] |= CharacterTemporaryStat.Attract.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Attract), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Attract), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Magnet) != null || aDefaultFlags.contains(CharacterTemporaryStat.Magnet)) {
+            uFlagTemp[CharacterTemporaryStat.Magnet.getPosition()] |= CharacterTemporaryStat.Magnet.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Magnet), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Magnet), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.MagnetArea) != null || aDefaultFlags.contains(CharacterTemporaryStat.MagnetArea)) {
+            uFlagTemp[CharacterTemporaryStat.MagnetArea.getPosition()] |= CharacterTemporaryStat.MagnetArea.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.MagnetArea), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.MagnetArea), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.NoBulletConsume) != null || aDefaultFlags.contains(CharacterTemporaryStat.NoBulletConsume)) {
+            uFlagTemp[CharacterTemporaryStat.NoBulletConsume.getPosition()] |= CharacterTemporaryStat.NoBulletConsume.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.NoBulletConsume), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.BanMap) != null || aDefaultFlags.contains(CharacterTemporaryStat.BanMap)) {
+            uFlagTemp[CharacterTemporaryStat.BanMap.getPosition()] |= CharacterTemporaryStat.BanMap.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.BanMap), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.BanMap), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Barrier) != null || aDefaultFlags.contains(CharacterTemporaryStat.Barrier)) {
+            uFlagTemp[CharacterTemporaryStat.Barrier.getPosition()] |= CharacterTemporaryStat.Barrier.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Barrier), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Barrier), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.DojangShield) != null || aDefaultFlags.contains(CharacterTemporaryStat.DojangShield)) {
+            uFlagTemp[CharacterTemporaryStat.DojangShield.getPosition()] |= CharacterTemporaryStat.DojangShield.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.DojangShield), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.DojangShield), 4));
+        }
+
+        if (chr.getBuffedValue(CharacterTemporaryStat.ReverseInput) != null || aDefaultFlags.contains(CharacterTemporaryStat.ReverseInput)) {
+            uFlagTemp[CharacterTemporaryStat.ReverseInput.getPosition()] |= CharacterTemporaryStat.ReverseInput.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ReverseInput), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ReverseInput), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.RespectPImmune) != null || aDefaultFlags.contains(CharacterTemporaryStat.RespectPImmune)) {
+            uFlagTemp[CharacterTemporaryStat.RespectPImmune.getPosition()] |= CharacterTemporaryStat.RespectPImmune.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.RespectPImmune), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.RespectMImmune) != null || aDefaultFlags.contains(CharacterTemporaryStat.RespectMImmune)) {
+            uFlagTemp[CharacterTemporaryStat.RespectMImmune.getPosition()] |= CharacterTemporaryStat.RespectMImmune.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.RespectMImmune), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.DefenseAtt) != null || aDefaultFlags.contains(CharacterTemporaryStat.DefenseAtt)) {
+            uFlagTemp[CharacterTemporaryStat.DefenseAtt.getPosition()] |= CharacterTemporaryStat.DefenseAtt.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.DefenseAtt), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.DefenseState) != null || aDefaultFlags.contains(CharacterTemporaryStat.DefenseState)) {
+            uFlagTemp[CharacterTemporaryStat.DefenseState.getPosition()] |= CharacterTemporaryStat.DefenseState.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.DefenseState), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.DojangBerserk) != null || aDefaultFlags.contains(CharacterTemporaryStat.DojangBerserk)) {
+            uFlagTemp[CharacterTemporaryStat.DojangBerserk.getPosition()] |= CharacterTemporaryStat.DojangBerserk.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.DojangBerserk), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.DojangBerserk), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.DojangInvincible) != null || aDefaultFlags.contains(CharacterTemporaryStat.DojangInvincible)) {
+            uFlagTemp[CharacterTemporaryStat.DojangInvincible.getPosition()] |= CharacterTemporaryStat.DojangInvincible.getValue();
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.RepeatEffect) != null || aDefaultFlags.contains(CharacterTemporaryStat.RepeatEffect)) {
+            uFlagTemp[CharacterTemporaryStat.RepeatEffect.getPosition()] |= CharacterTemporaryStat.RepeatEffect.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.RepeatEffect), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.RepeatEffect), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown504) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown504)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown504.getPosition()] |= CharacterTemporaryStat.Unknown504.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown504), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown504), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.StopPortion) != null || aDefaultFlags.contains(CharacterTemporaryStat.StopPortion)) {
+            uFlagTemp[CharacterTemporaryStat.StopPortion.getPosition()] |= CharacterTemporaryStat.StopPortion.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.StopPortion), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.StopPortion), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.StopMotion) != null || aDefaultFlags.contains(CharacterTemporaryStat.StopMotion)) {
+            uFlagTemp[CharacterTemporaryStat.StopMotion.getPosition()] |= CharacterTemporaryStat.StopMotion.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.StopMotion), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.StopMotion), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Fear) != null || aDefaultFlags.contains(CharacterTemporaryStat.Fear)) {
+            uFlagTemp[CharacterTemporaryStat.Fear.getPosition()] |= CharacterTemporaryStat.Fear.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Fear), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Fear), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.MagicShield) != null || aDefaultFlags.contains(CharacterTemporaryStat.MagicShield)) {
+            uFlagTemp[CharacterTemporaryStat.MagicShield.getPosition()] |= CharacterTemporaryStat.MagicShield.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.MagicShield), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Flying) != null || aDefaultFlags.contains(CharacterTemporaryStat.Flying)) {
+            uFlagTemp[CharacterTemporaryStat.Flying.getPosition()] |= CharacterTemporaryStat.Flying.getValue();
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Frozen) != null || aDefaultFlags.contains(CharacterTemporaryStat.Frozen)) {
+            uFlagTemp[CharacterTemporaryStat.Frozen.getPosition()] |= CharacterTemporaryStat.Frozen.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Frozen), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Frozen), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Frozen2) != null || aDefaultFlags.contains(CharacterTemporaryStat.Frozen2)) {
+            uFlagTemp[CharacterTemporaryStat.Frozen2.getPosition()] |= CharacterTemporaryStat.Frozen2.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Frozen2), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Frozen2), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Web) != null || aDefaultFlags.contains(CharacterTemporaryStat.Web)) {
+            uFlagTemp[CharacterTemporaryStat.Web.getPosition()] |= CharacterTemporaryStat.Web.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Web), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Web), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.DrawBack) != null || aDefaultFlags.contains(CharacterTemporaryStat.DrawBack)) {
+            uFlagTemp[CharacterTemporaryStat.DrawBack.getPosition()] |= CharacterTemporaryStat.DrawBack.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.DrawBack), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.DrawBack), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.FinalCut) != null || aDefaultFlags.contains(CharacterTemporaryStat.FinalCut)) {
+            uFlagTemp[CharacterTemporaryStat.FinalCut.getPosition()] |= CharacterTemporaryStat.FinalCut.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.FinalCut), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.FinalCut), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Cyclone) != null || aDefaultFlags.contains(CharacterTemporaryStat.Cyclone)) {
+            uFlagTemp[CharacterTemporaryStat.Cyclone.getPosition()] |= CharacterTemporaryStat.Cyclone.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Cyclone), 1));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.OnCapsule) != null || aDefaultFlags.contains(CharacterTemporaryStat.OnCapsule)) {
+            uFlagTemp[CharacterTemporaryStat.OnCapsule.getPosition()] |= CharacterTemporaryStat.OnCapsule.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.OnCapsule), 1));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Sneak) != null || aDefaultFlags.contains(CharacterTemporaryStat.Sneak)) {
+            uFlagTemp[CharacterTemporaryStat.Sneak.getPosition()] |= CharacterTemporaryStat.Sneak.getValue();
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.BeastFormDamageUp) != null || aDefaultFlags.contains(CharacterTemporaryStat.BeastFormDamageUp)) {
+            uFlagTemp[CharacterTemporaryStat.BeastFormDamageUp.getPosition()] |= CharacterTemporaryStat.BeastFormDamageUp.getValue();
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Mechanic) != null || aDefaultFlags.contains(CharacterTemporaryStat.Mechanic)) {
+            uFlagTemp[CharacterTemporaryStat.Mechanic.getPosition()] |= CharacterTemporaryStat.Mechanic.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Mechanic), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Mechanic), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.BlessingArmor) != null || aDefaultFlags.contains(CharacterTemporaryStat.BlessingArmor)) {
+            uFlagTemp[CharacterTemporaryStat.BlessingArmor.getPosition()] |= CharacterTemporaryStat.BlessingArmor.getValue();
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.BlessingArmorIncPAD) != null || aDefaultFlags.contains(CharacterTemporaryStat.BlessingArmorIncPAD)) {
+            uFlagTemp[CharacterTemporaryStat.BlessingArmorIncPAD.getPosition()] |= CharacterTemporaryStat.BlessingArmorIncPAD.getValue();
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Inflation) != null || aDefaultFlags.contains(CharacterTemporaryStat.Inflation)) {
+            uFlagTemp[CharacterTemporaryStat.Inflation.getPosition()] |= CharacterTemporaryStat.Inflation.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Inflation), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Inflation), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Explosion) != null || aDefaultFlags.contains(CharacterTemporaryStat.Explosion)) {
+            uFlagTemp[CharacterTemporaryStat.Explosion.getPosition()] |= CharacterTemporaryStat.Explosion.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Explosion), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Explosion), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.DarkTornado) != null || aDefaultFlags.contains(CharacterTemporaryStat.DarkTornado)) {
+            uFlagTemp[CharacterTemporaryStat.DarkTornado.getPosition()] |= CharacterTemporaryStat.DarkTornado.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.DarkTornado), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.DarkTornado), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.AmplifyDamage) != null || aDefaultFlags.contains(CharacterTemporaryStat.AmplifyDamage)) {
+            uFlagTemp[CharacterTemporaryStat.AmplifyDamage.getPosition()] |= CharacterTemporaryStat.AmplifyDamage.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.AmplifyDamage), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.AmplifyDamage), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.HideAttack) != null || aDefaultFlags.contains(CharacterTemporaryStat.HideAttack)) {
+            uFlagTemp[CharacterTemporaryStat.HideAttack.getPosition()] |= CharacterTemporaryStat.HideAttack.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.HideAttack), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.HideAttack), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.HolyMagicShell) != null || aDefaultFlags.contains(CharacterTemporaryStat.HolyMagicShell)) {
+            uFlagTemp[CharacterTemporaryStat.HolyMagicShell.getPosition()] |= CharacterTemporaryStat.HolyMagicShell.getValue();
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.DevilishPower) != null || aDefaultFlags.contains(CharacterTemporaryStat.DevilishPower)) {
+            uFlagTemp[CharacterTemporaryStat.DevilishPower.getPosition()] |= CharacterTemporaryStat.DevilishPower.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.DevilishPower), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.DevilishPower), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.SpiritLink) != null || aDefaultFlags.contains(CharacterTemporaryStat.SpiritLink)) {
+            uFlagTemp[CharacterTemporaryStat.SpiritLink.getPosition()] |= CharacterTemporaryStat.SpiritLink.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.SpiritLink), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.SpiritLink), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Event) != null || aDefaultFlags.contains(CharacterTemporaryStat.Event)) {
+            uFlagTemp[CharacterTemporaryStat.Event.getPosition()] |= CharacterTemporaryStat.Event.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Event), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Event), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Event2) != null || aDefaultFlags.contains(CharacterTemporaryStat.Event2)) {
+            uFlagTemp[CharacterTemporaryStat.Event2.getPosition()] |= CharacterTemporaryStat.Event2.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Event2), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Event2), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.DeathMark) != null || aDefaultFlags.contains(CharacterTemporaryStat.DeathMark)) {
+            uFlagTemp[CharacterTemporaryStat.DeathMark.getPosition()] |= CharacterTemporaryStat.DeathMark.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.DeathMark), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.DeathMark), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.PainMark) != null || aDefaultFlags.contains(CharacterTemporaryStat.PainMark)) {
+            uFlagTemp[CharacterTemporaryStat.PainMark.getPosition()] |= CharacterTemporaryStat.PainMark.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.PainMark), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.PainMark), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Lapidification) != null || aDefaultFlags.contains(CharacterTemporaryStat.Lapidification)) {
+            uFlagTemp[CharacterTemporaryStat.Lapidification.getPosition()] |= CharacterTemporaryStat.Lapidification.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Lapidification), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Lapidification), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.VampDeath) != null || aDefaultFlags.contains(CharacterTemporaryStat.VampDeath)) {
+            uFlagTemp[CharacterTemporaryStat.VampDeath.getPosition()] |= CharacterTemporaryStat.VampDeath.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.VampDeath), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.VampDeath), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.VampDeathSummon) != null || aDefaultFlags.contains(CharacterTemporaryStat.VampDeathSummon)) {
+            uFlagTemp[CharacterTemporaryStat.VampDeathSummon.getPosition()] |= CharacterTemporaryStat.VampDeathSummon.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.VampDeathSummon), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.VampDeathSummon), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.VenomSnake) != null || aDefaultFlags.contains(CharacterTemporaryStat.VenomSnake)) {
+            uFlagTemp[CharacterTemporaryStat.VenomSnake.getPosition()] |= CharacterTemporaryStat.VenomSnake.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.VenomSnake), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.VenomSnake), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.PyramidEffect) != null || aDefaultFlags.contains(CharacterTemporaryStat.PyramidEffect)) {
+            uFlagTemp[CharacterTemporaryStat.PyramidEffect.getPosition()] |= CharacterTemporaryStat.PyramidEffect.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.PyramidEffect), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.KillingPoint) != null || aDefaultFlags.contains(CharacterTemporaryStat.KillingPoint)) {
+            uFlagTemp[CharacterTemporaryStat.KillingPoint.getPosition()] |= CharacterTemporaryStat.KillingPoint.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.KillingPoint), 1));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.PinkbeanRollingGrade) != null || aDefaultFlags.contains(CharacterTemporaryStat.PinkbeanRollingGrade)) {
+            uFlagTemp[CharacterTemporaryStat.PinkbeanRollingGrade.getPosition()] |= CharacterTemporaryStat.PinkbeanRollingGrade.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.PinkbeanRollingGrade), 1));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.IgnoreTargetDEF) != null || aDefaultFlags.contains(CharacterTemporaryStat.IgnoreTargetDEF)) {
+            uFlagTemp[CharacterTemporaryStat.IgnoreTargetDEF.getPosition()] |= CharacterTemporaryStat.IgnoreTargetDEF.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.IgnoreTargetDEF), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.IgnoreTargetDEF), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Invisible) != null || aDefaultFlags.contains(CharacterTemporaryStat.Invisible)) {
+            uFlagTemp[CharacterTemporaryStat.Invisible.getPosition()] |= CharacterTemporaryStat.Invisible.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Invisible), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Invisible), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Judgement) != null || aDefaultFlags.contains(CharacterTemporaryStat.Judgement)) {
+            uFlagTemp[CharacterTemporaryStat.Judgement.getPosition()] |= CharacterTemporaryStat.Judgement.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Judgement), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Judgement), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.KeyDownAreaMoving) != null || aDefaultFlags.contains(CharacterTemporaryStat.KeyDownAreaMoving)) {
+            uFlagTemp[CharacterTemporaryStat.KeyDownAreaMoving.getPosition()] |= CharacterTemporaryStat.KeyDownAreaMoving.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.KeyDownAreaMoving), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.KeyDownAreaMoving), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.StackBuff) != null || aDefaultFlags.contains(CharacterTemporaryStat.StackBuff)) {
+            uFlagTemp[CharacterTemporaryStat.StackBuff.getPosition()] |= CharacterTemporaryStat.StackBuff.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.StackBuff), 2));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.BlessOfDarkness) != null || aDefaultFlags.contains(CharacterTemporaryStat.BlessOfDarkness)) {
+            uFlagTemp[CharacterTemporaryStat.BlessOfDarkness.getPosition()] |= CharacterTemporaryStat.BlessOfDarkness.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.BlessOfDarkness), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Larkness) != null || aDefaultFlags.contains(CharacterTemporaryStat.Larkness)) {
+            uFlagTemp[CharacterTemporaryStat.Larkness.getPosition()] |= CharacterTemporaryStat.Larkness.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Larkness), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Larkness), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.ReshuffleSwitch) != null || aDefaultFlags.contains(CharacterTemporaryStat.ReshuffleSwitch)) {
+            uFlagTemp[CharacterTemporaryStat.ReshuffleSwitch.getPosition()] |= CharacterTemporaryStat.ReshuffleSwitch.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ReshuffleSwitch), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ReshuffleSwitch), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.SpecialAction) != null || aDefaultFlags.contains(CharacterTemporaryStat.SpecialAction)) {
+            uFlagTemp[CharacterTemporaryStat.SpecialAction.getPosition()] |= CharacterTemporaryStat.SpecialAction.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.SpecialAction), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.SpecialAction), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.StopForceAtomInfo) != null || aDefaultFlags.contains(CharacterTemporaryStat.StopForceAtomInfo)) {
+            uFlagTemp[CharacterTemporaryStat.StopForceAtomInfo.getPosition()] |= CharacterTemporaryStat.StopForceAtomInfo.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.StopForceAtomInfo), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.StopForceAtomInfo), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.SoulGazeCriDamR) != null || aDefaultFlags.contains(CharacterTemporaryStat.SoulGazeCriDamR)) {
+            uFlagTemp[CharacterTemporaryStat.SoulGazeCriDamR.getPosition()] |= CharacterTemporaryStat.SoulGazeCriDamR.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.SoulGazeCriDamR), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.SoulGazeCriDamR), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.PowerTransferGauge) != null || aDefaultFlags.contains(CharacterTemporaryStat.PowerTransferGauge)) {
+            uFlagTemp[CharacterTemporaryStat.PowerTransferGauge.getPosition()] |= CharacterTemporaryStat.PowerTransferGauge.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.PowerTransferGauge), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.PowerTransferGauge), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.AffinitySlug) != null || aDefaultFlags.contains(CharacterTemporaryStat.AffinitySlug)) {
+            uFlagTemp[CharacterTemporaryStat.AffinitySlug.getPosition()] |= CharacterTemporaryStat.AffinitySlug.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.AffinitySlug), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.AffinitySlug), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.SoulExalt) != null || aDefaultFlags.contains(CharacterTemporaryStat.SoulExalt)) {
+            uFlagTemp[CharacterTemporaryStat.SoulExalt.getPosition()] |= CharacterTemporaryStat.SoulExalt.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.SoulExalt), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.SoulExalt), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.HiddenPieceOn) != null || aDefaultFlags.contains(CharacterTemporaryStat.HiddenPieceOn)) {
+            uFlagTemp[CharacterTemporaryStat.HiddenPieceOn.getPosition()] |= CharacterTemporaryStat.HiddenPieceOn.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.HiddenPieceOn), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.HiddenPieceOn), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.SmashStack) != null || aDefaultFlags.contains(CharacterTemporaryStat.SmashStack)) {
+            uFlagTemp[CharacterTemporaryStat.SmashStack.getPosition()] |= CharacterTemporaryStat.SmashStack.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.SmashStack), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.SmashStack), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.MobZoneState) != null || aDefaultFlags.contains(CharacterTemporaryStat.MobZoneState)) {
+            uFlagTemp[CharacterTemporaryStat.MobZoneState.getPosition()] |= CharacterTemporaryStat.MobZoneState.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.MobZoneState), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.MobZoneState), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.GiveMeHeal) != null || aDefaultFlags.contains(CharacterTemporaryStat.GiveMeHeal)) {
+            uFlagTemp[CharacterTemporaryStat.GiveMeHeal.getPosition()] |= CharacterTemporaryStat.GiveMeHeal.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.GiveMeHeal), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.GiveMeHeal), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.TouchMe) != null || aDefaultFlags.contains(CharacterTemporaryStat.TouchMe)) {
+            uFlagTemp[CharacterTemporaryStat.TouchMe.getPosition()] |= CharacterTemporaryStat.TouchMe.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.TouchMe), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.TouchMe), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Contagion) != null || aDefaultFlags.contains(CharacterTemporaryStat.Contagion)) {
+            uFlagTemp[CharacterTemporaryStat.Contagion.getPosition()] |= CharacterTemporaryStat.Contagion.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Contagion), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Contagion), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Contagion) != null || aDefaultFlags.contains(CharacterTemporaryStat.Contagion)) {
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Contagion), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.ComboUnlimited) != null || aDefaultFlags.contains(CharacterTemporaryStat.ComboUnlimited)) {
+            uFlagTemp[CharacterTemporaryStat.ComboUnlimited.getPosition()] |= CharacterTemporaryStat.ComboUnlimited.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ComboUnlimited), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ComboUnlimited), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.IgnorePCounter) != null || aDefaultFlags.contains(CharacterTemporaryStat.IgnorePCounter)) {
+            uFlagTemp[CharacterTemporaryStat.IgnorePCounter.getPosition()] |= CharacterTemporaryStat.IgnorePCounter.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.IgnorePCounter), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.IgnorePCounter), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.IgnoreAllCounter) != null || aDefaultFlags.contains(CharacterTemporaryStat.IgnoreAllCounter)) {
+            uFlagTemp[CharacterTemporaryStat.IgnoreAllCounter.getPosition()] |= CharacterTemporaryStat.IgnoreAllCounter.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.IgnoreAllCounter), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.IgnoreAllCounter), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.IgnorePImmune) != null || aDefaultFlags.contains(CharacterTemporaryStat.IgnorePImmune)) {
+            uFlagTemp[CharacterTemporaryStat.IgnorePImmune.getPosition()] |= CharacterTemporaryStat.IgnorePImmune.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.IgnorePImmune), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.IgnorePImmune), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.IgnoreAllImmune) != null || aDefaultFlags.contains(CharacterTemporaryStat.IgnoreAllImmune)) {
+            uFlagTemp[CharacterTemporaryStat.IgnoreAllImmune.getPosition()] |= CharacterTemporaryStat.IgnoreAllImmune.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.IgnoreAllImmune), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.IgnoreAllImmune), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.FinalJudgement) != null || aDefaultFlags.contains(CharacterTemporaryStat.FinalJudgement)) {
+            uFlagTemp[CharacterTemporaryStat.FinalJudgement.getPosition()] |= CharacterTemporaryStat.FinalJudgement.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.FinalJudgement), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.FinalJudgement), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown275) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown275)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown275.getPosition()] |= CharacterTemporaryStat.Unknown275.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown275), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown275), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.KnightsAura) != null || aDefaultFlags.contains(CharacterTemporaryStat.KnightsAura)) {
+            uFlagTemp[CharacterTemporaryStat.KnightsAura.getPosition()] |= CharacterTemporaryStat.KnightsAura.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.KnightsAura), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.KnightsAura), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.IceAura) != null || aDefaultFlags.contains(CharacterTemporaryStat.IceAura)) {
+            uFlagTemp[CharacterTemporaryStat.IceAura.getPosition()] |= CharacterTemporaryStat.IceAura.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.IceAura), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.IceAura), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.FireAura) != null || aDefaultFlags.contains(CharacterTemporaryStat.FireAura)) {
+            uFlagTemp[CharacterTemporaryStat.FireAura.getPosition()] |= CharacterTemporaryStat.FireAura.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.FireAura), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.FireAura), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.VengeanceOfAngel) != null || aDefaultFlags.contains(CharacterTemporaryStat.VengeanceOfAngel)) {
+            uFlagTemp[CharacterTemporaryStat.VengeanceOfAngel.getPosition()] |= CharacterTemporaryStat.VengeanceOfAngel.getValue();
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.HeavensDoor) != null || aDefaultFlags.contains(CharacterTemporaryStat.HeavensDoor)) {
+            uFlagTemp[CharacterTemporaryStat.HeavensDoor.getPosition()] |= CharacterTemporaryStat.HeavensDoor.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.HeavensDoor), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.HeavensDoor), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.DamAbsorbShield) != null || aDefaultFlags.contains(CharacterTemporaryStat.DamAbsorbShield)) {
+            uFlagTemp[CharacterTemporaryStat.DamAbsorbShield.getPosition()] |= CharacterTemporaryStat.DamAbsorbShield.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.DamAbsorbShield), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.DamAbsorbShield), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.AntiMagicShell) != null || aDefaultFlags.contains(CharacterTemporaryStat.AntiMagicShell)) {
+            uFlagTemp[CharacterTemporaryStat.AntiMagicShell.getPosition()] |= CharacterTemporaryStat.AntiMagicShell.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.AntiMagicShell), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.AntiMagicShell), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.NotDamaged) != null || aDefaultFlags.contains(CharacterTemporaryStat.NotDamaged)) {
+            uFlagTemp[CharacterTemporaryStat.NotDamaged.getPosition()] |= CharacterTemporaryStat.NotDamaged.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.NotDamaged), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.NotDamaged), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.BleedingToxin) != null || aDefaultFlags.contains(CharacterTemporaryStat.BleedingToxin)) {
+            uFlagTemp[CharacterTemporaryStat.BleedingToxin.getPosition()] |= CharacterTemporaryStat.BleedingToxin.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.BleedingToxin), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.BleedingToxin), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.BladeClone) != null || aDefaultFlags.contains(CharacterTemporaryStat.BladeClone)) {
+            uFlagTemp[CharacterTemporaryStat.BladeClone.getPosition()] |= CharacterTemporaryStat.BladeClone.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.BladeClone), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.BladeClone), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.IgnoreMobDamR) != null || aDefaultFlags.contains(CharacterTemporaryStat.IgnoreMobDamR)) {
+            uFlagTemp[CharacterTemporaryStat.IgnoreMobDamR.getPosition()] |= CharacterTemporaryStat.IgnoreMobDamR.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.IgnoreMobDamR), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.IgnoreMobDamR), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Asura) != null || aDefaultFlags.contains(CharacterTemporaryStat.Asura)) {
+            uFlagTemp[CharacterTemporaryStat.Asura.getPosition()] |= CharacterTemporaryStat.Asura.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Asura), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Asura), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown287) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown287)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown287.getPosition()] |= CharacterTemporaryStat.Unknown287.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown287), 4));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown287), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.UnityOfPower) != null || aDefaultFlags.contains(CharacterTemporaryStat.UnityOfPower)) {
+            uFlagTemp[CharacterTemporaryStat.UnityOfPower.getPosition()] |= CharacterTemporaryStat.UnityOfPower.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.UnityOfPower), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.UnityOfPower), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Stimulate) != null || aDefaultFlags.contains(CharacterTemporaryStat.Stimulate)) {
+            uFlagTemp[CharacterTemporaryStat.Stimulate.getPosition()] |= CharacterTemporaryStat.Stimulate.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Stimulate), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Stimulate), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.ReturnTeleport) != null || aDefaultFlags.contains(CharacterTemporaryStat.ReturnTeleport)) {
+            uFlagTemp[CharacterTemporaryStat.ReturnTeleport.getPosition()] |= CharacterTemporaryStat.ReturnTeleport.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ReturnTeleport), 1));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ReturnTeleport), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.CapDebuff) != null || aDefaultFlags.contains(CharacterTemporaryStat.CapDebuff)) {
+            uFlagTemp[CharacterTemporaryStat.CapDebuff.getPosition()] |= CharacterTemporaryStat.CapDebuff.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.CapDebuff), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.CapDebuff), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.OverloadCount) != null || aDefaultFlags.contains(CharacterTemporaryStat.OverloadCount)) {
+            uFlagTemp[CharacterTemporaryStat.OverloadCount.getPosition()] |= CharacterTemporaryStat.OverloadCount.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.OverloadCount), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.OverloadCount), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.FireBomb) != null || aDefaultFlags.contains(CharacterTemporaryStat.FireBomb)) {
+            uFlagTemp[CharacterTemporaryStat.FireBomb.getPosition()] |= CharacterTemporaryStat.FireBomb.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.FireBomb), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.FireBomb), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.SurplusSupply) != null || aDefaultFlags.contains(CharacterTemporaryStat.SurplusSupply)) {
+            uFlagTemp[CharacterTemporaryStat.SurplusSupply.getPosition()] |= CharacterTemporaryStat.SurplusSupply.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.SurplusSupply), 1));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.NewFlying) != null || aDefaultFlags.contains(CharacterTemporaryStat.NewFlying)) {
+            uFlagTemp[CharacterTemporaryStat.NewFlying.getPosition()] |= CharacterTemporaryStat.NewFlying.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.NewFlying), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.NewFlying), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.NaviFlying) != null || aDefaultFlags.contains(CharacterTemporaryStat.NaviFlying)) {
+            uFlagTemp[CharacterTemporaryStat.NaviFlying.getPosition()] |= CharacterTemporaryStat.NaviFlying.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.NaviFlying), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.NaviFlying), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.AmaranthGenerator) != null || aDefaultFlags.contains(CharacterTemporaryStat.AmaranthGenerator)) {
+            uFlagTemp[CharacterTemporaryStat.AmaranthGenerator.getPosition()] |= CharacterTemporaryStat.AmaranthGenerator.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.AmaranthGenerator), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.AmaranthGenerator), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.CygnusElementSkill) != null || aDefaultFlags.contains(CharacterTemporaryStat.CygnusElementSkill)) {
+            uFlagTemp[CharacterTemporaryStat.CygnusElementSkill.getPosition()] |= CharacterTemporaryStat.CygnusElementSkill.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.CygnusElementSkill), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.CygnusElementSkill), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.StrikerHyperElectric) != null || aDefaultFlags.contains(CharacterTemporaryStat.StrikerHyperElectric)) {
+            uFlagTemp[CharacterTemporaryStat.StrikerHyperElectric.getPosition()] |= CharacterTemporaryStat.StrikerHyperElectric.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.StrikerHyperElectric), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.StrikerHyperElectric), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.EventPointAbsorb) != null || aDefaultFlags.contains(CharacterTemporaryStat.EventPointAbsorb)) {
+            uFlagTemp[CharacterTemporaryStat.EventPointAbsorb.getPosition()] |= CharacterTemporaryStat.EventPointAbsorb.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.EventPointAbsorb), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.EventPointAbsorb), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.EventAssemble) != null || aDefaultFlags.contains(CharacterTemporaryStat.EventAssemble)) {
+            uFlagTemp[CharacterTemporaryStat.EventAssemble.getPosition()] |= CharacterTemporaryStat.EventAssemble.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.EventAssemble), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.EventAssemble), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Albatross) != null || aDefaultFlags.contains(CharacterTemporaryStat.Albatross)) {
+            uFlagTemp[CharacterTemporaryStat.Albatross.getPosition()] |= CharacterTemporaryStat.Albatross.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Albatross), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Albatross), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Translucence) != null || aDefaultFlags.contains(CharacterTemporaryStat.Translucence)) {
+            uFlagTemp[CharacterTemporaryStat.Translucence.getPosition()] |= CharacterTemporaryStat.Translucence.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Translucence), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Translucence), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.PoseType) != null || aDefaultFlags.contains(CharacterTemporaryStat.PoseType)) {
+            uFlagTemp[CharacterTemporaryStat.PoseType.getPosition()] |= CharacterTemporaryStat.PoseType.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.PoseType), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.PoseType), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.LightOfSpirit) != null || aDefaultFlags.contains(CharacterTemporaryStat.LightOfSpirit)) {
+            uFlagTemp[CharacterTemporaryStat.LightOfSpirit.getPosition()] |= CharacterTemporaryStat.LightOfSpirit.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.LightOfSpirit), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.LightOfSpirit), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.ElementSoul) != null || aDefaultFlags.contains(CharacterTemporaryStat.ElementSoul)) {
+            uFlagTemp[CharacterTemporaryStat.ElementSoul.getPosition()] |= CharacterTemporaryStat.ElementSoul.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ElementSoul), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ElementSoul), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.GlimmeringTime) != null || aDefaultFlags.contains(CharacterTemporaryStat.GlimmeringTime)) {
+            uFlagTemp[CharacterTemporaryStat.GlimmeringTime.getPosition()] |= CharacterTemporaryStat.GlimmeringTime.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.GlimmeringTime), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.GlimmeringTime), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Reincarnation) != null || aDefaultFlags.contains(CharacterTemporaryStat.Reincarnation)) {
+            uFlagTemp[CharacterTemporaryStat.Reincarnation.getPosition()] |= CharacterTemporaryStat.Reincarnation.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Reincarnation), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Reincarnation), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Beholder) != null || aDefaultFlags.contains(CharacterTemporaryStat.Beholder)) {
+            uFlagTemp[CharacterTemporaryStat.Beholder.getPosition()] |= CharacterTemporaryStat.Beholder.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Beholder), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Beholder), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.QuiverCatridge) != null || aDefaultFlags.contains(CharacterTemporaryStat.QuiverCatridge)) {
+            uFlagTemp[CharacterTemporaryStat.QuiverCatridge.getPosition()] |= CharacterTemporaryStat.QuiverCatridge.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.QuiverCatridge), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.QuiverCatridge), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.ArmorPiercing) != null || aDefaultFlags.contains(CharacterTemporaryStat.ArmorPiercing)) {
+            uFlagTemp[CharacterTemporaryStat.ArmorPiercing.getPosition()] |= CharacterTemporaryStat.ArmorPiercing.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ArmorPiercing), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ArmorPiercing), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.UserControlMob) != null || aDefaultFlags.contains(CharacterTemporaryStat.UserControlMob)) {
+            uFlagTemp[CharacterTemporaryStat.UserControlMob.getPosition()] |= CharacterTemporaryStat.UserControlMob.getValue();
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.ZeroAuraStr) != null || aDefaultFlags.contains(CharacterTemporaryStat.ZeroAuraStr)) {
+            uFlagTemp[CharacterTemporaryStat.ZeroAuraStr.getPosition()] |= CharacterTemporaryStat.ZeroAuraStr.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ZeroAuraStr), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ZeroAuraStr), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.ZeroAuraSpd) != null || aDefaultFlags.contains(CharacterTemporaryStat.ZeroAuraSpd)) {
+            uFlagTemp[CharacterTemporaryStat.ZeroAuraSpd.getPosition()] |= CharacterTemporaryStat.ZeroAuraSpd.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ZeroAuraSpd), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ZeroAuraSpd), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.ImmuneBarrier) != null || aDefaultFlags.contains(CharacterTemporaryStat.ImmuneBarrier)) {
+            uFlagTemp[CharacterTemporaryStat.ImmuneBarrier.getPosition()] |= CharacterTemporaryStat.ImmuneBarrier.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ImmuneBarrier), 4));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ImmuneBarrier), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.FullSoulMP) != null || aDefaultFlags.contains(CharacterTemporaryStat.FullSoulMP)) {
+            uFlagTemp[CharacterTemporaryStat.FullSoulMP.getPosition()] |= CharacterTemporaryStat.FullSoulMP.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.FullSoulMP), 4));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.FullSoulMP), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.AntiMagicShell) != null || aDefaultFlags.contains(CharacterTemporaryStat.AntiMagicShell)) {
+            uFlagTemp[CharacterTemporaryStat.AntiMagicShell.getPosition()] |= CharacterTemporaryStat.AntiMagicShell.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.AntiMagicShell), 1));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Dance) != null || aDefaultFlags.contains(CharacterTemporaryStat.Dance)) {
+            uFlagTemp[CharacterTemporaryStat.Dance.getPosition()] |= CharacterTemporaryStat.Dance.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Dance), 4));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Dance), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.SpiritGuard) != null || aDefaultFlags.contains(CharacterTemporaryStat.SpiritGuard)) {
+            uFlagTemp[CharacterTemporaryStat.SpiritGuard.getPosition()] |= CharacterTemporaryStat.SpiritGuard.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.SpiritGuard), 4));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.SpiritGuard), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.ComboTempest) != null || aDefaultFlags.contains(CharacterTemporaryStat.ComboTempest)) {
+            uFlagTemp[CharacterTemporaryStat.ComboTempest.getPosition()] |= CharacterTemporaryStat.ComboTempest.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ComboTempest), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ComboTempest), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.HalfstatByDebuff) != null || aDefaultFlags.contains(CharacterTemporaryStat.HalfstatByDebuff)) {
+            uFlagTemp[CharacterTemporaryStat.HalfstatByDebuff.getPosition()] |= CharacterTemporaryStat.HalfstatByDebuff.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.HalfstatByDebuff), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.HalfstatByDebuff), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.ComplusionSlant) != null || aDefaultFlags.contains(CharacterTemporaryStat.ComplusionSlant)) {
+            uFlagTemp[CharacterTemporaryStat.ComplusionSlant.getPosition()] |= CharacterTemporaryStat.ComplusionSlant.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ComplusionSlant), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ComplusionSlant), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.JaguarSummoned) != null || aDefaultFlags.contains(CharacterTemporaryStat.JaguarSummoned)) {
+            uFlagTemp[CharacterTemporaryStat.JaguarSummoned.getPosition()] |= CharacterTemporaryStat.JaguarSummoned.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.JaguarSummoned), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.JaguarSummoned), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.BMageAura) != null || aDefaultFlags.contains(CharacterTemporaryStat.BMageAura)) {
+            uFlagTemp[CharacterTemporaryStat.BMageAura.getPosition()] |= CharacterTemporaryStat.BMageAura.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.BMageAura), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.BMageAura), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown462) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown462)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown462.getPosition()] |= CharacterTemporaryStat.Unknown462.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown462), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown462), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown463) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown463)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown463.getPosition()] |= CharacterTemporaryStat.Unknown463.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown463), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown463), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown464) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown464)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown464.getPosition()] |= CharacterTemporaryStat.Unknown464.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown464), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown464), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown465) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown465)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown465.getPosition()] |= CharacterTemporaryStat.Unknown465.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown465), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown465), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown466) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown466)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown466.getPosition()] |= CharacterTemporaryStat.Unknown466.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown466), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown466), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown467) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown467)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown467.getPosition()] |= CharacterTemporaryStat.Unknown467.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown467), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown467), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown468) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown468)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown468.getPosition()] |= CharacterTemporaryStat.Unknown468.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown468), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown468), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.DarkLighting) != null || aDefaultFlags.contains(CharacterTemporaryStat.DarkLighting)) {
+            uFlagTemp[CharacterTemporaryStat.DarkLighting.getPosition()] |= CharacterTemporaryStat.DarkLighting.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.DarkLighting), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.DarkLighting), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.AttackCountX) != null || aDefaultFlags.contains(CharacterTemporaryStat.AttackCountX)) {
+            uFlagTemp[CharacterTemporaryStat.AttackCountX.getPosition()] |= CharacterTemporaryStat.AttackCountX.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.AttackCountX), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.AttackCountX), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.FireBarrier) != null || aDefaultFlags.contains(CharacterTemporaryStat.FireBarrier)) {
+            uFlagTemp[CharacterTemporaryStat.FireBarrier.getPosition()] |= CharacterTemporaryStat.FireBarrier.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.FireBarrier), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.FireBarrier), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.KeyDownMoving) != null || aDefaultFlags.contains(CharacterTemporaryStat.KeyDownMoving)) {
+            uFlagTemp[CharacterTemporaryStat.KeyDownMoving.getPosition()] |= CharacterTemporaryStat.KeyDownMoving.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.KeyDownMoving), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.KeyDownMoving), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.MichaelSoulLink) != null || aDefaultFlags.contains(CharacterTemporaryStat.MichaelSoulLink)) {
+            uFlagTemp[CharacterTemporaryStat.MichaelSoulLink.getPosition()] |= CharacterTemporaryStat.MichaelSoulLink.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.MichaelSoulLink), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.MichaelSoulLink), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.KinesisPsychicEnergeShield) != null || aDefaultFlags.contains(CharacterTemporaryStat.KinesisPsychicEnergeShield)) {
+            uFlagTemp[CharacterTemporaryStat.KinesisPsychicEnergeShield.getPosition()] |= CharacterTemporaryStat.KinesisPsychicEnergeShield.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.KinesisPsychicEnergeShield), 4));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.KinesisPsychicEnergeShield), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.BladeStance) != null || aDefaultFlags.contains(CharacterTemporaryStat.BladeStance)) {
+            uFlagTemp[CharacterTemporaryStat.BladeStance.getPosition()] |= CharacterTemporaryStat.BladeStance.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.BladeStance), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.BladeStance), 4));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.BladeStance), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Fever) != null || aDefaultFlags.contains(CharacterTemporaryStat.Fever)) {
+            uFlagTemp[CharacterTemporaryStat.Fever.getPosition()] |= CharacterTemporaryStat.Fever.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Fever), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Fever), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.AdrenalinBoost) != null || aDefaultFlags.contains(CharacterTemporaryStat.AdrenalinBoost)) {
+            uFlagTemp[CharacterTemporaryStat.AdrenalinBoost.getPosition()] |= CharacterTemporaryStat.AdrenalinBoost.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.AdrenalinBoost), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.RWBarrier) != null || aDefaultFlags.contains(CharacterTemporaryStat.RWBarrier)) {
+            uFlagTemp[CharacterTemporaryStat.RWBarrier.getPosition()] |= CharacterTemporaryStat.RWBarrier.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.RWBarrier), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.RWMagnumBlow) != null || aDefaultFlags.contains(CharacterTemporaryStat.RWMagnumBlow)) {
+            uFlagTemp[CharacterTemporaryStat.RWMagnumBlow.getPosition()] |= CharacterTemporaryStat.RWMagnumBlow.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.RWMagnumBlow), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown240) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown240)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown240.getPosition()] |= CharacterTemporaryStat.Unknown240.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown240), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown240), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown241) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown241)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown241.getPosition()] |= CharacterTemporaryStat.Unknown241.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown241), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown241), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Stigma) != null || aDefaultFlags.contains(CharacterTemporaryStat.Stigma)) {
+            uFlagTemp[CharacterTemporaryStat.Stigma.getPosition()] |= CharacterTemporaryStat.Stigma.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Stigma), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Stigma), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown474) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown474)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown474.getPosition()] |= CharacterTemporaryStat.Unknown474.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown474), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown457) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown457)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown457.getPosition()] |= CharacterTemporaryStat.Unknown457.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown457), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown472) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown472)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown472.getPosition()] |= CharacterTemporaryStat.Unknown472.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown472), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown483) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown483)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown483.getPosition()] |= CharacterTemporaryStat.Unknown483.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown483), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown483), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown355) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown355)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown355.getPosition()] |= CharacterTemporaryStat.Unknown355.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown355), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown355), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.AnimalChange) != null || aDefaultFlags.contains(CharacterTemporaryStat.AnimalChange)) {
+            uFlagTemp[CharacterTemporaryStat.AnimalChange.getPosition()] |= CharacterTemporaryStat.AnimalChange.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.AnimalChange), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.AnimalChange), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.TeamRoar) != null || aDefaultFlags.contains(CharacterTemporaryStat.TeamRoar)) {
+            uFlagTemp[CharacterTemporaryStat.TeamRoar.getPosition()] |= CharacterTemporaryStat.TeamRoar.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.TeamRoar), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.TeamRoar), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.HayatoStance) != null || aDefaultFlags.contains(CharacterTemporaryStat.HayatoStance)) {
+            uFlagTemp[CharacterTemporaryStat.HayatoStance.getPosition()] |= CharacterTemporaryStat.HayatoStance.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.HayatoStance), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.HayatoStance), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.HayatoStance) != null || aDefaultFlags.contains(CharacterTemporaryStat.HayatoStance)) {
+            uFlagTemp[CharacterTemporaryStat.HayatoStance.getPosition()] |= CharacterTemporaryStat.HayatoStance.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.HayatoStance), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown496) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown496)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown496.getPosition()] |= CharacterTemporaryStat.Unknown496.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown496), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown496), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.HayatoStanceBonus) != null || aDefaultFlags.contains(CharacterTemporaryStat.HayatoStanceBonus)) {
+            uFlagTemp[CharacterTemporaryStat.HayatoStanceBonus.getPosition()] |= CharacterTemporaryStat.HayatoStanceBonus.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.HayatoStanceBonus), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.HayatoStanceBonus), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.HayatoPAD) != null || aDefaultFlags.contains(CharacterTemporaryStat.HayatoPAD)) {
+            uFlagTemp[CharacterTemporaryStat.HayatoPAD.getPosition()] |= CharacterTemporaryStat.HayatoPAD.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.HayatoPAD), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.HayatoPAD), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.HayatoHPR) != null || aDefaultFlags.contains(CharacterTemporaryStat.HayatoHPR)) {
+            uFlagTemp[CharacterTemporaryStat.HayatoHPR.getPosition()] |= CharacterTemporaryStat.HayatoHPR.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.HayatoHPR), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.HayatoHPR), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.HayatoMPR) != null || aDefaultFlags.contains(CharacterTemporaryStat.HayatoMPR)) {
+            uFlagTemp[CharacterTemporaryStat.HayatoMPR.getPosition()] |= CharacterTemporaryStat.HayatoMPR.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.HayatoMPR), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.HayatoMPR), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.HayatoCr) != null || aDefaultFlags.contains(CharacterTemporaryStat.HayatoCr)) {
+            uFlagTemp[CharacterTemporaryStat.HayatoCr.getPosition()] |= CharacterTemporaryStat.HayatoCr.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.HayatoCr), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.HayatoCr), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.KannaBDR) != null || aDefaultFlags.contains(CharacterTemporaryStat.KannaBDR)) {
+            uFlagTemp[CharacterTemporaryStat.KannaBDR.getPosition()] |= CharacterTemporaryStat.KannaBDR.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.KannaBDR), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.KannaBDR), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Stance) != null || aDefaultFlags.contains(CharacterTemporaryStat.Stance)) {
+            uFlagTemp[CharacterTemporaryStat.Stance.getPosition()] |= CharacterTemporaryStat.Stance.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Stance), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Stance), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Battoujutsu) != null || aDefaultFlags.contains(CharacterTemporaryStat.Battoujutsu)) {
+            uFlagTemp[CharacterTemporaryStat.Battoujutsu.getPosition()] |= CharacterTemporaryStat.Battoujutsu.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Battoujutsu), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Battoujutsu), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown505) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown505)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown505.getPosition()] |= CharacterTemporaryStat.Unknown505.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown505), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown505), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown506) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown506)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown506.getPosition()] |= CharacterTemporaryStat.Unknown506.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown506), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown506), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.EyeForEye) != null || aDefaultFlags.contains(CharacterTemporaryStat.EyeForEye)) {
+            uFlagTemp[CharacterTemporaryStat.EyeForEye.getPosition()] |= CharacterTemporaryStat.EyeForEye.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.EyeForEye), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.EyeForEye), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown485) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown485)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown485.getPosition()] |= CharacterTemporaryStat.Unknown485.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown485), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown485), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown510) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown510)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown510.getPosition()] |= CharacterTemporaryStat.Unknown510.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown510), 2));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown510), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown514) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown514)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown514.getPosition()] |= CharacterTemporaryStat.Unknown514.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown514), 4));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown514), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown515) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown515)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown515.getPosition()] |= CharacterTemporaryStat.Unknown515.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown515), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown516) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown516)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown516.getPosition()] |= CharacterTemporaryStat.Unknown516.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown516), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown518) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown518)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown518.getPosition()] |= CharacterTemporaryStat.Unknown518.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown518), 4));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown518), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown519) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown519)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown519.getPosition()] |= CharacterTemporaryStat.Unknown519.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown519), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown520) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown520)) {
+            uFlagTemp[CharacterTemporaryStat.Unknown520.getPosition()] |= CharacterTemporaryStat.Unknown520.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown520), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.FamiliarShadow) != null || aDefaultFlags.contains(CharacterTemporaryStat.FamiliarShadow)) {
+            uFlagTemp[CharacterTemporaryStat.FamiliarShadow.getPosition()] |= CharacterTemporaryStat.FamiliarShadow.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.FamiliarShadow), 1));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.FamiliarShadow), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.PoseType) != null || aDefaultFlags.contains(CharacterTemporaryStat.PoseType)) {
+            uFlagTemp[CharacterTemporaryStat.PoseType.getPosition()] |= CharacterTemporaryStat.PoseType.getValue();
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.PoseType), 1));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.BattlePvP_Helena_Mark) != null || aDefaultFlags.contains(CharacterTemporaryStat.BattlePvP_Helena_Mark)) {
+            uFlagTemp[CharacterTemporaryStat.BattlePvP_Helena_Mark.getPosition()] |= CharacterTemporaryStat.BattlePvP_Helena_Mark.getValue();
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.BattlePvP_LangE_Protection) != null || aDefaultFlags.contains(CharacterTemporaryStat.BattlePvP_LangE_Protection)) {
+            uFlagTemp[CharacterTemporaryStat.BattlePvP_LangE_Protection.getPosition()] |= CharacterTemporaryStat.BattlePvP_LangE_Protection.getValue();
+        }
+
+        uFlagTemp[CharacterTemporaryStat.EnergyCharged.getPosition()] |= CharacterTemporaryStat.EnergyCharged.getValue();
+        uFlagTemp[CharacterTemporaryStat.Dash_Speed.getPosition()] |= CharacterTemporaryStat.Dash_Speed.getValue();
+        uFlagTemp[CharacterTemporaryStat.Dash_Jump.getPosition()] |= CharacterTemporaryStat.Dash_Jump.getValue();
+        uFlagTemp[CharacterTemporaryStat.RideVehicle.getPosition()] |= CharacterTemporaryStat.RideVehicle.getValue();
+        uFlagTemp[CharacterTemporaryStat.PartyBooster.getPosition()] |= CharacterTemporaryStat.PartyBooster.getValue();
+        uFlagTemp[CharacterTemporaryStat.GuidedBullet.getPosition()] |= CharacterTemporaryStat.GuidedBullet.getValue();
+        uFlagTemp[CharacterTemporaryStat.Undead.getPosition()] |= CharacterTemporaryStat.Undead.getValue();
+        uFlagTemp[CharacterTemporaryStat.RideVehicleExpire.getPosition()] |= CharacterTemporaryStat.RideVehicleExpire.getValue();
+
+        for (int i = uFlagTemp.length; i >= 1; i--) {
+            pw.writeInt(uFlagTemp[i]);
+        }
+
+        for (Pair<Integer, Integer> nStats : uFlagData) {
+            if (nStats.right == 4) {
+                pw.writeInt(nStats.left);
+            } else if (nStats.right == 2) {
+                pw.writeShort(nStats.left);
+            } else if (nStats.right == 1) {
+                pw.write(nStats.left);
+            }
+        }
+
+        uFlagData.clear(); // Clear Array for new bytes
+
+        pw.write(0); // nDefenseAtt
+        pw.write(0); // nDefenseState
+        pw.write(0); // nPVPDamage
+        
+       if (chr.getBuffedValue(CharacterTemporaryStat.ZeroAuraStr) != null || aDefaultFlags.contains(CharacterTemporaryStat.ZeroAuraStr)) {
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ZeroAuraStr), 1));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.ZeroAuraSpd) != null || aDefaultFlags.contains(CharacterTemporaryStat.ZeroAuraSpd)) {
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.ZeroAuraSpd), 1));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.BMageAura) != null || aDefaultFlags.contains(CharacterTemporaryStat.BMageAura)) {
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.BMageAura), 1));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.BattlePvP_Helena_Mark) != null || aDefaultFlags.contains(CharacterTemporaryStat.BattlePvP_Helena_Mark)) {
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.BattlePvP_Helena_Mark), 4));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.BattlePvP_Helena_Mark), 4));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.BattlePvP_Helena_Mark), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.BattlePvP_LangE_Protection) != null || aDefaultFlags.contains(CharacterTemporaryStat.BattlePvP_LangE_Protection)) {
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.BattlePvP_LangE_Protection), 4));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.BattlePvP_LangE_Protection), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.MichaelSoulLink) != null || aDefaultFlags.contains(CharacterTemporaryStat.MichaelSoulLink)) {
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.MichaelSoulLink), 4));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.MichaelSoulLink), 1));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.MichaelSoulLink), 4));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.MichaelSoulLink), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.AdrenalinBoost) != null || aDefaultFlags.contains(CharacterTemporaryStat.AdrenalinBoost)) {
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.AdrenalinBoost), 1));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Stigma) != null || aDefaultFlags.contains(CharacterTemporaryStat.Stigma)) {
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Stigma), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown402) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown402)) {
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown402), 2));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown403) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown403)) {
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown403), 2));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown404) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown404)) {
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown404), 2));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.Unknown473) != null || aDefaultFlags.contains(CharacterTemporaryStat.Unknown473)) { // Unsure of options
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown473), 4));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown473), 4));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown473), 4));
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.Unknown473), 4));
+        }
+        if (chr.getBuffedValue(CharacterTemporaryStat.VampDeath) != null || aDefaultFlags.contains(CharacterTemporaryStat.VampDeath)) {
+            uFlagData.add(new Pair<>(chr.getBuffedValue(CharacterTemporaryStat.VampDeath), 4));
+        }
+
+        for (Pair<Integer, Integer> nStats : uFlagData) {
+            if (nStats.right == 4) {
+                pw.writeInt(nStats.left);
+            } else if (nStats.right == 2) {
+                pw.writeShort(nStats.left);
+            } else if (nStats.right == 1) {
+                pw.write(nStats.left);
+            }
+        }
+        
+        chr.getStopForceAtomInfo().encode(pw);
+        pw.writeInt(0); //nViperEnergyCharged
+        
+        //for (TSIndex pIndex : TSIndex.values()) {
+        //    this.aTemporaryStat.get(pIndex.nIndex).encodeForClient(pw);
+       // }
+       encodeRemoteTwoStateTemporaryStat(pw, chr);
+        
+        if (chr.getBuffedValue(CharacterTemporaryStat.NewFlying) != null || aDefaultFlags.contains(CharacterTemporaryStat.NewFlying)) {
+            pw.writeInt(chr.getBuffedValue(CharacterTemporaryStat.NewFlying));
+        }
     }
 }

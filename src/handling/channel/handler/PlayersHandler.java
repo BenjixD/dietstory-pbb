@@ -35,7 +35,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.mina.common.WriteFuture;
 
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import client.MapleCharacter;
 import client.MapleClient;
 import client.MapleDisease;
@@ -1345,7 +1345,7 @@ public class PlayersHandler {
                     c.getSession().close();
                     return;
                 }
-                if (GameConstants.isIceKnightSkill(skillid) && chr.getBuffSource(MapleBuffStat.Morph) % 10000 != 1105) {
+                if (GameConstants.isIceKnightSkill(skillid) && chr.getBuffSource(CharacterTemporaryStat.Morph) % 10000 != 1105) {
                     return;
                 }
             }
@@ -1394,7 +1394,7 @@ public class PlayersHandler {
                     c.getSession().write(CWvsContext.enableActions());
                     return;
                 }
-                if ((skillid != 35111004 && skillid != 35121013) || chr.getBuffSource(MapleBuffStat.Mechanic) != skillid) { // Battleship
+                if ((skillid != 35111004 && skillid != 35121013) || chr.getBuffSource(CharacterTemporaryStat.Mechanic) != skillid) { // Battleship
                     c.getSession().write(CField.skillCooldown(skillid, effect.getCooldown(chr)));
                     chr.addCooldown(skillid, System.currentTimeMillis(), effect.getCooldown(chr) * 1000);
                 }     
@@ -1405,10 +1405,10 @@ public class PlayersHandler {
                 case 1111:
                 case 1112:
                     if (PlayerHandler.isFinisher(skillid) > 0) { // finisher
-                        if (chr.getBuffedValue(MapleBuffStat.ComboCounter) == null || chr.getBuffedValue(MapleBuffStat.ComboCounter) <= 2) {
+                        if (chr.getBuffedValue(CharacterTemporaryStat.ComboCounter) == null || chr.getBuffedValue(CharacterTemporaryStat.ComboCounter) <= 2) {
                             return;
                         }
-                        skillDamage *= (chr.getBuffedValue(MapleBuffStat.ComboCounter) - 1) / 2;
+                        skillDamage *= (chr.getBuffedValue(CharacterTemporaryStat.ComboCounter) - 1) / 2;
                         chr.handleOrbconsume(PlayerHandler.isFinisher(skillid));
                     }
                     break;
@@ -1442,7 +1442,7 @@ public class PlayersHandler {
             }
             box = MapleStatEffect.calculateBoundingBox(chr.getTruePosition(), facingLeft, lt, rb, chr.getStat().defRange);
         }
-        final MapleStatEffect shad = chr.getStatForBuff(MapleBuffStat.ShadowPartner);
+        final MapleStatEffect shad = chr.getStatForBuff(CharacterTemporaryStat.ShadowPartner);
         final int originalAttackCount = attackCount;
         attackCount *= (shad != null ? 2 : 1);
 
@@ -1455,7 +1455,7 @@ public class PlayersHandler {
             visProjectile = 2333000;
         } else if (GameConstants.isCannon(chr.getJob())) {
             visProjectile = 2333001;
-        } else if (!GameConstants.isMercedes(chr.getJob()) && chr.getBuffedValue(MapleBuffStat.SoulArrow) == null && slot > 0) {
+        } else if (!GameConstants.isMercedes(chr.getJob()) && chr.getBuffedValue(CharacterTemporaryStat.SoulArrow) == null && slot > 0) {
             Item ipp = chr.getInventory(MapleInventoryType.USE).getItem((short) slot);
             if (ipp == null) {
                 return;
@@ -1478,7 +1478,7 @@ public class PlayersHandler {
             for (MapleCharacter attacked : chr.getMap().getCharactersIntersect(box)) {
                 if (attacked.getId() != chr.getId() && attacked.isAlive() && !attacked.isHidden() && (type == 0 || attacked.getTeam() != chr.getTeam())) {
                     double rawDamage = maxdamage / Math.max(1, ((magic ? attacked.getStat().mdef : attacked.getStat().wdef) * Math.max(1.0, 100.0 - ignoreDEF) / 100.0) * (type == 3 ? 0.2 : 0.5));
-                    if (attacked.getBuffedValue(MapleBuffStat.INVINCIBILITY) != null || inArea(attacked)) {
+                    if (attacked.getBuffedValue(CharacterTemporaryStat.INVINCIBILITY) != null || inArea(attacked)) {
                         rawDamage = 0;
                     }
                     rawDamage *= attacked.getStat().mesoGuard / 100.0;
@@ -1522,11 +1522,11 @@ public class PlayersHandler {
                                 ourDamage *= (100.0 + (Randomizer.nextInt(Math.max(2, chr.getStat().passive_sharpeye_percent() - chr.getStat().passive_sharpeye_min_percent())) + chr.getStat().passive_sharpeye_min_percent())) / 100.0;
                                 critical_ = true;
                             }
-                            if (attacked.getBuffedValue(MapleBuffStat.MagicGuard) != null) {
-                                mploss = (int) Math.min(attacked.getStat().getMp(), (ourDamage * attacked.getBuffedValue(MapleBuffStat.MagicGuard).doubleValue() / 100.0));
+                            if (attacked.getBuffedValue(CharacterTemporaryStat.MagicGuard) != null) {
+                                mploss = (int) Math.min(attacked.getStat().getMp(), (ourDamage * attacked.getBuffedValue(CharacterTemporaryStat.MagicGuard).doubleValue() / 100.0));
                             }
                             ourDamage -= mploss;
-                            if (attacked.getBuffedValue(MapleBuffStat.Infinity) != null) {
+                            if (attacked.getBuffedValue(CharacterTemporaryStat.Infinity) != null) {
                                 mploss = 0;
                             }
                             attacks.add(new Pair<>((long) Math.floor(ourDamage), critical_));
@@ -1567,19 +1567,19 @@ public class PlayersHandler {
                         effect.handleExtraPVP(chr, attacked);
                     }
                     if (chr.getJob() == 121 || chr.getJob() == 122 || chr.getJob() == 2110 || chr.getJob() == 2111 || chr.getJob() == 2112) { // WHITEKNIGHT
-                        if (chr.getBuffSource(MapleBuffStat.WeaponCharge) == 1211006 || chr.getBuffSource(MapleBuffStat.WeaponCharge) == 21101006) {
-                            final MapleStatEffect eff = chr.getStatForBuff(MapleBuffStat.WeaponCharge);
+                        if (chr.getBuffSource(CharacterTemporaryStat.WeaponCharge) == 1211006 || chr.getBuffSource(CharacterTemporaryStat.WeaponCharge) == 21101006) {
+                            final MapleStatEffect eff = chr.getStatForBuff(CharacterTemporaryStat.WeaponCharge);
                             if (eff.makeChanceResult()) {
                                 attacked.giveDebuff(MapleDisease.FREEZE, 1, eff.getDuration(), MapleDisease.FREEZE.getDisease(), 1);
                             }
                         }
-                    } else if (chr.getBuffedValue(MapleBuffStat.IllusionStep) != null) {
-                        final MapleStatEffect eff = chr.getStatForBuff(MapleBuffStat.IllusionStep);
+                    } else if (chr.getBuffedValue(CharacterTemporaryStat.IllusionStep) != null) {
+                        final MapleStatEffect eff = chr.getStatForBuff(CharacterTemporaryStat.IllusionStep);
                         if (eff != null && eff.makeChanceResult()) {
                             attacked.giveDebuff(MapleDisease.SLOW, 100 - Math.abs(eff.getX()), eff.getDuration(), MapleDisease.SLOW.getDisease(), 1);
                         }
-                    } else if (chr.getBuffedValue(MapleBuffStat.Slow) != null) {
-                        final MapleStatEffect eff = chr.getStatForBuff(MapleBuffStat.Slow);
+                    } else if (chr.getBuffedValue(CharacterTemporaryStat.Slow) != null) {
+                        final MapleStatEffect eff = chr.getStatForBuff(CharacterTemporaryStat.Slow);
                         if (eff != null && eff.makeChanceResult()) {
                             attacked.giveDebuff(MapleDisease.SLOW, 100 - Math.abs(eff.getX()), eff.getDuration(), MapleDisease.SLOW.getDisease(), 1);
                         }

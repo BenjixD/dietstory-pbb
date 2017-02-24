@@ -1812,9 +1812,9 @@ public class PacketHelper {
             }
     }
     
-    public static void decodeForRemote(PacketWriter pw, MapleCharacter chr, Map<MapleBuffStat, MapleBuffStatValueHolder> statups) {
-    	for(Entry<MapleBuffStat, MapleBuffStatValueHolder> stats : statups.entrySet()) {
-			MapleBuffStat stat = stats.getKey();
+    public static void decodeForRemote(PacketWriter pw, MapleCharacter chr, Map<CharacterTemporaryStat, MapleBuffStatValueHolder> statups) {
+    	for(Entry<CharacterTemporaryStat, MapleBuffStatValueHolder> stats : statups.entrySet()) {
+			CharacterTemporaryStat stat = stats.getKey();
 			MapleBuffStatValueHolder mbsvh = stats.getValue();
 			
 			int value = mbsvh.value;
@@ -1825,753 +1825,753 @@ public class PacketHelper {
 			}
 			 
 
-			if (stat == MapleBuffStat.Speed) {
+			if (stat == CharacterTemporaryStat.Speed) {
 				pw.write(0);
 			}
 						
-			if (stat == MapleBuffStat.ComboCounter) {
+			if (stat == CharacterTemporaryStat.ComboCounter) {
 				pw.write(0);
 			}
 
-			if (stat == MapleBuffStat.WeaponCharge) {
+			if (stat == CharacterTemporaryStat.WeaponCharge) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.ElementalCharge) {
+			if (stat == CharacterTemporaryStat.ElementalCharge) {
 				pw.writeShort(0);
 			}
 
-			if (stat == MapleBuffStat.Stun) {
+			if (stat == CharacterTemporaryStat.Stun) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Shock) {
+			if (stat == CharacterTemporaryStat.Shock) {
 				pw.write(0);
 			}
 
-			if (stat == MapleBuffStat.Darkness) {
+			if (stat == CharacterTemporaryStat.Darkness) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Seal) {
+			if (stat == CharacterTemporaryStat.Seal) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Weakness) {
+			if (stat == CharacterTemporaryStat.Weakness) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 			
-			if (stat == MapleBuffStat.WeaknessMdamage) {
+			if (stat == CharacterTemporaryStat.WeaknessMdamage) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 			
-			if (stat == MapleBuffStat.Curse) {
+			if (stat == CharacterTemporaryStat.Curse) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 			
-			if (stat == MapleBuffStat.Slow) {
+			if (stat == CharacterTemporaryStat.Slow) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 			
-			if (stat == MapleBuffStat.PvPRaceEffect) {
+			if (stat == CharacterTemporaryStat.PvPRaceEffect) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 			
-			if (stat == MapleBuffStat.IceKnight) {
+			if (stat == CharacterTemporaryStat.IceKnight) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 			
-			if (stat == MapleBuffStat.TimeBomb) {
+			if (stat == CharacterTemporaryStat.TimeBomb) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 			
-			if (stat == MapleBuffStat.Team) {
+			if (stat == CharacterTemporaryStat.Team) {
 				pw.write(0);
 			}
 			
-			if (stat == MapleBuffStat.DisOrder) {
+			if (stat == CharacterTemporaryStat.DisOrder) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 			
-			if (stat == MapleBuffStat.Thread) {
+			if (stat == CharacterTemporaryStat.Thread) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 			
-			if (stat == MapleBuffStat.Poison) {
+			if (stat == CharacterTemporaryStat.Poison) {
 				pw.writeShort(0);
 			}
 
-			if (stat == MapleBuffStat.Poison) {
-				pw.writeShort(0);
-				pw.writeInt(0);
-			}
-
-			if (stat == MapleBuffStat.ShadowPartner) {
+			if (stat == CharacterTemporaryStat.Poison) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Morph) {
+			if (stat == CharacterTemporaryStat.ShadowPartner) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Ghost) {
-				pw.writeShort(0);
-			}
-
-			if (stat == MapleBuffStat.Attract) {
+			if (stat == CharacterTemporaryStat.Morph) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Magnet) {
+			if (stat == CharacterTemporaryStat.Ghost) {
+				pw.writeShort(0);
+			}
+
+			if (stat == CharacterTemporaryStat.Attract) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.MagnetArea) {
+			if (stat == CharacterTemporaryStat.Magnet) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.NoBulletConsume) {
-				pw.writeInt(0);
-			}
-
-			if (stat == MapleBuffStat.BanMap) {
+			if (stat == CharacterTemporaryStat.MagnetArea) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Barrier) {
+			if (stat == CharacterTemporaryStat.NoBulletConsume) {
+				pw.writeInt(0);
+			}
+
+			if (stat == CharacterTemporaryStat.BanMap) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.DojangShield) {
+			if (stat == CharacterTemporaryStat.Barrier) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.ReverseInput) {
+			if (stat == CharacterTemporaryStat.DojangShield) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.RespectPImmune) {
-				pw.writeInt(0);
-			}
-
-			if (stat == MapleBuffStat.RespectMImmune) {
-				pw.writeInt(0);
-			}
-
-			if (stat == MapleBuffStat.DefenseAtt) {
-				pw.writeInt(0);
-			}
-
-			if (stat == MapleBuffStat.DefenseState) {
-				pw.writeInt(0);
-			}
-
-			if (stat == MapleBuffStat.DojangBerserk) {
+			if (stat == CharacterTemporaryStat.ReverseInput) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.RepeatEffect) {
+			if (stat == CharacterTemporaryStat.RespectPImmune) {
+				pw.writeInt(0);
+			}
+
+			if (stat == CharacterTemporaryStat.RespectMImmune) {
+				pw.writeInt(0);
+			}
+
+			if (stat == CharacterTemporaryStat.DefenseAtt) {
+				pw.writeInt(0);
+			}
+
+			if (stat == CharacterTemporaryStat.DefenseState) {
+				pw.writeInt(0);
+			}
+
+			if (stat == CharacterTemporaryStat.DojangBerserk) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.StopPortion) {
+			if (stat == CharacterTemporaryStat.RepeatEffect) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.StopMotion) {
+			if (stat == CharacterTemporaryStat.StopPortion) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Fear) {
+			if (stat == CharacterTemporaryStat.StopMotion) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.MagicShield) {
-				pw.writeInt(0);
-			}
-
-			if (stat == MapleBuffStat.Frozen) {
+			if (stat == CharacterTemporaryStat.Fear) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Frozen2) {
+			if (stat == CharacterTemporaryStat.MagicShield) {
+				pw.writeInt(0);
+			}
+
+			if (stat == CharacterTemporaryStat.Frozen) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Web) {
+			if (stat == CharacterTemporaryStat.Frozen2) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.DrawBack) {
+			if (stat == CharacterTemporaryStat.Web) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.FinalCut) {
+			if (stat == CharacterTemporaryStat.DrawBack) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Cyclone) {
+			if (stat == CharacterTemporaryStat.FinalCut) {
+				pw.writeShort(0);
+				pw.writeInt(0);
+			}
+
+			if (stat == CharacterTemporaryStat.Cyclone) {
 				pw.write(0);
 			}
 
-			if (stat == MapleBuffStat.OnCapsule) {
+			if (stat == CharacterTemporaryStat.OnCapsule) {
 				pw.write(0);
 			}
 
-			if (stat == MapleBuffStat.Mechanic) {
+			if (stat == CharacterTemporaryStat.Mechanic) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Inflation) {
+			if (stat == CharacterTemporaryStat.Inflation) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Explosion) {
+			if (stat == CharacterTemporaryStat.Explosion) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.DarkTornado) {
+			if (stat == CharacterTemporaryStat.DarkTornado) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.AmplifyDamage) {
+			if (stat == CharacterTemporaryStat.AmplifyDamage) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.HideAttack) {
+			if (stat == CharacterTemporaryStat.HideAttack) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.DevilishPower) {
+			if (stat == CharacterTemporaryStat.DevilishPower) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.SpiritLink) {
+			if (stat == CharacterTemporaryStat.SpiritLink) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Event) {
+			if (stat == CharacterTemporaryStat.Event) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Event2) {
+			if (stat == CharacterTemporaryStat.Event2) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.DeathMark) {
+			if (stat == CharacterTemporaryStat.DeathMark) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.PainMark) {
+			if (stat == CharacterTemporaryStat.PainMark) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Lapidification) {
+			if (stat == CharacterTemporaryStat.Lapidification) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.VampDeath) {
+			if (stat == CharacterTemporaryStat.VampDeath) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.VampDeathSummon) {
+			if (stat == CharacterTemporaryStat.VampDeathSummon) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.VenomSnake) {
+			if (stat == CharacterTemporaryStat.VenomSnake) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.PyramidEffect) {
+			if (stat == CharacterTemporaryStat.PyramidEffect) {
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.KillingPoint) {
+			if (stat == CharacterTemporaryStat.KillingPoint) {
 				pw.write(0);
 			}
 
-			if (stat == MapleBuffStat.PinkbeanRollingGrade) {
+			if (stat == CharacterTemporaryStat.PinkbeanRollingGrade) {
 				pw.write(0);
 			}
 
-			if (stat == MapleBuffStat.IgnoreTargetDEF) {
+			if (stat == CharacterTemporaryStat.IgnoreTargetDEF) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Invisible) {
+			if (stat == CharacterTemporaryStat.Invisible) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Judgement) {
+			if (stat == CharacterTemporaryStat.Judgement) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 			
-			if (stat == MapleBuffStat.KeyDownAreaMoving) {
+			if (stat == CharacterTemporaryStat.KeyDownAreaMoving) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.StackBuff) {
+			if (stat == CharacterTemporaryStat.StackBuff) {
 				pw.writeShort(0);
 			}
 
-			if (stat == MapleBuffStat.BlessOfDarkness) {
+			if (stat == CharacterTemporaryStat.BlessOfDarkness) {
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Larkness) {
-				pw.writeShort(0);
-				pw.writeInt(0);
-			}
-
-			if (stat == MapleBuffStat.ReshuffleSwitch) {
+			if (stat == CharacterTemporaryStat.Larkness) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.SpecialAction) {
+			if (stat == CharacterTemporaryStat.ReshuffleSwitch) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.StopForceAtomInfo) {
+			if (stat == CharacterTemporaryStat.SpecialAction) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.SoulGazeCriDamR) {
+			if (stat == CharacterTemporaryStat.StopForceAtomInfo) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.PowerTransferGauge) {
+			if (stat == CharacterTemporaryStat.SoulGazeCriDamR) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.AffinitySlug) {
+			if (stat == CharacterTemporaryStat.PowerTransferGauge) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.SoulExalt) {
+			if (stat == CharacterTemporaryStat.AffinitySlug) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.HiddenPieceOn) {
+			if (stat == CharacterTemporaryStat.SoulExalt) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.SmashStack) {
+			if (stat == CharacterTemporaryStat.HiddenPieceOn) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.MobZoneState) {
+			if (stat == CharacterTemporaryStat.SmashStack) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.GiveMeHeal) {
+			if (stat == CharacterTemporaryStat.MobZoneState) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.TouchMe) {
+			if (stat == CharacterTemporaryStat.GiveMeHeal) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Contagion) {
+			if (stat == CharacterTemporaryStat.TouchMe) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Contagion) {
-				pw.writeInt(0);
-			}
-
-			if (stat == MapleBuffStat.ComboUnlimited) {
+			if (stat == CharacterTemporaryStat.Contagion) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.IgnorePCounter) {
+			if (stat == CharacterTemporaryStat.Contagion) {
+				pw.writeInt(0);
+			}
+
+			if (stat == CharacterTemporaryStat.ComboUnlimited) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.IgnoreAllCounter) {
+			if (stat == CharacterTemporaryStat.IgnorePCounter) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.IgnorePImmune) {
+			if (stat == CharacterTemporaryStat.IgnoreAllCounter) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.IgnoreAllImmune) {
+			if (stat == CharacterTemporaryStat.IgnorePImmune) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.FinalJudgement) {
+			if (stat == CharacterTemporaryStat.IgnoreAllImmune) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.KnightsAura) {
+			if (stat == CharacterTemporaryStat.FinalJudgement) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.IceAura) {
+			if (stat == CharacterTemporaryStat.KnightsAura) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.FireAura) {
+			if (stat == CharacterTemporaryStat.IceAura) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.HeavensDoor) {
+			if (stat == CharacterTemporaryStat.FireAura) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.DamAbsorbShield) {
+			if (stat == CharacterTemporaryStat.HeavensDoor) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.AntiMagicShell) {
+			if (stat == CharacterTemporaryStat.DamAbsorbShield) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.NotDamaged) {
+			if (stat == CharacterTemporaryStat.AntiMagicShell) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.BleedingToxin) {
+			if (stat == CharacterTemporaryStat.NotDamaged) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.WindBreakerFinal) {
+			if (stat == CharacterTemporaryStat.BleedingToxin) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.IgnoreMobDamR) {
+			if (stat == CharacterTemporaryStat.WindBreakerFinal) {
+				pw.writeShort(0);
+				pw.writeInt(0);
+			}
+
+			if (stat == CharacterTemporaryStat.IgnoreMobDamR) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 			
-			if (stat == MapleBuffStat.Asura) {
+			if (stat == CharacterTemporaryStat.Asura) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.UnityOfPower) {
+			if (stat == CharacterTemporaryStat.UnityOfPower) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Stimulate) {
+			if (stat == CharacterTemporaryStat.Stimulate) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.ReturnTeleport) {
-				pw.write(0);
-				pw.writeInt(0);
-			}
-
-			if (stat == MapleBuffStat.CapDebuff) {
-				pw.writeShort(0);
-				pw.writeInt(0);
-			}
-
-			if (stat == MapleBuffStat.OverloadCount) {
-				pw.writeShort(0);
-				pw.writeInt(0);
-			}
-
-			if (stat == MapleBuffStat.FireBomb) {
+			if (stat == CharacterTemporaryStat.ReturnTeleport) {
 				pw.write(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.SurplusSupply) {
+			if (stat == CharacterTemporaryStat.CapDebuff) {
+				pw.writeShort(0);
+				pw.writeInt(0);
+			}
+
+			if (stat == CharacterTemporaryStat.OverloadCount) {
+				pw.writeShort(0);
+				pw.writeInt(0);
+			}
+
+			if (stat == CharacterTemporaryStat.FireBomb) {
+				pw.write(0);
+				pw.writeInt(0);
+			}
+
+			if (stat == CharacterTemporaryStat.SurplusSupply) {
 				pw.write(0);
 			}
 
-			if (stat == MapleBuffStat.NewFlying) {	
+			if (stat == CharacterTemporaryStat.NewFlying) {	
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.NaviFlying) {
+			if (stat == CharacterTemporaryStat.NaviFlying) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.AmaranthGenerator) {
+			if (stat == CharacterTemporaryStat.AmaranthGenerator) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.CygnusElementSkill) {
+			if (stat == CharacterTemporaryStat.CygnusElementSkill) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.StrikerHyperElectric) {
+			if (stat == CharacterTemporaryStat.StrikerHyperElectric) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.EventPointAbsorb) {
+			if (stat == CharacterTemporaryStat.EventPointAbsorb) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.EventAssemble) {
+			if (stat == CharacterTemporaryStat.EventAssemble) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Albatross) {
+			if (stat == CharacterTemporaryStat.Albatross) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Translucence) {
+			if (stat == CharacterTemporaryStat.Translucence) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.PoseType) {
+			if (stat == CharacterTemporaryStat.PoseType) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.LightOfSpirit) {
+			if (stat == CharacterTemporaryStat.LightOfSpirit) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.ElementSoul) {
+			if (stat == CharacterTemporaryStat.ElementSoul) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.GlimmeringTime) {
+			if (stat == CharacterTemporaryStat.GlimmeringTime) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Reincarnation) {
+			if (stat == CharacterTemporaryStat.Reincarnation) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Beholder) {
+			if (stat == CharacterTemporaryStat.Beholder) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.QuiverCatridge) {
+			if (stat == CharacterTemporaryStat.QuiverCatridge) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.ArmorPiercing) {
+			if (stat == CharacterTemporaryStat.ArmorPiercing) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 			
-			if (stat == MapleBuffStat.ZeroAuraStr) {
+			if (stat == CharacterTemporaryStat.ZeroAuraStr) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.ZeroAuraSpd) {
+			if (stat == CharacterTemporaryStat.ZeroAuraSpd) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.ImmuneBarrier) {
+			if (stat == CharacterTemporaryStat.ImmuneBarrier) {
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.ImmuneBarrier) {
+			if (stat == CharacterTemporaryStat.ImmuneBarrier) {
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.FullSoulMP) {
+			if (stat == CharacterTemporaryStat.FullSoulMP) {
 				pw.writeInt(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.AntiMagicShell) {
+			if (stat == CharacterTemporaryStat.AntiMagicShell) {
 				pw.write(0);
 			}
 
-			if (stat == MapleBuffStat.Dance) {
+			if (stat == CharacterTemporaryStat.Dance) {
 				pw.writeInt(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.SpiritGuard) {
+			if (stat == CharacterTemporaryStat.SpiritGuard) {
 				pw.writeInt(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.ComboTempest) {
+			if (stat == CharacterTemporaryStat.ComboTempest) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.HalfstatByDebuff) {
+			if (stat == CharacterTemporaryStat.HalfstatByDebuff) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.ComplusionSlant) {
+			if (stat == CharacterTemporaryStat.ComplusionSlant) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.JaguarSummoned) {
+			if (stat == CharacterTemporaryStat.JaguarSummoned) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.BMageAura) {
+			if (stat == CharacterTemporaryStat.BMageAura) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.DarkLighting) {
+			if (stat == CharacterTemporaryStat.DarkLighting) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.AttackCountX) {
+			if (stat == CharacterTemporaryStat.AttackCountX) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.FireBarrier) {
+			if (stat == CharacterTemporaryStat.FireBarrier) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.KeyDownMoving) {
+			if (stat == CharacterTemporaryStat.KeyDownMoving) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.MichaelSoulLink) {
+			if (stat == CharacterTemporaryStat.MichaelSoulLink) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.KinesisPsychicEnergeShield) {
+			if (stat == CharacterTemporaryStat.KinesisPsychicEnergeShield) {
 				pw.writeInt(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.BladeStance) {
+			if (stat == CharacterTemporaryStat.BladeStance) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.BladeStance) {
+			if (stat == CharacterTemporaryStat.BladeStance) {
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Fever) {
+			if (stat == CharacterTemporaryStat.Fever) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.AdrenalinBoost) {
+			if (stat == CharacterTemporaryStat.AdrenalinBoost) {
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.RWBarrier) {
+			if (stat == CharacterTemporaryStat.RWBarrier) {
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.RWMagnumBlow) {
+			if (stat == CharacterTemporaryStat.RWMagnumBlow) {
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.Stigma) {
+			if (stat == CharacterTemporaryStat.Stigma) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.PoseType) {
+			if (stat == CharacterTemporaryStat.PoseType) {
 				pw.write(0);
 			}
 		}
@@ -2580,8 +2580,8 @@ public class PacketHelper {
 		pw.write(0); // nDefenseState
 		pw.write(0); // nPVPDamage
 		
-		for(Entry<MapleBuffStat, MapleBuffStatValueHolder> stats : statups.entrySet()) {
-			MapleBuffStat stat = stats.getKey();
+		for(Entry<CharacterTemporaryStat, MapleBuffStatValueHolder> stats : statups.entrySet()) {
+			CharacterTemporaryStat stat = stats.getKey();
 			MapleBuffStatValueHolder mbsvh = stats.getValue();
 			
 			int value = mbsvh.value;
@@ -2590,41 +2590,41 @@ public class PacketHelper {
 			if (mbsvh.effect != null)
 				buffid = (mbsvh.effect.isSkill() ? mbsvh.effect.getSourceId() : -mbsvh.effect.getSourceId());
 
-			if (stat == MapleBuffStat.ZeroAuraStr) {
+			if (stat == CharacterTemporaryStat.ZeroAuraStr) {
 				pw.write(0);
 			}
 
-			if (stat == MapleBuffStat.ZeroAuraSpd) {
+			if (stat == CharacterTemporaryStat.ZeroAuraSpd) {
 				pw.write(0);
 			}
 
-			if (stat == MapleBuffStat.BMageAura) {	
+			if (stat == CharacterTemporaryStat.BMageAura) {	
 				pw.write(0);
 			}
 
-			if (stat == MapleBuffStat.BattlePvP_Helena_Mark) {
+			if (stat == CharacterTemporaryStat.BattlePvP_Helena_Mark) {
 				pw.writeInt(0);
 				pw.writeInt(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.BattlePvP_LangE_Protection) {
+			if (stat == CharacterTemporaryStat.BattlePvP_LangE_Protection) {
 				pw.writeInt(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.MichaelSoulLink) {
+			if (stat == CharacterTemporaryStat.MichaelSoulLink) {
 				pw.writeInt(0);
 				pw.write(0);
 				pw.writeInt(0);
 				pw.writeInt(0);
 			}
 
-			if (stat == MapleBuffStat.AdrenalinBoost) {
+			if (stat == CharacterTemporaryStat.AdrenalinBoost) {
 				pw.write(0);
 			}
 
-			if (stat == MapleBuffStat.Stigma) {
+			if (stat == CharacterTemporaryStat.Stigma) {
 				pw.writeInt(0);
 			}
 		}

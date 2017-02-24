@@ -23,7 +23,7 @@ package handling.world;
 import java.io.Serializable;
 import java.util.Map;
 
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import server.MapleStatEffect;
 
 public class PlayerBuffValueHolder implements Serializable {
@@ -32,9 +32,9 @@ public class PlayerBuffValueHolder implements Serializable {
     public long startTime;
     public int localDuration, cid;
     public MapleStatEffect effect;
-    public Map<MapleBuffStat, Integer> statup;
+    public Map<CharacterTemporaryStat, Integer> statup;
 
-    public PlayerBuffValueHolder(final long startTime, final MapleStatEffect effect, final Map<MapleBuffStat, Integer> statup, int localDuration, int cid) {
+    public PlayerBuffValueHolder(final long startTime, final MapleStatEffect effect, final Map<CharacterTemporaryStat, Integer> statup, int localDuration, int cid) {
         this.startTime = startTime;
         this.effect = effect;
         this.statup = statup;

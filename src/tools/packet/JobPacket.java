@@ -4,7 +4,7 @@
  */
 package tools.packet;
 
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import client.MapleCharacter;
 import handling.SendPacketOpcode;
 import java.awt.Point;
@@ -24,7 +24,7 @@ public class JobPacket {
 
     public static class WindArcherPacket {
 
-        public static byte[] giveWindArcherBuff(int buffid, int bufflength, Map<MapleBuffStat, Integer> statups,
+        public static byte[] giveWindArcherBuff(int buffid, int bufflength, Map<CharacterTemporaryStat, Integer> statups,
                 MapleStatEffect effect, MapleCharacter chr) {
             PacketWriter pw = new PacketWriter();
             int skillLevel = chr.getSkillLevel(buffid);
@@ -371,9 +371,9 @@ public class JobPacket {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.TEMPORARY_STAT_SET.getValue());
-            Map<MapleBuffStat, Integer> statups = new EnumMap<>(MapleBuffStat.class);
-            statups.put(MapleBuffStat.DAMAGE_RATE, 0);
-            statups.put(MapleBuffStat.IndieDamR, 0);
+            Map<CharacterTemporaryStat, Integer> statups = new EnumMap<>(CharacterTemporaryStat.class);
+            statups.put(CharacterTemporaryStat.DAMAGE_RATE, 0);
+            statups.put(CharacterTemporaryStat.IndieDamR, 0);
             PacketHelper.writeBuffMask(pw, statups);
             for (int i = 0; i < 2; i++) {
                 pw.writeShort(bufflevel);
@@ -563,7 +563,7 @@ public class JobPacket {
             PacketWriter pw = new PacketWriter();
             pw.writeShort(SendPacketOpcode.TEMPORARY_STAT_SET.getValue());
 
-            PacketHelper.writeSingleMask(pw, MapleBuffStat.LUMINOUS_GAUGE);
+            PacketHelper.writeSingleMask(pw, CharacterTemporaryStat.LUMINOUS_GAUGE);
 
             pw.writeShort(1);
             pw.writeInt(skill); // 20040217
@@ -593,7 +593,7 @@ public class JobPacket {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.TEMPORARY_STAT_SET.getValue());
-            PacketHelper.writeSingleMask(pw, MapleBuffStat.SurplusSupply);
+            PacketHelper.writeSingleMask(pw, CharacterTemporaryStat.SurplusSupply);
 
             pw.writeShort(amount);
             pw.writeInt(30020232); // skill id
@@ -607,9 +607,9 @@ public class JobPacket {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.TEMPORARY_STAT_SET.getValue());
-            Map<MapleBuffStat, Integer> statups = new EnumMap<>(MapleBuffStat.class);
-            statups.put(MapleBuffStat.SurplusSupply, 0);
-            statups.put(MapleBuffStat.AmaranthGenerator, 0);
+            Map<CharacterTemporaryStat, Integer> statups = new EnumMap<>(CharacterTemporaryStat.class);
+            statups.put(CharacterTemporaryStat.SurplusSupply, 0);
+            statups.put(CharacterTemporaryStat.AmaranthGenerator, 0);
             PacketHelper.writeBuffMask(pw, statups);
 
             pw.writeShort(20); // gauge fill
@@ -773,7 +773,7 @@ public class JobPacket {
 
             pw.writeShort(SendPacketOpcode.TEMPORARY_STAT_SET.getValue());
 
-            PacketHelper.writeSingleMask(pw, MapleBuffStat.Larkness);
+            PacketHelper.writeSingleMask(pw, CharacterTemporaryStat.Larkness);
             pw.writeShort(3);
             pw.writeInt(0);
             pw.writeInt(2100000000);
@@ -789,7 +789,7 @@ public class JobPacket {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.TEMPORARY_STAT_SET.getValue());
-            PacketHelper.writeSingleMask(pw, MapleBuffStat.EXCEED);
+            PacketHelper.writeSingleMask(pw, CharacterTemporaryStat.EXCEED);
 
             pw.writeShort(amount);
             pw.writeInt(30010230); // skill id
@@ -805,7 +805,7 @@ public class JobPacket {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.TEMPORARY_STAT_SET.getValue());
-            PacketHelper.writeSingleMask(pw, MapleBuffStat.EXCEED_ATTACK);
+            PacketHelper.writeSingleMask(pw, CharacterTemporaryStat.EXCEED_ATTACK);
 
             pw.writeShort(amount);
             pw.writeInt(skill); // skill id
@@ -821,9 +821,9 @@ public class JobPacket {
 
             pw.writeShort(SendPacketOpcode.TEMPORARY_STAT_RESET.getValue());
 
-            Map<MapleBuffStat, Integer> statups = new EnumMap<>(MapleBuffStat.class);
-            statups.put(MapleBuffStat.EXCEED, 0);
-            statups.put(MapleBuffStat.EXCEED_ATTACK, 0);
+            Map<CharacterTemporaryStat, Integer> statups = new EnumMap<>(CharacterTemporaryStat.class);
+            statups.put(CharacterTemporaryStat.EXCEED, 0);
+            statups.put(CharacterTemporaryStat.EXCEED_ATTACK, 0);
             PacketHelper.writeBuffMask(pw, statups);
 
             return pw.getPacket();
@@ -836,10 +836,10 @@ public class JobPacket {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.TEMPORARY_STAT_SET.getValue());
-            Map<MapleBuffStat, Integer> statups = new EnumMap<>(MapleBuffStat.class);
-            statups.put(MapleBuffStat.IndieCr, 0);
-            statups.put(MapleBuffStat.MOON_STANCE2, 0);
-            statups.put(MapleBuffStat.WARRIOR_STANCE, 0);
+            Map<CharacterTemporaryStat, Integer> statups = new EnumMap<>(CharacterTemporaryStat.class);
+            statups.put(CharacterTemporaryStat.IndieCr, 0);
+            statups.put(CharacterTemporaryStat.MOON_STANCE2, 0);
+            statups.put(CharacterTemporaryStat.WARRIOR_STANCE, 0);
             PacketHelper.writeBuffMask(pw, statups);
 
             pw.writeShort(level);
@@ -868,10 +868,10 @@ public class JobPacket {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.TEMPORARY_STAT_SET.getValue());
-            Map<MapleBuffStat, Integer> statups = new EnumMap<>(MapleBuffStat.class);
-            statups.put(MapleBuffStat.Booster, 0);
-            statups.put(MapleBuffStat.IndieDamR, 0);
-            statups.put(MapleBuffStat.WARRIOR_STANCE, 0);
+            Map<CharacterTemporaryStat, Integer> statups = new EnumMap<>(CharacterTemporaryStat.class);
+            statups.put(CharacterTemporaryStat.Booster, 0);
+            statups.put(CharacterTemporaryStat.IndieDamR, 0);
+            statups.put(CharacterTemporaryStat.WARRIOR_STANCE, 0);
             PacketHelper.writeBuffMask(pw, statups);
 
             pw.writeShort(level);
@@ -902,10 +902,10 @@ public class JobPacket {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.TEMPORARY_STAT_SET.getValue());
-            Map<MapleBuffStat, Integer> statups = new EnumMap<>(MapleBuffStat.class);
-            statups.put(MapleBuffStat.IndieCr, 0);
-            statups.put(MapleBuffStat.MOON_STANCE2, 0);
-            statups.put(MapleBuffStat.EQUINOX_STANCE, 0);
+            Map<CharacterTemporaryStat, Integer> statups = new EnumMap<>(CharacterTemporaryStat.class);
+            statups.put(CharacterTemporaryStat.IndieCr, 0);
+            statups.put(CharacterTemporaryStat.MOON_STANCE2, 0);
+            statups.put(CharacterTemporaryStat.EQUINOX_STANCE, 0);
             PacketHelper.writeBuffMask(pw, statups);
 
             pw.writeShort(level);
@@ -933,10 +933,10 @@ public class JobPacket {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.TEMPORARY_STAT_SET.getValue());
-            Map<MapleBuffStat, Integer> statups = new EnumMap<>(MapleBuffStat.class);
-            statups.put(MapleBuffStat.Booster, 0);
-            statups.put(MapleBuffStat.IndieDamR, 0);
-            statups.put(MapleBuffStat.EQUINOX_STANCE, 0);
+            Map<CharacterTemporaryStat, Integer> statups = new EnumMap<>(CharacterTemporaryStat.class);
+            statups.put(CharacterTemporaryStat.Booster, 0);
+            statups.put(CharacterTemporaryStat.IndieDamR, 0);
+            statups.put(CharacterTemporaryStat.EQUINOX_STANCE, 0);
             PacketHelper.writeBuffMask(pw, statups);
 
             pw.writeShort(level);

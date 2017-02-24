@@ -4,7 +4,7 @@
  */
 package server.buffs.buffclasses.hero;
 
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import constants.GameConstants;
 import server.MapleStatEffect;
 import server.MapleStatInfo;
@@ -40,40 +40,40 @@ public class AranBuff extends AbstractBuffClass {
     public void handleBuff(MapleStatEffect eff, int skill) {
         switch (skill) {
             case 21001003: // Polearm Booster
-                eff.statups.put(MapleBuffStat.Booster, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.Booster, eff.info.get(MapleStatInfo.x));
                 break;
             case 21101006: // Snow Charge
-                eff.statups.put(MapleBuffStat.WeaponCharge, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.WeaponCharge, eff.info.get(MapleStatInfo.x));
                 break;
             case 21101005: // Combo Drain
-                eff.statups.put(MapleBuffStat.ComboDrain, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.ComboDrain, eff.info.get(MapleStatInfo.x));
                 break;
             case 21111001: // Might
-                eff.statups.put(MapleBuffStat.KnockBack, eff.info.get(MapleStatInfo.x));
-                eff.statups.put(MapleBuffStat.EPAD, eff.info.get(MapleStatInfo.epad));
-                eff.statups.put(MapleBuffStat.EPDD, eff.info.get(MapleStatInfo.epdd));
+                eff.statups.put(CharacterTemporaryStat.KnockBack, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.EPAD, eff.info.get(MapleStatInfo.epad));
+                eff.statups.put(CharacterTemporaryStat.EPDD, eff.info.get(MapleStatInfo.epdd));
                 break;
             case 21111009: // Combo Recharge
-                eff.statups.put(MapleBuffStat.ComboAbilityBuff, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.ComboAbilityBuff, eff.info.get(MapleStatInfo.x));
                 break;
             case 21111012: // Maha Blessing
-                eff.statups.put(MapleBuffStat.MAD, eff.info.get(MapleStatInfo.mad));
-                eff.statups.put(MapleBuffStat.PAD, eff.info.get(MapleStatInfo.pad));
+                eff.statups.put(CharacterTemporaryStat.MAD, eff.info.get(MapleStatInfo.mad));
+                eff.statups.put(CharacterTemporaryStat.PAD, eff.info.get(MapleStatInfo.pad));
                 break;
             case 21121007: // Combo Barrier
-                eff.statups.put(MapleBuffStat.ComboBarrier, eff.info.get(MapleStatInfo.x));
-                eff.statups.put(MapleBuffStat.MDD, eff.info.get(MapleStatInfo.mdd));
-                eff.statups.put(MapleBuffStat.PDD, eff.info.get(MapleStatInfo.pdd));
+                eff.statups.put(CharacterTemporaryStat.ComboBarrier, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.MDD, eff.info.get(MapleStatInfo.mdd));
+                eff.statups.put(CharacterTemporaryStat.PDD, eff.info.get(MapleStatInfo.pdd));
                 break;
             case 21121000: // Maple Warrior
-                eff.statups.put(MapleBuffStat.BasicStatUp, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.BasicStatUp, eff.info.get(MapleStatInfo.x));
                 break;
             case 21121054: // Unlimited Combo
-                eff.statups.put(MapleBuffStat.DEFAULT_BUFFSTAT, eff.info.get(MapleStatInfo.indieDamR));
+                eff.statups.put(CharacterTemporaryStat.DEFAULT_BUFFSTAT, eff.info.get(MapleStatInfo.indieDamR));
                 break;
             case 21121053: // Heroic Memories
-                eff.statups.put(MapleBuffStat.IncMaxDamage, eff.info.get(MapleStatInfo.indieMaxDamageOver));
-                eff.statups.put(MapleBuffStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));
+                eff.statups.put(CharacterTemporaryStat.IncMaxDamage, eff.info.get(MapleStatInfo.indieMaxDamageOver));
+                eff.statups.put(CharacterTemporaryStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));
                 break;
             default:
                 //System.out.println("Aran skill not coded: " + skill);

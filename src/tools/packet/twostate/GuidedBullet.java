@@ -1,12 +1,12 @@
 package tools.packet.twostate;
 
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import client.MapleCharacter;
 import tools.data.PacketWriter;
 
 public class GuidedBullet extends TemporaryStat {
 	
-	private final MapleBuffStat nBuff = MapleBuffStat.GuidedBullet;
+	private final CharacterTemporaryStat nBuff = CharacterTemporaryStat.GuidedBullet;
 	
 	@Override
 	public void encode(PacketWriter pw, MapleCharacter chr) {

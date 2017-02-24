@@ -28,7 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import client.MapleCharacter;
 import client.MapleClient;
 import client.MapleDisease;
@@ -151,7 +151,7 @@ public static final void MoveDragon(final LittleEndianAccessor slea, final Maple
             chr.unlockSummonsReadLock();
         }
         if (remove) {
-            chr.cancelEffectFromBuffStat(MapleBuffStat.PUPPET);
+            chr.cancelEffectFromBuffStat(CharacterTemporaryStat.PUPPET);
         }
     }
 
@@ -246,7 +246,7 @@ public static final void MoveDragon(final LittleEndianAccessor slea, final Maple
             chr.removeVisibleMapObject(summon);
             chr.removeSummon(summon);
             if (summon.getSkill() != 35121011) {
-                chr.cancelEffectFromBuffStat(MapleBuffStat.SUMMON);
+                chr.cancelEffectFromBuffStat(CharacterTemporaryStat.SUMMON);
             }
         }
     }
@@ -269,7 +269,7 @@ public static final void MoveDragon(final LittleEndianAccessor slea, final Maple
         c.getPlayer().removeVisibleMapObject(summon);
         c.getPlayer().removeSummon(summon);
         if (summon.getSkill() != 35121011) {
-            c.getPlayer().cancelEffectFromBuffStat(MapleBuffStat.SUMMON);
+            c.getPlayer().cancelEffectFromBuffStat(CharacterTemporaryStat.SUMMON);
             //TODO: Multi Summoning, must do something about hack buffstat
         }
     }
@@ -406,7 +406,7 @@ public static final void MoveDragon(final LittleEndianAccessor slea, final Maple
             final MapleCharacter attacked = (MapleCharacter) mo;
             if (attacked.getId() != chr.getId() && attacked.isAlive() && !attacked.isHidden() && (type == 0 || attacked.getTeam() != chr.getTeam())) {
                 double rawDamage = maxdamage / Math.max(0, ((magic ? attacked.getStat().mdef : attacked.getStat().wdef) * Math.max(1.0, 100.0 - ignoreDEF) / 100.0) * (type == 3 ? 0.1 : 0.25));
-                if (attacked.getBuffedValue(MapleBuffStat.INVINCIBILITY) != null || PlayersHandler.inArea(attacked)) {
+                if (attacked.getBuffedValue(CharacterTemporaryStat.INVINCIBILITY) != null || PlayersHandler.inArea(attacked)) {
                     rawDamage = 0;
                 }
                 rawDamage += (rawDamage * chr.getDamageIncrease(attacked.getId()) / 100.0);
@@ -424,11 +424,11 @@ public static final void MoveDragon(final LittleEndianAccessor slea, final Maple
                         //} else if (attacked.getLevel() > chr.getLevel() && Randomizer.nextInt(100) < (attacked.getLevel() - chr.getLevel())) {
                         //	ourDamage = 0;
                     }
-                    if (attacked.getBuffedValue(MapleBuffStat.MagicGuard) != null) {
-                        mploss = (int) Math.min(attacked.getStat().getMp(), (ourDamage * attacked.getBuffedValue(MapleBuffStat.MagicGuard).doubleValue() / 100.0));
+                    if (attacked.getBuffedValue(CharacterTemporaryStat.MagicGuard) != null) {
+                        mploss = (int) Math.min(attacked.getStat().getMp(), (ourDamage * attacked.getBuffedValue(CharacterTemporaryStat.MagicGuard).doubleValue() / 100.0));
                     }
                     ourDamage -= mploss;
-                    if (attacked.getBuffedValue(MapleBuffStat.Infinity) != null) {
+                    if (attacked.getBuffedValue(CharacterTemporaryStat.Infinity) != null) {
                         mploss = 0;
                     }
                     attacks.add(new Pair<>((long) Math.floor(ourDamage), false));
@@ -478,7 +478,7 @@ public static final void MoveDragon(final LittleEndianAccessor slea, final Maple
                 chr.removeVisibleMapObject(summon);
                 chr.removeSummon(summon);
                 if (summon.getSkill() != 35121011) {
-                    chr.cancelEffectFromBuffStat(MapleBuffStat.SUMMON);
+                    chr.cancelEffectFromBuffStat(CharacterTemporaryStat.SUMMON);
                 }
             }
         }

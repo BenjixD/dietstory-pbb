@@ -4,7 +4,7 @@
  */
 package server.buffs.buffclasses.adventurer;
 
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import constants.GameConstants;
 import server.MapleStatEffect;
 import server.MapleStatInfo;
@@ -48,47 +48,47 @@ public class BowmanBuff extends AbstractBuffClass {
     public void handleBuff(MapleStatEffect eff, int skill) {
         switch (skill) {
         case 3100010: // quiver cartridge
-        	eff.statups.put(MapleBuffStat.ExtremeArchery, eff.info.get(MapleStatInfo.x));
+        	eff.statups.put(CharacterTemporaryStat.ExtremeArchery, eff.info.get(MapleStatInfo.x));
         	break;
         case 3111011: // reckless hunt
-        	eff.statups.put(MapleBuffStat.BlessEnsenble, eff.info.get(MapleStatInfo.x));
-        	eff.statups.put(MapleBuffStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));
+        	eff.statups.put(CharacterTemporaryStat.BlessEnsenble, eff.info.get(MapleStatInfo.x));
+        	eff.statups.put(CharacterTemporaryStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));
         	break;
             case 3101002: //Bow Booster
             case 3201002: //Bow Booster
-                eff.statups.put(MapleBuffStat.Booster, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.Booster, eff.info.get(MapleStatInfo.x));
                 break;
             case 3101004: //SoulArrow bow
             case 3201004: //SoulArrow xbow
-                //eff.statups.put(MapleBuffStat.Concentration, eff.info.get(MapleStatInfo.epad));
-                eff.statups.put(MapleBuffStat.SoulArrow, eff.info.get(MapleStatInfo.x));
+                //eff.statups.put(CharacterTemporaryStat.Concentration, eff.info.get(MapleStatInfo.epad));
+                eff.statups.put(CharacterTemporaryStat.SoulArrow, eff.info.get(MapleStatInfo.x));
                 break;
             case 3211011: //PainKiller
-                eff.statups.put(MapleBuffStat.KeyDownAreaMoving, eff.info.get(MapleStatInfo.asrR));
-                eff.statups.put(MapleBuffStat.KeyDownAreaMoving, eff.info.get(MapleStatInfo.terR));
+                eff.statups.put(CharacterTemporaryStat.KeyDownAreaMoving, eff.info.get(MapleStatInfo.asrR));
+                eff.statups.put(CharacterTemporaryStat.KeyDownAreaMoving, eff.info.get(MapleStatInfo.terR));
                 break;
             case 3121000: //Maple Warrior
             case 3221000: //Maple Warrior
-                eff.statups.put(MapleBuffStat.BasicStatUp, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.BasicStatUp, eff.info.get(MapleStatInfo.x));
                 break;
             case 3121002: //Sharp Eyes
             case 3221002: //Sharp Eye
-            	eff.statups.put(MapleBuffStat.SharpEyes, eff.info.get(MapleStatInfo.y));
-            	eff.statups.put(MapleBuffStat.SharpEyes, eff.info.get(MapleStatInfo.x));
+            	eff.statups.put(CharacterTemporaryStat.SharpEyes, eff.info.get(MapleStatInfo.y));
+            	eff.statups.put(CharacterTemporaryStat.SharpEyes, eff.info.get(MapleStatInfo.x));
                 break;
             case 3121007: //Illusion Step
             case 3221006: //Illusion Step
-                eff.statups.put(MapleBuffStat.DEX, eff.info.get(MapleStatInfo.dex));
+                eff.statups.put(CharacterTemporaryStat.DEX, eff.info.get(MapleStatInfo.dex));
                 //add more
                 break;
             case 3121053: //Epic Adventure
             case 3221053: //Epic Adventure
-                eff.statups.put(MapleBuffStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));
-                eff.statups.put(MapleBuffStat.IncMaxDamage, eff.info.get(MapleStatInfo.indieMaxDamageOver));
+                eff.statups.put(CharacterTemporaryStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));
+                eff.statups.put(CharacterTemporaryStat.IncMaxDamage, eff.info.get(MapleStatInfo.indieMaxDamageOver));
                 break;
             case 3121054: //Consentration
-                eff.statups.put(MapleBuffStat.BOWMASTERHYPER, eff.info.get(MapleStatInfo.x));
-                eff.statups.put(MapleBuffStat.IndiePAD, eff.info.get(MapleStatInfo.indiePad));
+                eff.statups.put(CharacterTemporaryStat.BOWMASTERHYPER, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.IndiePAD, eff.info.get(MapleStatInfo.indiePad));
                 break;
             case 3221054: //BullsEye Shot
                 break;

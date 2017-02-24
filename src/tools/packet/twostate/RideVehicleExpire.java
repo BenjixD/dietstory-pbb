@@ -1,12 +1,12 @@
 package tools.packet.twostate;
 
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import client.MapleCharacter;
 import tools.data.PacketWriter;
 
 public class RideVehicleExpire extends TemporaryStat {
 	
-	private final MapleBuffStat nBuff = MapleBuffStat.RideVehicle;
+	private final CharacterTemporaryStat nBuff = CharacterTemporaryStat.RideVehicle;
 	
 	@Override
 	public void encode(PacketWriter pw, MapleCharacter chr) {

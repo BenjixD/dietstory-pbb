@@ -23,8 +23,7 @@ package script;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;

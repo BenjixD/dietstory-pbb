@@ -1,12 +1,12 @@
 package tools.packet.twostate;
 
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import client.MapleCharacter;
 import tools.data.PacketWriter;
 
 public class EnergyCharged extends TemporaryStat {
 
-	private final MapleBuffStat nBuff = MapleBuffStat.EnergyCharged;
+	private final CharacterTemporaryStat nBuff = CharacterTemporaryStat.EnergyCharged;
 	
 	@Override
 	public void encode(PacketWriter pw, MapleCharacter chr) {

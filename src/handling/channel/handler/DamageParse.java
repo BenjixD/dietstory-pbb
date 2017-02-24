@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import client.MapleCharacter;
 import client.MapleClient;
 import client.MonsterStatus;
@@ -60,7 +60,7 @@ public class DamageParse {
 				if ((player.getPyramidSubway() != null) && (player.getPyramidSubway().onSkillUse(player)))
 					;
 			} else if (GameConstants.isInflationSkill(attack.getSkillId())) {
-				if (player.getBuffedValue(MapleBuffStat.Inflation) != null)
+				if (player.getBuffedValue(CharacterTemporaryStat.Inflation) != null)
 					;
 			}
 		}
@@ -113,7 +113,7 @@ public class DamageParse {
 		int ShdowPartnerAttackPercentage = 0;
 		if ((attack_type == AttackType.RANGED_WITH_SHADOWPARTNER)
 				|| (attack_type == AttackType.NON_RANGED_WITH_MIRROR)) {
-			MapleStatEffect shadowPartnerEffect = player.getStatForBuff(MapleBuffStat.ShadowPartner);
+			MapleStatEffect shadowPartnerEffect = player.getStatForBuff(CharacterTemporaryStat.ShadowPartner);
 			if (shadowPartnerEffect != null) {
 				ShdowPartnerAttackPercentage += shadowPartnerEffect.getX();
 			}
@@ -247,7 +247,7 @@ public class DamageParse {
 					}
 				}
 
-				if (player.getBuffedValue(MapleBuffStat.PickPocket) != null) {
+				if (player.getBuffedValue(CharacterTemporaryStat.PickPocket) != null) {
 					switch (attack.getSkillId()) {
 					case 0:
 					case 4001334:
@@ -344,9 +344,9 @@ public class DamageParse {
 					case 21120006:
 					case 21120009:
 					case 21120010:
-						if ((player.getBuffedValue(MapleBuffStat.WeaponCharge) != null)
+						if ((player.getBuffedValue(CharacterTemporaryStat.WeaponCharge) != null)
 								&& (!monster.getStats().isBoss())) {
-							MapleStatEffect eff = player.getStatForBuff(MapleBuffStat.WeaponCharge);
+							MapleStatEffect eff = player.getStatForBuff(CharacterTemporaryStat.WeaponCharge);
 							if (eff != null) {
 								monster.applyStatus(
 										player, new MonsterStatusEffect(MonsterStatus.SPEED,
@@ -354,9 +354,9 @@ public class DamageParse {
 										false, eff.getY() * 1000, true, eff);
 							}
 						}
-						if ((player.getBuffedValue(MapleBuffStat.BodyPressure) != null)
+						if ((player.getBuffedValue(CharacterTemporaryStat.BodyPressure) != null)
 								&& (!monster.getStats().isBoss())) {
-							MapleStatEffect eff = player.getStatForBuff(MapleBuffStat.BodyPressure);
+							MapleStatEffect eff = player.getStatForBuff(CharacterTemporaryStat.BodyPressure);
 
 							if ((eff != null) && (eff.makeChanceResult())
 									&& (!monster.isBuffed(MonsterStatus.NEUTRALISE))) {
@@ -397,8 +397,8 @@ public class DamageParse {
 								monster.applyStatus(player, monsterStatusEffect, false, 10000L, false, null);
 							}
 						}
-						if (player.getBuffedValue(MapleBuffStat.Blind) != null) {
-							MapleStatEffect eff = player.getStatForBuff(MapleBuffStat.Blind);
+						if (player.getBuffedValue(CharacterTemporaryStat.Blind) != null) {
+							MapleStatEffect eff = player.getStatForBuff(CharacterTemporaryStat.Blind);
 
 							if ((eff != null) && (eff.makeChanceResult())) {
 								MonsterStatusEffect monsterStatusEffect = new MonsterStatusEffect(MonsterStatus.ACC,
@@ -407,8 +407,8 @@ public class DamageParse {
 							}
 						}
 
-						if (player.getBuffedValue(MapleBuffStat.IllusionStep) != null) {
-							MapleStatEffect eff = player.getStatForBuff(MapleBuffStat.IllusionStep);
+						if (player.getBuffedValue(CharacterTemporaryStat.IllusionStep) != null) {
+							MapleStatEffect eff = player.getStatForBuff(CharacterTemporaryStat.IllusionStep);
 
 							if ((eff != null) && (eff.makeChanceResult())) {
 								MonsterStatusEffect monsterStatusEffect = new MonsterStatusEffect(MonsterStatus.SPEED,
@@ -418,7 +418,7 @@ public class DamageParse {
 						}
 						if ((player.getJob() == 121) || (player.getJob() == 122)) {
 							Skill skill = SkillFactory.getSkill(1211006);
-							if (player.isBuffFrom(MapleBuffStat.WeaponCharge, skill)) {
+							if (player.isBuffFrom(CharacterTemporaryStat.WeaponCharge, skill)) {
 								MapleStatEffect eff = skill.getEffect(player.getTotalSkillLevel(skill));
 								MonsterStatusEffect monsterStatusEffect = new MonsterStatusEffect(MonsterStatus.FREEZE,
 										Integer.valueOf(1), skill.getId(), null, false);
@@ -439,7 +439,7 @@ public class DamageParse {
 		}
 
 		if (GameConstants.isLuminous(player.getJob())) {
-			if (player.getBuffedValue(MapleBuffStat.StackBuff) != 1)
+			if (player.getBuffedValue(CharacterTemporaryStat.StackBuff) != 1)
 				;
 			{
 				MapleStatEffect crescendo = SkillFactory.getSkill(27121005).getEffect(player.getSkillLevel(27121005));
@@ -593,7 +593,7 @@ public class DamageParse {
 
 			if ((player.getPyramidSubway() != null) && (player.getPyramidSubway().onSkillUse(player)));
 		} else if ((GameConstants.isInflationSkill(attack.getSkillId()))
-				&& (player.getBuffedValue(MapleBuffStat.Inflation) == null)) {
+				&& (player.getBuffedValue(CharacterTemporaryStat.Inflation) == null)) {
 			return;
 		}
 
@@ -605,7 +605,7 @@ public class DamageParse {
 		 */
 
 		PlayerStats stats = player.getStat();
-		// Element element = player.getBuffedValue(MapleBuffStat.ElementalReset) != null ? Element.NEUTRAL : theSkill.getElement();
+		// Element element = player.getBuffedValue(CharacterTemporaryStat.ElementalReset) != null ? Element.NEUTRAL : theSkill.getElement();
 
 		double MaxDamagePerHit = 0.0D;
 		long totDamage = 0;
@@ -695,8 +695,8 @@ public class DamageParse {
 			// if (monster.isBuffed(MonsterStatus.MAGIC_DAMAGE_REFLECT)) {
 			// player.addHP(-(7000 + Randomizer.nextInt(8000)));
 			// }
-			// if (player.getBuffedValue(MapleBuffStat.Slow) != null) {
-			// MapleStatEffect eff = player.getStatForBuff(MapleBuffStat.Slow);
+			// if (player.getBuffedValue(CharacterTemporaryStat.Slow) != null) {
+			// MapleStatEffect eff = player.getStatForBuff(CharacterTemporaryStat.Slow);
 			//
 			// if ((eff != null) && (eff.makeChanceResult()) &&
 			// (!monster.isBuffed(MonsterStatus.SPEED))) {
@@ -835,7 +835,7 @@ public class DamageParse {
 	}
 
 	private static void handlePickPocket(MapleCharacter player, MapleMonster mob, AttackPair oned) {
-		int maxmeso = player.getBuffedValue(MapleBuffStat.PickPocket).intValue();
+		int maxmeso = player.getBuffedValue(CharacterTemporaryStat.PickPocket).intValue();
 
 		for (Pair eachde : oned.attack) {
 			Long eachd = (Long) eachde.left;
@@ -961,8 +961,8 @@ public class DamageParse {
 			}
 		}
 		if ((!defined) || ((theSkill != null) && ((theSkill.getId() == 33101001) || (theSkill.getId() == 3221001)))) {
-			if (player.getBuffedValue(MapleBuffStat.WeaponCharge) != null) {
-				int chargeSkillId = player.getBuffSource(MapleBuffStat.WeaponCharge);
+			if (player.getBuffedValue(CharacterTemporaryStat.WeaponCharge) != null) {
+				int chargeSkillId = player.getBuffSource(CharacterTemporaryStat.WeaponCharge);
 
 				switch (chargeSkillId) {
 				case 1211003:
@@ -989,10 +989,10 @@ public class DamageParse {
 
 			}
 
-			if (player.getBuffedValue(MapleBuffStat.AssistCharge) != null) {
+			if (player.getBuffedValue(CharacterTemporaryStat.AssistCharge) != null) {
 				elements.add(Element.LIGHTING);
 			}
-			if (player.getBuffedValue(MapleBuffStat.ElementalReset) != null) {
+			if (player.getBuffedValue(CharacterTemporaryStat.ElementalReset) != null) {
 				elements.clear();
 			}
 			double elementalEffect;
@@ -1073,7 +1073,7 @@ public class DamageParse {
 		List damage;
 		if ((attack.getSkillId() != 4211006) && (attack.getSkillId() != 3211003) && (attack.getSkillId() != 4111004)) {
 			CriticalRate = chr.getStat().passive_sharpeye_rate() + (effect == null ? 0 : effect.getCr());
-			shadow = (chr.getBuffedValue(MapleBuffStat.ShadowPartner) != null) && ((type == 1) || (type == 2));
+			shadow = (chr.getBuffedValue(CharacterTemporaryStat.ShadowPartner) != null) && ((type == 1) || (type == 2));
 			damages = new ArrayList();
 			damage = new ArrayList();
 

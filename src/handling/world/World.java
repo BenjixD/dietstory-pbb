@@ -18,7 +18,7 @@ import client.BuddyList;
 import client.BuddyList.BuddyAddResult;
 import client.BuddyList.BuddyOperation;
 import client.BuddylistEntry;
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import client.MapleCharacter;
 import client.MapleCoolDownValueHolder;
 import client.MapleDiseaseValueHolder;
@@ -1681,7 +1681,7 @@ public class World {
                 if (chr.getMapId() == 749040100 && chr.getInventory(MapleInventoryType.CASH).findById(5451000) == null) { //minidungeon
                     chr.addHP(-chr.getMap().getHPDec());
                 } else if (chr.getMapId() != 749040100) {
-                    chr.addHP(-(chr.getMap().getHPDec() - (chr.getBuffedValue(MapleBuffStat.Thaw) == null ? 0 : chr.getBuffedValue(MapleBuffStat.Thaw).intValue())));
+                    chr.addHP(-(chr.getMap().getHPDec() - (chr.getBuffedValue(CharacterTemporaryStat.Thaw) == null ? 0 : chr.getBuffedValue(CharacterTemporaryStat.Thaw).intValue())));
                 }
             }
         }

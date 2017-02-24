@@ -20,7 +20,7 @@
  */
 package constants;
 
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import client.MapleCharacter;
 import client.MapleClient;
 import client.MapleJob;
@@ -4505,7 +4505,7 @@ public class GameConstants {
 		return 0;
 	}
 
-	public static boolean isSpecialStackBuff(MapleBuffStat stat) {
+	public static boolean isSpecialStackBuff(CharacterTemporaryStat stat) {
 		switch (stat) {
 		case WARRIOR_STANCE:
 		case PARASHOCK_GUARD:
@@ -4979,5 +4979,5 @@ public class GameConstants {
 				return Equip.LEGENDARY;
 		}
 	}
-
+        public static final int CFlagSize = 18;
 }

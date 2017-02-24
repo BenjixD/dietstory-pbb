@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import client.MapleCharacter;
 import client.MapleClient;
 import client.MapleTrait.MapleTraitType;
@@ -881,15 +881,15 @@ public class MapleInventoryManipulator {
         chr.getInventory(MapleInventoryType.EQUIP).addFromDB(target);
     }
     if (GameConstants.isWeapon(source.getItemId())) {
-        c.getPlayer().cancelEffectFromBuffStat(MapleBuffStat.Booster);
-        c.getPlayer().cancelEffectFromBuffStat(MapleBuffStat.NoBulletConsume);
-        c.getPlayer().cancelEffectFromBuffStat(MapleBuffStat.SoulArrow);
-        c.getPlayer().cancelEffectFromBuffStat(MapleBuffStat.WeaponCharge);
-        c.getPlayer().cancelEffectFromBuffStat(MapleBuffStat.AssistCharge);
+        c.getPlayer().cancelEffectFromBuffStat(CharacterTemporaryStat.Booster);
+        c.getPlayer().cancelEffectFromBuffStat(CharacterTemporaryStat.NoBulletConsume);
+        c.getPlayer().cancelEffectFromBuffStat(CharacterTemporaryStat.SoulArrow);
+        c.getPlayer().cancelEffectFromBuffStat(CharacterTemporaryStat.WeaponCharge);
+        c.getPlayer().cancelEffectFromBuffStat(CharacterTemporaryStat.AssistCharge);
     }
     if (source.getItemId() / 10000 == 190 || source.getItemId() / 10000 == 191) {
-        c.getPlayer().cancelEffectFromBuffStat(MapleBuffStat.RideVehicle);
-        c.getPlayer().cancelEffectFromBuffStat(MapleBuffStat.Mechanic);
+        c.getPlayer().cancelEffectFromBuffStat(CharacterTemporaryStat.RideVehicle);
+        c.getPlayer().cancelEffectFromBuffStat(CharacterTemporaryStat.Mechanic);
     } else if (source.getItemId() == 1122017) {
         chr.startFairySchedule(true, true);
     }
@@ -946,14 +946,14 @@ public class MapleInventoryManipulator {
         }
 
         if (GameConstants.isWeapon(source.getItemId())) {
-            c.getPlayer().cancelEffectFromBuffStat(MapleBuffStat.Booster);
-            c.getPlayer().cancelEffectFromBuffStat(MapleBuffStat.NoBulletConsume);
-            c.getPlayer().cancelEffectFromBuffStat(MapleBuffStat.SoulArrow);
-            c.getPlayer().cancelEffectFromBuffStat(MapleBuffStat.WeaponCharge);
-            c.getPlayer().cancelEffectFromBuffStat(MapleBuffStat.AssistCharge);
+            c.getPlayer().cancelEffectFromBuffStat(CharacterTemporaryStat.Booster);
+            c.getPlayer().cancelEffectFromBuffStat(CharacterTemporaryStat.NoBulletConsume);
+            c.getPlayer().cancelEffectFromBuffStat(CharacterTemporaryStat.SoulArrow);
+            c.getPlayer().cancelEffectFromBuffStat(CharacterTemporaryStat.WeaponCharge);
+            c.getPlayer().cancelEffectFromBuffStat(CharacterTemporaryStat.AssistCharge);
         } else if (source.getItemId() / 10000 == 190 || source.getItemId() / 10000 == 191) {
-            c.getPlayer().cancelEffectFromBuffStat(MapleBuffStat.RideVehicle);
-            c.getPlayer().cancelEffectFromBuffStat(MapleBuffStat.Mechanic);
+            c.getPlayer().cancelEffectFromBuffStat(CharacterTemporaryStat.RideVehicle);
+            c.getPlayer().cancelEffectFromBuffStat(CharacterTemporaryStat.Mechanic);
         } else if (source.getItemId() / 10000 == 166 || source.getItemId() / 10000 == 167) {
             c.getPlayer().removeAndroid();
         } else if (src <= -1300 && c.getPlayer().getAndroid() != null) {

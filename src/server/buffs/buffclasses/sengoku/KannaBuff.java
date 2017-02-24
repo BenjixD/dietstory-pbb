@@ -1,6 +1,6 @@
 package server.buffs.buffclasses.sengoku;
 
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import constants.GameConstants;
 import server.MapleStatEffect;
 import server.MapleStatInfo;
@@ -45,46 +45,46 @@ public class KannaBuff extends AbstractBuffClass  {
     public void handleBuff(MapleStatEffect eff, int skill) {
         switch (skill) {
             case 42101023: // Breath of the Unseen - HiddenBuff?
-                eff.statups.put(MapleBuffStat.IgnoreTargetDEF, eff.info.get(MapleStatInfo.x));
-                eff.statups.put(MapleBuffStat.Stance, eff.info.get(MapleStatInfo.prop));
+                eff.statups.put(CharacterTemporaryStat.IgnoreTargetDEF, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.Stance, eff.info.get(MapleStatInfo.prop));
                 break;
             case 42101021: // Foxfire -HiddenBuff
-                eff.statups.put(MapleBuffStat.FOX_FIRE, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.FOX_FIRE, eff.info.get(MapleStatInfo.x));
              case 42121021:// Foxfire
              case 42101001:// Shikigami Charm
              case 42100010:
-                 eff.statups.put(MapleBuffStat.SUMMON, 1);
+                 eff.statups.put(CharacterTemporaryStat.SUMMON, 1);
                  break;
              case 42101022: // Haku's Blessing
-                 eff.statups.put(MapleBuffStat.HAKU_BLESS, eff.info.get(MapleStatInfo.x));
-                 eff.statups.put(MapleBuffStat.WDEF_BOOST, eff.info.get(MapleStatInfo.indiePdd));
-                 eff.statups.put(MapleBuffStat.MDEF_BOOST, eff.info.get(MapleStatInfo.indieMdd));
+                 eff.statups.put(CharacterTemporaryStat.HAKU_BLESS, eff.info.get(MapleStatInfo.x));
+                 eff.statups.put(CharacterTemporaryStat.WDEF_BOOST, eff.info.get(MapleStatInfo.indiePdd));
+                 eff.statups.put(CharacterTemporaryStat.MDEF_BOOST, eff.info.get(MapleStatInfo.indieMdd));
                  break;
             case 42101002: // Haku Reborn
-                eff.statups.put(MapleBuffStat.HAKU_REBORN, Integer.valueOf(1));
+                eff.statups.put(CharacterTemporaryStat.HAKU_REBORN, Integer.valueOf(1));
                 break;
             case 42101003: // Radiant Peacock
-                eff.statups.put(MapleBuffStat.Booster, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.Booster, eff.info.get(MapleStatInfo.x));
                 break;
             
             case 42121006: // Maple Warrior
-                eff.statups.put(MapleBuffStat.BasicStatUp, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.BasicStatUp, eff.info.get(MapleStatInfo.x));
                 break;
             case 42121054: // Blackhearted Curse
                 //TODO
                 break;
             case 42121053: // Princess's Vow
-                eff.statups.put(MapleBuffStat.IncMaxDamage, eff.info.get(MapleStatInfo.indieMaxDamageOver));
-                eff.statups.put(MapleBuffStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));
+                eff.statups.put(CharacterTemporaryStat.IncMaxDamage, eff.info.get(MapleStatInfo.indieMaxDamageOver));
+                eff.statups.put(CharacterTemporaryStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));
                 break;
             case 42101004: // Burning Shikigami Haunting
             case 42111006: // Frozen Shikigami Haunting
             case 42121008: // Mighty Shikigami Haunting
-                    eff.statups.put(MapleBuffStat.SHIKIGAMI, Integer.valueOf(-eff.info.get(MapleStatInfo.x).intValue()));
+                    eff.statups.put(CharacterTemporaryStat.SHIKIGAMI, Integer.valueOf(-eff.info.get(MapleStatInfo.x).intValue()));
                     break;
             case 42111003: // Kishin Shoukan
                 eff.info.put(MapleStatInfo.time, Integer.valueOf(60000));
-                eff.statups.put(MapleBuffStat.SUMMON, Integer.valueOf(1));
+                eff.statups.put(CharacterTemporaryStat.SUMMON, Integer.valueOf(1));
                 break;
             default:
                 //System.out.println("Kanna skill not coded: " + skill);

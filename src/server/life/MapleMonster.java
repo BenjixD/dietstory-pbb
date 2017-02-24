@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import client.MapleCharacter;
 import client.MapleClient;
 import client.MapleDisease;
@@ -396,7 +396,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
             if (ms != null) {
                 exp += (int) (exp * (ms.getX() / 100.0));
             }
-            final Integer holySymbol = attacker.getBuffedValue(MapleBuffStat.HolySymbol);
+            final Integer holySymbol = attacker.getBuffedValue(CharacterTemporaryStat.HolySymbol);
             if (holySymbol != null) {
                 exp *= 1.0 + (holySymbol.doubleValue() / 100.0);
             }

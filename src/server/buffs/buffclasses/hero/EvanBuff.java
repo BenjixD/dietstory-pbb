@@ -4,7 +4,7 @@
  */
 package server.buffs.buffclasses.hero;
 
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import constants.GameConstants;
 import server.MapleStatEffect;
 import server.MapleStatInfo;
@@ -42,45 +42,45 @@ public class EvanBuff extends AbstractBuffClass  {
     public void handleBuff(MapleStatEffect eff, int skill) {
         switch (skill) {
             case 22111001: // Magic Guard
-                eff.statups.put(MapleBuffStat.MagicGuard, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.MagicGuard, eff.info.get(MapleStatInfo.x));
                 break;
             case 22131001: // Magic Shield
-                eff.statups.put(MapleBuffStat.MagicShield, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.MagicShield, eff.info.get(MapleStatInfo.x));
                 break;
             case 22131002: // Elemental Decrease
-                eff.statups.put(MapleBuffStat.Slow, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.Slow, eff.info.get(MapleStatInfo.x));
                 break;
             case 22141002: // Magic Booster
-                eff.statups.put(MapleBuffStat.Booster, eff.info.get(MapleStatInfo.x) * 2);
+                eff.statups.put(CharacterTemporaryStat.Booster, eff.info.get(MapleStatInfo.x) * 2);
                 break;
             case 22151003: // Magic Resistance
-                eff.statups.put(MapleBuffStat.MagicResistance, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.MagicResistance, eff.info.get(MapleStatInfo.x));
                 break;
             case 22161004: // Onyx Shroud
-                eff.statups.put(MapleBuffStat.OnyxDivineProtection, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.OnyxDivineProtection, eff.info.get(MapleStatInfo.x));
                 break;
             case 322171000: // Maple Warrior
-                eff.statups.put(MapleBuffStat.BasicStatUp, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.BasicStatUp, eff.info.get(MapleStatInfo.x));
                 break;
             case 22181003: // Soul Stone
-                eff.statups.put(MapleBuffStat.SoulStone, 1);
+                eff.statups.put(CharacterTemporaryStat.SoulStone, 1);
                 break;
             case 22181004: // Onyx Will
-                eff.statups.put(MapleBuffStat.ONYX_WILL, eff.info.get(MapleStatInfo.damage));
-                eff.statups.put(MapleBuffStat.Stance, eff.info.get(MapleStatInfo.prop));
+                eff.statups.put(CharacterTemporaryStat.ONYX_WILL, eff.info.get(MapleStatInfo.damage));
+                eff.statups.put(CharacterTemporaryStat.Stance, eff.info.get(MapleStatInfo.prop));
                 break;
             case 22181000: // Blessing of the Onyx
-                eff.statups.put(MapleBuffStat.EMAD, eff.info.get(MapleStatInfo.emad));
-                eff.statups.put(MapleBuffStat.EPDD, eff.info.get(MapleStatInfo.epdd));
-            //    eff.statups.put(MapleBuffStat.EMDD, eff.info.get(MapleStatInfo.emdd));
+                eff.statups.put(CharacterTemporaryStat.EMAD, eff.info.get(MapleStatInfo.emad));
+                eff.statups.put(CharacterTemporaryStat.EPDD, eff.info.get(MapleStatInfo.epdd));
+            //    eff.statups.put(CharacterTemporaryStat.EMDD, eff.info.get(MapleStatInfo.emdd));
                 break;
             case 22171054: // Frenzied Soul
-                eff.statups.put(MapleBuffStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));
-                eff.statups.put(MapleBuffStat.OnyxDivineProtection, eff.info.get(MapleStatInfo.x));//guessed???
+                eff.statups.put(CharacterTemporaryStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));
+                eff.statups.put(CharacterTemporaryStat.OnyxDivineProtection, eff.info.get(MapleStatInfo.x));//guessed???
                 break;
             case 22171053: // Heroic Memories
-                eff.statups.put(MapleBuffStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));
-                eff.statups.put(MapleBuffStat.IncMaxDamage, eff.info.get(MapleStatInfo.indieMaxDamageOver));
+                eff.statups.put(CharacterTemporaryStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));
+                eff.statups.put(CharacterTemporaryStat.IncMaxDamage, eff.info.get(MapleStatInfo.indieMaxDamageOver));
                 break;
             default:
                 //System.out.println("Evan skill not coded: " + skill);

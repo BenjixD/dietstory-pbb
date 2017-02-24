@@ -20,7 +20,7 @@
  */
 package client.inventory;
 
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import client.MapleCharacter;
 import net.DatabaseConnection;
 
@@ -112,7 +112,7 @@ public class MapleMount implements Serializable {
         changed = true;
         this.fatigue++;
         if (fatigue > 100 && owner.get() != null) {
-            owner.get().cancelEffectFromBuffStat(MapleBuffStat.RideVehicle);
+            owner.get().cancelEffectFromBuffStat(CharacterTemporaryStat.RideVehicle);
         }
         update();
     }

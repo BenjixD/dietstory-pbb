@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import client.BuddylistEntry;
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import client.MapleCharacter;
 import client.MapleClient;
 import client.MapleDisease;
@@ -2095,7 +2095,7 @@ public class CWvsContext {
         PacketWriter pw = new PacketWriter();
 
         pw.writeShort(SendPacketOpcode.TEMPORARY_STAT_SET.getValue());
-        PacketHelper.writeSingleMask(pw, MapleBuffStat.KILL_COUNT);
+        PacketHelper.writeSingleMask(pw, CharacterTemporaryStat.KILL_COUNT);
 //        pw.writeInt(0);
 //        pw.write(0);
 //        pw.writeInt(x);
@@ -3242,7 +3242,7 @@ public class CWvsContext {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.TEMPORARY_STAT_SET.getValue());
-            PacketHelper.writeSingleMask(pw, MapleBuffStat.StopForceAtomInfo);
+            PacketHelper.writeSingleMask(pw, CharacterTemporaryStat.StopForceAtomInfo);
             pw.writeShort(0);
             pw.write(0);
             pw.writeInt(1);
@@ -3256,10 +3256,10 @@ public class CWvsContext {
             return pw.getPacket();
         }
 
-      public static byte[] giveMount(int buffid, int skillid, Map<MapleBuffStat, Integer> statups) {
+      public static byte[] giveMount(int buffid, int skillid, Map<CharacterTemporaryStat, Integer> statups) {
         PacketWriter pw =new PacketWriter();
         pw.writeShort(SendPacketOpcode.TEMPORARY_STAT_SET.getValue());
-        pw.writeLong(MapleBuffStat.RideVehicle.getValue());
+        pw.writeLong(CharacterTemporaryStat.RideVehicle.getValue());
         pw.writeLong(0);
         pw.writeLong(0);
         pw.writeLong(0);
@@ -3287,11 +3287,11 @@ public class CWvsContext {
     }
         
       
-    public static byte[] showMonsterRiding(int cid, Map<MapleBuffStat, Integer> statups, int buffid, int skillId) {
+    public static byte[] showMonsterRiding(int cid, Map<CharacterTemporaryStat, Integer> statups, int buffid, int skillId) {
          PacketWriter pw =new PacketWriter();
         pw.writeShort(SendPacketOpcode.SET_TEMPORARY_STAT_REMOTE.getValue());
         pw.writeInt(cid);
-        pw.writeLong(MapleBuffStat.RideVehicle.getValue());
+        pw.writeLong(CharacterTemporaryStat.RideVehicle.getValue());
         pw.writeLong(0);
         pw.writeLong(0);
         pw.writeLong(0);
@@ -3302,11 +3302,11 @@ public class CWvsContext {
         return pw.getPacket();
     }
 
-        public static byte[] givePirate(Map<MapleBuffStat, Integer> statups, int duration, int skillid) {
+        public static byte[] givePirate(Map<CharacterTemporaryStat, Integer> statups, int duration, int skillid) {
             return giveForeignPirate(statups, duration, -1, skillid);
         }
 
-        public static byte[] giveForeignPirate(Map<MapleBuffStat, Integer> statups, int duration, int cid, int skillid) {
+        public static byte[] giveForeignPirate(Map<CharacterTemporaryStat, Integer> statups, int duration, int cid, int skillid) {
             final boolean infusion = skillid == 5121009 || skillid == 15111005;
             PacketWriter pw = new PacketWriter();
 
@@ -3331,7 +3331,7 @@ public class CWvsContext {
         public static byte[] giveArcane(int skillid, Map<Integer, Integer> statups) {
             PacketWriter pw = new PacketWriter();
             pw.writeShort(SendPacketOpcode.TEMPORARY_STAT_SET.getValue());
-            PacketHelper.writeSingleMask(pw, MapleBuffStat.ArcaneAim);
+            PacketHelper.writeSingleMask(pw, CharacterTemporaryStat.ArcaneAim);
             pw.writeShort(statups.size());
             pw.writeInt(skillid);
             pw.writeInt(5000);
@@ -3361,7 +3361,7 @@ public class CWvsContext {
                 pw.writeShort(SendPacketOpcode.SET_TEMPORARY_STAT_REMOTE.getValue());
                 pw.writeInt(cid);
             }
-            PacketHelper.writeSingleMask(pw, MapleBuffStat.EnergyCharged);
+            PacketHelper.writeSingleMask(pw, CharacterTemporaryStat.EnergyCharged);
             pw.writeShort(0);
             pw.write(0);
             pw.writeInt(Math.min(bar, 10000));
@@ -3375,8 +3375,8 @@ public class CWvsContext {
         }
         
         public static byte[] giveDice(int buffid, int bufflength, int roll) {
-        	EnumMap<MapleBuffStat, Integer> statups = new EnumMap<MapleBuffStat, Integer>(MapleBuffStat.class);
-            statups.put(MapleBuffStat.Dice, roll);
+        	EnumMap<CharacterTemporaryStat, Integer> statups = new EnumMap<CharacterTemporaryStat, Integer>(CharacterTemporaryStat.class);
+            statups.put(CharacterTemporaryStat.Dice, roll);
             
             int[] dice = new int[22];
     		int num = ((roll & 1) > 0 ? 5 : 15);
@@ -3405,17 +3405,17 @@ public class CWvsContext {
          * @return
          */
         public static byte[] giveBuff(MapleStatEffect effect, int amount) {
-        	EnumMap<MapleBuffStat, Integer> statups = new EnumMap<MapleBuffStat, Integer>(MapleBuffStat.class);
-            statups.put(MapleBuffStat.SmashStack, amount);
+        	EnumMap<CharacterTemporaryStat, Integer> statups = new EnumMap<CharacterTemporaryStat, Integer>(CharacterTemporaryStat.class);
+            statups.put(CharacterTemporaryStat.SmashStack, amount);
             
         	return giveBuff(0, 0, statups, effect, null);
         }
         
-        public static byte[] giveBuff(int buffid, int bufflength, Map<MapleBuffStat, Integer> statups, MapleStatEffect effect) {
+        public static byte[] giveBuff(int buffid, int bufflength, Map<CharacterTemporaryStat, Integer> statups, MapleStatEffect effect) {
         	return giveBuff(buffid, bufflength, statups, effect, null);
         }
         
-        public static byte[] giveBuff(int buffid, int bufflength, Map<MapleBuffStat, Integer> statups, MapleStatEffect effect, int[] dice) {
+        public static byte[] giveBuff(int buffid, int bufflength, Map<CharacterTemporaryStat, Integer> statups, MapleStatEffect effect, int[] dice) {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.TEMPORARY_STAT_SET.getValue());
@@ -3423,7 +3423,7 @@ public class CWvsContext {
             // SecondaryStat::DecodeForLocal
             PacketHelper.writeBuffMask(pw, statups);
 
-            for (Map.Entry<MapleBuffStat, Integer> stat : statups.entrySet()) {
+            for (Map.Entry<CharacterTemporaryStat, Integer> stat : statups.entrySet()) {
             	
             	if (stat.getKey().isIndie()) continue;
                     
@@ -3436,12 +3436,12 @@ public class CWvsContext {
                 pw.writeInt(buffid);
                 pw.writeInt(bufflength);
                 
-                if (stat.getKey() == MapleBuffStat.SoulMP) {
+                if (stat.getKey() == CharacterTemporaryStat.SoulMP) {
                 	pw.writeInt(effect.getX()); // xSoulMP
                 	pw.writeInt(0); // rSoulMP
                 }
                 
-                if (stat.getKey() == MapleBuffStat.FullSoulMP) {
+                if (stat.getKey() == CharacterTemporaryStat.FullSoulMP) {
                 	pw.writeInt(effect.getX()); // xFullSoulMP
                 }
             }
@@ -3454,50 +3454,50 @@ public class CWvsContext {
             pw.write(0); // nDefenseState
             pw.write(0); // nPVPDamage
             
-            for (Map.Entry<MapleBuffStat, Integer> stat : statups.entrySet()) {
+            for (Map.Entry<CharacterTemporaryStat, Integer> stat : statups.entrySet()) {
                 
-            	if (stat.getKey() == MapleBuffStat.Dice) {
+            	if (stat.getKey() == CharacterTemporaryStat.Dice) {
             		for(int i = 0; i < dice.length; i++) {
             			pw.writeInt(dice[i]);
             		}
                 }
             	
-            	if (stat.getKey() == MapleBuffStat.KillingPoint) {
+            	if (stat.getKey() == CharacterTemporaryStat.KillingPoint) {
             		pw.write(0); // nKillingPoint
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.PinkbeanRollingGrade) {
+            	if (stat.getKey() == CharacterTemporaryStat.PinkbeanRollingGrade) {
             		pw.write(0); // nPinkbeanRollingGrade
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.Judgement) {
+            	if (stat.getKey() == CharacterTemporaryStat.Judgement) {
             		pw.writeInt(effect.getX()); // xJudgement
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.StackBuff) {
+            	if (stat.getKey() == CharacterTemporaryStat.StackBuff) {
             		pw.write(0); // mStackBuff
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.Trinity) {
+            	if (stat.getKey() == CharacterTemporaryStat.Trinity) {
             		pw.write(0); // mTrinity
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.ElementalCharge) {
+            	if (stat.getKey() == CharacterTemporaryStat.ElementalCharge) {
             		pw.write(0); // mElementalCharge
             		pw.writeShort(0); // wElementalCharge
             		pw.write(0); // uElementalCharge
             		pw.write(0); // zElementalCharge
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.LifeTidal) {
+            	if (stat.getKey() == CharacterTemporaryStat.LifeTidal) {
             		pw.writeInt(0); // mLifeTidal
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.AntiMagicShell) {
+            	if (stat.getKey() == CharacterTemporaryStat.AntiMagicShell) {
             		pw.write(0); // bAntiMagicShell
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.Larkness) {
+            	if (stat.getKey() == CharacterTemporaryStat.Larkness) {
             		
             		for(int i = 0; i < 2; i++) {
             			
@@ -3511,11 +3511,11 @@ public class CWvsContext {
             		pw.writeInt(0); // lgLarkness
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.IgnoreTargetDEF) {
+            	if (stat.getKey() == CharacterTemporaryStat.IgnoreTargetDEF) {
             		pw.writeInt(0); // mIgnoreTargetDEF
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.StopForceAtomInfo) {
+            	if (stat.getKey() == CharacterTemporaryStat.StopForceAtomInfo) {
             		
             		// StopForceAtom::Decode
             		pw.writeInt(0); // nIdx
@@ -3527,145 +3527,145 @@ public class CWvsContext {
             		
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.SmashStack) {
+            	if (stat.getKey() == CharacterTemporaryStat.SmashStack) {
             		pw.writeInt(effect.getX()); // xSmashStack
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.MobZoneState) {
+            	if (stat.getKey() == CharacterTemporaryStat.MobZoneState) {
             		pw.writeInt(0); // ?
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.Slow) {
+            	if (stat.getKey() == CharacterTemporaryStat.Slow) {
             		pw.write(0); // bSlowIgnoreMoveSkill
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.IceAura) {
+            	if (stat.getKey() == CharacterTemporaryStat.IceAura) {
             		pw.write(0); // bIceAura
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.KnightsAura) {
+            	if (stat.getKey() == CharacterTemporaryStat.KnightsAura) {
             		pw.write(0); // bKnightsAura
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.IgnoreMobpdpR) {
+            	if (stat.getKey() == CharacterTemporaryStat.IgnoreMobpdpR) {
             		pw.write(0); // bIgnoreMobpdpR
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.BDR) {
+            	if (stat.getKey() == CharacterTemporaryStat.BDR) {
             		pw.write(0); // bBdR
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.DropRIncrease) {
+            	if (stat.getKey() == CharacterTemporaryStat.DropRIncrease) {
             		pw.writeInt(effect.getX()); // xDropRIncrease
             		pw.write(0); // bDropRIncrease
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.PoseType) {
+            	if (stat.getKey() == CharacterTemporaryStat.PoseType) {
             		pw.write(0); // bPoseType
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.Beholder) {
+            	if (stat.getKey() == CharacterTemporaryStat.Beholder) {
             		pw.writeInt(0); // sBeholder
             		pw.writeInt(0); // ssBeholder
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.CrossOverChain) {
+            	if (stat.getKey() == CharacterTemporaryStat.CrossOverChain) {
             		pw.writeInt(effect.getX()); // xCrossOverChain
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.Reincarnation) {
+            	if (stat.getKey() == CharacterTemporaryStat.Reincarnation) {
             		pw.writeInt(effect.getX()); // xReincarnation
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.ExtremeArchery) {
+            	if (stat.getKey() == CharacterTemporaryStat.ExtremeArchery) {
             		pw.writeInt(0); // bExtremeArchery
             		pw.writeInt(0); // xExtremeArchery
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.QuiverCatridge) {
+            	if (stat.getKey() == CharacterTemporaryStat.QuiverCatridge) {
             		pw.writeInt(effect.getX()); // xQuiverCatridge
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.ImmuneBarrier) {
+            	if (stat.getKey() == CharacterTemporaryStat.ImmuneBarrier) {
             		pw.writeInt(effect.getX()); // xImmuneBarrier
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.ZeroAuraStr) {
+            	if (stat.getKey() == CharacterTemporaryStat.ZeroAuraStr) {
             		pw.write(0); // bZeroAuraStr
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.ZeroAuraSpd) {
+            	if (stat.getKey() == CharacterTemporaryStat.ZeroAuraSpd) {
             		pw.write(0); // bZeroAuraSpd
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.ArmorPiercing) {
+            	if (stat.getKey() == CharacterTemporaryStat.ArmorPiercing) {
             		pw.writeInt(0); // bArmorPiercing
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.SharpEyes) {
+            	if (stat.getKey() == CharacterTemporaryStat.SharpEyes) {
             		pw.writeInt(0); // mSharpEyes
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.AdvancedBless) {
+            	if (stat.getKey() == CharacterTemporaryStat.AdvancedBless) {
             		pw.writeInt(effect.getX()); // xAdvancedBless
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.DotHealHPPerSecond) {
+            	if (stat.getKey() == CharacterTemporaryStat.DotHealHPPerSecond) {
             		pw.writeInt(effect.getX()); // xDotHealHPPerSecond 
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.SpiritGuard) {
+            	if (stat.getKey() == CharacterTemporaryStat.SpiritGuard) {
             		pw.writeInt(0); // nSpiritGuard
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.KnockBack) {
+            	if (stat.getKey() == CharacterTemporaryStat.KnockBack) {
             		pw.writeInt(0); // nKnockBack
             		pw.writeInt(0); // bKnockBack
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.ShieldAttack) {
+            	if (stat.getKey() == CharacterTemporaryStat.ShieldAttack) {
             		pw.writeInt(effect.getX()); // xShieldAttack
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.SSFShootingAttack) {
+            	if (stat.getKey() == CharacterTemporaryStat.SSFShootingAttack) {
             		pw.writeInt(0); // xSSFShootingAttack
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.BMageAura) {
+            	if (stat.getKey() == CharacterTemporaryStat.BMageAura) {
             		pw.writeInt(0); // xBMageAura
             		pw.write(0); // bBMageAura
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.BattlePvP_Helena_Mark) {
+            	if (stat.getKey() == CharacterTemporaryStat.BattlePvP_Helena_Mark) {
             		pw.writeInt(0); // cBattlePvP_Helena_Mark
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.PinkbeanAttackBuff) {
+            	if (stat.getKey() == CharacterTemporaryStat.PinkbeanAttackBuff) {
             		pw.writeInt(0); // bPinkbeanAttackBuff
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.RoyalGuardState) {
+            	if (stat.getKey() == CharacterTemporaryStat.RoyalGuardState) {
             		pw.writeInt(0); // bRoyalGuardState
             		pw.writeInt(0); // xRoyalGuardState
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.MichaelSoulLink) {
+            	if (stat.getKey() == CharacterTemporaryStat.MichaelSoulLink) {
             		pw.writeInt(0); // xMichaelSoulLink
             		pw.writeInt(0); // bMichaelSoulLink
             		pw.writeInt(0); // cMichaelSoulLink
             		pw.writeInt(0); // yMichaelSoulLink
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.AdrenalinBoost) {
+            	if (stat.getKey() == CharacterTemporaryStat.AdrenalinBoost) {
             		pw.write(0); // cAdrenalinBoost
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.RWCylinder) {
+            	if (stat.getKey() == CharacterTemporaryStat.RWCylinder) {
             		pw.write(0); // bRWCylinder
             		pw.writeShort(0); // cRWCylinder
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.RWMagnumBlow) {
+            	if (stat.getKey() == CharacterTemporaryStat.RWMagnumBlow) {
             		pw.writeShort(0); // bRWMagnumBlow
             		pw.write(effect.getX()); // xRWMagnumBlow
             	}
@@ -3673,17 +3673,17 @@ public class CWvsContext {
             
             pw.writeInt(0); // nViperEnergyCharge
 
-            for (Map.Entry<MapleBuffStat, Integer> stat : statups.entrySet()) {
+            for (Map.Entry<CharacterTemporaryStat, Integer> stat : statups.entrySet()) {
             	
-            	if (stat.getKey() == MapleBuffStat.BladeStance) {
+            	if (stat.getKey() == CharacterTemporaryStat.BladeStance) {
             		pw.writeInt(effect.getX()); // xBladeStance
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.DarkSight) {
+            	if (stat.getKey() == CharacterTemporaryStat.DarkSight) {
             		pw.writeInt(0); // cDarkSight
             	}
             	
-            	if (stat.getKey() == MapleBuffStat.Stigma) {
+            	if (stat.getKey() == CharacterTemporaryStat.Stigma) {
             		pw.writeInt(0); // bStigma
             	}
             }
@@ -3693,7 +3693,7 @@ public class CWvsContext {
              * to be looked at in the future when more time is available. :(
              */
             for(int i = 0; i < 8; i++) {
-            	MapleBuffStat stat = MapleBuffStat.getCTSFromTSIndex(i);
+            	CharacterTemporaryStat stat = CharacterTemporaryStat.getCTSFromTSIndex(i);
             	
             	if (stat == null)
             		continue;
@@ -3716,11 +3716,11 @@ public class CWvsContext {
              * @nDuration The amount of time elapsed from the initial cast.
              * @tTerm The total static duration of the buff.
              */
-            Map<MapleBuffStat, Integer> stats = statups.entrySet().stream()
+            Map<CharacterTemporaryStat, Integer> stats = statups.entrySet().stream()
             		.filter(stat -> stat.getKey().isIndie())
             		.collect(Collectors.toMap(stat -> stat.getKey(), stat -> stat.getValue()));
             
-            for(Map.Entry<MapleBuffStat, Integer> stat : stats.entrySet()) {
+            for(Map.Entry<CharacterTemporaryStat, Integer> stat : stats.entrySet()) {
             	pw.writeInt(1); // the size of the array.
             	pw.writeInt(buffid); // nReason
             	pw.writeInt(effect.getLevel()); // nValue
@@ -3734,7 +3734,7 @@ public class CWvsContext {
             }
             
             
-            if(statups.containsKey(MapleBuffStat.UsingScouter))
+            if(statups.containsKey(CharacterTemporaryStat.UsingScouter))
             	pw.writeInt(0); // nUsingScouter
             
             pw.writeShort(1);
@@ -3773,7 +3773,7 @@ public class CWvsContext {
             return pw.getPacket();
         }
 
-        public static byte[] cancelBuff(List<MapleBuffStat> statups) {
+        public static byte[] cancelBuff(List<CharacterTemporaryStat> statups) {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.TEMPORARY_STAT_RESET.getValue());
@@ -3811,13 +3811,13 @@ public class CWvsContext {
 
             pw.writeShort(SendPacketOpcode.TEMPORARY_STAT_RESET.getValue());
 
-            PacketHelper.writeSingleMask(pw, MapleBuffStat.StopForceAtomInfo);
+            PacketHelper.writeSingleMask(pw, CharacterTemporaryStat.StopForceAtomInfo);
             pw.write(0);//v112
 
             return pw.getPacket();
         }
         
-        public static byte[] giveAriaBuff(Map<MapleBuffStat, Integer> statups, int bufflevel, int buffid, int bufflength) {
+        public static byte[] giveAriaBuff(Map<CharacterTemporaryStat, Integer> statups, int bufflevel, int buffid, int bufflength) {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.TEMPORARY_STAT_SET.getValue());
@@ -3835,16 +3835,16 @@ public class CWvsContext {
             return pw.getPacket();
         }
         
-     public static byte[] giveForeignBuff(int cid, Map<MapleBuffStat, Integer> statups, MapleStatEffect effect) {
+     public static byte[] giveForeignBuff(int cid, Map<CharacterTemporaryStat, Integer> statups, MapleStatEffect effect) {
         PacketWriter pw = new PacketWriter();
         pw.writeShort(SendPacketOpcode.SET_TEMPORARY_STAT_REMOTE.getValue());
         pw.writeInt(cid);
         PacketHelper.writeBuffMask(pw, (Map) statups);
-            for (Entry<MapleBuffStat, Integer> statup : statups.entrySet()) {
-                if (statup.getKey() == MapleBuffStat.ShadowPartner || statup.getKey() == MapleBuffStat.Mechanic || statup.getKey() == MapleBuffStat.BMageAura || statup.getKey() == MapleBuffStat.BMageAura || statup.getKey() == MapleBuffStat.BMageAura || statup.getKey() == MapleBuffStat.Inflation || statup.getKey() == MapleBuffStat.SpiritLink || statup.getKey() == MapleBuffStat.PYRAMID_PQ || statup.getKey() == MapleBuffStat.WeaponCharge || statup.getKey() == MapleBuffStat.DamR || statup.getKey() == MapleBuffStat.Morph || statup.getKey() == MapleBuffStat.DamAbsorbShield || statup.getKey() == MapleBuffStat.DARK_METAMORPHOSIS) {
+            for (Entry<CharacterTemporaryStat, Integer> statup : statups.entrySet()) {
+                if (statup.getKey() == CharacterTemporaryStat.ShadowPartner || statup.getKey() == CharacterTemporaryStat.Mechanic || statup.getKey() == CharacterTemporaryStat.BMageAura || statup.getKey() == CharacterTemporaryStat.BMageAura || statup.getKey() == CharacterTemporaryStat.BMageAura || statup.getKey() == CharacterTemporaryStat.Inflation || statup.getKey() == CharacterTemporaryStat.SpiritLink || statup.getKey() == CharacterTemporaryStat.PYRAMID_PQ || statup.getKey() == CharacterTemporaryStat.WeaponCharge || statup.getKey() == CharacterTemporaryStat.DamR || statup.getKey() == CharacterTemporaryStat.Morph || statup.getKey() == CharacterTemporaryStat.DamAbsorbShield || statup.getKey() == CharacterTemporaryStat.DARK_METAMORPHOSIS) {
                     pw.writeShort(statup.getValue().shortValue());
                     pw.writeInt(effect.isSkill() ? effect.getSourceId() : -effect.getSourceId());
-                } else if (statup.getKey() == MapleBuffStat.FAMILIAR_SHADOW) {
+                } else if (statup.getKey() == CharacterTemporaryStat.FAMILIAR_SHADOW) {
                     pw.writeInt(statup.getValue());
                     pw.writeInt(effect.getCharColor());
                 } else {
@@ -3943,7 +3943,7 @@ public class CWvsContext {
             return pw.getPacket();
         }
 
-        public static byte[] cancelForeignBuff(int cid, List<MapleBuffStat> statups) {
+        public static byte[] cancelForeignBuff(int cid, List<CharacterTemporaryStat> statups) {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.RESET_TEMPORARY_STAT_REMOTE.getValue());
@@ -3957,11 +3957,11 @@ public class CWvsContext {
             return pw.getPacket();
         }
         
-        public static byte[] cancelForeignRiding(int cid, List<MapleBuffStat> statups) {
+        public static byte[] cancelForeignRiding(int cid, List<CharacterTemporaryStat> statups) {
         PacketWriter pw =new PacketWriter();
         pw.writeShort(SendPacketOpcode.RESET_TEMPORARY_STAT_REMOTE.getValue());
         pw.writeInt(cid);
-        pw.writeLong(MapleBuffStat.RideVehicle.getValue());
+        pw.writeLong(CharacterTemporaryStat.RideVehicle.getValue());
         pw.writeLong(0);
         pw.writeLong(0);
         pw.writeLong(0);
@@ -4382,7 +4382,7 @@ public class CWvsContext {
             if (titles.length < i + 1) {
                 pw.write(-1);
             } else {
-                pw.write(titles[i]);
+     //           pw.write(titles[i]);
             }
         }
 

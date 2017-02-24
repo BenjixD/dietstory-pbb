@@ -1,12 +1,12 @@
 package tools.packet.twostate;
 
-import client.MapleBuffStat;
+import client.CharacterTemporaryStat;
 import client.MapleCharacter;
 import tools.data.PacketWriter;
 
 public class DashJump extends TemporaryStat {
 	
-	private final MapleBuffStat nBuff = MapleBuffStat.Dash_Jump;
+	private final CharacterTemporaryStat nBuff = CharacterTemporaryStat.Dash_Jump;
 	
 	@Override
 	public void encode(PacketWriter pw, MapleCharacter chr) {
