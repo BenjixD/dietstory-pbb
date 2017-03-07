@@ -547,12 +547,62 @@ public class CWvsContext {
 
         pw.writeShort(SendPacketOpcode.CHARACTER_INFO.getValue());
         pw.writeInt(chr.getId());
+        pw.write(0);
+        /*
+        if above is true
+	    v4 = CInPacket::Decode1(iPacket);
+	    v5 = v4 != 0;
+	    LOBYTE(bFromStarUserList) = v4 != 0;
+	    LOBYTE(bOnline) = CInPacket::Decode1(iPacket) != 0;
+	    CInPacket::DecodeStr(iPacket, &sUserName);
+	    v66 = 0;
+	    if ( !v5 || TSingleton<CUIStarPlanetUserList>::ms_pInstance )
+	    {
+	      CWvsContext::UI_Close(v2, 234);
+	      v48 = bOnline;
+	      v47 = bFromStarUserList;
+	      nSense = &v46;
+	      v46._m_pStr = 0;
+	      ZXString<char>::operator=(&v46, &sUserName);
+	      v6 = v2->m_dwCharacterID;
+	      LOBYTE(v66) = 1;
+	      v45 = v3 == v6;
+	      v7 = TSingleton<CUIUserInfo_StarPlanet>::CreateInstance();
+	      LOBYTE(v66) = 0;
+	      CUIUserInfo_StarPlanet::SetUserInfo(v7, v45, v3, v46, v47, v48);
+	      if ( v5 )
+	      {
+	        CUIStarPlanetUserList::AttachUserInfo(TSingleton<CUIStarPlanetUserList>::ms_pInstance, 1);
+	        v8 = TSingleton<CUIUserInfo_StarPlanet>::ms_pInstance;
+	        v9 = TSingleton<CUIUserInfo_StarPlanet>::ms_pInstance->vfptr;
+	        v10 = &TSingleton<CUIStarPlanetUserList>::ms_pInstance->vfptr;
+	        v11 = TSingleton<CUIStarPlanetUserList>::ms_pInstance->vfptr;
+	        bOnline = TSingleton<CUIStarPlanetUserList>::ms_pInstance->m_width;
+	        v12 = v11->GetAbsTop(&TSingleton<CUIStarPlanetUserList>::ms_pInstance->vfptr);
+	        v48 = v12;
+	        v13 = (*(*v10 + 60))(v10, v12);
+	        v48 = bFromStarUserList + v13;
+	        (v9[11].Update)(v8, bFromStarUserList + v13);
+	      }
+	      CUIUserInfo_StarPlanet::OnPacket(TSingleton<CUIUserInfo_StarPlanet>::ms_pInstance, iPacket);
+	    }
+	    v66 = -1;
+	    if ( sUserName._m_pStr )
+	    {
+	      v14 = sUserName._m_pStr - 12;
+	      if ( InterlockedDecrement(sUserName._m_pStr - 3) <= 0 )
+	        ZAllocEx<ZAllocStrSelector<char>>::Free(&ZAllocEx<ZAllocStrSelector<char>>::_s_alloc, v14);
+	    }
+	    return;
+	  }
+         */
         pw.write(chr.getLevel());
         pw.writeShort(chr.getJob());
         pw.writeShort(chr.getSubcategory());
         pw.write(chr.getStat().pvpRank);
         pw.writeInt(chr.getFame());
-        MapleMarriage marriage = chr.getMarriage();
+
+        final MapleMarriage marriage = chr.getMarriage();
         pw.write(marriage != null && marriage.getId() != 0);
         if (marriage != null && marriage.getId() != 0) {
             pw.writeInt(marriage.getId()); //marriage id
@@ -564,69 +614,45 @@ public class CWvsContext {
             pw.writeAsciiString(marriage.getHusbandName(), 13); //husband name
             pw.writeAsciiString(marriage.getWifeName(), 13); //wife name
         }
-        List prof = chr.getProfessions();
+
+        List<Integer> prof = chr.getProfessions();
         pw.write(prof.size());
-        for (Iterator i$ = prof.iterator(); i$.hasNext();) {
-            int i = ((Integer) i$.next()).intValue();
-            pw.writeShort(i);
+        for (Integer profession : prof) {
+            pw.writeShort(profession);
         }
-        if (chr.getGuildId() <= 0) {
+        MapleGuild gs = World.Guild.getGuild(chr.getGuildId());
+        if (gs != null) {
+            MapleGuildAlliance allianceName = World.Alliance.getAlliance(gs.getAllianceId());
+            pw.writeMapleAsciiString(gs.getName());
+            pw.writeMapleAsciiString(allianceName != null ? allianceName.getName() : "");
+        } else {
             pw.writeMapleAsciiString("-");
             pw.writeMapleAsciiString("");
-        } else {
-            MapleGuild gs = World.Guild.getGuild(chr.getGuildId());
-            if (gs != null) {
-                pw.writeMapleAsciiString(gs.getName());
-                if (gs.getAllianceId() > 0) {
-                    MapleGuildAlliance allianceName = World.Alliance.getAlliance(gs.getAllianceId());
-                    if (allianceName != null) {
-                        pw.writeMapleAsciiString(allianceName.getName());
-                    } else {
-                        pw.writeMapleAsciiString("");
-                    }
-                } else {
-                    pw.writeMapleAsciiString("");
-                }
-            } else {
-                pw.writeMapleAsciiString("-");
-                pw.writeMapleAsciiString("");
+        }
+        pw.write(-1);//nForcedPetIdx
+        pw.write(!isSelf);
+        pw.write(!chr.getSummonedPets().isEmpty());
+        pw.write(!chr.getSummonedPets().isEmpty());
+        if (!chr.getSummonedPets().isEmpty()) {
+            for (MaplePet pet : chr.getSummonedPets()) {
+                byte index = 1;
+                pw.writeInt(0);//gotta look into it
+                pw.writeInt(pet.getPetItemId());
+                pw.writeMapleAsciiString(pet.getName());
+                pw.write(pet.getLevel());
+                pw.writeShort(pet.getCloseness());
+                pw.write(pet.getFullness());
+                pw.writeShort(0);
+                Item inv = chr.getInventory(MapleInventoryType.EQUIPPED).getItem((short) (byte) (index == 2 ? -130 : index == 1 ? -114 : -138));
+                pw.writeInt(inv == null ? 0 : inv.getItemId());
+                //pw.writeInt(pet.getColor());
+                pw.writeInt(0);
+                pw.write(chr.getSummonedPets().size() > index);
+                index++;
             }
         }
 
-        pw.write(isSelf ? 1 : 0);
-        pw.write(0);
-
-
-        byte index = 1;
-        for (MaplePet pet : chr.getSummonedPets()) {
-            if (index == 1) {   // please test if this doesn't d/c when viewing multipets
-                pw.write(index);
-            }  
-            pw.writeInt(pet.getPetItemId());
-            pw.writeMapleAsciiString(pet.getName());
-            pw.write(pet.getLevel());
-            pw.writeShort(pet.getCloseness());
-            pw.write(pet.getFullness());
-            pw.writeShort(0);
-            Item inv = chr.getInventory(MapleInventoryType.EQUIPPED).getItem((short) (byte) (index == 2 ? -130 : index == 1 ? -114 : -138));
-            pw.writeInt(inv == null ? 0 : inv.getItemId());
-            pw.writeInt(-1);//new v140
-            pw.write(chr.getSummonedPets().size() > index); //continue loop
-            index++;
-        }
-        if (index == 1) { //index no change means no pets
-            pw.write(0);
-        }
-        /*if ((chr.getInventory(MapleInventoryType.EQUIPPED).getItem((byte) -18) != null) && (chr.getInventory(MapleInventoryType.EQUIPPED).getItem((byte) -19) != null)) {
-         MapleMount mount = chr.getMount();
-         pw.write(1);
-         pw.writeInt(mount.getLevel());
-         pw.writeInt(mount.getExp());
-         pw.writeInt(mount.getFatigue());
-         } else {
-         pw.write(0);
-         }*/
-        int wishlistSize = chr.getWishlistSize();
+        final int wishlistSize = chr.getWishlistSize();
         pw.write(wishlistSize);
         if (wishlistSize > 0) {
             int[] wishlist = chr.getWishlist();
@@ -634,46 +660,56 @@ public class CWvsContext {
                 pw.writeInt(wishlist[x]);
             }
         }
-        Item medal = chr.getInventory(MapleInventoryType.EQUIPPED).getItem((byte) -46);
+        // Medal
+        final Item medal = chr.getInventory(MapleInventoryType.EQUIPPED).getItem((short) 0);
+        //final Item medal = chr.getInventory(MapleInventoryType.EQUIPPED).getItem((short) EquipSlotType.Medal.getSlot());
         pw.writeInt(medal == null ? 0 : medal.getItemId());
+
+        // Medal quests
         List<Pair<Integer, Long>> medalQuests = chr.getCompletedMedals();
         pw.writeShort(medalQuests.size());
-        for (Pair x : medalQuests) {
-            pw.writeShort(((Integer) x.left).intValue());
-            pw.writeLong(((Long) x.right).longValue());
+        for (Pair<Integer, Long> x : medalQuests) {
+            pw.writeInt(x.left);
+            pw.writeLong(x.right); // Time.
         }
+
+        // Added on v176
+        pw.write(1); // This is probably the size 
+        pw.writeInt(0);
+        pw.writeInt(2431965); // Basic damage skin id
+        pw.write(0);
+        pw.writeMapleAsciiString("This is a basic Damage Skin.\r\n\r\n\r\n\r\n\r\n");
+        pw.writeInt(-1);
+        pw.writeInt(0);
+        pw.write(1);
+        pw.writeMapleAsciiString("");
+        pw.writeShort(0);
+        pw.writeShort(0);
+        // End
+
         for (MapleTrait.MapleTraitType t : MapleTrait.MapleTraitType.values()) {
             pw.write(chr.getTrait(t).getLevel());
         }
 
-        pw.writeInt(0); //farm id?
+        pw.writeInt(chr.getAccountID());
         PacketHelper.addFarmInfo(pw, chr.getClient(), (byte) 0);
-
+        pw.writeInt(1);
         pw.writeInt(0);
-        pw.writeInt(0);
 
-        List chairs = new ArrayList();
+        // Chairs
+        final List<Integer> chairs = new ArrayList<>();
         for (Item i : chr.getInventory(MapleInventoryType.SETUP).newList()) {
-            if ((i.getItemId() / 10000 == 301) && (!chairs.contains(Integer.valueOf(i.getItemId())))) {
-                chairs.add(Integer.valueOf(i.getItemId()));
+            if (i.getItemId() / 10000 == 301 && !chairs.contains(i.getItemId())) {
+                chairs.add(i.getItemId());
             }
         }
         pw.writeInt(chairs.size());
-        for (Iterator i$ = chairs.iterator(); i$.hasNext();) {
-            int i = ((Integer) i$.next()).intValue();
-            pw.writeInt(i);
+        for (Integer chair : chairs) {
+            pw.writeInt(chair);
         }
-
-        return pw.getPacket();
-    }
-
-    public static byte[] getMonsterBookInfo(MapleCharacter chr) {
-        PacketWriter pw = new PacketWriter();
-
-        pw.writeShort(SendPacketOpcode.BOOK_INFO.getValue());
-        pw.writeInt(chr.getId());
-        pw.writeInt(chr.getLevel());
-        chr.getMonsterBook().writeCharInfoPacket(pw);
+        pw.writeInt(0);
+        pw.writeInt(30); // No idea, or 0x1E
+        pw.writeInt(0);
 
         return pw.getPacket();
     }
