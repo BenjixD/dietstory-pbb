@@ -97,17 +97,17 @@ public class MapleMapFactory {
 
     public static void loadCustomNPC() {
         List<Pair<Integer, AbstractLoadedMapleLife>> customNPC = new LinkedList<Pair<Integer, AbstractLoadedMapleLife>>();
-        customNPC.add(new Pair<>(910000000, loadLife(9010038, 0, false, 78, 34, 312, 312, 312, 34, "n", 0)));
+       // customNPC.add(new Pair<>(910000000, loadLife(9010038, 0, false, 78, 34, 312, 312, 312, 34, "n", 0)));
         customNPC.add(new Pair<>(910000000, loadLife(9010037, 0, false, 46, -266, 932, 932, 932, -266, "n", 0)));
 //        customNPC.add(new Pair<>(910000000, loadLife(9000019, 0, true, 47, -266, 650, 650, 650, -266, "n", 0)));//cuz RPS no works..
-        customNPC.add(new Pair<>(910000000, loadLife(9000031, 0, false, 108, -326, 72, 170, 120, -329, "n", 0)));
-        customNPC.add(new Pair<>(910000000, loadLife(9010029, 0, false, 107, -326, -729, -729, -729, -329, "n", 0)));
+  //      customNPC.add(new Pair<>(910000000, loadLife(9000031, 0, false, 108, -326, 72, 170, 120, -329, "n", 0)));
+ //       customNPC.add(new Pair<>(910000000, loadLife(9010029, 0, false, 107, -326, -729, -729, -729, -329, "n", 0)));
 //        customNPC.add(new Pair<>(910000000, loadLife(1033225, 0, true, 42, -266, 638, 638, 638, -266, "n", 0)));//Shadow Knight cuz not coded..
-        customNPC.add(new Pair<>(910000000, loadLife(9072000, 0, false, 40, -266, 1098, 1098, 1098, -266, "n", 0)));
+  //      customNPC.add(new Pair<>(910000000, loadLife(9072000, 0, false, 40, -266, 1098, 1098, 1098, -266, "n", 0)));
         customNPC.add(new Pair<>(910000000, loadLife(9010034, 0, false, 59, 4, 749, 749, 749, 4, "n", 0)));
-        customNPC.add(new Pair<>(910000000, loadLife(9010035, 0, false, 61, 4, 1116, 1116, 1116, 4, "n", 0)));
+ //       customNPC.add(new Pair<>(910000000, loadLife(9010035, 0, false, 61, 4, 1116, 1116, 1116, 4, "n", 0)));
         customNPC.add(new Pair<>(910000000, loadLife(9010036, 0, false, 62, 4, 935, 935, 935, 4, "n", 0)));
-        customNPC.add(new Pair<>(910000000, loadLife(9201117, 0, false, 45, -266, 1092, 1092, 1092, -266, "n", 0)));
+ //       customNPC.add(new Pair<>(910000000, loadLife(9201117, 0, false, 45, -266, 1092, 1092, 1092, -266, "n", 0)));
         //customNPC.add(new Pair<>(910000000, loadLife(9900002, 0, false, 57, 4, 603, 603, 603, 4, "n", 0)));
         //id, face, hide, fh, y, x, x, x, y, "n", 1000
         for (int i = 0; i < customNPC.size(); i++) {
