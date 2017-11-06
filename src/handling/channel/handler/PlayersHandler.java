@@ -803,7 +803,7 @@ public class PlayersHandler {
         c.getSession().write(CWvsContext.enableActions());
         if (player != null && !player.isClone()) {
             if (!player.isGM() || c.getPlayer().isGM()) {
-                c.getSession().write(CWvsContext.getMonsterBookInfo(player));
+//                c.getSession().write(CWvsContext.getMonsterBookInfo(player)); //TODO lul
             }
         }
     }

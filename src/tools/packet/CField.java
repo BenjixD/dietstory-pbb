@@ -1,12 +1,6 @@
 package tools.packet;
 
-import client.CharacterTemporaryStat;
-import client.MapleCharacter;
-import client.MapleClient;
-import client.MapleKeyLayout;
-import client.MonsterFamiliar;
-import client.Skill;
-import client.SkillMacro;
+import client.*;
 import client.inventory.Equip;
 import client.inventory.Item;
 import client.inventory.MapleAndroid;
@@ -5984,8 +5978,11 @@ public class CField {
                 pw.write(nStats.left);
             }
         }
-        
-        chr.getStopForceAtomInfo().encode(pw);
+        if(chr.getStopForceAtomInfo() != null) {
+            chr.getStopForceAtomInfo().encode(pw);
+        } else {
+            new StopForceAtom(123456, 654321, 10000).encode(pw); // TODO figure out what SFA is
+        }
         pw.writeInt(0); //nViperEnergyCharged
         
         //for (TSIndex pIndex : TSIndex.values()) {

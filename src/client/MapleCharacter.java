@@ -233,6 +233,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     private List<MaplePotionPot> potionPots;
     private int deathCount = 0;
     private MapleMarriage marriage;
+    private StopForceAtom stopForceAtomInfo;
 
     private MapleCharacter(final boolean ChannelServer) {
         setStance(0);
@@ -5659,6 +5660,10 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
 
     public boolean hasWheel() {
         return getInventory(MapleInventoryType.USE).countById(2432262) > 0;
+    }
+
+    public StopForceAtom getStopForceAtomInfo() {
+        return stopForceAtomInfo;
     }
 
     public static enum FameStatus {

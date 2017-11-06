@@ -1900,7 +1900,7 @@ public class PacketHelper {
 				pw.write(0);
 			}
 			
-			if (stat == CharacterTemporaryStat.DisOrder) {
+			if (stat == CharacterTemporaryStat.Disorder) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
