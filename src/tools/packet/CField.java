@@ -3427,24 +3427,19 @@ public class CField {
             pw.writeShort(SendPacketOpcode.SCRIPT_MESSAGE.getValue());
             pw.write(talk.getType());
             pw.writeInt(talk.getNpcID());
-            pw.write(0); // bool?
-            //pw.write(new byte[6]);//zorgt ervoor dat geen error 38 werkt zolang er 2 bytes bijkomen
-            // pw.writeInt(0);
-
+            pw.write(0);
             if (talk.getMsg() == 2) {
-
                 pw.write(3);
             } else {
                 pw.write(talk.getMsg());
             }
-            pw.write(talk.getParam());
+            pw.writeShort(talk.getParam());
             pw.write(talk.getColor()); // 0 = blue; 1 = brown
             switch (talk.getMsg()) {
                 case 0: // OnSay
                     if ((talk.getParam() & 4) != 0) {
                         pw.writeInt(talk.getNpcIDD());
                     }
-                    pw.write(0);
                     pw.writeMapleAsciiString(talk.getText());
                     pw.write(talk.getPrev());
                     pw.write(talk.getNext());

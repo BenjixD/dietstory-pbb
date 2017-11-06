@@ -99,23 +99,37 @@ public class MapleLifeFactory {
                 }
             }
         }
-        
-        /** start of npcstring.dat **/
-        ReadBin data = new ReadBin("NpcString.dat");
-        
-        short size = data.readShort();
-        for(short s = 0; s < size; s++) {
-        	boolean exists = data.readBool();
-        	
-        	if (exists) {
-        		int id = data.readInt();
-        		String name = data.readString();
-        		
-        		npcNames.put(id, name);
-        	}
+
+
+        List<MapleData> lNpcData = stringDataWZ.getData("Npc.img").getChildren();
+        for(MapleData mapleData : lNpcData) {
+            int id = Integer.parseInt(mapleData.getName());
+            if(mapleData.getChildByPath("name") != null) {
+                String name = (String) mapleData.getChildByPath("name").getData();
+                npcNames.put(id, name);
+            }
         }
-        data.close();
+
+//        /** start of npcstring.dat **/
+//        ReadBin data = new ReadBin("NpcString.dat");
+//
+//        short size = data.readShort();
+//        for(short s = 0; s < size; s++) {
+//        	boolean exists = data.readBool();
+//
+//        	if (exists) {
+//        		int id = data.readInt();
+//        		String name = data.readString();
+//        		if(name.equalsIgnoreCase("Poco")) {
+//                    System.out.println("pcooc");
+//                }
+//
+//        		npcNames.put(id, name);
+//        	}
+//        }
+//        data.close();
     }
+
 
     public static List<Integer> getQuestCount(final int id) {
         return questCount.get(id);

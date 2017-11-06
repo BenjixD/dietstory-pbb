@@ -675,8 +675,6 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
         t.setMax(max);
 
         c.getSession().write(NPCPacket.getNPCTalk(t));
-        // c.getSession().write(NPCPacket.getNPCTalkNum(id, text, def, min,
-        // max));
         lastMsg = 5;
     }
 
