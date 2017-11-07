@@ -274,7 +274,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             sendSimple(text);
             return;
         }
-        NPCTalk t = new NPCTalk((byte) 4, id, (byte) 0);
+        NPCTalk t = new NPCTalk((byte) 4, id, NPCTalk.Type.SAY);
         t.setText(text);
         t.setNext(true);
 
@@ -306,7 +306,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             sendSimpleS(text, param);
             return;
         }
-        NPCTalk t = new NPCTalk((byte) 4, id, (byte) 0);
+        NPCTalk t = new NPCTalk((byte) 4, id, NPCTalk.Type.SAY);
         t.setParam(param);
         t.setNpcIDD(idd);
         t.setText(text);
@@ -330,7 +330,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             sendSimple(text);
             return;
         }
-        NPCTalk t = new NPCTalk((byte) 4, id, (byte) 0);
+        NPCTalk t = new NPCTalk((byte) 4, id, NPCTalk.Type.SAY);
         t.setText(text);
         t.setPrev(true);
 
@@ -350,7 +350,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             sendSimpleS(text, param);
             return;
         }
-        NPCTalk t = new NPCTalk((byte) 4, id, (byte) 0);
+        NPCTalk t = new NPCTalk((byte) 4, id, NPCTalk.Type.SAY);
         t.setParam(param);
         t.setNpcIDD(idd);
         t.setText(text);
@@ -372,7 +372,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             sendSimple(text);
             return;
         }
-        NPCTalk t = new NPCTalk((byte) 4, id, (byte) 0);
+        NPCTalk t = new NPCTalk((byte) 4, id, NPCTalk.Type.SAY);
         t.setText(text);
         t.setPrev(true);
         t.setNext(true);
@@ -405,7 +405,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             sendSimpleS(text, param);
             return;
         }
-        NPCTalk t = new NPCTalk((byte) 4, id, (byte) 0);
+        NPCTalk t = new NPCTalk((byte) 4, id, NPCTalk.Type.SAY);
         t.setParam(param);
         t.setNpcIDD(idd);
         t.setText(text);
@@ -429,7 +429,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             return;
         }
 
-        NPCTalk t = new NPCTalk((byte) 4, id, (byte) 0);
+        NPCTalk t = new NPCTalk((byte) 4, id, NPCTalk.Type.SAY);
         t.setText(text);
 
         c.getSession().write(NPCPacket.getNPCTalk(t));
@@ -448,7 +448,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             sendSimpleS(text, param);
             return;
         }
-        NPCTalk t = new NPCTalk((byte) 4, id, (byte) 0);
+        NPCTalk t = new NPCTalk((byte) 4, id, NPCTalk.Type.SAY);
         t.setParam(param);
         t.setNpcIDD(idd);
         t.setText(text);
@@ -481,7 +481,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             sendSimple(text);
             return;
         }
-        NPCTalk t = new NPCTalk((byte) 4, id, (byte) 3);
+        NPCTalk t = new NPCTalk((byte) 4, id, NPCTalk.Type.YES_NO);
         t.setText(text);
 
         c.getSession().write(NPCPacket.getNPCTalk(t));
@@ -500,7 +500,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             sendSimpleS(text, param);
             return;
         }
-        NPCTalk t = new NPCTalk((byte) 4, id, (byte) 3);
+        NPCTalk t = new NPCTalk((byte) 4, id, NPCTalk.Type.YES_NO);
         t.setParam(param);
         t.setNpcIDD(idd);
         t.setText(text);
@@ -537,7 +537,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             sendSimple(text);
             return;
         }
-        lastMsg = ((byte) 17);
+        lastMsg = NPCTalk.Type.ASK_ACCEPT_DECLINE.getValue();
 
         NPCTalk t = new NPCTalk((byte) 4, id, lastMsg);
         t.setText(text);
@@ -559,7 +559,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             sendSimple(text);
             return;
         }
-        lastMsg = (byte) 17;
+        lastMsg = NPCTalk.Type.ASK_ACCEPT_DECLINE.getValue();
 
         NPCTalk t = new NPCTalk((byte) 4, id, lastMsg);
         t.setText(text);
@@ -573,7 +573,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
         if (lastMsg > -1) {
             return;
         }
-        lastMsg = 27;
+        lastMsg = NPCTalk.Type.ASK_ANGELIC_BUSTER.getValue();
 
         NPCTalk t = new NPCTalk((byte) 4, id, lastMsg);
         c.getSession().write(NPCPacket.getNPCTalk(t));
@@ -583,7 +583,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
         if (lastMsg > -1) {
             return;
         }
-        NPCTalk t = new NPCTalk((byte) 4, id, (byte) 10);
+        NPCTalk t = new NPCTalk((byte) 4, id, NPCTalk.Type.ASK_AVATAR);
         t.setText(text);
         t.setArgs(args);
 
@@ -605,7 +605,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             sendNext(text);
             return;
         }
-        NPCTalk t = new NPCTalk((byte) 4, id, (byte) 6);
+        NPCTalk t = new NPCTalk((byte) 4, id, NPCTalk.Type.ASK_MENU);
         t.setText(text);
 
         c.getSession().write(NPCPacket.getNPCTalk(t));
@@ -624,7 +624,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             sendNextS(text, type);
             return;
         }
-        NPCTalk t = new NPCTalk((byte) 4, id, (byte) 6);
+        NPCTalk t = new NPCTalk((byte) 4, id, NPCTalk.Type.ASK_MENU);
         t.setNpcIDD(idd);
         t.setText(text);
 
@@ -636,7 +636,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
         if (lastMsg > -1) {
             return;
         }
-        NPCTalk t = new NPCTalk((byte) 4, id, (byte) 9);
+        NPCTalk t = new NPCTalk((byte) 4, id, NPCTalk.Type.IC_QUIZ);
         t.setText(text);
         t.setArgs(args);
 
@@ -650,7 +650,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
         if (lastMsg > -1) {
             return;
         }
-        NPCTalk t = new NPCTalk((byte) 4, id, (byte) 9);
+        NPCTalk t = new NPCTalk((byte) 4, id, NPCTalk.Type.IC_QUIZ);
         t.setText(text);
         t.setArgs(args);
 
@@ -668,7 +668,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             sendSimple(text);
             return;
         }
-        NPCTalk t = new NPCTalk((byte) 4, id, (byte) 5);
+        NPCTalk t = new NPCTalk((byte) 4, id, NPCTalk.Type.ASK_NUMBER);
         t.setText(text);
         t.setAmount(amount);
         t.setMin(min);
@@ -690,7 +690,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
             sendSimple(text);
             return;
         }
-        NPCTalk t = new NPCTalk((byte) 4, id, (byte) 4);
+        NPCTalk t = new NPCTalk((byte) 4, id, NPCTalk.Type.ASK_TEXT);
         t.setText(text);
         t.setDef(def);
         t.setMin(min);

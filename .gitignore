@@ -9,6 +9,7 @@ wz/
 # Files
 *.classpath
 *.project
+config.properties
 Mushy.iml
 dat/
 Swordie.iml

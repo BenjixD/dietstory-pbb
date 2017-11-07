@@ -3452,7 +3452,6 @@ public class CField {
                     }
                     break;
                 case 3: // OnAskYesNo
-                    pw.write(0);
                     if ((talk.getParam() & 4) != 0) {
                         pw.writeInt(talk.getNpcIDD());
                     }
@@ -3477,7 +3476,6 @@ public class CField {
                     if ((talk.getParam() & 4) != 0) {
                         pw.writeInt(talk.getNpcIDD());
                     }
-                    pw.write(0);
                     pw.writeMapleAsciiString(talk.getText());
                     break;
                 case 7: // OnInitialQuiz

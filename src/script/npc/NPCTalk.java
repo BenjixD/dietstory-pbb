@@ -28,6 +28,89 @@ public class NPCTalk {
 	private String text, def, hint;
 	private Object[] args;
 
+	public NPCTalk(byte type, int id, Type msg) {
+		this(type, id, (byte) msg.getValue());
+	}
+
+	public enum Type {
+		SAY(0),
+		SAY_IMAGE(1),
+		YES_NO(3),
+		ASK_TEXT(4),
+		ASK_NUMBER(5),
+		ASK_MENU(6),
+		INITIAL_QUIZ(7),
+		INITIAL_SPEED_QUIZ(8),
+		IC_QUIZ(9),
+		ASK_AVATAR(10),
+		ASK_ANDROID(11),
+		ASK_PET(13),
+		ASK_PET_ALL(14),
+		ASK_ACTION_PET_EVOLUTION(15),
+		ASK_ACCEPT_DECLINE(17), // same as 3?
+		ASK_BOX_TEXT(19),
+		ASK_SLIDE_MENU(20),
+		ASK_AVATAR_2(25),
+		ASK_SELECT_MENU(26),
+		ASK_ANGELIC_BUSTER(27),
+		SAY_ILLUSTRATION(28),
+		SAY_ILLUSTRATION_2(29),
+		ASK_YES_NO_ILLUSTRATION(30),
+		ASK_YES_NO_ILLUSTRATION_2(31),
+		ASK_MENU_ILLUSTRATION(32),
+		ASK_YES_NO_ILLUSTRATION_3(33),
+		ASK_YES_NO_ILLUSTRATION_4(34),
+		ASK_MENU_ILLUSTRATION_2(35),
+		ASK_AVATAR_ZERO(37),
+		ASK_WEAPON_BOX(41),
+		ASK_BOX_TEXT_BGIMG(42),
+		ASK_USER_SURVEY(43),
+		ASK_MIX_HAIR(45),
+		ASK_MIX_HAIR_EX_ZERO(46),
+		ASK_CUSTOM_MIX_HAIR(47),
+		ASK_CUSTOM_MIX_HAIR_AND_PROB(48),
+		ASK_MIX_HAIR_NEW(49),
+		ASK_MIX_HAIR_NEW_EX_ZERO(50),
+		ASK_SCREEN_SHINNING_STAR_MSG(52), // not a typo
+		ASK_NUMBER_USE_KEY_PAD(55),
+		SPIN_OFF_GUITAR_RHYTHM_GAME(56),
+		GHOST_PARK_ENTER(57)
+
+		;
+
+		private int value;
+
+		Type(int value) {
+			this.value = value;
+		}
+
+		public byte getValue() {
+			return (byte) value;
+		}
+	}
+
+	public enum ParamType {
+		NO_ESC(1),
+		NPC_REPLACED_BY_USER(2),
+		NPC_REPLACED_BY_NPC(4),
+		FLIP_IMAGE(8),
+		NPC_REPLACED_BY_USER_LEFT(10),
+ 		SCENARIO_ILLU_CHAT(20),
+ 		NO_ENTER(40),
+ 		SCENARIO_ILLU_CHAT_XL(80)
+		;
+
+		private int value;
+
+		ParamType(int value) {
+			this.value = value;
+		}
+
+		public int getValue() {
+			return value;
+		}
+	}
+
 	public NPCTalk(byte type, int npcid, byte msg) {
 		this(type, npcid, msg, (byte) 0, (byte) 0);
 	}
