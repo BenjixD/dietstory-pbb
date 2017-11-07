@@ -4,33 +4,10 @@
  */
 package server.commands;
 
-import java.awt.Point;
-import java.io.Serializable;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Objects;
-
+import client.*;
+import client.inventory.*;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
-
-import client.MapleCharacter;
-import client.MapleCharacterUtil;
-import client.MapleClient;
-import client.Skill;
-import client.SkillFactory;
-import client.inventory.Equip;
-import client.inventory.Item;
-import client.inventory.ItemFlag;
-import client.inventory.MapleInventoryIdentifier;
-import client.inventory.MapleInventoryType;
-import client.inventory.MapleRing;
 import constants.GameConstants;
 import constants.ServerConstants.PlayerGMRank;
 import handling.RecvPacketOpcode;
@@ -41,28 +18,12 @@ import net.DatabaseConnection;
 import script.npc.NPCTalk;
 import script.portal.PortalScriptManager;
 import script.reactor.ReactorScriptManager;
-import server.ItemInformation;
-import server.MapleInventoryManipulator;
-import server.MapleItemInformationProvider;
-import server.MapleSquad;
+import server.*;
 import server.Timer;
-import server.Timer.BuffTimer;
-import server.Timer.CloneTimer;
-import server.Timer.EtcTimer;
-import server.Timer.EventTimer;
-import server.Timer.MapTimer;
-import server.Timer.WorldTimer;
+import server.Timer.*;
 import server.commands.GMCommand.Ban;
-import server.life.MapleLifeFactory;
-import server.life.MapleMonster;
-import server.life.MapleMonsterInformationProvider;
-import server.life.MapleNPC;
-import server.life.PlayerNPC;
-import server.maps.MapleMap;
-import server.maps.MapleMapObject;
-import server.maps.MapleMapObjectType;
-import server.maps.MapleReactor;
-import server.maps.MapleReactorFactory;
+import server.life.*;
+import server.maps.*;
 import server.quest.MapleQuest;
 import server.shops.MapleShopFactory;
 import tools.HexTool;
@@ -73,6 +34,13 @@ import tools.packet.CField;
 import tools.packet.CField.NPCPacket;
 import tools.packet.CWvsContext;
 import tools.packet.MobPacket;
+
+import java.awt.*;
+import java.io.Serializable;
+import java.sql.SQLException;
+import java.util.*;
+import java.util.List;
+import java.util.Map.Entry;
 
 /**
  *
@@ -177,6 +145,479 @@ public class SuperGMCommand {
             return 1;
         }
     }
+
+
+
+
+        // Start of Asura's Commands:
+
+
+    public static class GetEquipStat extends CommandExecute {
+        @Override
+        public int execute(MapleClient c, String[] splitted) {
+            MapleCharacter chr = c.getPlayer();
+            if(splitted.length==2) {
+                Equip item = (Equip) chr.getInventory(MapleInventoryType.EQUIP).getItem(Short.parseShort(splitted[1]));
+                chr.dropMessage(6, "Equip = " + item.getItemId());
+                chr.dropMessage(6, "Str = " + item.getStr());
+                chr.dropMessage(6, "Dex = " + item.getDex());
+                chr.dropMessage(6, "Int = " + item.getInt());
+                chr.dropMessage(6, "Luk = " + item.getLuk());
+                chr.dropMessage(6, "HP = " + item.getHp());
+                chr.dropMessage(6, "MP = " + item.getMp());
+                chr.dropMessage(6, "BossDmg% = " + item.getBossDamage());
+                chr.dropMessage(6, "Ignore% = " + item.getIgnorePDR());
+                chr.dropMessage(6, "Dmg% = " + item.getTotalDamage());
+                chr.dropMessage(6, "All Stat% = " + item.getAllStat());
+                for (int i = 0; i < item.getPotential().length; i++) {
+                    chr.dropMessage(6, "Main[" + i + "] = " + item.getPotentialByLine(i));
+                }
+                for (int i = 0; i < item.getBonusPotential().length; i++) {
+                    chr.dropMessage(6, "Bonus[" + i + "] = " + item.getBonusPotentialByLine(i));
+                }
+                for (int i = 0; i < 3; i++) {
+                    chr.dropMessage(6, "Nebulite[" + i + "] = " + item.getSocketByNmb(i));
+                }
+
+                return 0;
+            }
+            chr.dropMessage(5,"Syntax: !GetEquipInfo <Inventory Box Number>");
+            chr.dropMessage(5,"e.g. !GetEquipInfo 1 (top right corner)");
+            return 0;
+        }
+    }
+
+    public static class GodItem extends  CommandExecute {
+
+        @Override
+        public int execute(MapleClient c, String[] splitted) {
+            final int itemId = Integer.parseInt(splitted[1]);
+            if (splitted.length<=9) {
+                c.getPlayer() .dropMessage(5,"Syntax: !goditem <ID> <Stats> <BD% & IED%> <Pot ID> <Pot ID> <Pot ID> <BPot ID> <BPot ID> <BPot ID>");
+                return 0;
+            }
+            if (Integer.parseInt(splitted[3])>100) {
+                c.getPlayer().dropMessage(5, "Syntax: Boss Damage% and Ignore Defense% cannot be greater than 100");
+                return 0;
+            }
+            if (!c.getPlayer().isAdmin()) {
+                for (int i : GameConstants.itemBlock) {
+                    if (itemId == i) {
+                        c.getPlayer().dropMessage(5, "Sorry but this item is blocked for your GM level.");
+                        return 0;
+            }
+
+        }
+    }
+    MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
+            if(itemId >= 2000000) {
+                c.getPlayer().dropMessage(5, "You can only get equips.");
+            } else if (!ii.itemExists(itemId)) {
+                c.getPlayer().dropMessage(5, itemId + " does not exist");
+            } else {
+                Equip equip;
+                equip = ii.randomizeStats((Equip) ii.getEquipById(itemId));
+                equip.setStr(Short.parseShort(splitted[2]));
+                equip.setDex(Short.parseShort(splitted[2]));
+                equip.setInt(Short.parseShort(splitted[2]));
+                equip.setLuk(Short.parseShort(splitted[2]));
+                equip.setHp(Short.parseShort(splitted[2]));
+                equip.setMp(Short.parseShort(splitted[2]));
+                equip.setWatk(Short.parseShort(splitted[2]));
+                equip.setMatk(Short.parseShort(splitted[2]));
+                equip.setSpeed(Short.parseShort(splitted[2]));
+                equip.setJump(Short.parseShort(splitted[2]));
+                equip.setBossDamage(Byte.parseByte(splitted[3]));
+                equip.setIgnorePDR(Byte.parseByte(splitted[3]));
+                equip.setTotalDamage(Byte.parseByte(splitted[3]));
+                equip.setAllStat(Byte.parseByte(splitted[3]));
+                equip.setPotentialByLine(0, Integer.parseInt(splitted[4]));
+                equip.setPotentialByLine(1, Integer.parseInt(splitted[5]));
+                equip.setPotentialByLine(2, Integer.parseInt(splitted[6]));
+                equip.setBonusPotentialByLine(0, Integer.parseInt(splitted[7]));
+                equip.setBonusPotentialByLine(1, Integer.parseInt(splitted[8]));
+                equip.setBonusPotentialByLine(2, Integer.parseInt(splitted[9]));
+                equip.setOwner(c.getPlayer().getName());
+                MapleInventoryManipulator.addbyItem(c, equip);
+            }
+            return 1;
+        }
+    }
+
+    public static class setStatPerson extends CommandExecute {
+        @Override
+        public int execute(MapleClient c, String[] splitted) {
+            if (splitted.length<=7) {
+                c.getPlayer() .dropMessage(5,"Syntax: !SetStatPerson <player name> <STR> <DEX> <INT> <LUK> <HP> <MP>");
+                return 0;
+            }
+            MapleCharacter victim = c.getChannelServer().getPlayerStorage().getCharacterByName(splitted[1]);
+            victim.setStr(Short.parseShort(splitted[2]));
+            victim.updateSingleStat(MapleStat.STR, Integer.parseInt(splitted[2]));
+            victim.setDex(Short.parseShort(splitted[3]));
+            victim.updateSingleStat(MapleStat.DEX, Integer.parseInt(splitted[3]));
+            victim.setInt(Short.parseShort(splitted[4]));
+            victim.updateSingleStat(MapleStat.INT, Integer.parseInt(splitted[4]));
+            victim.setLuk(Short.parseShort(splitted[5]));
+            victim.updateSingleStat(MapleStat.LUK, Integer.parseInt(splitted[5]));
+            victim.setHp(Short.parseShort(splitted[6]));
+            victim.updateSingleStat(MapleStat.HP, Integer.parseInt(splitted[6]));
+            victim.setMp(Short.parseShort(splitted[7]));
+            victim.updateSingleStat(MapleStat.MP, Integer.parseInt(splitted[7]));
+            c.getPlayer() .dropMessage(6,splitted[1] + "'s Stats have been changed to");
+            c.getPlayer() .dropMessage(6,"STR: " + splitted[2] + "  DEX:" + splitted[3] + "  INT: " + splitted[4] + "  LUK: " + splitted[5] + "  HP: " + splitted[6] + "  MP: " + splitted[7]);
+            return 1;
+        }
+    }
+
+    public static class SetEquipStat extends CommandExecute {
+        @Override
+        public int execute(MapleClient c, String[] splitted) {
+            MapleCharacter chr = c.getPlayer();
+
+            Equip item = (Equip) chr.getInventory(MapleInventoryType.EQUIP).getItem(Short.parseShort(splitted[2]));
+            if (splitted.length<=3) {
+                chr.dropMessage(5,"Syntax: !SetEquipStat <Stat to be changed> <Inventory Box ID> <New Stat>");
+                chr.dropMessage(5,"Use     !SetEquipStat Help 0 0     for Stat to be changed abbreviations");
+            }
+            if (splitted[1].equals("STR")) {
+                chr.dropMessage(6, "Changed Equip's STR from " + item.getStr() + " to " + splitted[3]);
+                item.setStr(Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("DEX")) {
+                chr.dropMessage(6, "Changed Equip's DEX from " + item.getDex() + " to " + splitted[3]);
+                item.setDex(Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("INT")) {
+                chr.dropMessage(6,"Changed Equip's INT from " + item.getInt() + " to " + splitted[3]);
+                item.setInt(Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("LUK")) {
+                chr.dropMessage(6, "Changed Equip's LUK from " + item.getLuk() + " to " + splitted[3]);
+                item.setLuk(Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("Watk")) {
+                chr.dropMessage(6, "Changed Equip's Watk from " + item.getWatk() + " to " + splitted[3]);
+                item.setWatk(Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("Matk")) {
+                chr.dropMessage(6, "Changed Equip's Matk from " + item.getMatk() + " to " + splitted[3]);
+                item.setMatk(Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("HP")) {
+                chr.dropMessage(6, "Changed Equip's HP from " + item.getHp() + " to " + splitted[3]);
+                item.setHp(Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("MP")) {
+                chr.dropMessage(6, "Changed Equip's MP from " + item.getMp() + " to " + splitted[3]);
+                item.setMp(Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("Boss")) {
+                chr.dropMessage(6, "Changed Equip's Boss% from " + item.getBossDamage() + " to " + splitted[3]);
+                item.setBossDamage(Byte.parseByte(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+                chr.getInventory(MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("Ignore")) {
+                chr.dropMessage(6, "Changed Equip's Ignore% from " + item.getIgnorePDR() + " to " + splitted[3]);
+                item.setIgnorePDR(Byte.parseByte(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("Damage")) {
+                chr.dropMessage(6, "Changed Equip's Damage% from " + item.getTotalDamage() + " to " + splitted[3]);
+                item.setTotalDamage(Byte.parseByte(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("AllStat")) {
+                chr.dropMessage(6, "Changed Equip's All Stat% from " + item.getAllStat() + " to " + splitted[3]);
+                item.setAllStat(Byte.parseByte(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("MainPot0")) {
+                chr.dropMessage(6, "Changed Equip's MainPotential[0] from " + item.getPotentialByLine(0) + " to " + splitted[3]);
+                item.setPotentialByLine(0, Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("MainPot1")) {
+                chr.dropMessage(6, "Changed Equip's MainPotential[1] from " + item.getPotentialByLine(1) + " to " + splitted[3]);
+                item.setPotentialByLine(1, Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("MainPot2")) {
+                chr.dropMessage(6, "Changed Equip's MainPotential[2] from " + item.getPotentialByLine(2) + " to " + splitted[3]);
+                item.setPotentialByLine(2, Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("BPot0")) {
+                chr.dropMessage(6, "Changed Equip's BonusPotential[0] from " + item.getBonusPotentialByLine(0) + " to " + splitted[3]);
+                item.setBonusPotentialByLine(0, Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("BPot1")) {
+                chr.dropMessage(6, "Changed Equip's BonusPotential[1] from " + item.getBonusPotentialByLine(1) + " to " + splitted[3]);
+                item.setBonusPotentialByLine(1, Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("BPot2")) {
+                chr.dropMessage(6, "Changed Equip's BonusPotential[2] from " + item.getBonusPotentialByLine(2) + " to " + splitted[3]);
+                item.setBonusPotentialByLine(2, Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("Neb0")) {
+                chr.dropMessage(6, "Changed Equip's Equip's Nebulite[0] from " + item.getSocketByNmb(0) + " to " + splitted[3]);
+                item.setSocketByNmb(0, Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("Neb1")) {
+                chr.dropMessage(6, "Changed Equip's Nebulite[1] from " + item.getSocketByNmb(1) + " to " + splitted[3]);
+                item.setSocketByNmb(1, Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("Neb2")) {
+                chr.dropMessage(6, "Changed Equip's Nebulite[2] from " + item.getSocketByNmb(2) + " to " + splitted[3]);
+                item.setSocketByNmb(2, Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("All")) {
+                chr.dropMessage(6, "Changed All the Equip's Stats to " + splitted[3]);
+                item.setStr(Short.parseShort(splitted[3]));
+                item.setDex(Short.parseShort(splitted[3]));
+                item.setInt(Short.parseShort(splitted[3]));
+                item.setLuk(Short.parseShort(splitted[3]));
+                item.setHp(Short.parseShort(splitted[3]));
+                item.setMp(Short.parseShort(splitted[3]));
+                item.setWatk(Short.parseShort(splitted[3]));
+                item.setMatk(Short.parseShort(splitted[3]));
+                item.setPotentialByLine(0, Short.parseShort(splitted[3]));
+                item.setPotentialByLine(1, Short.parseShort(splitted[3]));
+                item.setPotentialByLine(2, Short.parseShort(splitted[3]));
+                item.setBonusPotentialByLine(0, Short.parseShort(splitted[3]));
+                item.setBonusPotentialByLine(1, Short.parseShort(splitted[3]));
+                item.setBonusPotentialByLine(2, Short.parseShort(splitted[3]));
+                item.setSocketByNmb(0, Short.parseShort(splitted[3]));
+                item.setSocketByNmb(1, Short.parseShort(splitted[3]));
+                item.setSocketByNmb(2, Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("Help")){
+                chr.dropMessage(6,"Stat - Abbreviations:");
+                chr.dropMessage(6,"Strength - STR");
+                chr.dropMessage(6,"Dexterity - DEX");
+                chr.dropMessage(6,"Intelligence - INT");
+                chr.dropMessage(6,"Luck - LUK");
+                chr.dropMessage(6,"Weapon Attack - Watk");
+                chr.dropMessage(6,"Magic Attack - Matk");
+                chr.dropMessage(6,"Health - HP");
+                chr.dropMessage(6,"Mana - MP");
+                chr.dropMessage(6,"Boss Damage% - Boss");
+                chr.dropMessage(6,"Ignore Enemy Defense% - Ignore");
+                chr.dropMessage(6,"Total Damage% - Damage");
+                chr.dropMessage(6,"All Stats% - AllStat");
+                chr.dropMessage(6,"Main Potential Line 1 - MainPot0");
+                chr.dropMessage(6,"Main Potential Line 2 - MainPot1");
+                chr.dropMessage(6,"Main Potential Line 3 - MainPot2");
+                chr.dropMessage(6,"Bonus Potential Line 1 - BPot0");
+                chr.dropMessage(6,"Bonus Potential Line 2 - BPot1");
+                chr.dropMessage(6,"Bonus Potential Line 3 - BPot2");
+                chr.dropMessage(6,"Nebulite Slot 1 - Neb0");
+                chr.dropMessage(6,"Nebulite Slot 2 - Neb1");
+                chr.dropMessage(6,"Nebulite Slot 3 - Neb2");
+            }
+            else {
+                chr.dropMessage(5, "Syntax: !SetEquipStat <Stat to be changed> <Inventory Box ID> <NewStat>");
+                chr.dropMessage(5, "e.g. !SetEquipInfo STR 1 32000");
+                chr.dropMessage(5, "will change the Strength of the item in your top right inventory to 32000");
+            }
+
+
+            return 0;
+        }
+    }
+
+    public static class SetPlayerEquipStat extends CommandExecute {
+        @Override
+        public int execute(MapleClient c, String[] splitted) {
+            MapleCharacter chr = c.getChannelServer().getPlayerStorage().getCharacterByName(splitted[4]);
+
+            Equip item = (Equip) chr.getInventory(MapleInventoryType.EQUIP).getItem(Short.parseShort(splitted[2]));
+            if (splitted.length<=4) {
+                chr.dropMessage(5,"Syntax: !SetEquipStat <Stat to be changed> <Inventory Box ID> <New Stat> <PlayerIGN>");
+                chr.dropMessage(5,"Use     !SetEquipStat Help 0 0 0     for Stat to be changed abbreviations");
+            }
+            if (splitted[1].equals("STR")) {
+                chr.dropMessage(6, "Changed Equip's STR from " + item.getStr() + " to " + splitted[3]);
+                item.setStr(Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("DEX")) {
+                chr.dropMessage(6, "Changed Equip's DEX from " + item.getDex() + " to " + splitted[3]);
+                item.setDex(Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("INT")) {
+                chr.dropMessage(6,"Changed Equip's INT from " + item.getInt() + " to " + splitted[3]);
+                item.setInt(Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("LUK")) {
+                chr.dropMessage(6, "Changed Equip's LUK from " + item.getLuk() + " to " + splitted[3]);
+                item.setLuk(Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("Watk")) {
+                chr.dropMessage(6, "Changed Equip's Watk from " + item.getWatk() + " to " + splitted[3]);
+                item.setWatk(Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("Matk")) {
+                chr.dropMessage(6, "Changed Equip's Matk from " + item.getMatk() + " to " + splitted[3]);
+                item.setMatk(Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("HP")) {
+                chr.dropMessage(6, "Changed Equip's HP from " + item.getHp() + " to " + splitted[3]);
+                item.setHp(Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("MP")) {
+                chr.dropMessage(6, "Changed Equip's MP from " + item.getMp() + " to " + splitted[3]);
+                item.setMp(Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("Boss")) {
+                chr.dropMessage(6, "Changed Equip's Boss% from " + item.getBossDamage() + " to " + splitted[3]);
+                item.setBossDamage(Byte.parseByte(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+                chr.getInventory(MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("Ignore")) {
+                chr.dropMessage(6, "Changed Equip's Ignore% from " + item.getIgnorePDR() + " to " + splitted[3]);
+                item.setIgnorePDR(Byte.parseByte(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("Damage")) {
+                chr.dropMessage(6, "Changed Equip's Damage% from " + item.getTotalDamage() + " to " + splitted[3]);
+                item.setTotalDamage(Byte.parseByte(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("AllStat")) {
+                chr.dropMessage(6, "Changed Equip's All Stat% from " + item.getAllStat() + " to " + splitted[3]);
+                item.setAllStat(Byte.parseByte(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("MainPot0")) {
+                chr.dropMessage(6, "Changed Equip's MainPotential[0] from " + item.getPotentialByLine(0) + " to " + splitted[3]);
+                item.setPotentialByLine(0, Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("MainPot1")) {
+                chr.dropMessage(6, "Changed Equip's MainPotential[1] from " + item.getPotentialByLine(1) + " to " + splitted[3]);
+                item.setPotentialByLine(1, Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("MainPot2")) {
+                chr.dropMessage(6, "Changed Equip's MainPotential[2] from " + item.getPotentialByLine(2) + " to " + splitted[3]);
+                item.setPotentialByLine(2, Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("BPot0")) {
+                chr.dropMessage(6, "Changed Equip's BonusPotential[0] from " + item.getBonusPotentialByLine(0) + " to " + splitted[3]);
+                item.setBonusPotentialByLine(0, Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("BPot1")) {
+                chr.dropMessage(6, "Changed Equip's BonusPotential[1] from " + item.getBonusPotentialByLine(1) + " to " + splitted[3]);
+                item.setBonusPotentialByLine(1, Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("BPot2")) {
+                chr.dropMessage(6, "Changed Equip's BonusPotential[2] from " + item.getBonusPotentialByLine(2) + " to " + splitted[3]);
+                item.setBonusPotentialByLine(2, Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("Neb0")) {
+                chr.dropMessage(6, "Changed Equip's Equip's Nebulite[0] from " + item.getSocketByNmb(0) + " to " + splitted[3]);
+                item.setSocketByNmb(0, Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("Neb1")) {
+                chr.dropMessage(6, "Changed Equip's Nebulite[1] from " + item.getSocketByNmb(1) + " to " + splitted[3]);
+                item.setSocketByNmb(1, Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("Neb2")) {
+                chr.dropMessage(6, "Changed Equip's Nebulite[2] from " + item.getSocketByNmb(2) + " to " + splitted[3]);
+                item.setSocketByNmb(2, Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("All")) {
+                chr.dropMessage(6, "Changed All the Equip's Stats to " + splitted[3]);
+                item.setStr(Short.parseShort(splitted[3]));
+                item.setDex(Short.parseShort(splitted[3]));
+                item.setInt(Short.parseShort(splitted[3]));
+                item.setLuk(Short.parseShort(splitted[3]));
+                item.setHp(Short.parseShort(splitted[3]));
+                item.setMp(Short.parseShort(splitted[3]));
+                item.setWatk(Short.parseShort(splitted[3]));
+                item.setMatk(Short.parseShort(splitted[3]));
+                item.setPotentialByLine(0, Short.parseShort(splitted[3]));
+                item.setPotentialByLine(1, Short.parseShort(splitted[3]));
+                item.setPotentialByLine(2, Short.parseShort(splitted[3]));
+                item.setBonusPotentialByLine(0, Short.parseShort(splitted[3]));
+                item.setBonusPotentialByLine(1, Short.parseShort(splitted[3]));
+                item.setBonusPotentialByLine(2, Short.parseShort(splitted[3]));
+                item.setSocketByNmb(0, Short.parseShort(splitted[3]));
+                item.setSocketByNmb(1, Short.parseShort(splitted[3]));
+                item.setSocketByNmb(2, Short.parseShort(splitted[3]));
+                chr.forceReAddItem(item, MapleInventoryType.EQUIP);
+            }
+            else if (splitted[1].equals("Help")){
+                chr.dropMessage(6,"Stat Abbreviations:");
+                chr.dropMessage(6,"Strength - STR");
+                chr.dropMessage(6,"Dexterity - DEX");
+                chr.dropMessage(6,"Intelligence - INT");
+                chr.dropMessage(6,"Luck - LUK");
+                chr.dropMessage(6,"Weapon Attack - Watk");
+                chr.dropMessage(6,"Magic Attack - Matk");
+                chr.dropMessage(6,"Health - HP");
+                chr.dropMessage(6,"Mana - MP");
+                chr.dropMessage(6,"Boss Damage% - Boss");
+                chr.dropMessage(6,"Ignore Enemy Defense% - Ignore");
+                chr.dropMessage(6,"Total Damage% - Damage");
+                chr.dropMessage(6,"All Stats% - AllStat");
+                chr.dropMessage(6,"Main Potential Line 1 - MainPot0");
+                chr.dropMessage(6,"Main Potential Line 2 - MainPot1");
+                chr.dropMessage(6,"Main Potential Line 3 - MainPot2");
+                chr.dropMessage(6,"Bonus Potential Line 1 - BPot0");
+                chr.dropMessage(6,"Bonus Potential Line 2 - BPot1");
+                chr.dropMessage(6,"Bonus Potential Line 3 - BPot2");
+                chr.dropMessage(6,"Nebulite Slot 1 - Neb0");
+                chr.dropMessage(6,"Nebulite Slot 2 - Neb1");
+                chr.dropMessage(6,"Nebulite Slot 3 - Neb2");
+            }
+            else {
+                chr.dropMessage(5, "Syntax: !SetEquipStat <Stat to be changed> <Inventory Box ID> <NewStat> <Player IGN>");
+                chr.dropMessage(5, "e.g. !SetEquipInfo STR 1 32000 Player");
+                chr.dropMessage(5, "will change the Strength of the item in top right inventory of 'Player' to 32000");
+
+            }
+
+
+            return 0;
+        }
+    }
+
+        // End of Asura's SuperGM Commands
+
+
 
     public static class SetName extends CommandExecute {
 

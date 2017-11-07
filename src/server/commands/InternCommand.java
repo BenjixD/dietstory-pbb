@@ -1,21 +1,6 @@
 package server.commands;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-
-import client.MapleCharacter;
-import client.MapleCharacterUtil;
-import client.MapleClient;
-import client.MapleStat;
-import client.Skill;
-import client.SkillFactory;
+import client.*;
 import client.inventory.MapleInventory;
 import client.inventory.MapleInventoryType;
 import constants.GameConstants;
@@ -48,8 +33,10 @@ import tools.HexTool;
 import tools.Pair;
 import tools.StringUtil;
 import tools.packet.CField;
-import tools.packet.CField.NPCPacket;
 import tools.packet.CWvsContext;
+
+import java.io.Serializable;
+import java.util.*;
 
 /**
  *
@@ -290,6 +277,8 @@ public class InternCommand {
 			gotomaps.put("ola", 109030101);
 			gotomaps.put("fitness", 109040000);
 			gotomaps.put("snowball", 109060000);
+			gotomaps.put("boss", 682020000); //added Boss and Dojo map
+			gotomaps.put("dojo", 925020001);
 		}
 
 		@Override
