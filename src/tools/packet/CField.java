@@ -3427,7 +3427,10 @@ public class CField {
             pw.writeShort(SendPacketOpcode.SCRIPT_MESSAGE.getValue());
             pw.write(talk.getType());
             pw.writeInt(talk.getNpcID());
-            pw.write(0);
+            pw.write(talk.hasDifferentTemplateSpeakerID());
+            if(talk.hasDifferentTemplateSpeakerID()) {
+                pw.writeInt(talk.getNpcIDD());
+            }
             if (talk.getMsg() == 2) {
                 pw.write(3);
             } else {

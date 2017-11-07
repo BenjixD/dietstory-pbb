@@ -29,7 +29,11 @@ public class NPCTalk {
 	private Object[] args;
 
 	public NPCTalk(byte type, int id, Type msg) {
-		this(type, id, (byte) msg.getValue());
+		this(type, id, msg.getValue());
+	}
+
+	public boolean hasDifferentTemplateSpeakerID() {
+		return getNpcIDD() == getNpcIDD();
 	}
 
 	public enum Type {
@@ -229,7 +233,7 @@ public class NPCTalk {
 	
 	/**
 	 * Set the amount of seconds to wait.
-	 * @param wait
+	 * @param seconds
 	 */
 	public void setSeconds(int seconds) {
 		this.seconds = seconds;
@@ -245,7 +249,7 @@ public class NPCTalk {
 	
 	/**
 	 * Set the amount.
-	 * @param wait
+	 * @param amount
 	 */
 	public void setAmount(int amount) {
 		this.amount = amount;
@@ -253,7 +257,6 @@ public class NPCTalk {
 	
 	/**
 	 * Get the minimum amount of character/numerical values.
-	 * @param min
 	 */
 	public int getMin() {
 		return min;
@@ -269,7 +272,6 @@ public class NPCTalk {
 	
 	/**
 	 * Get the maximum amount of character/numerical values.
-	 * @param max
 	 */
 	public int getMax() {
 		return max;
@@ -285,7 +287,6 @@ public class NPCTalk {
 	
 	/**
 	 * Get the text to be displayed in the dialog box.
-	 * @param text
 	 */
 	public String getText() {
 		return text;
@@ -309,7 +310,6 @@ public class NPCTalk {
 	
 	/**
 	 * Get the default text to be displayed in the dialog box.
-	 * @param def
 	 */
 	public String getDef() {
 		return def;
@@ -325,7 +325,6 @@ public class NPCTalk {
 
 	/**
 	 * Get the hint.
-	 * @param hint
 	 */
 	public String getHint() {
 		return hint;
@@ -341,7 +340,6 @@ public class NPCTalk {
 	
 	/**
 	 * Get the status of the previous button.
-	 * @param prev
 	 */
 	public boolean getPrev() {
 		return prev;
@@ -357,7 +355,6 @@ public class NPCTalk {
 	
 	/**
 	 * Get the status of the next button.
-	 * @param next
 	 */
 	public boolean getNext() {
 		return next;
@@ -373,7 +370,6 @@ public class NPCTalk {
 	
 	/**
 	 * Get the list of objects.
-	 * @param args
 	 */
 	public Object[] getArgs() {
 		return args;
