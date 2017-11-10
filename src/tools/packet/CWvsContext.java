@@ -1,24 +1,8 @@
 package tools.packet;
 
-import java.awt.Point;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
-
-import client.BuddylistEntry;
-import client.CharacterTemporaryStat;
-import client.MapleCharacter;
-import client.MapleClient;
-import client.MapleDisease;
-import client.MapleMarriage;
-import client.MapleReward;
-import client.MapleStat;
+import client.*;
 import client.MapleStat.Temp;
-import client.MapleTrait;
 import client.MapleTrait.MapleTraitType;
-import client.MonsterFamiliar;
-import client.Skill;
-import client.SkillEntry;
 import client.inventory.*;
 import constants.GameConstants;
 import handling.SendPacketOpcode;
@@ -32,11 +16,7 @@ import handling.world.World;
 import handling.world.exped.MapleExpedition;
 import handling.world.exped.PartySearch;
 import handling.world.exped.PartySearchType;
-import handling.world.guild.MapleBBSThread;
-import handling.world.guild.MapleGuild;
-import handling.world.guild.MapleGuildAlliance;
-import handling.world.guild.MapleGuildCharacter;
-import handling.world.guild.MapleGuildSkill;
+import handling.world.guild.*;
 import server.MapleItemInformationProvider;
 import server.MapleStatEffect;
 import server.StructFamiliar;
@@ -53,6 +33,12 @@ import tools.data.PacketWriter;
 import tools.packet.enums.BuddyType;
 import tools.packet.enums.EffectType;
 import tools.packet.enums.PartyType;
+
+import java.awt.*;
+import java.util.*;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public class CWvsContext {
 
@@ -4412,13 +4398,14 @@ public class CWvsContext {
     public static byte[] updateCrowns(int[] titles) {
         PacketWriter pw = new PacketWriter();
 
-        pw.writeShort(SendPacketOpcode.REQUEST_EVENT_LIST.getValue());
+        //pw.writeShort(SendPacketOpcode.REQUEST_EVENT_LIST.getValue());
+        pw.writeShort(SendPacketOpcode.EVENT_NAME_TAG.getValue());
         for (int i = 0; i < 5; i++) {
             pw.writeMapleAsciiString("");
             if (titles.length < i + 1) {
                 pw.write(-1);
             } else {
-     //           pw.write(titles[i]);
+                pw.write(titles[i]);  //was commented out
             }
         }
 

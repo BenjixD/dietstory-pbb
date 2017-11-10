@@ -1,7 +1,5 @@
 package server.commands;
 
-import java.util.Arrays;
-
 import client.MapleCharacter;
 import client.MapleClient;
 import client.MapleStat;
@@ -19,6 +17,8 @@ import tools.FileoutputUtil;
 import tools.StringUtil;
 import tools.packet.CField.NPCPacket;
 import tools.packet.CWvsContext;
+
+import java.util.Arrays;
 
 /**
  *
@@ -389,7 +389,7 @@ public class PlayerCommand {
 
 		@Override
 		public int execute(MapleClient c, String[] splitted) {
-			c.getPlayer().dropMessage(6, "You currently have " + c.getPlayer().getCSPoints(1) + " Cash, " + c.getPlayer().getEPoints() + " Event Points, " + c.getPlayer().getDPoints() + " Donation Points, " + c.getPlayer().getVPoints() + " voting points and " + c.getPlayer().getIntNoRecord(GameConstants.BOSS_PQ) + " Boss Party Quest points.");
+			c.getPlayer().dropMessage(6, "You currently have " + c.getPlayer().getCSPoints(2) + " Cash, " + c.getPlayer().getEPoints() + " Event Points, " + c.getPlayer().getDPoints() + " Donation Points, " + c.getPlayer().getVPoints() + " voting points and " + c.getPlayer().getIntNoRecord(GameConstants.BOSS_PQ) + " Boss Party Quest points.");
 			c.getPlayer().dropMessage(6, "The time is currently " + FileoutputUtil.CurrentReadable_TimeGMT() + " GMT. | EXP " + (Math.round(c.getPlayer().getEXPMod()) * 100) * Math.round(c.getPlayer().getStat().expBuff / 100.0) + "%, Drop " + (Math.round(c.getPlayer().getDropMod()) * 100) * Math.round(c.getPlayer().getStat().dropBuff / 100.0) + "%, Meso " + Math.round(c.getPlayer().getStat().mesoBuff / 100.0) * 100 + "%");
 			c.getPlayer().dropMessage(6, "EXP: " + c.getPlayer().getExp() + " / " + c.getPlayer().getNeededExp());
 			c.removeClickedNPC();
