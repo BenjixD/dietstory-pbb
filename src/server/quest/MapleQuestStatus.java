@@ -25,6 +25,7 @@ public class MapleQuestStatus implements Serializable {
      * @param status
      */
     public MapleQuestStatus(final MapleQuest quest, final int status) {
+
         this.quest = quest;
         this.setStatus((byte) status);
         this.completionTime = System.currentTimeMillis();

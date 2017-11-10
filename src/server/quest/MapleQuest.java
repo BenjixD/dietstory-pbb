@@ -234,11 +234,6 @@ public class MapleQuest implements Serializable {
         //}
         for (MapleQuestRequirement r : startReqs) {
         	
-            if (npcid > 0) { //everyday. we don't want ok
-                forceComplete(c, npcid);
-                return false;
-            }
-            
             if (!r.check(c, npcid)) {
                 return false;
             }

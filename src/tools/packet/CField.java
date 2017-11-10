@@ -4320,7 +4320,97 @@ public class CField {
     }
 
     public static class EffectPacket {
+        public static enum UserEffectCodes {
 
+            LevelUp((byte) 0x00),
+            SkillUse((byte) 0x01),
+            SkillUseBySummoned((byte) 0x02),
+            SkillAffected((byte) 0x03),
+            SkillAffected_Ex((byte) 0x04),
+            SkillAffected_Select((byte) 0x05),
+            SkillSpecialAffected((byte) 0x06),
+            Quest((byte) 0x07), // mastery book effect if sending 0
+            Pet((byte) 0x08),
+            SkillSpecial((byte) 0x09),
+            Resist((byte) 0x0A),
+            ProtectOnDieItemUse((byte) 0x0B), // 'The EXP did not drop after using item'
+            PlayPortalSE((byte) 0x0C),
+            JobChanged((byte) 0x0D), // Seems to be some item box opening effect
+            QuestComplete((byte) 0x0E),
+            IncDecHPEffect((byte) 0x0F),
+            BuffItemEffect((byte) 0x10), // Seems to be some item box opening effect
+            SquibEffect((byte) 0x11),
+            MonsterBookCardGet((byte) 0x12), // mainly sound only, GMS 170 doesnt seems to have the effect animation anymore :(
+            LotteryUse((byte) 0x13),
+            ItemLevelup((byte) 0x14),
+            ItemMaker((byte) 0x15),
+            ExpItemConsumed((byte) 0x16), // Seems to be some item box opening effect, same as unknown3
+            FieldItemConsumed((byte) 0x17), // EXP gained when you touch the exp objects spawned by killing mobs
+            ReservedEffect((byte) 0x18), // not sure
+            // Something new is in here, missing in KMST 0x19
+            UpgradeTombItemUse((byte) 0x1A), // Wheel of Destiny
+            BattlefieldItemUse((byte) 0x1B), // Premium wheel of destiny
+            AvatarOriented((byte) 0x1B),
+            AvatarOrientedRepeat((byte) 0x1C),
+            AvatarOrientedMultipleRepeat((byte) 0x1D),
+            IncubatorUse((byte) 0x1E),
+            PlaySoundWithMuteBGM((byte) 0x1F), // This may be wrong, I can't confirm it
+            PlayExclSoundWithDownBGM((byte) 0x20), // This may be wrong, I can't confirm it
+            // Something new is in here, missing in KMST 0x21
+            SpiritStoneUse((byte) 0x22),
+            IncDecHPEffect_EX((byte) 0x23),
+            IncDecHPRegenEffect((byte) 0x24),
+            // Something new is in here, missing in KMST 0x25
+            EffectUOL((byte) 0x26),
+            PVP((byte) 0x27),
+            PvPChampion((byte) 0x28),
+            PvPGradeUp((byte) 0x29),
+            PvPRevive((byte) 0x2A), // character flickers lol
+            JobEffect((byte) 0x2B),
+            FadeInOut((byte) 0x2C),
+            MobSkillHit((byte) 0x2D),
+            AswanSiegeAttack((byte) 0x2E), // some map arrows it seems
+            BlindEffect((byte) 0x2F),
+            BossShieldCount((byte) 0x30),
+            ResetOnStateForOnOffSkill((byte) 0x31), // Angelic Burster recharge.
+            JewelCraft((byte) 0x32),
+            ConsumeEffect((byte) 0x33),
+            PetBuff((byte) 0x34), // some esclamation mark if 0 is sent
+            LotteryUIResult((byte) 0x35),
+            LeftMonsterNumber((byte) 0x36),
+            ReservedEffectRepeat((byte) 0x37),
+            RobbinsBomb((byte) 0x38),
+            SkillMode((byte) 0x39),
+            ActQuestComplete((byte) 0x3A),
+            Point((byte) 0x3B), // beware! error 38 lol
+            SpeechBalloon((byte) 0x3C),
+            TextEffect((byte) 0x3D),
+            SkillPreLoopEnd((byte) 0x3E),
+            Aiming((byte) 0x3F),
+            PickUpItem((byte) 0x40),
+            BattlePvP_IncDecHp((byte) 0x41), // what is this? Just shows a monster like damaged on player
+            BiteAttack_ReceiveSuccess((byte) 0x42), // monster book caught
+            BiteAttack_ReceiveFail((byte) 0x43), // Fail animation
+            IncDecHPEffect_Delayed((byte) 0x44),
+            Lightness((byte) 0x45),
+            ActionSetUsed((byte) 0x46),
+            // Non KMST like naming convention... TODO: FIX
+            Upgrade_Option((byte) 0x48), // Shows a banner 'Congrats, you have gained Upgrade potion for playing an hour'
+            Familiar_Escape((byte) 0x4A), // familiar message in grey
+
+            /// From here onwards, these are unknowns to be updated
+            Skill_DiceEffect((byte) 0x03);
+
+            private final byte effectid;
+
+            private UserEffectCodes(byte effectid) {
+                this.effectid = effectid;
+            }
+
+            public byte getEffectId() {
+                return effectid;
+            }
+        }
         public static byte[] showForeignEffect(int effect) {
             return showForeignEffect(-1, effect);
         }
