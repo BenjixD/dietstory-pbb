@@ -28,7 +28,7 @@ import lib.xml.XMLWZFile;
 public class MapleDataProviderFactory {
     
     public static MapleDataProvider getDataProvider(String file) {
-        return getWZ(new File(System.getProperty("wzpath"), file), false);
+        return getWZ(new File("wz", file), false);
     }
     
     private static MapleDataProvider getWZ(Object in, boolean provideImages) {
