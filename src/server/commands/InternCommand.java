@@ -279,6 +279,9 @@ public class InternCommand {
 			gotomaps.put("snowball", 109060000);
 			gotomaps.put("boss", 682020000); //added Boss and Dojo map
 			gotomaps.put("dojo", 925020001);
+			gotomaps.put("chu", 450002000);
+			gotomaps.put("lachelein", 450003000);
+			gotomaps.put("nameless", 450001000);
 		}
 
 		@Override

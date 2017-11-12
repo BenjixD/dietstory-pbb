@@ -73,6 +73,20 @@ public class AdminCommand {
     }
 
 
+    public static class GainDP extends CommandExecute {
+
+        @Override
+        public int execute(MapleClient c, String[] splitted) {
+            if (splitted.length < 2) {
+                c.getPlayer().dropMessage(5, "Need amount.");
+                return 0;
+            }
+            c.getPlayer().setDPoints(c.getPlayer().getDPoints() + Integer.parseInt(splitted[1]));
+            c.getPlayer().dropMessage(6,"You have gained " +splitted[1]+ " donor points.");
+            c.getPlayer().dropMessage(6,"You now have " + c.getPlayer().getDPoints() + " donor points.");
+            return 1;
+        }
+    }
 
     public static class MagicWheel extends CommandExecute {
 

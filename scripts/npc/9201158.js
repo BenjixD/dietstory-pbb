@@ -1,9 +1,9 @@
-var points;
+/*var points;
 
 function start() {
     var record = cm.getQuestRecord(150001);
     points = record.getCustomData() == null ? "0" : record.getCustomData();
-    cm.sendSimple("Would you like to have a taste of a relentless boss battle? \r\n\r\n #b#L0# #v03994115##l #L1# #v03994116##l #L2# #v03994117##l #L3# #v03994118##l \r\n\t\t\t\t\t\t\t\t\t  #L4# #v03994442##l");
+    cm.sendSimple("Would you like to have a taste of a relentless boss battle? \r\n\r\n #b#L0# #v03994115##l #L1# #v03994116##l #L2# #v03994117##l #L3# #v03994118##l \r\n #L4# #v03994442##l");
 }
 
 function action(mode, type, selection) {
@@ -188,4 +188,4 @@ function action(mode, type, selection) {
         }
     }
     cm.dispose();
-}
+}*/

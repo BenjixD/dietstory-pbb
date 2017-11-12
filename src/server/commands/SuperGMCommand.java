@@ -1890,7 +1890,19 @@ public class SuperGMCommand {
             return 1;
         }
     }
-    
+
+    public static class MaxSkills extends CommandExecute {
+
+        @Override
+        public int execute(MapleClient c, String[] splitted) {
+            MapleCharacter chr = c.getPlayer();
+            for(Skill skill : chr.getSkills().keySet()) {
+                byte maxLevel = (byte) skill.getMaxLevel();
+                chr.changeSingleSkillLevel(skill, maxLevel, maxLevel);
+            }
+            return 1;
+        }
+    }
 
     public static class SetSendOp extends CommandExecute {
 

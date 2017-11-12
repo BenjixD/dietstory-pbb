@@ -1,38 +1,7 @@
 package client;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.io.Serializable;
-import java.lang.ref.WeakReference;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.stream.Collectors;
-
-import client.inventory.*;
-
 import client.MapleTrait.MapleTraitType;
+import client.inventory.*;
 import client.inventory.MapleImp.ImpFlag;
 import constants.GameConstants;
 import constants.MapConstants;
@@ -40,18 +9,9 @@ import handling.channel.ChannelServer;
 import handling.channel.handler.AttackInfo;
 import handling.channel.handler.PlayerHandler;
 import handling.login.LoginInformationProvider;
-import handling.login.LoginServer;
 import handling.login.LoginInformationProvider.JobType;
-import handling.world.CharacterTransfer;
-import handling.world.MapleCharacterLook;
-import handling.world.MapleMessenger;
-import handling.world.MapleMessengerCharacter;
-import handling.world.MapleParty;
-import handling.world.MaplePartyCharacter;
-import handling.world.PartyOperation;
-import handling.world.PlayerBuffStorage;
-import handling.world.PlayerBuffValueHolder;
-import handling.world.World;
+import handling.login.LoginServer;
+import handling.world.*;
 import handling.world.guild.MapleGuild;
 import handling.world.guild.MapleGuildCharacter;
 import net.DatabaseConnection;
@@ -59,14 +19,8 @@ import net.DatabaseException;
 import script.event.EventInstanceManager;
 import script.event.EventManager;
 import script.npc.NPCScriptManager;
-import server.MapleInventoryManipulator;
-import server.MapleItemInformationProvider;
-import server.MaplePortal;
-import server.MapleStatEffect;
+import server.*;
 import server.MapleStatEffect.CancelEffectAction;
-import server.MapleStorage;
-import server.MapleTrade;
-import server.RandomRewards;
 import server.Timer;
 import server.Timer.BuffTimer;
 import server.Timer.MapTimer;
@@ -79,20 +33,7 @@ import server.life.MapleMonster;
 import server.life.MobSkill;
 import server.life.MobSkillFactory;
 import server.life.PlayerNPC;
-import server.maps.AnimatedMapleMapObject;
-import server.maps.FieldLimitType;
-import server.maps.MapleDoor;
-import server.maps.MapleDragon;
-import server.maps.MapleExtractor;
-import server.maps.MapleFoothold;
-import server.maps.MapleHaku;
-import server.maps.MapleMap;
-import server.maps.MapleMapFactory;
-import server.maps.MapleMapObject;
-import server.maps.MapleMapObjectType;
-import server.maps.MapleSummon;
-import server.maps.MechDoor;
-import server.maps.SavedLocationType;
+import server.maps.*;
 import server.movement.LifeMovementFragment;
 import server.quest.MapleQuest;
 import server.quest.MapleQuestStatus;
@@ -100,27 +41,30 @@ import server.shops.MapleShop;
 import server.shops.MapleShopFactory;
 import server.shops.MapleShopItem;
 import server.stores.IMaplePlayerShop;
-import tools.ConcurrentEnumMap;
-import tools.FileoutputUtil;
-import tools.MockIOSession;
-import tools.Pair;
-import tools.Randomizer;
-import tools.Triple;
+import tools.*;
 import tools.data.LittleEndianAccessor;
 import tools.packet.*;
 import tools.packet.CField.EffectPacket;
 import tools.packet.CField.NPCPacket;
 import tools.packet.CField.SummonPacket;
-import tools.packet.CWvsContext.BuddylistPacket;
-import tools.packet.CWvsContext.BuffPacket;
-import tools.packet.CWvsContext.InfoPacket;
-import tools.packet.CWvsContext.InventoryPacket;
-import tools.packet.CWvsContext.Reward;
+import tools.packet.CWvsContext.*;
 import tools.packet.JobPacket.AvengerPacket;
 import tools.packet.JobPacket.LuminousPacket;
 import tools.packet.JobPacket.PhantomPacket;
 import tools.packet.JobPacket.XenonPacket;
-import tools.packet.enums.EffectType;
+
+import java.awt.*;
+import java.io.Serializable;
+import java.lang.ref.WeakReference;
+import java.sql.*;
+import java.util.*;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.Collectors;
 
 public class MapleCharacter extends AnimatedMapleMapObject implements Serializable, MapleCharacterLook {
 
@@ -4543,10 +4487,10 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             StringBuilder sb = new StringBuilder();
             sb.append("[Congrats] ");
             addMedalString(client.getPlayer(), sb);
-            sb.append(getName()).append(" has reached Level ").append(level).append("! Congratule ");
+            sb.append(getName()).append(" has reached Level ").append(level).append("! Congratulate ");
             addMedalString(client.getPlayer(), sb);
             sb.append(getName()).append(" on such an amazing achievement!");
-            World.Broadcast.broadcastMessage(CField.getGameMessage(sb.toString(), (short) 10));
+            World.Broadcast.broadcastMessage(CField.getGameMessage(sb.toString(), (short) 10));   // changed 10 to 6, back to 10
         }
         //if (map.getForceMove() > 0 && map.getForceMove() <= getLevel()) {
         //    changeMap(map.getReturnMap(), map.getReturnMap().getPortal(0));
@@ -5566,7 +5510,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             case 2:
                 if (maplepoints + quantity < 0) {
                     if (show) {
-                        dropMessage(-1, "You have gained the max maple points. No cash will be awarded.");
+                        dropMessage(-1, "You have gained the max cash. No cash will be awarded.");
                     }
                     return;
                 }
@@ -5577,8 +5521,9 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 break;
         }
         if (show && quantity != 0) {
-            dropMessage(-1, "You have " + (quantity > 0 ? "gained " : "lost ") + quantity + (type == 1 ? " cash." : " maple points."));
-            client.getSession().write(EffectPacket.showForeignEffect(EffectType.ITEM_LEVEL_UP.getValue())); //
+            //dropMessage(-1, "You have " + (quantity > 0 ? "gained " : "lost ") + quantity + (type == 1 ? " cash." : " maple points."));
+            dropMessage(-1, "" + (quantity > 0 ? "Gained " + quantity : "lost " + (quantity * -1)) + " Cash");
+            //client.getSession().write(EffectPacket.showForeignEffect(EffectType.ITEM_LEVEL_UP.getValue())); //commented out this line (gives Weapon Level up effect anytime you buy an item with Cash
         }
     }
 
@@ -6315,6 +6260,11 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     public int getGMlevel() {
         return gmLevel;
     }
+
+    public int getDojoPoints () {
+        return getClient().getPlayer().getIntNoRecord(GameConstants.BOSS_PQ);
+    }
+
 
     public CashShop getCashInventory() {
         return cs;

@@ -144,9 +144,9 @@ function action(mode, type, selection) {
 	} else if (status == 1) {
 	    if (sel == 1) {
 		if (cm.isLeader()) {
-			cm.warpParty(925020002);
+			cm.warpParty(925020001);
 		} else {
-			cm.warp(925020002);
+			cm.warp(925020001);
 		}
 	    }
 	    cm.dispose();
@@ -154,9 +154,9 @@ function action(mode, type, selection) {
     } else {
 	if (mode == 1) {
 		if (cm.isLeader()) {
-			cm.warpParty(925020002);
+			cm.warpParty(925020001);
 		} else {
-			cm.warp(925020002);
+			cm.warp(925020001);
 		}
 	}
 	cm.dispose();

@@ -1,426 +1,336 @@
+// Agent W Donor NPC Donation NPC Donation Points DP (9000039)
+
+var status2 = 0;
+var status3 = 0;
+var status3_8sub = 0;
 var status = -1;
-var items;
-var itemsp = Array(800, 500, 550, 2000, 800, 1000, 3000, 1000, 750, 1500);
-var itemsu = Array(0, 2, 0, 0, 0, 0, 0, 0, 0, 0); // extra slots, not set.
-var itemsq = Array(1, 1, 125, 1, 1, 1, 1, 1, 1, 1);
-var itemse = Array(7, -1, -1, -1, -1, 30, 30, -1, -1, -1);
-var extra_text = Array("2x Drop", "Brown Work Gloves", "Gachapon Ticket", "Purple Surfboard", "White Scroll", "Junior GM Cap (+25 all)", "Pet Itemvac", "Aura Pendant (Permanent)", "Lucky Day Scroll", "Protection Scroll");
-var acash = 40000;
-var acashp = 500;
-var sel = -1;
-var itt = -1;
-var previous_points;
-var chairs;
-var chairsp = Array(1200, 1200, 1200, 1200, 1200, 1200, 1200, 1200, 800, 1000, 1000, 1000, 1500, 800, 800, 1200, 1000, 1000, 1500, 1000, 800, 800, 1000, 1000, 1200, 1200, 1500, 1000, 1000, 800, 1000, 1000, 1200, 1500);
 
-var hairp = 1000;
-var mhair;
-var fhair;
-var hairnew;
 
-var keys = Array(16, 17, 18, 20, 21, 22, 36, 44, 45, 46, 47, 48);
-var keynames = Array("Q", "W", "F", "T", "Y", "U", "J", "Z", "X", "C", "V", "B"); //just as reference
-var skills;
-var skillsnames = Array("Dispel", "Haste", "Bless", "Teleport", "Hyper Body");
-var skillsp = Array(1000, 1500, 1800, 1500, 2500);
-var allskillsp = 5000;
-
-var resetp = 1000;
-
-var pendantp = 500;
-var pendantp_perm = 1000;
-
-var namep = 1000;
-
-var buddyp = 100;
-
-var ep = 500;
-var slot = Array();
-var inv;
+var rlsid = 3993003;
+var mlcid = 4310008;
+var rbid = 4310016;
+var pendantslot = [["30 Days for the Character", 400], ["90 Days for the Character", 1000], ["Permanent for the Character", 2000], ["30 Days for the Account", 1000], ["90 Days for the Account", 2500], ["Permanent for the Account", 5000] ];
+var donorskills = [];
+var items = [
+/*Items*/ [[5211046, 500, 1,"2x EXP Card (does not stack with VP EXP card)"], [5211046, 2500, 7, "2x EXP Card (does not stack with VP EXP card)"], [5360042, 1000, 7, "2x Drop/Meso Card (does not stack with VP Drop/Meso card)"], [1122219, 500, 30, "+20% Drop, stacks with all"], [1122219, 1500, -1, "+20% Drop, stacks with all"], [1132183, 1500, -1, "Cash Belt (stacks with others, cannot be worn by Zero)"], [1122210, 1500, -1, "Cash Pendant (stacks with other Pendants, cannot wear two of the same pendant at the same time)"], [1152101, 1500, -1, "Cash Shoulder (stacks with others, cannot be worn by Zero)"], /*[Aura Ring+2, 750, -1, "Aura Ring(+2) (cannot wear two of the same ring at the same time)"], [Aura Ring+5, 1000, -1, "Aura Ring(+5) (cannot wear two of the same ring at the same time)"], [Dark Devil Ring, 1000, -1, "Dark Devil Ring (cannot wear two fo the same ring at the same time)"], [Grin Ring, 2000, -1, "Grin Ring (cannot wear two of the same ring at the same time)"],*/ [1002959, 2000, -1, "Donor Cap (cosmetic item)"], [4030003, 180, 0.5, "Pet itemvac"], [4030003, 300, 1, "Pet itemvac"], [4030003, 700, 3, "Pet itemvac"], [4030003, 1500, 7, "Pet itemvac"], [4030003, 4500, 30, "Pet itemvac"], [1672020, 5000, -1, "Lidium Heart (Permanent, Level 30)"], [1672027, 5000, -1, "Upgrade Lidium to Superior Lidium (Permanent, level 80)"], [1672040, 2500, -1, "Upgrade Superior Lidium to Titanium (Permanent, level 100)"], [1672069, 7500, -1, "Upgrade Titanium to Outlaw (Permanent, level 150)"], /*[5062010, 5, -1, "Black Cube"], [5062090, 10, -1, "Memory Cube (Enhanced Black Cube)"],*/ [5064300, 1000, -1, "Guardian Scroll"], [5064400, 2500, -1, "Return Scroll"], [2022035, 400, 7, "Clone"], [2022035, 1500, 30, "Clone"], [5220097, 1000, -1, "Chair Gachapon Ticket"]/*, [Damage skins, 1000, -1, "Dmg Skin Name"]*/ ],
+/*Chairs*/ [[3015369, 1000, -1], [3015253, 1000, -1], [3015254, 1000, -1], [3015255, 1000, -1], [3015096, 1000, -1], [3015551, 1000, -1], [3015331, 1000, -1], [3015514, 1000, -1], [3012031, 1000, -1], [3015497, 1000, -1], [3015541, 1000, -1], [3015272, 1000, -1], [3015263, 1000, -1], [3015236, 1000, -1], [3015543, 1000, -1], [3015235, 1000, -1], [3015234, 1000, -1], [3015512, 1000, -1], [3010839, 1000, -1], [3010964, 1000, -1], [3015496, 1000, -1], [3010812, 1000, -1], [3012028, 1000, -1], [3015552, 1000, -1], [3010662, 1000, -1], [3015173, 1000, -1], [3010931, 1000, -1],  [3014019, 1000, -1], [3010932, 1000, -1], [3010838, 1000, -1], [3015610, 1000, -1], [3010700, 1000, -1], [3010681, 1000, -1], [3010519, 1000, -1], [3010651, 1000, -1], [3010652, 1000, -1], [3010653, 1000, -1], [3010654, 1000, -1], [3010655, 1000, -1], [3010656, 1000, -1], [3015014, 1000, -1], [3015005, 1000, -1], [3015002, 1000, -1], [3015034, 1000, -1], [3015125, 1000, -1], [3015162, 1000, -1], [3015163, 1000, -1], [3015164, 1000, -1], [3015160, 1000, -1], [3015183, 1000, -1], [3015193, 1000, -1], [3015195, 1000, -1], [3015215, 1000, -1], [3015213, 1000, -1], [3015304, 1000, -1], [3015366, 1000, -1], [3015449, 1000, -1], [3015420, 1000, -1], [3015433, 1000, -1],  [3015447, 1000, -1], [3015437, 1000, -1], [3015468, 1000, -1], [3015498, 1000, -1], [3015482, 1000, -1], [3015520, 1000, -1], [3015526, 1000, -1], [3015573, 1000, -1], [3015580, 1000, -1], [3015586, 1000, -1], [3015598, 1000, -1], [3015603, 1000, -1], [3015600, 1000, -1], [3015609, 1000, -1], [3015608, 1000, -1], [3015607, 1000, -1], [3015606, 1000, -1], [3015605, 1000, -1], [3015604, 1000, -1], [3015637, 1000, -1], [3015638, 1000, -1], [3015646, 1000, -1], [3015659, 1000, -1], [3015660, 1000, -1], [3015665, 1000, -1], [3015661, 1000, -1], [3015694, 1000, -1], [3015695, 1000, -1], [3015696, 1000, -1], [3015697, 1000, -1], [3015698, 1000, -1], [3015699, 1000, -1], [3015701, 1000, -1], [3015744, 1000, -1], [3015743, 1000, -1], [3010417, 1000, -1], [3010416, 1000, -1], [3010676, 1000, -1], [3010680, 1000, -1], [3010820, 1000, -1], [3010842, 1000, -1], [3010843, 1000, -1], [3010853, 1000, -1], [3010848, 1000, -1], [3010854, 1000, -1], [3010968, 1000, -1], [3010979, 1000, -1], [3010978, 1000, -1], [3010980, 1000, -1], [3012032, 1000, -1], [3013009, 1000, -1], [3014009, 1000, -1], [3014010, 1000, -1], [3014013, 1000, -1], [3014014, 1000, -1], [3014015, 1000, -1], [3014016, 1000, -1], [3014017, 1000, -1], [3014018, 1000, -1], [3015001, 1500, -1], [3015438, 1500, -1], [3014011, 1500, -1]],
+/*Skills*/ [[5610000, 10000, -1], [5610001, 10000, -1], [2532000, 50000, -1], [2530000, 35000, -1], [2531000, 100000, -1], [5534000, 20000, -1], [2532004, 100000, -1], [2530006, 100000, -1], [2533001, 400000, -1], [2048400, 5000, -1], [2470007, 10000, -1]]
+];
+var select, select2;
 
 function start() {
+    status = -1;
     action(1, 0, 0);
-	if (cm.isGMS()) {
-		fhair = Array(34000, 34010, 34020, 34030, 34040, 34050, 34060, 34070, 34080, 34090, 34100, 34110, 34120, 34130, 34140, 34150, 34160, 34180, 34190, 34210, 34220, 34250, 34260, 34270, 34310, 34320, 34330, 34340, 34360, 34400, 34410, 34420, 34450, 34470, 34480, 34490, 34540);
-		mhair = Array(33000, 33030, 33040, 33050, 33060, 33070, 33080, 33090, 33100, 33110, 33120, 33130, 33150, 33160, 33170, 33180, 33190, 33210, 33220, 33240, 33250, 33270, 33280, 33290, 33350, 33360, 33370, 33380, 33390, 33400, 33440, 33450, 33460, 33500, 33510, 33520, 33580, 33590);
-		chairs = Array(3010045, 3010014, 3010068, 3010009, 3010022, 3010023, 3010041, 3010142, 3010069, 3010071, 3010107, 3010119, 3010151, 3010155, 3010139, 3010171, 3010077, 3010173, 3010174, 3010175, 3010123, 3010168, 3010095, 3010099, 3010036, 3010112, 3010096, 3010131, 3010172, 3012010, 3012011, 3010180, 3010181, 3010188);
-		items = Array(5360000, 1082149, 5220000, 1442057, 2340000, 1002959, 4030003, 1122121, 2530000, 2531000);
-		skills = Array(9101000, 9101001, 9101003, 9101007, 9101008);
-	} else {
-		fhair = Array(34000, 34010, 34020, 34030, 34040, 34050, 34070, 34080, 34090, 34100, 34110, 34120, 34140, 34160, 34180, 34200, 34210, 34240, 34250, 34060, 34130, 34150, 34170, 34190, 34230, 34220, 34260, 34270, 34280, 34290, 34300, 34310, 34320, 34330, 34340, 34360, 34390, 34430, 34450, 34480, 34510);
-		mhair = Array(33000, 33010, 33020, 33030, 33040, 33070, 33080, 33100, 33120, 33130, 33140, 33150, 33160, 33170, 33210, 33240, 33250, 33260, 33010, 33050, 33060, 33090, 33110, 33180, 33190, 33200, 33220, 33230, 33270, 33280, 33290, 33300, 33310, 33320, 33340, 33350, 33380, 33390, 33420, 33430, 33480, 33510, 33520);
-		chairs = Array(3010045, 3010054, 3012002, 3010014, 3010068, 3010009, 3010022, 3010023, 3012003, 3010041, 3010142, 3010069, 3010071, 3010107, 3010119, 3010151, 3010155, 3010139, 3010171, 3010077, 3010173, 3010174, 3010175, 3010123, 3010168, 3010095, 3010099, 3010036, 3010144, 3010112, 3010096, 3010131, 3010172, 3012006);
-		items = Array(5360017, 1082149, 5220000, 1442057, 2340000, 1002959, 4030003, 1122121, 2530000, 2531000);
-		skills = Array(9001000, 9001001, 9001003, 9001007, 9001008);
-	}
-    inv = cm.getInventory(1);
-    previous_points = cm.getPlayer().getPoints();
 }
 
 function action(mode, type, selection) {
-	if (mode != 1) {
-		cm.dispose();
-		return;
-	}
-	status++;
-    if (status == 0) {
-	cm.sendSimple("Hello #r#h ##k! My name is #rAgent W#k. I am the master of #bpoints#k. What would you like?\r\n#b#L0#What are points?#l\r\n#b#L1#Trade points for items#l \r\n#b#L3#Give a slot to an existing equipment#l \r\n#L4#Trade points for Cash#l \r\n#b#L6#Trade points for chairs#l \r\n#L7#Royal Hair (" + hairp + " points)#l \r\n#L8#FULL AP Reset (" + resetp + " points)#l \r\n#L9#Trade skills for points#l \r\n#L10#Change name for " + namep + " points#l \r\n#L11#Buddy capacity 120 for " + buddyp + " points#l \r\n#L18#Additional Pendant Slot#l \r\n#L5#How many points do I have?#l \r\n#L12#Trade M Coins for points(100)#l \r\n#L13#Trade points(100) for M Coins#l  \r\n#L16#Trade Red Luck Sacks for points(1000)#l \r\n#L17#Trade points(1000) for Red Luck Sacks#l#k");
-    } else if (status == 1) {
-	sel = selection;
-	if (selection == 0) {
-		cm.sendNext("Points can be achieved through donations. They can be used to trade for really good things, such as equipments, chairs, and Cash right here by me! If you save up your points, perhaps there is a greater reward...");
-		status = -1;
-	} else if (selection == 1) {
-		var selStr = "Alright, I can trade these items for points...#b\r\n\r\n";
-		for (var i = 0; i < items.length; i++) {
-			selStr += "#L" + i + "##v" + items[i] + "#" + extra_text[i] + (itemsu[i] > 0 ? "(with " + itemsu[i] + " extra slots)" : "") + " x " + itemsq[i] + " for #e" + itemsp[i] + "#n points#n" + (itemse[i] > 0 ? (" ...lasts #r#e" + itemse[i] + "#n#bdays") : "") + "#l\r\n";
-		}
-		cm.sendSimple(selStr + "#k");
-	} else if (selection == 3) {
-		var bbb = false;
-		var selStr = "Alright. I can #eonly give a slot to equipments that have 0 upgrade slots and have been hammered twice. You can only give a slot up to 10 times to a certain item. It will cost #b" + ep + "#k points, and #b" + (ep*2) + "#k points for items above 5 slots upgraded.#n Select the equipment you have below(equipped items are not included):\r\n\r\n#b";
-		for (var i = 0; i <= inv.getSlotLimit(); i++) {
-			slot.push(i);
-			var it = inv.getItem(i);
-			if (it == null || it.getUpgradeSlots() > 0 || it.getViciousHammer() < 2 || it.getViciousHammer() > 6) {
-				continue;
-			}
-			var itemid = it.getItemId();
-			//bwg - 7, with hammer is 9.
-			//therefore, we should make the max slots (natural+7)
-			if (cm.getNaturalStats(itemid, "tuc") <= 0 || itemid == 1122080 || cm.isCash(itemid)) {
-				continue;
-			}
-			bbb = true;
-			selStr += "#L" + i + "##v" + itemid + "##t" + itemid + "##l\r\n";
-		}
-		if (!bbb) {
-			cm.sendOk("You don't have any equipments I can enhance. I can #eonly enhance equipments that have 0 upgrade slots and have been hammered twice#n.This does not include cash items.");
-			cm.dispose();
-			return;
-		}
-		cm.sendSimple(selStr + "#k");
-	} else if (selection == 4) {
-		cm.sendYesNo("Cash, is that what you need? Well, I can trade #r#e" + (cm.isGMS() ? (acash/2) : acash) + " Cash for " + acashp + " points.#n#k. Would you like to accept the offer?");
-	} else if (selection == 5) {
-		cm.sendOk("You have currently #e" + cm.getPlayer().getPoints() + "#n points.");
-		cm.dispose();
-	} else if (selection == 6) {
-		var selStr = "Alright, I can trade these chairs for points...#b\r\n\r\n";
-		for (var i = 0; i < chairs.length; i++) {
-			selStr += "#L" + i + "##v" + chairs[i] + "##t" + chairs[i] + "# for #e" + chairsp[i] + "#n points#n#l\r\n";
-		}
-		cm.sendSimple(selStr + "#k");
-	} else if (selection == 7) {
-		hairnew = Array();
-		if (cm.getPlayerStat("GENDER") == 0) {
-			for (var i = 0; i < mhair.length; i++) {
-		   		if (mhair[i] == 30010 || mhair[i] == 30070 || mhair[i] == 30080 || mhair[i] == 30090 || mhair[i] == 33140 || mhair[i] == 33240 || mhair[i] == 33180) {
-					hairnew.push(mhair[i]);
-		   		} else {
-					hairnew.push(mhair[i] + parseInt(cm.getPlayerStat("HAIR") % 10));
-		   		}
-			}
-		} else {
-			for (var i = 0; i < fhair.length; i++) {
-		   		if (fhair[i] == 34160) {
-					hairnew.push(fhair[i]);
-		   		} else {
-		   			hairnew.push(fhair[i] + parseInt(cm.getPlayerStat("HAIR") % 10));
-		   		}
-			}
-		}
-		cm.sendStyle("Pick a hairstyle that you would like.", hairnew);
-	} else if (selection == 8) {
-		cm.sendYesNo("Once you proceed with this selection, you can't go back! Are you sure you want to #ereset ALL YOUR AP?#k");
-	} else if (selection == 9) {
-	    var selStr = "Alright, I can trade these skills for points...#eIf you have bought a skill once, you will not be charged points for it thereafter.#n#b\r\n\r\n";
-	    for (var i = 0; i < skills.length; i++) {
-	      selStr += "#L" + i + "##s" + skills[i] + "#" + skillsnames[i] + " for #e" + skillsp[i] + "#n points#n#l\r\n";
-	    }
-	    selStr += "#L" + skills.length + "##rALL skills above#b for #e" + allskillsp + "#n points#l\r\n";
-	    cm.sendSimple(selStr + "#k");
-	} else if (selection == 10) {
-		cm.sendGetText("Please enter the name you wish to change to.");
-	} else if (selection == 11) {
-	      if (cm.getBuddyCapacity() < 120 && cm.getPlayer().getPoints() >= buddyp) {
-		cm.getPlayer().setPoints(cm.getPlayer().getPoints() - buddyp);
-		cm.logDonator(" has bought buddy capacity 120 costing " + buddyp + ".", previous_points);
-		cm.updateBuddyCapacity(120);
-	      } else {
-		cm.sendOk("You either have 120 capacity or you don't have enough points.");
-	      }
-	      cm.dispose();
-	} else if (selection == 12) {
-	    if (!cm.getPlayer().haveItem(5220013)) {
-		cm.sendOk("You need at least 1 M Coin.");
-		cm.dispose();
-	    } else {
-		cm.sendGetNumber("How many M Coins would you like to redeem? (1 M Coin = 100 points) (Current M Coins: " + cm.getPlayer().itemQuantity(5220013) + ") (Current Points: " + cm.getPlayer().getPoints() + ")", cm.getPlayer().itemQuantity(5220013), 1, cm.getPlayer().itemQuantity(5220013));
-	    }
-	} else if (selection == 13) {
-	    if (cm.getPlayer().getPoints() < 100) {
-		cm.sendOk("You need at least 100 points for an M Coin.");
-		cm.dispose();
-	    } else {
-		cm.sendGetNumber("How many M Coins would you like? (1 M Coin = 100 points) (Current Points: " + cm.getPlayer().getPoints() + ") (Current M Coins: " + cm.getPlayer().itemQuantity(5220013) + ")", cm.getPlayer().getPoints() / 100, 1, cm.getPlayer().getPoints() / 100);
-	    }
-	} else if (selection == 16) {
-	    if (!cm.getPlayer().haveItem(3993003)) {
-		cm.sendOk("You need at least 1 Red Luck Sack.");
-		cm.dispose();
-	    } else {
-		cm.sendGetNumber("How many Red Luck Sacks would you like to redeem? (1 Red Luck Sack = 1000 points) (Current: " + cm.getPlayer().itemQuantity(3993003) + ") (Current Points: " + cm.getPlayer().getPoints() + ")", cm.getPlayer().itemQuantity(3993003), 1, cm.getPlayer().itemQuantity(3993003));
-	    }
-	} else if (selection == 17) {
-	    if (cm.getPlayer().getPoints() < 1000) {
-		cm.sendOk("You need at least 1000 points for a Red Luck Sack.");
-		cm.dispose();
-	    } else {
-		cm.sendGetNumber("How many Red Luck Sacks would you like? (1 Red Luck Sack = 1000 points) (Current Points: " + cm.getPlayer().getPoints() + ") (Current Red Luck Sacks: " + cm.getPlayer().itemQuantity(3993003) + ")", cm.getPlayer().getPoints() / 1000, 1, cm.getPlayer().getPoints() / 1000);
-	    }
-	} else if (selection == 18) {
-	    cm.sendSimple("#b#L0#30 Days - " + pendantp + " points#l\r\n#L1#90 Days - " + pendantp_perm + " points#l");
-	}
-	} else if (status == 2) {
-		if (sel == 1) {
-			var it = items[selection];
-			var ip = itemsp[selection];
-			var iu = itemsu[selection];
-			var iq = itemsq[selection];
-			var ie = itemse[selection];
-			if (cm.getPlayer().getPoints() < ip) {
-				cm.sendOk("You don't have enough points. You have " + cm.getPlayer().getPoints() + " while I need " + ip + ".");
-			} else if (!cm.canHold(it, iq)) {
-				cm.sendOk("Please free up inventory.");
-			} else {
-				if (iu > 0) {
-					cm.gainItem(it, iq, false, ie, iu, "Donor");
-				} else {
-					cm.gainItemPeriod(it, iq, ie, "Donor");
-				}
-				cm.getPlayer().setPoints(cm.getPlayer().getPoints() - ip);
-				cm.sendOk("There! Thank you for those points. I have given you your item. Come again~");
-				cm.logDonator(" has bought item [" + it + "] x " + iq + " costing " + ip + ". [Expiry: " + ie + "] [Extra Slot: " + iu + "] ", previous_points);
-			}
-			cm.dispose();
-		} else if (sel == 3) {
-			var statsSel = inv.getItem(slot[selection]);
-			if (statsSel == null || statsSel.getUpgradeSlots() > 0 || statsSel.getViciousHammer() < 2) {
-				cm.dispose();
-				return;
-			}
-			var itemid = statsSel.getItemId();
-			//bwg - 7, with hammer is 9.
-			//therefore, we should make the max slots(natural+7)
-			if (statsSel.getViciousHammer() > 6 || cm.getNaturalStats(itemid, "tuc") <= 0 || itemid == 1122080) {
-				cm.dispose();
-				return;
-			}
-			if (cm.isCash(itemid)) {
-				cm.dispose();
-				return;
-			}
-			var pointsToUse = ep;
-			if (statsSel.getViciousHammer() >= 4) { //2 slots with normal, 3 slots afterwards with doubled price
-				pointsToUse = ep*2;
-			}
-			if (cm.getPlayer().getPoints() < pointsToUse) {
-				cm.sendOk("You don't have enough points. You have " + cm.getPlayer().getPoints() + " while I need " + pointsToUse + ".");
-			} else {
-				cm.replaceItem(selection, 1, statsSel, 1);
-				cm.getPlayer().setPoints(cm.getPlayer().getPoints() - pointsToUse);
-				cm.sendOk("There! Thank you for those points. I have given you your item. Come again~");
-				cm.logDonator(" has enhanced +1 slot on item [" + statsSel.getItemId() + "] costing " + pointsToUse + ". [Used slots: " + statsSel.getViciousHammer() + "]", previous_points);
-			}
-			cm.dispose();
-		} else if (sel == 4) {
-			if (cm.getPlayer().getPoints() < acashp) {
-				cm.sendOk("You don't have enough points. You have " + cm.getPlayer().getPoints() + " while I need " + acashp + ".");
-			} else if (cm.getPlayer().getCSPoints(1) > (java.lang.Integer.MAX_VALUE - acash)) {
-				cm.sendOk("You have too much Cash.");
-			} else {
-				cm.getPlayer().setPoints(cm.getPlayer().getPoints() - acashp);
-				cm.getPlayer().modifyCSPoints(1, acash, true);
-				cm.sendOk("There! Thank you for those points, I have given you Cash. Come again~");
-				cm.logDonator(" has bought Cash [" + (cm.isGMS() ? (acash/2) : acash) + "] costing " + acashp + ".", previous_points);
-			}
-			cm.dispose();
-		} else if (sel == 6) {
-			var it = chairs[selection];
-			var cp = chairsp[selection];
-			if (cm.getPlayer().getPoints() < cp) {
-				cm.sendOk("You don't have enough points. You have " + cm.getPlayer().getPoints() + " while I need " + cp + ".");
-			} else if (!cm.canHold(it)) {
-				cm.sendOk("Please free up inventory.");
-			} else {
-				cm.gainItem(it, 1);
-				cm.getPlayer().setPoints(cm.getPlayer().getPoints() - cp);
-				cm.sendOk("There! Thank you for those points. I have given you your chair. Come again~");
-				cm.logDonator(" has bought chair [" + it + "] costing " + cp + ".", previous_points);
-			}
-			cm.dispose();
-		} else if (sel == 7) {
-			if (cm.getPlayer().getPoints() < hairp) {
-				cm.sendOk("You don't have enough points. You only have " + cm.getPlayer().getPoints());
-			} else {
-				cm.setHair(hairnew[selection]);
-				cm.getPlayer().setPoints(cm.getPlayer().getPoints() - hairp);
-				cm.sendOk("Thank you for the purchase~");
-				cm.logDonator(" has bought hair [" + hairnew[selection] + "] costing " + hairp + ".", previous_points);
-			}
-			cm.dispose();
-		} else if (sel == 8) {
-			if (cm.getPlayer().getPoints() < resetp) {
-				cm.sendOk("You don't have enough points. You only have " + cm.getPlayer().getPoints());
-			} else {
-				cm.getPlayer().resetStatsByJob(false);
-				cm.getPlayer().setPoints(cm.getPlayer().getPoints() - resetp);
-				cm.sendOk("Thank you for the purchase~");
-				cm.logDonator(" has bought full AP reset costing " + resetp + ".", previous_points);
-			}
-			cm.dispose();
-		} else if (sel == 9) {
-		      if (selection == skills.length) {
-			if (cm.getPlayer().getPoints() < allskillsp) {
-				cm.sendOk("You don't have enough points. You only have " + cm.getPlayer().getPoints());
-			} else {
-				for (var i = 0; i < skills.length; i++) {
-					cm.teachSkill(skills[i], 1, 0);
-				}
-				cm.getPlayer().setPoints(cm.getPlayer().getPoints() - allskillsp);
-				cm.sendOk("Thank you for the purchase~ To use your skills, please click on me again and distribute each skill to a key.");
-				cm.logDonator(" has bought all skills costing " + allskillsp + ".", previous_points);
-			}
-			cm.dispose();
-			return;
-		      }
-		      itt = selection;
-		      var selStr = "Alright, I can put your skill on these keys...#b\r\n\r\n";
-		      for (var i = 0; i < keys.length; i++) {
-		        selStr += "#L" + i + "#" + keynames[i] + "#l\r\n";
-		      }
-		      cm.sendSimple(selStr + "#k");
-		} else if (sel == 10) {
-		      if (cm.getPlayer().getPoints() >= namep && cm.isEligibleName(cm.getText())) {
-			cm.getPlayer().setPoints(cm.getPlayer().getPoints() - namep);
-			cm.logDonator(" has bought name change from " + cm.getPlayer().getName() + " to " + cm.getText() + " costing " + namep + ".", previous_points);
-		 	cm.getClient().getChannelServer().removePlayer(cm.getPlayer().getId(), cm.getPlayer().getName());
-			cm.getPlayer().setName(cm.getText());
-			cm.getClient().getSession().close();
-		      } else {
-			cm.sendOk("You either don't have enough points or " + cm.getText() + " is not an eligible name");
-		      }
-			cm.dispose();
-		} else if (sel == 12) {
-			if (selection >= 1 && selection <= cm.getPlayer().itemQuantity(5220013)) {
-				if (cm.getPlayer().getPoints() > (2147483647 - (selection * 100))) {
-					cm.sendOk("You have too many points.");
-				} else {
-					cm.gainItem(5220013, -selection);
-					cm.getPlayer().setPoints(cm.getPlayer().getPoints() + (selection * 100));
-					cm.sendOk("You have lost " + selection + " M Coins and gained " + (selection * 100) + " points. Current Points: " + cm.getPlayer().getPoints());
-					cm.logDonator(" has redeemed " + selection + " M Coin(s) gaining " + (selection * 100) + ".", previous_points);
-				}
-			} 
-			cm.dispose();
-		} else if (sel == 13) {
-			if (selection >= 1 && selection <= 100) {
-				if (selection > (cm.getPlayer().getPoints() / 100)) {
-					cm.sendOk("You can only get max " + (cm.getPlayer().getPoints() / 100) + " M Coins. 1 M Coin = 100 points.");
-				} else if (!cm.canHold(5220013, selection)) {
-					cm.sendOk("Please make space in CASH tab.");
-				} else {
-					cm.gainItem(5220013, selection);
-					cm.getPlayer().setPoints(cm.getPlayer().getPoints() - (selection * 100));
-					cm.sendOk("You have gained " + selection + " M Coins and lost " + (selection * 100) + " points. Current Points: " + cm.getPlayer().getPoints());
-					cm.logDonator(" has gained " + selection + " M Coin(s) costing " + (selection * 100) + ".", previous_points);
-				}
-			}
-			cm.dispose();
-		} else if (sel == 16) {
-			if (selection >= 1 && selection <= cm.getPlayer().itemQuantity(3993003)) {
-				if (cm.getPlayer().getPoints() > (2147483647 - (selection * 1000))) {
-					cm.sendOk("You have too many points.");
-				} else {
-					cm.gainItem(3993003, -selection);
-					cm.getPlayer().setPoints(cm.getPlayer().getPoints() + (selection * 1000));
-					cm.sendOk("You have lost " + selection + " and gained " + (selection * 1000) + " points. Current Points: " + cm.getPlayer().getPoints());
-					cm.logDonator(" has redeemed " + selection + " Red Luck Sack(s) gaining " + (selection * 1000) + ".", previous_points);
-				}
-			} 
-			cm.dispose();
-		} else if (sel == 17) {
-			if (selection >= 1) {
-				if (selection > (cm.getPlayer().getPoints() / 1000)) {
-					cm.sendOk("You can only get max " + (cm.getPlayer().getPoints() / 1000) + ". 1 Item = 1000 points.");
-				} else if (!cm.canHold(3993003, selection)) {
-					cm.sendOk("Please make space in SETUP tab.");
-				} else {
-					cm.gainItem(3993003, selection);
-					cm.getPlayer().setPoints(cm.getPlayer().getPoints() - (selection * 1000));
-					cm.sendOk("You have gained " + selection + " and lost " + (selection * 1000) + " points. Current Points: " + cm.getPlayer().getPoints());
-					cm.logDonator(" has gained " + selection + " Red Luck Sack(s) costing " + (selection * 1000) + ".", previous_points);
-				}
-			}
-			cm.dispose();
-		} else if (sel == 18) {
-			if (selection == 0) {
-				if (cm.getPlayer().getPoints() < pendantp) {
-					cm.sendOk("You do not have enough points.");
-				} else {
-					var marr = cm.getCData("pendant");
-					if (marr != null && parseInt(marr) > cm.getCurrentTime()) {
-						cm.sendOk("You already have a pendant slot.");
-					} else {
-						cm.setCData("pendant", "" + (cm.getCurrentTime() + (30 * 24 * 60 * 60 * 1000)));
-						cm.forceStartQuest(7830, "1");
-						cm.getPlayer().setPoints(cm.getPlayer().getPoints() - pendantp);
-						cm.sendOk("You have gained additional pendant slot - 30 days.");
-						cm.sendPendant(true);
-						cm.getPlayer().fakeRelog();
-						cm.logDonator(" has gained Additional Pendant Slot (30 Day) costing " + (pendantp) + ".", previous_points);
-					}
-				}
-			} else {
-				if (cm.getPlayer().getPoints() < pendantp_perm) {
-					cm.sendOk("You do not have enough points.");
-				} else {
-					var marr = cm.getCData("pendant");
-					if (marr != null && parseInt(marr) > cm.getCurrentTime()) {
-						cm.sendOk("You already have a pendant slot.");
-					} else {
-						cm.setCData("pendant", "" + (cm.getCurrentTime() + (90 * 24 * 60 * 60 * 1000)));
-						cm.forceStartQuest(7830, "1");
-						cm.getPlayer().setPoints(cm.getPlayer().getPoints() - pendantp_perm);
-						cm.sendOk("You have gained additional pendant slot - 90 days.");
-						cm.sendPendant(true);
-						cm.getPlayer().fakeRelog();
-						cm.logDonator(" has gained Additional Pendant Slot (90 Day) costing " + (pendantp) + ".", previous_points);
-					}
-				}
-			}
-			cm.dispose();
-		}
-	} else if (status == 3) {
-		  if (sel == 9) {
-		    var hadSkill = true;
-		    if (cm.getPlayer().getSkillLevel(skills[itt]) <= 0) {
-		      hadSkill = false;
-		      if (cm.getPlayer().getPoints() < skillsp[itt]) {
-		        cm.sendOk("You don't have enough points. You have " + cm.getPlayer().getPoints() + " while I need " + skillsp[itt] + ".");
-		        cm.dispose();
-		        return;
-		      } else {
-		        cm.teachSkill(skills[itt], 1, 0);
-		        cm.getPlayer().setPoints(cm.getPlayer().getPoints() - skillsp[itt]);
-		      }
-		    }
-		    cm.putKey(keys[selection], 1, skills[itt]);
-		    cm.sendOk("There! Thank you for those points. I have given you your skill. Come again~");
-		    cm.logDonator(" has bought skill [" + skills[itt] + "] costing " + skillsp[itt] + " on key " + keynames[selection] + " (" + keys[selection] + "). [HadSkill: " + hadSkill + "] ", previous_points);
-		  }
-		  cm.dispose();
+    if (mode != 1) {
+        cm.dispose();
+        return;
+    }
+    status++;
 
-	}
+
+    if (status == 0)
+    {
+        cm.sendSimple("#b#L100#Trade points for items#l \r\n#L101#Give a slot to an existing equipment#l \r\n#L102#Trade points for chairs#l \r\n#L103#Royal hair (3000 points) (account)#l \r\n#L104#Trade points for skills (account)#l \r\n#L105#Trade points for passive buffs (account)#l \r\n#L106#Change name for 1000 points#l \r\n#L107#Additional Pendant Slot#l \r\n#L108#Exchange Tradable Currency to points#l");
+    }
+
+
+    else if (status == 1)
+    {
+        //status += selection;
+        switch (selection) {
+        case 100: select = selection;  // Points for Items
+                       var selStr = "Alright, I can trade these items for points...\r\n#b";
+                       for (var i = 0; i < items[0].length; i++) {
+                           selStr += (items[0][i][2] < 1 ? "#L" + i + "##v" + items[0][i][0] + "#" + items[0][i][3] + " for #e" + items[0][i][1] + "#n#b points #b" + (items[0][i][2] > 0 ? "#b ...lasts #r#e" + ( items[0][i][2] * 24 ) + "#n#b hours" : "") + "#b#l\r\n" : "#L" + i + "##v" + items[0][i][0] + "#" + items[0][i][3] + " for #e" + items[0][i][1] + "#n#b points #b" + (items[0][i][2] > 0 ? "#b ...lasts #r#e" + items[0][i][2] + "#n#b days" : "") + "#b#l\r\n");
+                       }
+                       cm.sendSimple(selStr + "#k");
+                       status2 = 1;
+                       break;
+
+        case 101: cm.sendSimple("Alright. I can only give a slot to equipments that have 0 upgrade slots and have been hammered twice. You can only give a slot up to 5 times to a certain item. It will cost 500 points, and 1000 points for items above 2 slots upgraded.\r\n\r\nSelect the equipment you have below:");
+                    status2 = 2;
+                    break;
+
+                            /*var bbb = false;
+                              var selStr = "Alright. I can #eonly give a slot to equipments that have 0 upgrade slots and have been hammered twice. You can only give a slot up to 10 times to a certain item. It will cost #b#k points, and #b#k points for items above 5 slots upgraded.#n Select the equipment you have below(equipped items are not included):\r\n\r\n#b";
+                              for (var i = 0; i <= inv.getSlotLimit(); i++) {
+                                  slot.push(i);
+                                  var it = inv.getItem(i);
+                                  if (it == null || it.getUpgradeSlots() > 0 || it.getViciousHammer() < 2 || it.getViciousHammer() > 6) {
+                                      continue;
+                                  }
+                                  var itemid = it.getItemId();
+                                  //bwg - 7, with hammer is 9.
+                                  //therefore, we should make the max slots (natural+7)
+                                  if (cm.getNaturalStats(itemid, "tuc") <= 0 || itemid == 1122080 || cm.isCash(itemid)) {
+                                      continue;
+                                  }
+                                  bbb = true;
+                                  selStr += "#L" + i + "##v" + itemid + "##t" + itemid + "##l\r\n";
+                              }
+                              if (!bbb) {
+                                  cm.sendOk("You don't have any equipments I can enhance. I can #eonly enhance equipments that have 0 upgrade slots and have been hammered twice#n.This does not include cash items.");
+                                  cm.dispose();
+                                  return;
+                              }
+                              cm.sendSimple(selStr + "#k");*/
+
+
+        case 102: select = selection;  // Points for Chairs
+                       var selStr = "Alright, I can trade these items for points...\r\n#b";
+                       for (var i = 0; i < items[1].length; i++) {
+                           selStr += (items[1][i][2] < 1 ? "#L" + i + "##v" + items[1][i][0] + "##t" + items[1][i][0] + "# for #e" + items[1][i][1] + "#n#b points #b" + (items[1][i][2] > 0 ? "#b ...lasts #r#e" + ( items[1][i][2] * 24 ) + "#n#b hours" : "") + "#b#l\r\n" : "#L" + i + "##v" + items[1][i][0] + "#" + items[1][i][3] + " for #e" + items[1][i][1] + "#n#b points #b" + (items[1][i][2] > 0 ? "#b ...lasts #r#e" + items[1][i][2] + "#n#b days" : "") + "#b#l\r\n");
+                       }
+                       cm.sendSimple(selStr + "#k"); // 121 chairs
+                       status2 = 3;
+                       break;
+        case 103: //Royal Hair
+        case 104: //Trade points for skills (account)
+        case 105: //Trade points for passive buffs (account)
+        case 106: //cm.sendGetText("Please enter the name you wish to change to. (Entering in a name that you own on this account will swap your name with that character's name)",4,12);
+        case 107: select = selection; //Add Pendant Slot
+                       var selStr = "\r\n#b";
+                       for (var i = 0; i < pendantslot.length; i++) {
+                           selStr += ("#L" + i + "#" + pendantslot[i][0] + " - " + pendantslot[i][1] + " points#l\r\n");
+                       }
+                       cm.sendSimple(selStr + "#k");
+                       status2 = 7;
+                       break;
+        case 108: cm.sendSimple("What would you like to exchange?\r\nYou have #r" + cm.getPlayer().getDPoints() + "#k Donor Points. \r\n \r\n#b#L1#Red Luck Sacks to Points(1000)#l \r\n#L2#Points(1000) to Red Luck Sacks#l \r\n\r\n#L3#Moonlight Coins to Points(100)#l \r\n#L4#Points(100) to Moonlight Coins#l \r\n\r\n#L5#Red Buttons to Points(10)#l \r\n#L6#Points(10) to Red Buttons#l#k");
+                  status2 = 8;
+                  break;
+        case 109:
+
+    }
+    }
+
+
+    else if (status == 2) {
+        switch (status2) {
+        case 1:
+                        if (cm.getPlayer().getDPoints() < items[0][selection][1]) {
+                        cm.sendSimple("You don't have enough donor points for this item");
+                        cm.dispose();
+                        }
+                        else if (!cm.canHold(items[0][selection][0])) {
+                        cm.sendOk("You have no inventory space for this item.");
+                        cm.dispose();
+                        }
+                        else {
+                        cm.sendSimple("Thank you for the purchase");
+                        cm.getPlayer().setDPoints( cm.getPlayer().getDPoints() - (items[0][selection][1]));
+                                if (items[0][selection][2] > 0) {
+                                cm.gainItemPeriod(items[0][selection][0], 1, items[0][selection][2]);  // items period < 1 yet > 0   don't get their time-limit, though they should
+                                }
+                                else {
+                                cm.gainItem(items[0][selection][0], 1);
+                                }
+                        cm.dispose();
+
+                        }
+                    break;
+
+        case 2: cm.sendSimple("Slot - 2");
+                cm.dispose();
+                break;
+
+        case 3:
+                        if (cm.getPlayer().getDPoints() < items[1][selection][1]) {
+                        cm.sendSimple("You don't have enough donor points for this item");
+                        cm.dispose();
+                        }
+                        else if (!cm.canHold(items[1][selection][0])) {
+                        cm.sendOk("You have no inventory space for this item.");
+                        cm.dispose();
+                        }
+                        else {
+                        cm.sendSimple("Thank you for the purchase");
+                        cm.getPlayer().setDPoints( cm.getPlayer().getDPoints() - (items[1][selection][1]));
+                                if (items[1][selection][2] > 0) {
+                                cm.gainItemPeriod(items[1][selection][0], 1, items[1][selection][2]);  // items period <1   yet >0   don't get their time-limit, though they should
+                                }
+                                else {
+                                cm.gainItem(items[1][selection][0], 1);
+                                }
+                        cm.dispose();
+
+                        }
+                    break;
+        case 7:
+            switch (selection) {
+            case 0: if(cm.getPlayer().getDPoints() < pendantslot[0][1]) {
+                    cm.sendSimple("You don't have enough donor points for this item");
+                    cm.dispose();
+                    return;
+                    }
+                    cm.addPendantSlot(30); // Character-Bound
+                    cm.getPlayer().setDPoints(cm.getPlayer().getDPoints() - pendantslot[0][1]);
+                    cm.sendOk("Thank you for the purchase");
+
+                    status3 = 7;
+            break;
+            case 1: if(cm.getPlayer().getDPoints() < pendantslot[1][1]) {
+                    cm.sendSimple("You don't have enough donor points for this item");
+                    cm.dispose();
+                    return;
+                    }
+                    cm.addPendantSlot(90); // Character-Bound
+                    cm.getPlayer().setDPoints(cm.getPlayer().getDPoints() - pendantslot[1][1]);
+                    cm.sendOk("Thank you for the purchase");
+
+                    status3 = 7;
+            break;
+            case 2: if(cm.getPlayer().getDPoints() < pendantslot[2][1]) {
+                    cm.sendSimple("You don't have enough donor points for this item");
+                    cm.dispose();
+                    return;
+                    }
+                    cm.addPendantSlot(9999); // Character-Bound
+                    cm.getPlayer().setDPoints(cm.getPlayer().getDPoints() - pendantslot[2][1]);
+                    cm.sendOk("Thank you for the purchase");
+
+                    status3 = 7;
+            break;
+            case 3: if(cm.getPlayer().getDPoints() < pendantslot[3][1]) {
+                    cm.sendSimple("You don't have enough donor points for this item");
+                    cm.dispose();
+                    return;
+                    }
+                    cm.addPendantSlot(30); // Account-Wide
+                    cm.getPlayer().setDPoints(cm.getPlayer().getDPoints() - pendantslot[3][1]);
+                    cm.sendOk("Thank you for the purchase");
+
+                    status3 = 7;
+            break;
+            case 4: if(cm.getPlayer().getDPoints() < pendantslot[4][1]) {
+                    cm.sendSimple("You don't have enough donor points for this item");
+                    cm.dispose();
+                    return;
+                    }
+                    cm.addPendantSlot(90); // Account-Wide
+                    cm.getPlayer().setDPoints(cm.getPlayer().getDPoints() - pendantslot[4][1]);
+                    cm.sendOk("Thank you for the purchase");
+
+                    status3 = 7;
+            break;
+            case 5: if(cm.getPlayer().getDPoints() < pendantslot[5][1]) {
+                    cm.sendSimple("You don't have enough donor points for this item");
+                    cm.dispose();
+                    return;
+                    }
+                    cm.addPendantSlot(9999); // Account-Wide
+                    cm.getPlayer().setDPoints(cm.getPlayer().getDPoints() - pendantslot[5][1]);
+                    cm.sendOk("Thank you for the purchase");
+
+                    status3 = 7;
+            break;
+            }
+        break;
+
+
+
+
+        case 8:
+            switch (selection) {
+            case 1: cm.sendGetNumber("How many Red Luck Sacks would you like to trade in for donor points? \r\n",cm.itemQuantity(rlsid),1,cm.itemQuantity(rlsid));
+                    status3 = 8;
+                    status3_8sub = 1;
+                    break;
+            case 2: cm.sendGetNumber("How many 1000 donor points would you like to trade in for Red Luck Sacks? \r\n", (Math.floor((cm.getPlayer().getDPoints()/1000))), 1, Math.floor((cm.getPlayer().getDPoints()/1000)));
+                    status3 = 8;
+                    status3_8sub = 2;
+                    break;
+            case 3: cm.sendGetNumber("How many Moonlight Coins would you like to trade in for donor points? \r\n",cm.itemQuantity(mlcid),1,cm.itemQuantity(mlcid));
+                    status3 = 8;
+                    status3_8sub = 3;
+                    break;
+            case 4: cm.sendGetNumber("How many 100 donor points would you like to trade in for Moonlight Coins? \r\n",(Math.floor(cm.getPlayer().getDPoints()/100)), 1, Math.floor((cm.getPlayer().getDPoints()/100)));
+                    status3 = 8;
+                    status3_8sub = 4;
+                    break;
+            case 5: cm.sendGetNumber("How many Red Buttons would you like to trade in for donor points? \r\n",cm.itemQuantity(rbid),1,cm.itemQuantity(rbid));
+                    status3 = 8;
+                    status3_8sub = 5;
+                    break;
+            case 6: cm.sendGetNumber("How many 10 donor points would you like to trade in for Red Buttons? \r\n",(Math.floor(cm.getPlayer().getDPoints()/10)), 1, Math.floor((cm.getPlayer().getDPoints()/10)));
+                    status3 = 8;
+                    status3_8sub = 6;
+                    break;
+            }
+            break;
+
+            }
+            }
+    else if (status == 3) {
+        switch (status3) {
+
+
+        case 7: cm.dispose();
+                cm.warp(cm.getMapId());
+
+        case 8:
+            switch (status3_8sub) {
+            case 1: cm.sendSimple("You have lost #r" + selection + "#k Red Luck Sacks, and gained #r" + (selection * 1000) + "#k donor points.");
+                    cm.gainItem(rlsid,(selection*-1));
+                    cm.getPlayer().setDPoints(cm.getPlayer().getDPoints()+(selection*1000));
+                    cm.dispose();
+                    break;
+            case 2: if (!cm.canHold(rlsid)){
+                             cm.sendSimple("You don't have enough inventory space");
+                             cm.dispose();
+                             return;
+                             }
+                    cm.sendSimple("You have lost #r" + (selection * 1000) + "#k donor points, and gained #r" +selection+ "#k Red Luck Sacks.");
+                    cm.gainItem(rlsid, selection);
+                    cm.getPlayer().setDPoints(cm.getPlayer().getDPoints()-(selection*1000));
+                    cm.dispose();
+                    break;
+            case 3: cm.sendSimple("You have lost #r" + selection + "#k Moonlight Coins, and gained #r" + (selection * 100) + "#k donor points.");
+                    cm.gainItem(mlcid,(selection*-1));
+                    cm.getPlayer().setDPoints(cm.getPlayer().getDPoints()+(selection*100));
+                    cm.dispose();
+                    break;
+            case 4: if (!cm.canHold(mlcid)){
+                             cm.sendSimple("You don't have enough inventory space");
+                             cm.dispose();
+                             return;
+                             }
+                    cm.sendSimple("You have lost #r" + (selection * 100) + "#k donor points, and gained #r" +selection+ "#k Moonlight Coins.");
+                    cm.gainItem(mlcid, selection);
+                    cm.getPlayer().setDPoints(cm.getPlayer().getDPoints()-(selection*100));
+                    cm.dispose();
+                    break;
+            case 5: cm.sendSimple("You have lost #r" + selection + "#k Red Buttons, and gained #r" + (selection * 10) + "#k donor points.");
+                    cm.gainItem(rbid,(selection*-1));
+                    cm.getPlayer().setDPoints(cm.getPlayer().getDPoints()+(selection*10));
+                    cm.dispose();
+                    break;
+            case 6: if (!cm.canHold(rbid)){
+                             cm.sendSimple("You don't have enough inventory space");
+                             cm.dispose();
+                             return;
+                             }
+                    cm.sendSimple("You have lost #r" + (selection * 10) + "#k donor points, and gained #r" +selection+ "#k Red Buttons.");
+                    cm.gainItem(rbid, selection);
+                    cm.getPlayer().setDPoints(cm.getPlayer().getDPoints()-(selection*10));
+                    cm.dispose();
+                    break;
+            }
+
+
+
+        break;
+        }
+
+    }
+
 }
+
+
+
+
+
+
