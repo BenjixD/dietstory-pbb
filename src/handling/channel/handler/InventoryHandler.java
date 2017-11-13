@@ -20,32 +20,8 @@
  */
 package handling.channel.handler;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.locks.Lock;
-
-import client.InnerAbillity;
-import client.InnerSkillValueHolder;
-import client.MapleCharacter;
-import client.MapleCharacterUtil;
-import client.MapleClient;
-import client.MapleDisease;
-import client.MapleStat;
+import client.*;
 import client.MapleTrait.MapleTraitType;
-import client.MonsterFamiliar;
-import client.PlayerStats;
-import client.Skill;
-import client.SkillEntry;
-import client.SkillFactory;
 import client.inventory.*;
 import client.inventory.Equip.ScrollResult;
 import client.inventory.MaplePet.PetFlag;
@@ -55,23 +31,12 @@ import handling.world.MaplePartyCharacter;
 import handling.world.World;
 import script.npc.NPCScriptManager;
 import script.npc.NPCTalk;
-import server.MapleInventoryManipulator;
-import server.MapleItemInformationProvider;
-import server.MapleStatEffect;
-import server.RandomRewards;
-import server.StructFamiliar;
-import server.StructItemOption;
-import server.StructRewardItem;
+import server.*;
 import server.events.MapleEvent;
 import server.events.MapleEventType;
 import server.life.MapleLifeFactory;
 import server.life.MapleMonster;
-import server.maps.FieldLimitType;
-import server.maps.MapleMap;
-import server.maps.MapleMapItem;
-import server.maps.MapleMapObject;
-import server.maps.MapleMapObjectType;
-import server.maps.MapleMist;
+import server.maps.*;
 import server.quest.MapleQuest;
 import server.quest.MapleQuestStatus;
 import server.shops.MapleShopFactory;
@@ -81,16 +46,17 @@ import tools.FileoutputUtil;
 import tools.Pair;
 import tools.Randomizer;
 import tools.data.LittleEndianAccessor;
-import tools.packet.CField;
+import tools.packet.*;
 import tools.packet.CField.EffectPacket;
 import tools.packet.CField.NPCPacket;
-import tools.packet.CSPacket;
-import tools.packet.CWvsContext;
 import tools.packet.CWvsContext.InfoPacket;
 import tools.packet.CWvsContext.InventoryPacket;
-import tools.packet.MobPacket;
-import tools.packet.PetPacket;
-import tools.packet.PlayerShopPacket;
+
+import java.awt.*;
+import java.util.*;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.concurrent.locks.Lock;
 
 public class InventoryHandler {
 
@@ -2325,63 +2291,152 @@ case 2431935: {
                 }
                 
                 
-                //damageskins
-                case 2431965: // base damage Skin: 0                 
-                 case 2431966: // digital Sunrise Skin Damage: 1
-                 case 2432084: // digital Sunrise damage the skin (no)
-                 case 2431967: // Critias Skin Damage: 2
-                 case 2432131: // Party Quest Skin Damage: 3
-                 case 2432153: // Creative Impact Damage Skin: 4
-                 case 2432638: // Creative Impact Damage Skin
-                 case 2432659: // Creative Impact Damage Skin
-                 case 2432154: // sweet traditional Han Skin Damage: 5
-                 case 2432637: // sweet traditional one and damage the skin
-                 case 2432658: // sweet traditional one and damage the skin
-                 case 2432207: // Club Hennessy's damage Skin: 6
-                 case 2432354: // Merry Christmas Skin Damage: 7
-                 case 2432355: // Snow Blossom Skin Damage: 8
-                 case 2432972: // Snow Blossom Skin Damage
-                 case 2432465: // damage the skin of Alicia: 9
-                 case 2432479: // Dorothy skin damage: 10
-                 case 2432526: // Keyboard Warrior Skin Damage: 11
-                 case 2432639: // Keyboard Warrior Skin Damage
-                 case 2432660: // Keyboard Warrior Skin Damage
-                 case 2432532: // spring breeze rustling skin damage: 12
-                 case 2432592: // solo troops skin damage: 13
-                 case 2432640: // Remy You Suns skin damage: 14
-                 case 2432661: // Remy you damage the skin Suns
-                 case 2432710: // Orange Mushroom Skin Damage: 15
-                 case 2432836: // crown damage Skin: 16
-                 case 2432973: // monotone skin damage: 17
-                /*
-                case 2431965: //ê¸°ë³¸ ë�°ë¯¸ì§€ ìŠ¤í‚¨ : 0
-                case 2431966: //ë�?�?ì§€í„¸ë�¼ì�´ì¦ˆ ë�°ë¯¸ì§€ ìŠ¤í‚¨ : 1
-                case 2432084: //ë�?�?ì§€í„¸ë�¼ì�´ì¦ˆ ë�°ë¯¸ì§€ ìŠ¤í‚¨ (no)
-                case 2431967: //í�¬ë¦¬í‹°ì•„ìŠ¤ ë�°ë¯¸ì§€ ìŠ¤í‚¨ : 2
-                case 2432131: //íŒŒí‹° í€˜ìŠ¤íŠ¸ ë�°ë¯¸ì§€ ìŠ¤í‚¨ : 3
-                case 2432153: //ìž„íŒ©í‹°ë¸Œ ë�°ë¯¸ì§€ ìŠ¤í‚¨ : 4
-                case 2432638: //ìž„íŒ©í‹°ë¸Œ ë�°ë¯¸ì§€ ìŠ¤í‚¨
-                case 2432659: //ìž„íŒ©í‹°ë¸Œ ë�°ë¯¸ì§€ ìŠ¤í‚¨
-                case 2432154: //ë‹¬ì½¤í•œ ì „í†µ í•œê³¼ ë�°ë¯¸ì§€ ìŠ¤í‚¨ : 5
-                case 2432637: //ë‹¬ì½¤í•œ ì „í†µ í•œê³¼ ë�°ë¯¸ì§€ ìŠ¤í‚¨
-                case 2432658: //ë‹¬ì½¤í•œ ì „í†µ í•œê³¼ ë�°ë¯¸ì§€ ìŠ¤í‚¨
-                case 2432207: //í�´ëŸ½ í—¤ë„¤ì‹œìŠ¤ ë�°ë¯¸ì§€ ìŠ¤í‚¨ : 6
-                case 2432354: //ë©�?ë¦¬ í�¬ë¦¬ìŠ¤ë§ˆìŠ¤ ë�°ë¯¸ì§€ ìŠ¤í‚¨ : 7
-                case 2432355: //ëˆˆ ê½ƒì†¡ì�´ ë�°ë¯¸ì§€ ìŠ¤í‚¨ : 8
-                case 2432972: //ëˆˆ ê½ƒì†¡ì�´ ë�°ë¯¸ì§€ ìŠ¤í‚¨
-                case 2432465: //ì•Œë¦¬ìƒ¤ì�˜ ë�°ë¯¸ì§€ ìŠ¤í‚¨ : 9
-                case 2432479: //ë�„ë¡œì‹œì�˜ ë�°ë¯¸ì§€ ìŠ¤í‚¨ : 10
-                case 2432526: //í‚¤ë³´ë“œ ì›Œë¦¬ì–´ ë�°ë¯¸ì§€ ìŠ¤í‚¨ : 11
-                case 2432639: //í‚¤ë³´ë“œ ì›Œë¦¬ì–´ ë�°ë¯¸ì§€ ìŠ¤í‚¨
-                case 2432660: //í‚¤ë³´ë“œ ì›Œë¦¬ì–´ ë�°ë¯¸ì§€ ìŠ¤í‚¨
-                case 2432532: //ì‚´ëž‘ì‚´ëž‘ ë´„ë°�?ëžŒ ë�°ë¯¸ì§€ ìŠ¤í‚¨ : 12
-                case 2432592: //ì†�?ë¡œë¶€ëŒ€ ë�°ë¯¸ì§€ ìŠ¤í‚¨ : 13
-                case 2432640: //ë ˆë¯¸ë„ˆì„ ìŠ¤ ë�°ë¯¸ì§€ ìŠ¤í‚¨ : 14
-                case 2432661: //ë ˆë¯¸ë„ˆì„ ìŠ¤ ë�°ë¯¸ì§€ ìŠ¤í‚¨
-                case 2432710: //ì£¼í™©ë²„ì„¯ ë�°ë¯¸ì§€ ìŠ¤í‚¨ : 15
-                case 2432836: //ì™•ê´€ ë�°ë¯¸ì§€ ìŠ¤í‚¨ : 16
-                case 2432973: //ëª¨ë…¸í†¤ ë�°ë¯¸ì§€ ìŠ¤í‚¨ : 17
-                    */
+                //Damage Skins
+                    case 2431965: // base damage Skin: 0
+                    case 2431966: // digital Sunrise Skin Damage: 1
+                    case 2432084: // digital Sunrise damage the skin (no)
+                    case 2431967: // Critias Skin Damage: 2
+                    case 2432131: // Party Quest Skin Damage: 3
+                    case 2432153: // Hard Hitting: 4
+                    case 2432638: // Creative Impact Damage Skin
+                    case 2432659: // Creative Impact Damage Skin
+                    case 2432154: // sweet traditional Han Skin Damage: 5
+                    case 2432637: // sweet traditional one and damage the skin
+                    case 2432658: // sweet traditional one and damage the skin
+                    case 2432207: // Club Hennessy's damage Skin: 6
+                    case 2432354: // Merry Christmas Skin Damage: 7
+                    case 2432355: // Snow Blossom Skin Damage: 8
+                    case 2432972: // Snow Blossom Skin Damage
+                    case 2432465: // damage the skin of Alicia: 9
+                    case 2432479: // Dorothy skin damage: 10
+                    case 2432526: // Keyboard Warrior Skin Damage: 11
+                    case 2432639: // Keyboard Warrior Skin Damage
+                    case 2432660: // Keyboard Warrior Skin Damage
+                    case 2432532: // spring breeze rustling skin damage: 12
+                    case 2432592: // solo troops skin damage: 13
+                    case 2432640: // Reminiscence skin damage: 14
+                    case 2432661: // Remy you damage the skin Suns
+                    case 2432710: // Orange Mushroom Skin Damage: 15
+                    case 2432836: // crown damage Skin: 16
+                    case 2432973: // monotone skin damage: 17
+                    case 2433063: // Star Planet skin: 18
+                    case 2433178: // Halloween Skin (bones): 20
+                    case 2433456: // Hangul Skin: 21
+                        // Fried Chicken Dmg Skin(Unknown ItemID): 22
+                    case 2433715: // Striped Damage Skin: 23
+                    case 2433804: // Couples Army Damage Skin: 24
+                    case 5680343: // Star Damage Skin: 25
+                    case 2433913: // Yeti and Pepe Damage Skin: 26
+                    case 2433980: // Slime and Mushroom Damage Skin: 27
+                    case 2433981: // Pink bean Damage skin: 28
+                        // Pig Bar Dmg Skin(Unknown ItemID): 29
+                        // Hard-Hitting Dmg Skin (already in): 30
+                        // Keyboard Warrior (already in): 31
+                        // Orange mushroom Skin Damage(already in): 32
+                        // Snowflake Dmg Skin(already in): 33
+                    case 2434248: // Rainbow Boom Damage Skin: 34
+                    case 2433362: // Night Sky Damage Skin: 35
+                    case 2434274: // Marshmallow Damage Skin: 36
+                    case 2434289: // Mu Lung Dojo Dmg Skin: 37
+                    case 2434390: // Teddy Damage Skin: 38
+                    case 2434391: // Mighty Ursus Damage Skin: 39
+                    case 5680395: // Scorching Heat Damage Skin: 40
+                    case 2434528: // USA Damage Skin: 41
+                    case 2434529: // Churro Damage Skin: 42
+                    case 2434530: // Singapore Night Damage Skin: 43
+                    case 2433571: // Scribble Crush Damage Skin: 44
+                    case 2434574: // Full Moon Damage Skin: 45
+                    case 2433828: // White Heaven Sun Damage Skin: 46
+                    case 2432804: // Princess No Damage Skin: 47
+                    case 2434654: // Murgoth Damage Skin: 48
+                    case 2435326: // Nine-Tailed Fox Damage Skin: 49
+                    case 2432749: // Zombie Damage Skin: 50
+                    case 2434710: // MVP Special Damage Skin: 51
+                    case 2433777: // Black Heaven Damage Skin: 52
+                    case 2434824: // Monster Park Damage Skin: 53
+                        // Digital Damage Skin(already in): 54
+                        // Kritias Damage Skin(already in): 55
+                        // Sweet tea cake Damage Skin(already in): 56
+                        // Merry Christmas Damage Skin(already in): 57
+                        // Gentle spring breeze damage skin(already in): 58
+                        // Striped Damage Skin(already in): 59
+                        // Star Damage Skin(already in): 60
+                        // Yeti and Pepe Damage Skin(already in): 61
+                        // Slime and Mushroom Damage Skin(already in): 62
+                        // Rainbow Boom Damage Skin(already in): 63
+                        // Night Sky Damage Skin(already in): 64
+                        // Marshmallow Damage Skin(already in): 65
+                        // Teddy Damage Skin(already in): 66
+                        // Scorching Heat Damage Skin(already in): 67
+                        // USA Damage Skin(already in): 68
+                        // Churro Damage Skin(already in): 69
+                        // Singapore Night Damage Skin(already in): 70
+                        // Scribble Crush Damage Skin(already in): 71
+                        // Full Moon Damage Skin(already in): 72
+                        // White Heaven Sun Damage Skin(already in): 73
+                    case 2434662: // Jelly Beans Damage Skin: 74
+                    case 2434664: // Soft-Serve Damage Skin: 75
+                    case 2434868: // Christmas lights Damage skin: 76
+                    case 2436041: // Phantom Damage Skin: 77
+                    case 2436042: // Mercedes Damage Skin: 78
+                    case 2435046: // Fireworks Damage Skin: 79
+                    case 2435047: // Heart Balloon Damage Skin: 80
+                    case 2435836: // Neon Sign Damage Skin: 81
+                    case 2435141: // Freeze Tag Damage Skin: 82
+                    case 2435179: // Candy Damage Skin: 83
+                    case 2435162: // Antique Gold Damage Skin: 84
+                    case 2435157: // Calligraphy Damage Skin: 85
+                    case 2435835: // Explosion Damage Skin: 86
+                    case 2435159: // Snow-wing Damage Skin: 87
+                    case 2436044: // Miho Damage Skin: 88
+                    case 2434663: // Donut Damage Skin: 89
+                    case 2435182: // Music Score Damage Skin: 90
+                    case 2435850: // Moon Bunny Damage Skin: 91
+                    case 2435184: // Forest of Tenacity Damage Skin: 92
+                    case 2435222: // Festival Tortoise Damage Skin: 93
+                    case 2435293: // April Fools' Damage Skin: 94
+                    case 2435313: // Blackheart Day Damage Skin: 95
+                    case 2435331: // Bubble April Fools' Damage Skin: 96
+                    case 2435332: // Retro April Fools' Damage Skin: 97
+                    case 2435333: // Monochrome April Fools' Damage Skin: 98
+                    case 2435334: // Sparkling April Fools' Damage Skin: 99
+                    case 2435316: // Haste Damage Skin: 100
+                    case 2435408: // 13th Anniversary Maple Leaf Damage Skin: 101
+                    case 2435427: // Cyber Damage Skin: 102
+                    case 2435428: // Cosmic Damage Skin: 103
+                    case 2435429: // Choco Donut Damage Skin: 104
+                    case 2435456: // Lovely Damage Skin: 105
+                    case 2435493: // Monster Balloon Damage Skin: 106
+                        // Bubble April Fools' Damage Skin(already in): 107
+                        // Sparkling April Fools' Damage Skin(already in): 108
+                        // Henesys Damage Skin (unknown ID): 109
+                        // Leafre Damage Skin (unknown ID): 110
+                    case 2435431: // Algebraic Damage Skin: 111
+                    case 2435430: // Blue Fire Damage Skin: 112
+                    case 2435432: // Purple Damage Skin: 113
+                    case 2435433: // Nanopixel Damage Skin: 114
+                        // Invisible Damage Skin: 115
+                    case 2435521: // Crystal Damage Skin: 116
+                    case 2435196: // Crow Damage Skin: 117
+                    case 2435523: // Chocolate Damage Skin: 118
+                    case 2435524: // Spark Damage Skin: 119
+                    case 2435538: // Royal Damage Skin: 120
+                    case 2435832: // Chrome Damage Skin (Ver.1): 121
+                    case 2435833: // Neon Lights Damage Skin: 122
+                    case 2435839: // Cosmic Damage Skin(Cards): 123
+                    case 2435840: // Gilded Damage Skin: 124
+                    case 2435841: // Batty Damage Skin: 125
+                    case 2435849: // Monochrome April Fools' Damage Skin: 126
+                    case 2435972: // Vanishing Journey Damage Skin: 127
+                    case 2436023: // Chu Chu Damage Skin: 128
+                    case 2436024: // Lachelein Damage Skin: 129
+                    case 2436026: // Poison flame Damage Skin: 130
+                    case 2436027: // Blue Strike Damage Skin: 131
+                    case 2436028: // Music Power Damage Skin: 132
+                    case 2436029: // Collage Power Damage Skin: 133
+                    case 2436045: // Starlight Aurora Damage Skin: 134
+
+
                  {
                     if (!GameConstants.isZero(chr.getJob())) {
                         int itemidd = toUse.getItemId();
@@ -2403,7 +2458,7 @@ case 2431935: {
                 }
                 case 2435719:
                 case 2435902:
-                    //
+                    //nodestones
                     MapleInventory mi = chr.getInventory(MapleInventoryType.USE);
                     Item item = mi.getItem(slot);
                     if(item != null && (item.getItemId() == 2435902 || item.getItemId() == 2435719)) {
@@ -2449,7 +2504,7 @@ case 2431935: {
                         c.getSession().write(CField.itemEffect(chr.getId(), itemId));
                         c.getSession().write(CWvsContext.updateVMatrix(chr.getVMatrixRecords()));
                     }else{
-                        chr.dropMessage(6, "You tried to open a nodestone without having a nodestone.");
+                        chr.dropMessage(6, "You tried to open a nodestone without having a nodestone. GMs have been notified");
                         // TODO Anti-cheat measures? Like account flag for example
                     }
                     break;
