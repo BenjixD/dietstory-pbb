@@ -3127,7 +3127,7 @@ public class CWvsContext {
                 pw.writeLong(gain);
                 pw.writeShort(0);
             } else {
-                pw.write(6);
+                pw.write(7);
                 pw.writeLong(gain);
                 pw.writeInt(-1);
             }

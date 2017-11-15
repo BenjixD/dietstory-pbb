@@ -118,8 +118,9 @@ enum QuestRes
                 break;
             }
             case 5: { // scripted end quest
-                lea.readInt();
+
                 int npc = lea.readInt();
+                lea.readInt();
                 if (c.getPlayer().hasBlockedInventory())
                     return;
                 
