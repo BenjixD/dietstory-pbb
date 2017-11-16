@@ -21,19 +21,6 @@
  */
 package script.event;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-import javax.script.ScriptException;
-
 import client.MapleCharacter;
 import client.MapleClient;
 import client.MapleTrait.MapleTraitType;
@@ -57,6 +44,12 @@ import server.quest.MapleQuestStatus;
 import tools.Pair;
 import tools.packet.CField;
 import tools.packet.CWvsContext.InfoPacket;
+
+import javax.script.ScriptException;
+import java.util.*;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class EventInstanceManager {
 
@@ -296,6 +289,16 @@ public class EventInstanceManager {
         return false;
     }
 
+    public String showDojoPoints() {
+        for(MapleCharacter chr : getPlayers()) {
+            final MapleQuestStatus record = chr.getQuestNAdd(MapleQuest.getInstance(GameConstants.BOSS_PQ));
+            //chr.getClient().getPlayer().getIntNoRecord(GameConstants.BOSS_PQ);
+            record.getCustomData();
+            return record.getCustomData();
+        }
+        return null;
+    }
+
     public final void saveBossQuest(final int points) {
         if (disposed) {
             return;
@@ -308,8 +311,25 @@ public class EventInstanceManager {
             } else {
                 record.setCustomData(String.valueOf(points)); // First time
             }
-            chr.modifyCSPoints(1, points / 5, true);
-            chr.getTrait(MapleTraitType.will).addExp(points / 100, chr);
+            chr.modifyCSPoints(2, Math.round((points / 3)/10)*10, true); //   changed from  chr.modifyCSPoints(2, points / 5), true);
+            chr.getTrait(MapleTraitType.will).addExp(points / 12000, chr);
+        }
+    }
+
+    public final void saveBossQuestNoWill(final int points) {
+        if (disposed) {
+            return;
+        }
+        for (MapleCharacter chr : getPlayers()) {
+            final MapleQuestStatus record = chr.getQuestNAdd(MapleQuest.getInstance(GameConstants.BOSS_PQ));
+
+            if (record.getCustomData() != null) {
+                record.setCustomData(String.valueOf(points + Integer.parseInt(record.getCustomData())));
+            } else {
+                record.setCustomData(String.valueOf(points)); // First time
+            }
+            chr.modifyCSPoints(2, Math.round((points / 3)/10)*10, true); //   changed from  chr.modifyCSPoints(2, points / 5), true);
+            //chr.getTrait(MapleTraitType.will).addExp(points / 6000, chr);
         }
     }
 

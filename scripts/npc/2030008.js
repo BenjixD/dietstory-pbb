@@ -44,15 +44,15 @@ function action(mode, type, selection) {
     else if(status == 1){
     if(selection == 0){
     cm.warp(211042402, 1);
-    cm.dispose;
+    cm.dispose();
     }
     else if(selection == 1){
     cm.warp(211042400, 1);
-    cm.dispose;
+    cm.dispose();
     }
     else if(selection == 2){
     cm.warp(211042401, 1);
-    cm.dispose;
+    cm.dispose();
     }
     }else {
 	cm.dispose();

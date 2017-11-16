@@ -12,6 +12,10 @@ var items = [
 ];
 var select, select2;
 
+function formatNumber (num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+}
+
 function start() {
     status = -1;
     action(1, 0, 0);
@@ -25,12 +29,12 @@ function action(mode, type, selection) {
     }
     status++;
     if (status == 0) {
-        cm.sendSimple("Hi, I like #rCash#k. Maybe you could trade me some of your #r" + ( cm.getPlayer().getCSPoints(2) ) + " Cash#k? I have lots of great items for you...#b\r\n\r\n#L0#Cubes#l\r\n#L1#Scrolls#l\r\n#L2#Scrolling Tools#l\r\n#L3#Game-enhancing#l\r\n#L4#Hired Merchant#l\r\n#L5#ETC#l\r\n#L6#Messaging#l\r\n#L7#Gachapon#l");
+        cm.sendSimple("Hi, I like #rCash#k. \r\nMaybe you could trade me some of your #r" + formatNumber(( cm.getPlayer().getCSPoints(2) )) + " Cash#k? \r\nI have lots of great items for you...#b\r\n\r\n#L0#Cubes#l\r\n#L1#Scrolls#l\r\n#L2#Scrolling Tools#l\r\n#L3#Game-enhancing#l\r\n#L4#Hired Merchant#l\r\n#L5#ETC#l\r\n#L6#Messaging#l\r\n#L7#Gachapon#l");
     } else if (status == 1) {
         select = selection;
         var selStr = "Which item would you like?\r\n#b";
         for (var i = 0; i < items[selection].length; i++) {
-            selStr += "#L" + i + "##v" + items[selection][i][0] + "##t" + items[selection][i][0] + "# #r(" + items[selection][i][1] / 2 + " Cash)" + (items[selection][i][2] > 0 ? " (Lasts for " + items[selection][i][2] + " days)" : "") + "#b#l\r\n";
+            selStr += "#L" + i + "##v" + items[selection][i][0] + "##t" + items[selection][i][0] + "# #r(" + formatNumber((items[selection][i][1] / 2)) + " Cash)" + (items[selection][i][2] > 0 ? " (Lasts for " + items[selection][i][2] + " days)" : "") + "#b#l\r\n";
         }
         cm.sendSimple(selStr + "#k");
     } else if (status == 2) {
@@ -47,11 +51,11 @@ function action(mode, type, selection) {
                 } else {
                     cm.gainItem(items[select][select2][0], 1);
                 }
-                cm.sendOk("You have gained " + selection + "and lost " + items[select][select2][i][1] / 2 * selection + " Cash");
+                cm.sendOk("You have gained " + formatNumber(selection) + "and lost " + formatNumber((items[select][select2][i][1] / 2)) * selection + " Cash");
             }
             cm.dispose();
         } else {
-            cm.sendGetNumber("How many would you like? (1#v" + items[select][selection][0] + "##t" + items[select][selection][0] + "# = " + items[select][selection][1] / 2 + " Cash) (Current Cash: " + cm.getPlayer().getCSPoints(2) + ")", 1, 1, cm.getPlayer().getCSPoints(2) / (items[select][selection][1] / 2));
+            cm.sendGetNumber("How many would you like? \r\n(1#v" + items[select][selection][0] + "##t" + items[select][selection][0] + "# = " + formatNumber(items[select][selection][1] / 2) + " Cash) \r\n(Current Cash: " + formatNumber(cm.getPlayer().getCSPoints(2)) + ")", 1, 1, cm.getPlayer().getCSPoints(2) / (items[select][selection][1] / 2));
         }
     } else if (status == 3) {
         if ((items[select][select2][0] == 7 || items[select][select2][0] == 8 || items[select][select2][0] == 9 || items[select][select2][0] == 11 || items[select][select2][0] == 10) && cm.getPlayer().getLevel() < 70) {
@@ -71,7 +75,7 @@ function action(mode, type, selection) {
             }
 			//cm.showMessage(-1, "You have lost " + (items[select][select2][1] / 2 * selection) + " Cash.");
         //cm.showMessage(7, "You have lost " + (items[select][select2][1] / 2 * selection) + " Cash.");
-            cm.sendOk("You have gained " + selection + " and lost " + items[select][select2][1] / 2 * selection + " Cash");
+            cm.sendOk("You have gained " + formatNumber(selection) + " and lost " + formatNumber(((items[select][select2][1] / 2) * selection)) + " Cash");
         }
         cm.dispose();
     }

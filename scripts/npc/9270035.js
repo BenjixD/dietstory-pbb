@@ -3,10 +3,10 @@
 var status3  = 0;
 var mapform = 0;
 var status = 0;
-var maps = Array(300000000, 680000000, 230000000, 910001000, 260000000, 541000000, 540000000, 211060010, 450002000, 863100000, 105300000, 310000000, 211000000, 101072000, 101000000, 101050000, 130000000, 820000000, 223000000, 410000000, 141000000, 120040000, 209000000, 682000000, 310070000, 401000000, 100000000, 271010000, 251000000, 744000000, 551000000, 103000000, 222000000, 450003000, 240000000, 104000000, 220000000, 150000000, 261000000, 807000000, 250000000, 800000000, 600000000, 450001000, 120000000, 200000000, 800040000, 400000000, 102000000, 914040000, 200100000, 865000000, 801000000, 105000000, 866000000, 693000020, 270000000, 860000000, 273000000, 320000000);
+var maps = Array(300000000, 680000000, 230000000, 910001000, 260000000, 541000000, 610050000, 540000000, 211060010, 450002000, 863100000, 105300000, 310000000, 211000000, 101072000, 101000000, 101050000, 130000000, 820000000, 223000000, 410000000, 141000000, 120040000, 209000000, 682000000, 310070000, 401000000, 100000000, 271010000, 251000000, 744000000, 551000000, 103000000, 222000000, 450003000, 867113100, 240000000, 104000000, 220000000, 150000000, 261000000, 701220000, 807000000,  701210000, 250000000, 800000000, 600000000, 450001000, 120000000, 200000000, 800040000, 400000000, 102000000, 914040000, 200100000, 865000000, 801000000, 105000000, 866000000, 693000020, 270000000, 860000000, 273000000, 701100000, 320000000);
 var mobmaps = Array(240070300, 800020110, 610040000, 270030000, 211060000, 240040500, 551030100, 271000300, 211061000, 211041100, 240010501, 270020000, 910170100, 910160100, 610030010, 863000100, 910180100, 272000100, 682010200, 541000300, 241000200, 220050300, 102040200, 240010700, 241000210, 241000220, 272010000, 910028600, 706041000, 706041005, 273050000, 231040400, 401050000, 541020000, 502010010);
 var bossmaps = [
-[[105100100, "Balrog"], [211042300, "Zakum"], [240050400, "Horntail"], [262030000, "Hilla"], [105200000, "Root Abyss"], [211070000, "Von Leon"], [272020110, "Arkarium"], [401060000, "Easy Magnus"], [401060000, "Normal/Hard Magnus"], [270040000, "Pink Bean"], [271030600, "Cygnus"], [350060000, "Lotus"], [863010000, "Gollux"], [211041700, "Ranmaru"], [811000008, "Princess No"], [970072200, "Ursus"], [1055300303, "Damien"], [610030010, "Crimsonwood Keep"], [450004000, "Lucid"]],
+[[105100100, "Balrog"], [211042300, "Zakum"], [240050400, "Horntail"], [262030000, "Hilla"], [105200000, "Root Abyss"], [211070000, "Von Leon"], [272020110, "Arkarium"], [401060000, "Easy Magnus"], [401060000, "Normal/Hard Magnus"], [270050000, "Pink Bean"], [271030600, "Cygnus"], [350060000, "Lotus"], [863010000, "Gollux"], [211041700, "Ranmaru"], [811000008, "Princess No"], [970072200, "Ursus"], [105300303, "Damien"], [610030010, "Crimsonwood Keep"], [450004000, "Lucid"], [927030060, "Black Mage"]],
 [[5,2], [5,2]]
 ];
 //var bossmapName = Array("Balrog", "Zakum", "Horntail", "Hilla", "Root Abyss", "Von Leon", "Arkarium", "Easy Magnus", "Normal/Hard Magnus", "Pink Bean", "Cygnus", "Lotus", "Gollux", "Ranmaru", "Princess No", "Ursus", "Damien", "Crimsonwood Keep", "Lucid");
@@ -15,6 +15,11 @@ var bossmaps = [
 var cost = Array(1000, 1000, 1000, 1000, 1000, 1000);
 var itemidmlg = 4430000;
 var itemidgml = 4001619;
+
+function formatNumber (num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+}
+
 function start() {
 status = -1;
 action(1, 0, 0);
@@ -165,20 +170,30 @@ else if(status == 2)
 	         break;
 	case 50: cm.dispose(); //Shop (mesos)
 	         //cm.openNpc(); Shop
+	         break;
 	case 51: cm.dispose();
-	         //cm.openNpc(9000039); //Donation NPC (crashes you  for w/e reason)
-	case 52:
+	         cm.openNpc(9000039); //Donation NPC (crashes you  for w/e reason)
+	         break;
+	case 52: cm.dispose();
 	         cm.openNpc(9010036); //Cash NPC
+	         break;
 	case 53: cm.dispose();
-	         //cm.openNpc(9010034); //VPoints NPC
+	         cm.openNpc(9010034); //VPoints NPC
+	         break;
 	case 54: cm.dispose(); // item buffs
+	         cm.openNpc(9201101);
+	         break;
 	case 55: cm.dispose();
-	         //cm.openNpc(9201182); //Nebulite NPC (crashes you for w/e reason)
+	         cm.openNpc(9201182); //Nebulite NPC (crashes you for w/e reason)
+	         break;
 	case 56: cm.dispose(); //Scroll NPC
+	         break;
 	case 57: cm.dispose();
-	         //cm.openNpc(9030000); //shop NPC
+	         cm.openNpc(9030000); //shop NPC
+	         break;
 	case 58: cm.dispose();
-	         //cm.openNpc(1540945); //V-matrix
+	         cm.openNpc(1540945); //V-matrix
+	         break;
 
 	}
 }
@@ -312,15 +327,15 @@ else if (status == 4)
 {
 	switch (mapform){
 	case 1:
-		cm.warp(maps[selectedMap]);
+		cm.warp(maps[selectedMap],0);
 		cm.dispose();
 		break;
 	case 2:
-		cm.warp(mobmaps[selectedMap]);
+		cm.warp(mobmaps[selectedMap],0);
 		cm.dispose();
 		break;
 	case 3:
-		cm.warp(bossmaps[0][selectedMap][0]);
+		cm.warp(bossmaps[0][selectedMap][0],0);
 		cm.dispose();
 		break;
 	}

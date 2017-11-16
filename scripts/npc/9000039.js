@@ -12,11 +12,16 @@ var rbid = 4310016;
 var pendantslot = [["30 Days for the Character", 400], ["90 Days for the Character", 1000], ["Permanent for the Character", 2000], ["30 Days for the Account", 1000], ["90 Days for the Account", 2500], ["Permanent for the Account", 5000] ];
 var donorskills = [];
 var items = [
-/*Items*/ [[5211046, 500, 1,"2x EXP Card (does not stack with VP EXP card)"], [5211046, 2500, 7, "2x EXP Card (does not stack with VP EXP card)"], [5360042, 1000, 7, "2x Drop/Meso Card (does not stack with VP Drop/Meso card)"], [1122219, 500, 30, "+20% Drop, stacks with all"], [1122219, 1500, -1, "+20% Drop, stacks with all"], [1132183, 1500, -1, "Cash Belt (stacks with others, cannot be worn by Zero)"], [1122210, 1500, -1, "Cash Pendant (stacks with other Pendants, cannot wear two of the same pendant at the same time)"], [1152101, 1500, -1, "Cash Shoulder (stacks with others, cannot be worn by Zero)"], /*[Aura Ring+2, 750, -1, "Aura Ring(+2) (cannot wear two of the same ring at the same time)"], [Aura Ring+5, 1000, -1, "Aura Ring(+5) (cannot wear two of the same ring at the same time)"], [Dark Devil Ring, 1000, -1, "Dark Devil Ring (cannot wear two fo the same ring at the same time)"], [Grin Ring, 2000, -1, "Grin Ring (cannot wear two of the same ring at the same time)"],*/ [1002959, 2000, -1, "Donor Cap (cosmetic item)"], [4030003, 180, 0.5, "Pet itemvac"], [4030003, 300, 1, "Pet itemvac"], [4030003, 700, 3, "Pet itemvac"], [4030003, 1500, 7, "Pet itemvac"], [4030003, 4500, 30, "Pet itemvac"], [1672020, 5000, -1, "Lidium Heart (Permanent, Level 30)"], [1672027, 5000, -1, "Upgrade Lidium to Superior Lidium (Permanent, level 80)"], [1672040, 2500, -1, "Upgrade Superior Lidium to Titanium (Permanent, level 100)"], [1672069, 7500, -1, "Upgrade Titanium to Outlaw (Permanent, level 150)"], /*[5062010, 5, -1, "Black Cube"], [5062090, 10, -1, "Memory Cube (Enhanced Black Cube)"],*/ [5064300, 1000, -1, "Guardian Scroll"], [5064400, 2500, -1, "Return Scroll"], [2022035, 400, 7, "Clone"], [2022035, 1500, 30, "Clone"], [5220097, 1000, -1, "Chair Gachapon Ticket"]/*, [Damage skins, 1000, -1, "Dmg Skin Name"]*/ ],
+/*Items*/ [[5211046, 500, 1,"2x EXP Card (does not stack with VP EXP card)"], [5211046, 2500, 7, "2x EXP Card (does not stack with VP EXP card)"], [5360042, 1000, 7, "2x Drop/Meso Card (does not stack with VP Drop/Meso card)"], [1122219, 500, 30, "+20% Drop, stacks with all"], [1122219, 1500, -1, "+20% Drop, stacks with all"], [1132183, 1500, -1, "Cash Belt (stacks with others, cannot be worn by Zero)"], [1122210, 1500, -1, "Cash Pendant (stacks with other Pendants, cannot wear two of the same pendant at the same time)"], [1152101, 1500, -1, "Cash Shoulder (stacks with others, cannot be worn by Zero)"], /*[Aura Ring+2, 750, -1, "Aura Ring(+2) (cannot wear two of the same ring at the same time)"], [Aura Ring+5, 1000, -1, "Aura Ring(+5) (cannot wear two of the same ring at the same time)"], [Dark Devil Ring, 1000, -1, "Dark Devil Ring (cannot wear two fo the same ring at the same time)"], [Grin Ring, 2000, -1, "Grin Ring (cannot wear two of the same ring at the same time)"],*/ [1002959, 2000, -1, "Donor Cap (cosmetic item)"], [4030003, 180, 0.5, "Pet itemvac"], [4030003, 300, 1, "Pet itemvac"], [4030003, 700, 3, "Pet itemvac"], [4030003, 1500, 7, "Pet itemvac"], [4030003, 4500, 30, "Pet itemvac"], [1672020, 5000, -1, "Lidium Heart (Permanent, Level 30)"], [1672027, 5000, -1, "Upgrade Lidium to Superior Lidium (Permanent, level 80)"], [1672040, 2500, -1, "Upgrade Superior Lidium to Titanium (Permanent, level 100)"], [1672069, 7500, -1, "Upgrade Titanium to Outlaw (Permanent, level 150)"], /*[5062010, 5, -1, "Black Cube"], [5062090, 10, -1, "Memory Cube (Enhanced Black Cube)"],*/ [5064300, 1000, -1, "Guardian Scroll"], [5064400, 2500, -1, "Return Scroll"], [2022035, 400, 7, "Clone"], [2022035, 1500, 30, "Clone"], [5220097, 1000, -1, "Chair Gachapon Ticket"], [2433063, 1000, -1, "Star Planet Damage Skin"], [2433362, 1000, -1, "Night Sky Damage Skin"], [2436045, 1000, -1, "Starlight Aurora Damage Skin"], [2434390, 1000, -1, "Teddy Damage Skin"], [2434710, 1000, -1, "MVP Special Damage Skin"], [5680395, 1000, -1, "Scorching Heat Damage Skin"], [2435157, 1000, -1, "Calligraphy Damage Skin"], [2435184, 1000, -1, "Forest of Tenacity Damage Skin"], [2435222, 1000, -1, "Festival Tortoise Damage Skin"], [2435316, 1000, -1, "Haste Damage Skin"], [2435428, 1200, -1, "Cosmic Damage Skin"], [2436027, 1200, -1, "Blue Strike Damage Skin"], [2435840, 1200, -1, "Gilded Damage Skin"], [2435429, 1200, -1, "Choco Donut Damage Skin"], [2435841, 1500, -1, "Batty Damage Skin"], [2435960, 1500, -1, "Fried Chicken Damage Skin"], [2436229, 1500, -1, "Pig Bar Damage Skin"], [2434601, 2000, -1, "Invisible Damage Skin"]],
 /*Chairs*/ [[3015369, 1000, -1], [3015253, 1000, -1], [3015254, 1000, -1], [3015255, 1000, -1], [3015096, 1000, -1], [3015551, 1000, -1], [3015331, 1000, -1], [3015514, 1000, -1], [3012031, 1000, -1], [3015497, 1000, -1], [3015541, 1000, -1], [3015272, 1000, -1], [3015263, 1000, -1], [3015236, 1000, -1], [3015543, 1000, -1], [3015235, 1000, -1], [3015234, 1000, -1], [3015512, 1000, -1], [3010839, 1000, -1], [3010964, 1000, -1], [3015496, 1000, -1], [3010812, 1000, -1], [3012028, 1000, -1], [3015552, 1000, -1], [3010662, 1000, -1], [3015173, 1000, -1], [3010931, 1000, -1],  [3014019, 1000, -1], [3010932, 1000, -1], [3010838, 1000, -1], [3015610, 1000, -1], [3010700, 1000, -1], [3010681, 1000, -1], [3010519, 1000, -1], [3010651, 1000, -1], [3010652, 1000, -1], [3010653, 1000, -1], [3010654, 1000, -1], [3010655, 1000, -1], [3010656, 1000, -1], [3015014, 1000, -1], [3015005, 1000, -1], [3015002, 1000, -1], [3015034, 1000, -1], [3015125, 1000, -1], [3015162, 1000, -1], [3015163, 1000, -1], [3015164, 1000, -1], [3015160, 1000, -1], [3015183, 1000, -1], [3015193, 1000, -1], [3015195, 1000, -1], [3015215, 1000, -1], [3015213, 1000, -1], [3015304, 1000, -1], [3015366, 1000, -1], [3015449, 1000, -1], [3015420, 1000, -1], [3015433, 1000, -1],  [3015447, 1000, -1], [3015437, 1000, -1], [3015468, 1000, -1], [3015498, 1000, -1], [3015482, 1000, -1], [3015520, 1000, -1], [3015526, 1000, -1], [3015573, 1000, -1], [3015580, 1000, -1], [3015586, 1000, -1], [3015598, 1000, -1], [3015603, 1000, -1], [3015600, 1000, -1], [3015609, 1000, -1], [3015608, 1000, -1], [3015607, 1000, -1], [3015606, 1000, -1], [3015605, 1000, -1], [3015604, 1000, -1], [3015637, 1000, -1], [3015638, 1000, -1], [3015646, 1000, -1], [3015659, 1000, -1], [3015660, 1000, -1], [3015665, 1000, -1], [3015661, 1000, -1], [3015694, 1000, -1], [3015695, 1000, -1], [3015696, 1000, -1], [3015697, 1000, -1], [3015698, 1000, -1], [3015699, 1000, -1], [3015701, 1000, -1], [3015744, 1000, -1], [3015743, 1000, -1], [3010417, 1000, -1], [3010416, 1000, -1], [3010676, 1000, -1], [3010680, 1000, -1], [3010820, 1000, -1], [3010842, 1000, -1], [3010843, 1000, -1], [3010853, 1000, -1], [3010848, 1000, -1], [3010854, 1000, -1], [3010968, 1000, -1], [3010979, 1000, -1], [3010978, 1000, -1], [3010980, 1000, -1], [3012032, 1000, -1], [3013009, 1000, -1], [3014009, 1000, -1], [3014010, 1000, -1], [3014013, 1000, -1], [3014014, 1000, -1], [3014015, 1000, -1], [3014016, 1000, -1], [3014017, 1000, -1], [3014018, 1000, -1], [3015001, 1500, -1], [3015438, 1500, -1], [3014011, 1500, -1]],
 /*Skills*/ [[5610000, 10000, -1], [5610001, 10000, -1], [2532000, 50000, -1], [2530000, 35000, -1], [2531000, 100000, -1], [5534000, 20000, -1], [2532004, 100000, -1], [2530006, 100000, -1], [2533001, 400000, -1], [2048400, 5000, -1], [2470007, 10000, -1]]
 ];
 var select, select2;
+
+function formatNumber (num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+}
+
 
 function start() {
     status = -1;
@@ -44,7 +49,7 @@ function action(mode, type, selection) {
         case 100: select = selection;  // Points for Items
                        var selStr = "Alright, I can trade these items for points...\r\n#b";
                        for (var i = 0; i < items[0].length; i++) {
-                           selStr += (items[0][i][2] < 1 ? "#L" + i + "##v" + items[0][i][0] + "#" + items[0][i][3] + " for #e" + items[0][i][1] + "#n#b points #b" + (items[0][i][2] > 0 ? "#b ...lasts #r#e" + ( items[0][i][2] * 24 ) + "#n#b hours" : "") + "#b#l\r\n" : "#L" + i + "##v" + items[0][i][0] + "#" + items[0][i][3] + " for #e" + items[0][i][1] + "#n#b points #b" + (items[0][i][2] > 0 ? "#b ...lasts #r#e" + items[0][i][2] + "#n#b days" : "") + "#b#l\r\n");
+                           selStr += (items[0][i][2] < 1 ? "#L" + i + "##v" + items[0][i][0] + "#" + items[0][i][3] + " for #e" + formatNumber(items[0][i][1]) + "#n#b points #b" + (items[0][i][2] > 0 ? "#b ...lasts #r#e" + ( items[0][i][2] * 24 ) + "#n#b hours" : "") + "#b#l\r\n" : "#L" + i + "##v" + items[0][i][0] + "#" + items[0][i][3] + " for #e" + formatNumber(items[0][i][1]) + "#n#b points #b" + (items[0][i][2] > 0 ? "#b ...lasts #r#e" + items[0][i][2] + "#n#b days" : "") + "#b#l\r\n");
                        }
                        cm.sendSimple(selStr + "#k");
                        status2 = 1;
@@ -82,7 +87,7 @@ function action(mode, type, selection) {
         case 102: select = selection;  // Points for Chairs
                        var selStr = "Alright, I can trade these items for points...\r\n#b";
                        for (var i = 0; i < items[1].length; i++) {
-                           selStr += (items[1][i][2] < 1 ? "#L" + i + "##v" + items[1][i][0] + "##t" + items[1][i][0] + "# for #e" + items[1][i][1] + "#n#b points #b" + (items[1][i][2] > 0 ? "#b ...lasts #r#e" + ( items[1][i][2] * 24 ) + "#n#b hours" : "") + "#b#l\r\n" : "#L" + i + "##v" + items[1][i][0] + "#" + items[1][i][3] + " for #e" + items[1][i][1] + "#n#b points #b" + (items[1][i][2] > 0 ? "#b ...lasts #r#e" + items[1][i][2] + "#n#b days" : "") + "#b#l\r\n");
+                           selStr += (items[1][i][2] < 1 ? "#L" + i + "##v" + items[1][i][0] + "##t" + items[1][i][0] + "# for #e" + formatNumber(items[1][i][1]) + "#n#b points #b" + (items[1][i][2] > 0 ? "#b ...lasts #r#e" + ( items[1][i][2] * 24 ) + "#n#b hours" : "") + "#b#l\r\n" : "#L" + i + "##v" + items[1][i][0] + "#" + items[1][i][3] + " for #e" + formatNumber(items[1][i][1]) + "#n#b points #b" + (items[1][i][2] > 0 ? "#b ...lasts #r#e" + items[1][i][2] + "#n#b days" : "") + "#b#l\r\n");
                        }
                        cm.sendSimple(selStr + "#k"); // 121 chairs
                        status2 = 3;
@@ -99,7 +104,7 @@ function action(mode, type, selection) {
                        cm.sendSimple(selStr + "#k");
                        status2 = 7;
                        break;
-        case 108: cm.sendSimple("What would you like to exchange?\r\nYou have #r" + cm.getPlayer().getDPoints() + "#k Donor Points. \r\n \r\n#b#L1#Red Luck Sacks to Points(1000)#l \r\n#L2#Points(1000) to Red Luck Sacks#l \r\n\r\n#L3#Moonlight Coins to Points(100)#l \r\n#L4#Points(100) to Moonlight Coins#l \r\n\r\n#L5#Red Buttons to Points(10)#l \r\n#L6#Points(10) to Red Buttons#l#k");
+        case 108: cm.sendSimple("What would you like to exchange?\r\nYou have #r" + formatNumber(cm.getPlayer().getDPoints()) + "#k Donor Points. \r\n \r\n#b#L1#Red Luck Sacks to Points(1000)#l \r\n#L2#Points(1000) to Red Luck Sacks#l \r\n\r\n#L3#Moonlight Coins to Points(100)#l \r\n#L4#Points(100) to Moonlight Coins#l \r\n\r\n#L5#Red Buttons to Points(10)#l \r\n#L6#Points(10) to Red Buttons#l#k");
                   status2 = 8;
                   break;
         case 109:
@@ -150,7 +155,7 @@ function action(mode, type, selection) {
                         cm.sendSimple("Thank you for the purchase");
                         cm.getPlayer().setDPoints( cm.getPlayer().getDPoints() - (items[1][selection][1]));
                                 if (items[1][selection][2] > 0) {
-                                cm.gainItemPeriod(items[1][selection][0], 1, items[1][selection][2]);  // items period <1   yet >0   don't get their time-limit, though they should
+                                    cm.gainItemPeriod(items[1][selection][0], 1, items[1][selection][2]);  // items period <1   yet >0   don't get their time-limit, though they should
                                 }
                                 else {
                                 cm.gainItem(items[1][selection][0], 1);
@@ -273,7 +278,7 @@ function action(mode, type, selection) {
 
         case 8:
             switch (status3_8sub) {
-            case 1: cm.sendSimple("You have lost #r" + selection + "#k Red Luck Sacks, and gained #r" + (selection * 1000) + "#k donor points.");
+            case 1: cm.sendSimple("You have lost #r" + formatNumber(selection) + "#k Red Luck Sacks, and gained #r" + formatNumber((selection * 1000)) + "#k donor points.");
                     cm.gainItem(rlsid,(selection*-1));
                     cm.getPlayer().setDPoints(cm.getPlayer().getDPoints()+(selection*1000));
                     cm.dispose();
@@ -283,12 +288,12 @@ function action(mode, type, selection) {
                              cm.dispose();
                              return;
                              }
-                    cm.sendSimple("You have lost #r" + (selection * 1000) + "#k donor points, and gained #r" +selection+ "#k Red Luck Sacks.");
+                    cm.sendSimple("You have lost #r" + formatNumber((selection * 1000)) + "#k donor points, and gained #r" +formatNumber(selection)+ "#k Red Luck Sacks.");
                     cm.gainItem(rlsid, selection);
                     cm.getPlayer().setDPoints(cm.getPlayer().getDPoints()-(selection*1000));
                     cm.dispose();
                     break;
-            case 3: cm.sendSimple("You have lost #r" + selection + "#k Moonlight Coins, and gained #r" + (selection * 100) + "#k donor points.");
+            case 3: cm.sendSimple("You have lost #r" + formatNumber(selection) + "#k Moonlight Coins, and gained #r" + formatNumber((selection * 100)) + "#k donor points.");
                     cm.gainItem(mlcid,(selection*-1));
                     cm.getPlayer().setDPoints(cm.getPlayer().getDPoints()+(selection*100));
                     cm.dispose();
@@ -298,12 +303,12 @@ function action(mode, type, selection) {
                              cm.dispose();
                              return;
                              }
-                    cm.sendSimple("You have lost #r" + (selection * 100) + "#k donor points, and gained #r" +selection+ "#k Moonlight Coins.");
+                    cm.sendSimple("You have lost #r" + formatNumber((selection * 100)) + "#k donor points, and gained #r" +formatNumber(selection)+ "#k Moonlight Coins.");
                     cm.gainItem(mlcid, selection);
                     cm.getPlayer().setDPoints(cm.getPlayer().getDPoints()-(selection*100));
                     cm.dispose();
                     break;
-            case 5: cm.sendSimple("You have lost #r" + selection + "#k Red Buttons, and gained #r" + (selection * 10) + "#k donor points.");
+            case 5: cm.sendSimple("You have lost #r" + formatNumber(selection) + "#k Red Buttons, and gained #r" + formatNumber((selection * 10)) + "#k donor points.");
                     cm.gainItem(rbid,(selection*-1));
                     cm.getPlayer().setDPoints(cm.getPlayer().getDPoints()+(selection*10));
                     cm.dispose();
@@ -313,7 +318,7 @@ function action(mode, type, selection) {
                              cm.dispose();
                              return;
                              }
-                    cm.sendSimple("You have lost #r" + (selection * 10) + "#k donor points, and gained #r" +selection+ "#k Red Buttons.");
+                    cm.sendSimple("You have lost #r" + formatNumber((selection * 10)) + "#k donor points, and gained #r" +formatNumber(selection)+ "#k Red Buttons.");
                     cm.gainItem(rbid, selection);
                     cm.getPlayer().setDPoints(cm.getPlayer().getDPoints()-(selection*10));
                     cm.dispose();

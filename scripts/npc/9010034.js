@@ -1,4 +1,4 @@
-// Voting Point NPC Cygnus
+// Voting Point NPC Cygnus  - votepoints vote points NPC
 
 var status = -1;
 var status2 = 0;
@@ -7,6 +7,11 @@ var items = [
 /*TestArray*/ [[2340000, 1, 10], [2340000, 2, 10]]
 ];
 var itemowner = "Rental";
+
+function formatNumber (num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+}
+
 
 function start() {
     status = -1;
@@ -20,7 +25,7 @@ function action(mode, type, selection) {
     }
     status++;
     if (status == 0) {
-            cm.sendSimple("Hello! I'm the #r#eVoting Point NPC#n#k. If you have voted on our site, you will get a point each time! I see you have #e#r" + cm.getPlayer().getVPoints() + "#n#k vote points! I can redeem your points for cool things! What would you like...?\r\n\r\n#b#L0#Trade for Items#l\r\n#L1#Additional Pendant Slot (7 Days)(Character) for 20 vote points#l\r\n#L2#Additional Pendant Slot(7 Days)(Account) for 40 vote points#l\r\n#L3#Bits Sets#l#k");
+            cm.sendSimple("Hello! I'm the #r#eVoting Point NPC#n#k. If you have voted on our site, you will get a point each time! I see you have #e#r" + formatNumber(cm.getPlayer().getVPoints()) + "#n#k vote points! I can redeem your points for cool things! What would you like...?\r\n\r\n#b#L0#Trade for Items#l\r\n#L1#Additional Pendant Slot (7 Days)(Character) for 20 vote points#l\r\n#L2#Additional Pendant Slot(7 Days)(Account) for 40 vote points#l\r\n#L3#Bits Sets#l#k");
     }
     else if (status == 1) {
         switch (selection) {

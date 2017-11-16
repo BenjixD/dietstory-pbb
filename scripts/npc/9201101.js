@@ -17,10 +17,10 @@ function action(mode, type, selection) {
     }
     if (!buy) {
         sel = selection;
-        cm.sendGetNumber("Are you sure you want to make a #b#v" + items[selection][0] + "##t" + items[selection][0] + "##k? The following items and materials will be required...\r\n\r\n" + items[selection][1] + " mesos", 1, 1, 200);
+        cm.sendGetNumber("Are you sure you want to make a #b#v" + items[selection][0] + "##t" + items[selection][0] + "##k? The following items and materials will be required...\r\n\r\n" + items[selection][1] + " mesos", 1, 1, 100);
         buy = true;
     } else {
-        if (!cm.canHold(items[sel][0], items[sel][1])) {
+        if (!cm.canHold(items[sel][0],selection)) {
             cm.sendOk("Please make more space.");
             cm.dispose();
             return;
