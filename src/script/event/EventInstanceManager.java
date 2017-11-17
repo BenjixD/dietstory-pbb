@@ -299,6 +299,15 @@ public class EventInstanceManager {
         return null;
     }
 
+    public final void NxOnly(final int points) {
+        if (disposed) {
+            return;
+        }
+        for (MapleCharacter chr : getPlayers()) {
+            chr.modifyCSPoints(2, Math.round((points / 3)/10)*10, true); //   changed from  chr.modifyCSPoints(2, points / 5), true);
+        }
+    }
+
     public final void saveBossQuest(final int points) {
         if (disposed) {
             return;

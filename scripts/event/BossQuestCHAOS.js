@@ -1,6 +1,35 @@
-var eventmapid = 610030600;
-var returnmap = 910000000;
-var monster = Array(/*8300006, */8510000/*, 8810130*/, 0, 8850010, 8870107/*, 8860000*/, 2, 1);
+var eventmapid = 925060100; // Mu Lung Dojo: Mu Lung Dojo 1st Floor
+var returnmap = 925020001; // Mu Lung Dojo: Mu Lung Dojo Hall
+var startTimer;
+
+
+var monster = new Array(
+    9500351, // Papa Pixie
+    9500343, // Alishar
+    9500349, // Lord Pirate
+    2600518, // Deet and Roi
+    9500354, // FrankenRoid
+    9500356, // Chimera
+    9400802, // Galacto-Drill
+    9500352, // King Sage Cat
+    9500177, // Giant Centipede
+    9500358, // Balrog
+    9500359, // Manon
+    9500360, // Griffey
+    9500357, // Snow Yeti
+    9500362, // Papulatus
+    8210013, // Prison Guard Ani
+    9500382, // Leviathan
+    9300474, // Coco
+    9830008, // Dragonoir
+    9420549, // Furious Scarlion Boss
+    9420544, // Furious Targa
+    9600318  // Diabolic Jiangshi
+    );
+
+function formatNumber (num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+}
 
 function init() {
 // After loading, ChannelServer
@@ -13,184 +42,194 @@ function setup(partyid) {
     // If there are more than 1 map for this, you'll need to do mapid + instancename
     var map = eim.createInstanceMapS(eventmapid);
     map.toggleDrops();
-    map.spawnNpc(9250156, new java.awt.Point(148, 1));
+    map.spawnNpc(2091005, new java.awt.Point(0, -420));
 
     eim.setProperty("points", 0);
     eim.setProperty("monster_number", 0);
-    eim.setProperty("n_spawn", 0);
-    eim.setProperty("f_spawn", 0);
-    eim.setProperty("c_spawn", 0);
+
+    startTimer = java.lang.System.currentTimeMillis();
+
+
     beginQuest(eim);
     return eim;
 }
 
 function beginQuest(eim) { // Custom function
     if (eim != null) {
-        eim.startEventTimer(5000); // After 5 seconds -> scheduledTimeout()
+    	eim.startEventTimer(4000); // After 5 seconds -> scheduledTimeout()   // 5s changed to 4s
     }
 }
 
 function monsterSpawn(eim) { // Custom function
     var monsterid = monster[parseInt(eim.getProperty("monster_number"))];
-    if (monsterid == 0) {
-        if (parseInt(eim.getProperty("f_spawn")) == 0) {
-            monsterid = 8610000;
-            eim.setProperty("f_spawn", "1");
-            monsterSpawn(eim); //double spawn
-        } else if (parseInt(eim.getProperty("f_spawn")) == 1) {
-            monsterid = 8610001;
-            eim.setProperty("f_spawn", "2");
-            monsterSpawn(eim); //double spawn
-        } else if (parseInt(eim.getProperty("f_spawn")) == 2) {
-            monsterid = 8610002;
-            eim.setProperty("f_spawn", "3");
-            monsterSpawn(eim); //double spawn
-        } else if (parseInt(eim.getProperty("f_spawn")) == 3) {
-            monsterid = 8610003;
-            eim.setProperty("f_spawn", "4");
-            monsterSpawn(eim); //double spawn
-        } else if (parseInt(eim.getProperty("f_spawn")) == 4) {
-            monsterid = 8610004;
-        }
-    } else if (monsterid == 1) {
-        if (parseInt(eim.getProperty("n_spawn")) == 0) {
-            monsterid = 8850005;
-            eim.setProperty("n_spawn", "1");
-            monsterSpawn(eim); //double spawn
-        } else if (parseInt(eim.getProperty("n_spawn")) == 1) {
-            monsterid = 8850006;
-            eim.setProperty("n_spawn", "2");
-            monsterSpawn(eim); //double spawn
-        } else if (parseInt(eim.getProperty("n_spawn")) == 2) {
-            monsterid = 8850007;
-            eim.setProperty("n_spawn", "3");
-            monsterSpawn(eim); //double spawn
-        } else if (parseInt(eim.getProperty("n_spawn")) == 3) {
-            monsterid = 8850008;
-            eim.setProperty("n_spawn", "4");
-            monsterSpawn(eim); //double spawn
-        } else if (parseInt(eim.getProperty("n_spawn")) == 4) {
-            monsterid = 8850009;
-            eim.setProperty("n_spawn", "5");
-            monsterSpawn(eim); //double spawn
-        } else if (parseInt(eim.getProperty("n_spawn")) == 5) {
-            monsterid = 8870200;
-        }
-    } else if (monsterid == 2) {
-        if (parseInt(eim.getProperty("c_spawn")) == 0) {
-            monsterid = 8820018;
-            eim.setProperty("c_spawn", "1");
-            //for (var i = 0; i < 10; i++) {
-            monsterSpawn(eim);
-        //}
-        } else if (parseInt(eim.getProperty("c_spawn")) == 1) {
-            monsterid = 8820015;
-            eim.setProperty("c_spawn", "2");
-            monsterSpawn(eim); //double spawn
-        } else if (parseInt(eim.getProperty("c_spawn")) == 2) {
-            monsterid = 8820016;
-            eim.setProperty("c_spawn", "3");
-            monsterSpawn(eim); //double spawn
-        } else if (parseInt(eim.getProperty("c_spawn")) == 3) {
-            monsterid = 8820017;
-            eim.setProperty("c_spawn", "4");
-            monsterSpawn(eim); //double spawn
-        } else if (parseInt(eim.getProperty("c_spawn")) == 4) {
-            monsterid = 8820018;
-            eim.setProperty("c_spawn", "5");
-            monsterSpawn(eim); //double spawn
-        } else if (parseInt(eim.getProperty("c_spawn")) == 5) {
-            monsterid = 8860003;
-        }
+    var mob = em.getMonster(monster[parseInt(eim.getProperty("monster_number"))]);
+
+    switch(monsterid) {
+    case 9500337: // Mano - 700p, 210nx
+        var modified = em.newMonsterStats();
+	    modified.setOExp(mob.getMobExp() * 0);
+	    modified.setOHp(mob.getMobMaxHp() * 331 *12);
+	    modified.setOMp(mob.getMobMaxMp() * 200);
+
+	    mob.setOverrideStats(modified);
+	    break;
+    case 9500345: // Mushmom - 700p, 210nx
+        var modified = em.newMonsterStats();
+	    modified.setOExp(mob.getMobExp() * 0.035 *6);
+	    modified.setOHp(mob.getMobMaxHp() * 8 *12);
+	    modified.setOMp(mob.getMobMaxMp() * 200);
+
+	    mob.setOverrideStats(modified);
+	    break;
+    case 9500338: // Stumpy - 700p, 210nx
+        var modified = em.newMonsterStats();
+	    modified.setOExp(mob.getMobExp() * 0.16 *6);
+	    modified.setOHp(mob.getMobMaxHp() * 23 *12);
+	    modified.setOMp(mob.getMobMaxMp() * 200);
+
+	    mob.setOverrideStats(modified);
+	    break;
+    case 9500176: // Blue Mushmom - 700p, 210nx
+        var modified = em.newMonsterStats();
+	    modified.setOExp(mob.getMobExp() * 0.03 *6);
+	    modified.setOHp(mob.getMobMaxHp() * 4 *12);
+	    modified.setOMp(mob.getMobMaxMp() * 200);
+
+	    mob.setOverrideStats(modified);
+	    break;
+    case 9480015: // Zombie Mushmom - 700p, 210nx
+        var modified = em.newMonsterStats();
+	    modified.setOExp(mob.getMobExp() * 0);
+	    modified.setOHp(mob.getMobMaxHp() * 0.00011 *12);
+	    modified.setOMp(mob.getMobMaxMp() * 200);
+
+	    mob.setOverrideStats(modified);
+	    break;
+    case 9500168: // Slime King - 1400p, 420nx
+        var modified = em.newMonsterStats();
+	    modified.setOExp(mob.getMobExp() * 0.006 *10);
+	    modified.setOHp(mob.getMobMaxHp() * 0.1 *12);
+	    modified.setOMp(mob.getMobMaxMp() * 200);
+
+	    mob.setOverrideStats(modified);
+	    break;
+    case 9500346: // Dale - 1400p, 420nx
+        var modified = em.newMonsterStats();
+	    modified.setOExp(mob.getMobExp() * 0.11 *6);
+	    modified.setOHp(mob.getMobMaxHp() * 9 *12);
+	    modified.setOMp(mob.getMobMaxMp() * 200);
+
+	    mob.setOverrideStats(modified);
+	    break;
+    case 9500342: // King Clang - 1400p, 420nx
+        var modified = em.newMonsterStats();
+	    modified.setOExp(mob.getMobExp() * 0.08 *6);
+	    modified.setOHp(mob.getMobMaxHp() * 12 *12);
+	    modified.setOMp(mob.getMobMaxMp() * 200);
+
+	    mob.setOverrideStats(modified);
+	    break;
+    case 9500341: // Faust - 1400p, 420nx
+        var modified = em.newMonsterStats();
+	    modified.setOExp(mob.getMobExp() * 0.003 *6);
+	    modified.setOHp(mob.getMobMaxHp() * 0.04 *12);
+	    modified.setOMp(mob.getMobMaxMp() * 200);
+
+	    mob.setOverrideStats(modified);
+	    break;
+    case 9800008: // Spirit of Rock - 1400p, 420nx
+        var modified = em.newMonsterStats();
+	    modified.setOExp(mob.getMobExp() * 0);
+	    modified.setOHp(mob.getMobMaxHp() * 0.045 *12);
+	    modified.setOMp(mob.getMobMaxMp() * 200);
+
+	    mob.setOverrideStats(modified);
+	    break;
+    case 9800003: // Metal Golem
+        var modified = em.newMonsterStats();
+	    modified.setOExp(mob.getMobExp() * 0.02 *1.1);
+	    modified.setOHp(mob.getMobMaxHp() * 0.25 *1.4);
+	    modified.setOMp(mob.getMobMaxMp() * 100);
+
+	    mob.setOverrideStats(modified);
+	    break;
+    case 9500355: // Eliza
+        var modified = em.newMonsterStats();
+	    modified.setOExp(mob.getMobExp() * 0.3 *1.1);
+	    modified.setOHp(mob.getMobMaxHp() * 44 *1.4);
+	    modified.setOMp(mob.getMobMaxMp() * 200);
+
+	    mob.setOverrideStats(modified);
+	    break;
+    case 9500353: // Jr. Balrog
+        var modified = em.newMonsterStats();
+	    modified.setOExp(mob.getMobExp() * 0.54 *1.1);
+	    modified.setOHp(mob.getMobMaxHp() * 88 *1.4);
+	    modified.setOMp(mob.getMobMaxMp() * 200);
+
+	    mob.setOverrideStats(modified);
+	    break;
+    case 9500348: // Nine-Tailed Fox
+        var modified = em.newMonsterStats();
+	    modified.setOExp(mob.getMobExp() * 0.94 *1.1);
+	    modified.setOHp(mob.getMobMaxHp() * 59 *1.4);
+	    modified.setOMp(mob.getMobMaxMp() * 200);
+
+	    mob.setOverrideStats(modified);
+	    break;
+    case 9300965: // Xerxes
+        var modified = em.newMonsterStats();
+	    modified.setOExp(mob.getMobExp() * 0);
+	    modified.setOHp(mob.getMobMaxHp() * 0.01 *1.4);
+	    modified.setOMp(mob.getMobMaxMp() * 200);
+
+	    mob.setOverrideStats(modified);
+	    break;
+    case 9500339: // Deo
+        var modified = em.newMonsterStats();
+	    modified.setOExp(mob.getMobExp() * 0.03 *1.1);
+	    modified.setOHp(mob.getMobMaxHp() * 0.3 *1.4);
+	    modified.setOMp(mob.getMobMaxMp() * 200);
+
+	    mob.setOverrideStats(modified);
+	    break;
+    case 9500347: // Zeno
+        var modified = em.newMonsterStats();
+	    modified.setOExp(mob.getMobExp() * 3 *1.1);
+	    modified.setOHp(mob.getMobMaxHp() * 212 *1.4);
+	    modified.setOMp(mob.getMobMaxMp() * 200);
+
+	    mob.setOverrideStats(modified);
+	    break;
+    case 9500344: // Timer
+        var modified = em.newMonsterStats();
+	    modified.setOExp(mob.getMobExp() * 5.4 *1.1);
+	    modified.setOHp(mob.getMobMaxHp() * 430 *1.4);
+	    modified.setOMp(mob.getMobMaxMp() * 200);
+
+	    mob.setOverrideStats(modified);
+	    break;
+    case 9500179: // Snack bar
+        var modified = em.newMonsterStats();
+	    modified.setOExp(mob.getMobExp() * 7.5 *1.1);
+	    modified.setOHp(mob.getMobMaxHp() * 1865 *1.4);
+	    modified.setOMp(mob.getMobMaxMp() * 200);
+
+	    mob.setOverrideStats(modified);
+	    break;
+    case 9500350: // Tae Roon
+        var modified = em.newMonsterStats();
+	    modified.setOExp(mob.getMobExp() * 3 *1.1);
+	    modified.setOHp(mob.getMobMaxHp() * 155 *1.4);
+	    modified.setOMp(mob.getMobMaxMp() * 200);
+
+	    mob.setOverrideStats(modified);
+	    break;
     }
-    var mob = em.getMonster(monsterid);
-    var modified = em.newMonsterStats();
-    modified.setOMp(mob.getMobMaxMp());
-    switch (monsterid) {
-        case 8840000:
-            modified.setOExp(mob.getMobExp());
-            modified.setOHp(mob.getMobMaxHp() * 2.4); //1b
-            break;
-        case 8800100:
-        case 8800101:
-        case 8800102:
-        case 9400289:
-            modified.setOExp(mob.getMobExp());
-            modified.setOHp(mob.getMobMaxHp() * 1.8); //1b
-            break;
-        case 9400300:
-            modified.setOExp(mob.getMobExp());
-            modified.setOHp(mob.getMobMaxHp() * 6);
-            break;
-        case 9400589:
-        case 9400590:
-        case 9400591:
-        case 9400592:
-        case 9400593:
-            modified.setOExp(mob.getMobExp());
-            modified.setOHp(mob.getMobMaxHp() * 1.1);
-            break;
-        case 8850005:
-        case 8850006:
-        case 8850007:
-        case 8850008:
-        case 8850009:
-            modified.setOExp(mob.getMobExp());
-            modified.setOHp(mob.getMobMaxHp() * 2.2);
-            break;
-        case 8820002:
-        case 8820015:
-        case 8820016:
-        case 8820017:
-        case 8820018:
-            modified.setOExp(mob.getMobExp());
-            modified.setOHp(mob.getMobMaxHp() * 1.8);
-            break;
-        case 8300006:
-            modified.setOExp(mob.getMobExp());
-            modified.setOHp(mob.getMobMaxHp());
-            break;
-        case 8610000:
-        case 8610001:
-        case 8610002:
-        case 8610003:
-        case 8610004:
-            modified.setOExp(mob.getMobExp() * 50);
-            modified.setOHp(mob.getMobMaxHp() * 50 * 3);
-            break;
-        case 8860000:
-            modified.setOExp(mob.getMobExp() * 1.2);
-            modified.setOHp(mob.getMobMaxHp());
-            break;
-        case 8870200:
-            modified.setOExp(mob.getMobExp() * 0.2);
-            modified.setOHp(mob.getMobMaxHp() * 10);
-            break;
-        case 8510000:
-        case 8850010:
-            modified.setOExp(mob.getMobExp() * 2);
-            modified.setOHp(mob.getMobMaxHp() * 10);
-            break;
-        case 8820018:
-            modified.setOExp(mob.getMobExp() * 50);
-            modified.setOHp(mob.getMobMaxHp() * 50);
-            break;
-        default:
-            modified.setOExp(mob.getMobExp());
-            modified.setOHp(mob.getMobMaxHp());
-            break;
-    }
-    mob.setOverrideStats(modified);
-    //var stats = mob.getStats();
-    //stats.setFixedDamage(stats.getFixedDamage() * 2);
-    //stats.setPhysicalAttack(stats.getPhysicalAttack() * 2);
-    //stats.setMagicAttack(stats.getMagicAttack() * 2);
-    //stats.setPDRate(Math.min(90, stats.getPDRate() * 1.5));
-    //stats.setMDRate(Math.min(90, stats.getMDRate() * 1.5));
     eim.registerMonster(mob);
 
     var map = eim.getMapInstance(0);
-    map.spawnMonsterOnGroundBelow(mob, new java.awt.Point(0, 276));
+    map.spawnMonsterOnGroundBelow(mob, new java.awt.Point(15, 7));
 }
 
 function playerEntry(eim, player) {
@@ -200,19 +239,19 @@ function playerEntry(eim, player) {
 
 function changedMap(eim, player, mapid) {
     if (mapid != eventmapid) {
-        eim.unregisterPlayer(player);
+	eim.unregisterPlayer(player);
 
-        eim.disposeIfPlayerBelow(0, 0);
+	eim.disposeIfPlayerBelow(0, 0);
     }
 }
 
 function scheduledTimeout(eim) {
     var num = parseInt(eim.getProperty("monster_number"));
     if (num < monster.length) {
-        monsterSpawn(eim);
-        eim.setProperty("monster_number", num + 1);
+	monsterSpawn(eim);
+	eim.setProperty("monster_number", num + 1);
     } else {
-        eim.disposeIfPlayerBelow(100, returnmap);
+	eim.disposeIfPlayerBelow(100, returnmap);
     }
 // When event timeout..
 
@@ -226,22 +265,35 @@ function allMonstersDead(eim) {
     eim.restartEventTimer(3000);
 
     var mobnum = parseInt(eim.getProperty("monster_number"));
-    var num = mobnum * 6000;
+    var num = Math.ceil(mobnum / 5) * 35637; // Will give total of 3,846,685 dojo points  and  1,757,068 Cash per 1 Chaos Dojo run
+    var numxtra = ((Math.round(((num/10)/1.4125)))*10);
     var totalp = parseInt(eim.getProperty("points")) + num;
+    var chrdjpoints = parseInt(eim.showDojoPoints()) + num;
+    var chrdjpointsxtra = parseInt(eim.showDojoPoints()) + num + numxtra;
+    var endpoints = 500000;
+
+    var elapsedTime = (java.lang.System.currentTimeMillis() - startTimer) / 1000;
+    var elapsedMinute = Math.floor(elapsedTime/60);
+    var elapsedSecond = Math.round(((elapsedTime - (Math.round(elapsedMinute*60))))*1000)/1000;
 
     eim.setProperty("points", totalp);
 
-    eim.broadcastPlayerMsg(5, "Your team've gained "+num+" points! With a total of "+totalp+".");
-    
     eim.saveBossQuest(num);
+    eim.broadcastPlayerMsg(-1, "You have gained "+formatNumber(num)+" dojo points! for the accumulated total of "+formatNumber(chrdjpoints)+" dojo points.");  //changed Message type from 5 to -1
+
+    eim.saveBossQuestNoWill(numxtra);
+    eim.broadcastPlayerMsg(-1, "You have gained "+formatNumber(numxtra)+" dojo points! for the accumulated total of "+formatNumber(chrdjpointsxtra)+" dojo points.");
+
+    eim.NxOnly((Math.round((numxtra*1.0256)/10))*10);
+    eim.saveBossQuestNoWill(0);
 
     if (mobnum < monster.length) {
-        eim.broadcastPlayerMsg(6, "Prepare! The next boss will appear in a glimpse of an eye!");
-    } else {
-        eim.saveBossQuest(100000);
-        eim.saveNX(300000);
-        eim.broadcastPlayerMsg(5, "Your team've beaten the Chaos mode and have gained an extra 100,000 points and extra 150,000 Cash!");
-        eim.giveAchievement(22);
+	//eim.broadcastPlayerMsg(6, "Prepare! The next boss will appear in a glimpse of an eye!");
+} else {
+	eim.saveBossQuestNoWill(endpoints);     //end points for clearing the run
+	eim.broadcastPlayerMsg(-1, "You have gained "+formatNumber(endpoints)+" dojo points! for the accumulated total of "+formatNumber((chrdjpointsxtra+endpoints))+" dojo points.");
+	if (elapsedMinute == 0) {eim.broadcastPlayerMsg(5, "You have completed Chaos Dojo in " +elapsedSecond+ " seconds");}
+	else {eim.broadcastPlayerMsg(5, "You have completed Chaos Dojo in " +elapsedMinute+ " minutes and " +elapsedSecond+ " seconds");}
     }
 // When invoking unregisterMonster(MapleMonster mob) OR killed
 // Happens only when size = 0
@@ -252,6 +304,10 @@ function playerDead(eim, player) {
 }
 
 function playerRevive(eim, player) {
+    player.addHP(50);
+    player.addMP(100);
+    var map = eim.getMapInstance(returnmap);
+    player.changeMap(map, map.getPortal(0));
     return true;
 // Happens when player's revived.
 // @Param : returns true/false
@@ -265,9 +321,6 @@ function playerDisconnected(eim, player) {
 }
 
 function monsterValue(eim, mobid) {
-    if (mobid == 8820002 || mobid == 8820015 || mobid == 8820016 || mobid == 8820017 || mobid == 8820018) { //ariel
-        eim.getMapInstance(0).killMonster(8820019);
-    }
     return 0;
 // Invoked when a monster that's registered has been killed
 // return x amount for this player - "Saved Points"
@@ -294,7 +347,7 @@ function clearPQ(eim) {
 
 function removePlayer(eim, player) {
     eim.dispose();
-// Happens when the funtion NPCConversationalManager.removePlayerFromInstance() is invoked
+// Happens when the function NPCConversationalManager.removePlayerFromInstance() is invoked
 }
 
 function registerCarnivalParty(eim, carnivalparty) {

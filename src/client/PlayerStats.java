@@ -1,15 +1,5 @@
 package client;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import client.MapleTrait.MapleTraitType;
 import client.inventory.Equip;
 import client.inventory.Item;
@@ -20,11 +10,7 @@ import constants.GameConstants;
 import handling.world.World;
 import handling.world.guild.MapleGuild;
 import handling.world.guild.MapleGuildSkill;
-import server.MapleInventoryManipulator;
-import server.MapleItemInformationProvider;
-import server.MapleStatEffect;
-import server.StructItemOption;
-import server.StructSetItem;
+import server.*;
 import server.StructSetItem.SetItem;
 import server.life.Element;
 import tools.ArrayUtil;
@@ -34,6 +20,10 @@ import tools.data.PacketWriter;
 import tools.packet.CField.EffectPacket;
 import tools.packet.CWvsContext.InventoryPacket;
 import tools.packet.JobPacket;
+
+import java.io.Serializable;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class PlayerStats implements Serializable {
 
@@ -56,7 +46,7 @@ public class PlayerStats implements Serializable {
             pvpDamage, hpRecoverTime, mpRecoverTime, dot, dotTime, questBonus, pvpRank, pvpExp, wdef, mdef, trueMastery, damX;
     public transient int def, element_ice, element_fire, element_light, element_psn;
     public int hp, maxhp, mp, maxmp, str, dex, luk, int_;
-    private transient int percent_hp, percent_mp, percent_str, percent_dex, percent_int, percent_luk, percent_acc, percent_atk, percent_matk, percent_wdef, percent_mdef,
+    public transient int percent_hp, percent_mp, percent_str, percent_dex, percent_int, percent_luk, percent_acc, percent_atk, percent_matk, percent_wdef, percent_mdef,
             add_hp, add_mp, add_str, add_dex, add_int, add_luk, add_acc, add_atk, add_matk, add_wdef, add_mdef;
 
     public void recalcLocalStats(MapleCharacter chra) {

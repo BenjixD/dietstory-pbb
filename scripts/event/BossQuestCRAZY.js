@@ -8,12 +8,25 @@ var monster = new Array(
     9500343, // Alishar
     9500349, // Lord Pirate
     2600518, // Deet and Roi
-    9500354, // FrankenRoid + spawn animation.  (9500335 is without animation)
+    9500354, // FrankenRoid
     9500356, // Chimera
     9400802, // Galacto-Drill
     9500352, // King Sage Cat
     9500177, // Giant Centipede
-    9500358  // Balrog
+    9500358, // Balrog
+    9500359, // Manon
+    9500360, // Griffey
+    9500357, // Snow Yeti
+    9500362, // Papulatus
+    8210013, // Prison Guard Ani
+    9500382, // Leviathan
+    9300474, // Coco
+    9830008, // Dragonoir
+    9420549, // Furious Scarlion Boss
+    9420544, // Furious Targa
+    9300823, // Master Specter
+    9300853, // Netherworld Monk
+    9600318  // Diabolic Jiangshi
     );
 
 function formatNumber (num) {
@@ -254,12 +267,12 @@ function allMonstersDead(eim) {
     eim.restartEventTimer(3000);
 
     var mobnum = parseInt(eim.getProperty("monster_number"));
-    var num = Math.ceil(mobnum / 5) * 24806; // Will give total of 785,490 dojo points  and  318,387 nx per HELL Dojo run
+    var num = Math.ceil(mobnum / 5) * 49386; // Will give total of 6,232,700 points  and  2,854,270 cash in total for 1 Crazy Dojo run
     var numxtra = ((Math.round(((num/10)/1.4125)))*10);
     var totalp = parseInt(eim.getProperty("points")) + num;
     var chrdjpoints = parseInt(eim.showDojoPoints()) + num;
     var chrdjpointsxtra = parseInt(eim.showDojoPoints()) + num + numxtra;
-    var endpoints = 200000;
+    var endpoints = 750000;
 
     var elapsedTime = (java.lang.System.currentTimeMillis() - startTimer) / 1000;
     var elapsedMinute = Math.floor(elapsedTime/60);
@@ -281,8 +294,8 @@ function allMonstersDead(eim) {
 } else {
 	eim.saveBossQuestNoWill(endpoints);     //end points for clearing the run
 	eim.broadcastPlayerMsg(-1, "You have gained "+formatNumber(endpoints)+" dojo points! for the accumulated total of "+formatNumber((chrdjpointsxtra+endpoints))+" dojo points.");
-	if (elapsedMinute == 0) {eim.broadcastPlayerMsg(5, "You have completed Hell Dojo in " +elapsedSecond+ " seconds");}
-	else {eim.broadcastPlayerMsg(5, "You have completed Hell Dojo in " +elapsedMinute+ " minutes and " +elapsedSecond+ " seconds");}
+	if (elapsedMinute == 0) {eim.broadcastPlayerMsg(5, "You have completed Crazy Dojo in " +elapsedSecond+ " seconds");}
+	else {eim.broadcastPlayerMsg(5, "You have completed Crazy Dojo in " +elapsedMinute+ " minutes and " +elapsedSecond+ " seconds");}
     }
 // When invoking unregisterMonster(MapleMonster mob) OR killed
 // Happens only when size = 0

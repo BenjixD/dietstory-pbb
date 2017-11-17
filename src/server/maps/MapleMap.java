@@ -20,31 +20,7 @@
  */
 package server.maps;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-import client.MapleCharacter;
-import client.MapleClient;
-import client.MonsterFamiliar;
-import client.MonsterStatus;
-import client.MonsterStatusEffect;
+import client.*;
 import client.inventory.Equip;
 import client.inventory.Item;
 import client.inventory.MapleInventoryType;
@@ -55,34 +31,20 @@ import constants.QuickMove;
 import constants.QuickMove.QuickMoveNPC;
 import constants.ServerConfig;
 import handling.channel.ChannelServer;
-import handling.channel.handler.MovementParse;
 import handling.world.PartyOperation;
 import handling.world.World;
 import script.event.EventManager;
-import server.MapleInventoryManipulator;
-import server.MapleItemInformationProvider;
-import server.MaplePortal;
-import server.MapleSquad;
+import server.*;
 import server.MapleSquad.MapleSquadType;
-import server.MapleStatEffect;
 import server.Timer.EtcTimer;
 import server.Timer.MapTimer;
 import server.carnival.MapleCarnivalFactory;
 import server.carnival.MapleCarnivalFactory.MCSkill;
-import server.life.MapleLifeFactory;
-import server.life.MapleMonster;
-import server.life.MapleMonsterInformationProvider;
-import server.life.MapleNPC;
-import server.life.MonsterDropEntry;
-import server.life.MonsterGlobalDropEntry;
-import server.life.SpawnPoint;
-import server.life.SpawnPointAreaBoss;
-import server.life.Spawns;
+import server.life.*;
 import server.maps.MapleNodes.DirectionInfo;
 import server.maps.MapleNodes.MapleNodeInfo;
 import server.maps.MapleNodes.MaplePlatform;
 import server.maps.MapleNodes.MonsterPoint;
-import server.movement.LifeMovementFragment;
 import server.quest.MapleQuest;
 import tools.Pair;
 import tools.Randomizer;
@@ -94,6 +56,16 @@ import tools.packet.CWvsContext;
 import tools.packet.CWvsContext.PartyPacket;
 import tools.packet.MobPacket;
 import tools.packet.PetPacket;
+
+import java.awt.*;
+import java.lang.ref.WeakReference;
+import java.util.*;
+import java.util.List;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public final class MapleMap {
 
@@ -1900,7 +1872,7 @@ public final class MapleMap {
     }
 
     public final void startMapEffect(final String msg, final int itemId) {
-        startMapEffect(msg, itemId, false);
+        //startMapEffect(msg, itemId, false);                                                                            //Commented out   startMapEffect / BLOW_WEATHER   Effects as they Err38.
     }
 
     public final void startMapEffect(final String msg, final int itemId, final boolean jukebox) {
@@ -2225,6 +2197,8 @@ public final class MapleMap {
             case 272030400:
                 zz = MapleSquadType.arkarium;
                 break;
+            case 927030060:
+                zz = MapleSquadType.blackmage;
             default:
                 return null;
         }
@@ -2309,6 +2283,9 @@ public final class MapleMap {
             case 272020110:
             case 272030400:
                 em = "ArkariumBattle";
+                break;
+            case 927030060:
+                em = "BlackMBattle";
                 break;
             case 955000100:
             case 955000200:

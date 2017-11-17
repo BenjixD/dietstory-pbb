@@ -57,6 +57,7 @@ import java.awt.*;
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.sql.*;
+import java.text.NumberFormat;
 import java.util.*;
 import java.util.List;
 import java.util.Map.Entry;
@@ -5522,7 +5523,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         }
         if (show && quantity != 0) {
             //dropMessage(-1, "You have " + (quantity > 0 ? "gained " : "lost ") + quantity + (type == 1 ? " cash." : " maple points."));
-            dropMessage(-1, "" + (quantity > 0 ? "Gained " + quantity : "lost " + (quantity * -1)) + " Cash");
+            dropMessage(-1, "" + (quantity > 0 ? "Gained " + NumberFormat.getNumberInstance(Locale.US).format(quantity) : "lost " + NumberFormat.getNumberInstance(Locale.US).format((quantity * -1))) + " Cash");
             //client.getSession().write(EffectPacket.showForeignEffect(EffectType.ITEM_LEVEL_UP.getValue())); //commented out this line (gives Weapon Level up effect anytime you buy an item with Cash
         }
     }
@@ -6264,7 +6265,6 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     public int getDojoPoints () {
         return getClient().getPlayer().getIntNoRecord(GameConstants.BOSS_PQ);
     }
-
 
     public CashShop getCashInventory() {
         return cs;
