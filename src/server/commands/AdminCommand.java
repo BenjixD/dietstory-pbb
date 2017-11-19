@@ -3,7 +3,6 @@ package server.commands;
 import client.BuddylistEntry;
 import client.MapleCharacter;
 import client.MapleClient;
-import client.SkillFactory;
 import client.inventory.Item;
 import client.inventory.MapleInventory;
 import client.inventory.MapleInventoryType;
@@ -67,7 +66,7 @@ public class AdminCommand {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
-            SkillFactory.getSkill(9101003).getEffect(1).applyTo(c.getPlayer());
+            //SkillFactory.getSkill(9101003).getEffect(1).applyTo(c.getPlayer());
             return 1;
         }
     }
@@ -84,6 +83,90 @@ public class AdminCommand {
             c.getPlayer().setDPoints(c.getPlayer().getDPoints() + Integer.parseInt(splitted[1]));
             c.getPlayer().dropMessage(6,"You have gained " +splitted[1]+ " donor points.");
             c.getPlayer().dropMessage(6,"You now have " + c.getPlayer().getDPoints() + " donor points.");
+            return 1;
+        }
+    }
+
+    public static class MaxMesos extends CommandExecute {
+
+        @Override
+        public int execute(MapleClient c, String[] splitted) {
+            MapleCharacter victim = c.getChannelServer().getPlayerStorage().getCharacterByName(splitted[1]);
+            victim.gainMeso(9999999 - c.getPlayer().getMeso(), true);
+            return 1;
+        }
+    }
+
+    public static class Mesos extends CommandExecute {
+
+        @Override
+        public int execute(MapleClient c, String[] splitted) {
+            c.getPlayer().gainMeso(Integer.parseInt(splitted[1]), true);
+            return 1;
+        }
+    }
+
+    public static class MesoPerson extends CommandExecute {
+
+        @Override
+        public int execute(MapleClient c, String[] splitted) {
+            MapleCharacter victim = c.getChannelServer().getPlayerStorage().getCharacterByName(splitted[1]);
+            victim.gainMeso(Integer.parseInt(splitted[2]), true);
+            return 1;
+        }
+    }
+
+    public static class GiftNx extends CommandExecute {
+
+        @Override
+        public int execute(MapleClient c, String[] splitted) {
+            MapleCharacter victim = c.getChannelServer().getPlayerStorage().getCharacterByName(splitted[1]);
+            if (splitted.length < 3) {
+                c.getPlayer().dropMessage(5, "!giftnx <player> <amount>");
+                return 0;
+            }
+            victim.modifyCSPoints(2, Integer.parseInt(splitted[2]), true);
+            return 1;
+        }
+    }
+
+    public static class GainMP extends CommandExecute {
+
+        @Override
+        public int execute(MapleClient c, String[] splitted) {
+            if (splitted.length < 2) {
+                c.getPlayer().dropMessage(5, "Need amount.");
+                return 0;
+            }
+            c.getPlayer().modifyCSPoints(2, Integer.parseInt(splitted[1]), true);
+            return 1;
+        }
+    }
+
+    public static class GainP extends CommandExecute {
+
+        @Override
+        public int execute(MapleClient c, String[] splitted) {
+            if (splitted.length < 2) {
+                c.getPlayer().dropMessage(5, "Need amount.");
+                return 0;
+            }
+            c.getPlayer().setPoints(c.getPlayer().getPoints() + Integer.parseInt(splitted[1]));
+            return 1;
+        }
+    }
+
+    public static class GainVP extends CommandExecute {
+
+        @Override
+        public int execute(MapleClient c, String[] splitted) {
+            if (splitted.length < 2) {
+                c.getPlayer().dropMessage(5, "Need amount.");
+                return 0;
+            }
+            c.getPlayer().setVPoints(c.getPlayer().getVPoints() + Integer.parseInt(splitted[1]));
+            c.getPlayer().dropMessage(6,"You have gained " +splitted[1]+ " vote points.");
+            c.getPlayer().dropMessage(6,"You now have " + c.getPlayer().getVPoints() + " vote points.");
             return 1;
         }
     }
