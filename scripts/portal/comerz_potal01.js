@@ -1,3 +1,3 @@
 function enter(pi) {
-	pi.inFreeMarket();
+pi.warp(865030400,2);
 }
