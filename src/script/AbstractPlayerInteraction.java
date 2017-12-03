@@ -20,8 +20,11 @@
  */
 package script;
 
-import client.*;
+import client.MapleCharacter;
+import client.MapleClient;
 import client.MapleTrait.MapleTraitType;
+import client.Skill;
+import client.SkillFactory;
 import client.inventory.*;
 import constants.GameConstants;
 import handling.channel.ChannelServer;
@@ -34,9 +37,6 @@ import script.event.EventInstanceManager;
 import script.event.EventManager;
 import script.npc.NPCScriptManager;
 import script.npc.NPCTalk;
-
-import java.awt.Point;
-import java.util.List;
 import server.MapleInventoryManipulator;
 import server.MapleItemInformationProvider;
 import server.Timer.EventTimer;
@@ -45,7 +45,10 @@ import server.events.MapleEvent;
 import server.events.MapleEventType;
 import server.life.MapleLifeFactory;
 import server.life.MapleMonster;
-import server.maps.*;
+import server.maps.MapleMap;
+import server.maps.MapleMapObject;
+import server.maps.MapleReactor;
+import server.maps.SavedLocationType;
 import server.quest.MapleQuest;
 import server.quest.MapleQuestStatus;
 import tools.FileoutputUtil;
@@ -58,6 +61,9 @@ import tools.packet.CField.UIPacket;
 import tools.packet.CWvsContext;
 import tools.packet.CWvsContext.InfoPacket;
 import tools.packet.PetPacket;
+
+import java.awt.*;
+import java.util.List;
 
 public abstract class AbstractPlayerInteraction {
 
@@ -483,11 +489,11 @@ public abstract class AbstractPlayerInteraction {
     }
 
     public final void gainNX(final int amount) {
-        c.getPlayer().modifyCSPoints(4, amount, true); //theremk you can change it to prepaid yae since cspoiint is xncredit so make it prepaid
+        c.getPlayer().modifyCSPoints(2, amount, true); //changed 4 to 2, for MaplePoints
     }
 
     public final void gainItemPeriod(final int id, final short quantity, final int period) { //period is in days
-        gainItem(id, quantity, false, period, false, -1, "");
+        gainItem(id, quantity, false, (period), false, -1, "");
     }
 
     public final void gainItemPeriod(final int id, final short quantity, final long period, final String owner) { //period is in days
@@ -921,7 +927,7 @@ public abstract class AbstractPlayerInteraction {
 
     public final void givePartyNX(final int amount, final List<MapleCharacter> party) {
         for (final MapleCharacter chr : party) {
-            chr.modifyCSPoints(1, amount, true);
+            chr.modifyCSPoints(2, amount, true); // changed from 1 to 2, for Maple Points
         }
     }
 
