@@ -74,12 +74,12 @@ enum QuestRes
             }
             case 1: { // start quest
                 int npc = lea.readInt();
-                System.out.println("quest started");
+//                System.out.println("quest started");
                 if (npc == 0 && quest > 0) {
                     q.forceStart(c.getPlayer(), npc, null);
                 } else if (!q.hasStartScript()) {
                     q.start(c.getPlayer(), npc);
-                    System.out.println("The npc has no script");
+//                    System.out.println("The npc has no script");
                 }
                 break;
             }

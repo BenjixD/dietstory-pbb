@@ -2630,15 +2630,7 @@ public class PacketHelper {
 		}
 		
 		// SecondaryStat::StopForceAtom::Decode
-		pw.writeInt(0); // nIdx
-		pw.writeInt(0); // nCount
-		pw.writeInt(0); // nWeaponID
-		
-		pw.writeInt(0); // v6, size
-		// forEach(v6)
-		// pw.writeInt(0); // nValue
-		
-		pw.writeInt(0); // nViperCharge
+		new StopForceAtom(0, 0, 0).encode(pw);
 		
 		TSIndex.encodeAll(pw, chr);
 	

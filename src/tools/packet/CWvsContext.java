@@ -3503,6 +3503,10 @@ public class CWvsContext {
             	if (stat.getKey() == CharacterTemporaryStat.Trinity) {
             		pw.write(0); // mTrinity
             	}
+
+            	if(stat.getKey() == CharacterTemporaryStat.IncMaxDamage) {
+            	    pw.writeInt(0); // ?
+                }
             	
             	if (stat.getKey() == CharacterTemporaryStat.ElementalCharge) {
             		pw.write(0); // mElementalCharge
@@ -3538,15 +3542,8 @@ public class CWvsContext {
             	}
             	
             	if (stat.getKey() == CharacterTemporaryStat.StopForceAtomInfo) {
-            		
             		// StopForceAtom::Decode
-            		pw.writeInt(0); // nIdx
-            		pw.writeInt(0); // nCount
-            		pw.writeInt(0); // nWeaponID
-            		
-            		pw.writeInt(0); // the size of the structure below.
-            		// pw.writeInt(0);
-            		
+            		new StopForceAtom(0,0,0).encode(pw);
             	}
             	
             	if (stat.getKey() == CharacterTemporaryStat.SmashStack) {

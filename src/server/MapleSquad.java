@@ -24,7 +24,7 @@ public class MapleSquad {
 
     public static enum MapleSquadType {
 
-        bossbalrog(2), zak(2), chaoszak(3), horntail(2), chaosht(3), pinkbean(2), nmm_squad(2), vergamot(2), dunas(2), nibergen_squad(2), dunas2(2), core_blaze(2), aufheben(2), cwkpq(3), tokyo_2095(2), vonleon(3), scartar(2), cygnus(3), hilla(2), darkhilla(2), arkarium(3);
+        bossbalrog(2), zak(2), chaoszak(3), horntail(2), chaosht(3), pinkbean(2), nmm_squad(2), vergamot(2), dunas(2), nibergen_squad(2), dunas2(2), core_blaze(2), aufheben(2), cwkpq(3), tokyo_2095(2), vonleon(3), scartar(2), cygnus(3), hilla(2), darkhilla(2), arkarium(3), blackmage(3);
 
         private MapleSquadType(int i) {
             this.i = i;

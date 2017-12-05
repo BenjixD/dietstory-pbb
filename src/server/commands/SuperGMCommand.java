@@ -191,11 +191,11 @@ public class SuperGMCommand {
 
         @Override
         public int execute(MapleClient c, String[] splitted) {
-            final int itemId = Integer.parseInt(splitted[1]);
-            if (splitted.length<=9) {
-                c.getPlayer() .dropMessage(5,"Syntax: !goditem <ID> <Stats> <BD% & IED%> <Pot ID> <Pot ID> <Pot ID> <BPot ID> <BPot ID> <BPot ID>");
+            if (splitted.length <= 9) {
+                c.getPlayer().dropMessage(5,"Syntax: !goditem <ID> <Stats> <BD% & IED%> <Pot ID> <Pot ID> <Pot ID> <BPot ID> <BPot ID> <BPot ID>");
                 return 0;
             }
+            final int itemId = Integer.parseInt(splitted[1]);
             if (Integer.parseInt(splitted[3])>100) {
                 c.getPlayer().dropMessage(5, "Syntax: Boss Damage% and Ignore Defense% cannot be greater than 100");
                 return 0;
