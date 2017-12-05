@@ -105,7 +105,7 @@ public class WarriorBuff extends AbstractBuffClass {
                 break;
             case 1211011: //Combat Orders
                 eff.statups.put(CharacterTemporaryStat.CombatOrders, eff.info.get(MapleStatInfo.x));
-                eff.statups.put(CharacterTemporaryStat.KeyDownAreaMoving, eff.info.get(MapleStatInfo.damR));
+//                eff.statups.put(CharacterTemporaryStat.KeyDownAreaMoving, eff.info.get(MapleStatInfo.damR));
                 break;
             case 1221015: //Void Elemental
                 eff.statups.put(CharacterTemporaryStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));

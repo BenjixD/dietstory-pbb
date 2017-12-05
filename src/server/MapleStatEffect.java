@@ -442,6 +442,10 @@ public class MapleStatEffect implements Serializable {
                         case 22111001:
                             ret.statups.put(CharacterTemporaryStat.MagicGuard, ret.info.get(MapleStatInfo.x));
                             break;
+                        case 2100010: // Ignite
+                        case 2101010:
+                            ret.statups.put(CharacterTemporaryStat.WizardIgnite, ret.info.get(MapleStatInfo.y));// Ignite
+                            break;
                         case 24111003://Bad Luck Ward
                             ret.statups.put(CharacterTemporaryStat.MaxHP, ret.info.get(MapleStatInfo.indieMhpR));//indieMhpR/x
                             ret.statups.put(CharacterTemporaryStat.MaxMP, ret.info.get(MapleStatInfo.indieMmpR));//indieMmpR/x

@@ -25,6 +25,7 @@ public class MagicianBuff extends AbstractBuffClass {
             2101001, //Meditation
             2201001, //Meditation
             2300009, //Blessed Ensemble - passive but buff?
+            2101010, //Ignite
             2301004, //Bless    
             2301008, //Magic Booster
             2101008, //Magic Booster
@@ -79,6 +80,8 @@ public class MagicianBuff extends AbstractBuffClass {
             case 2001002: //Magic armour
                 eff.statups.put(CharacterTemporaryStat.MagicShield, eff.info.get(MapleStatInfo.pdd));
                 break;
+            case 2101010: //Ignite
+                eff.statups.put(CharacterTemporaryStat.WizardIgnite, eff.info.get(MapleStatInfo.y));
             case 2300009: //Blessed Ensemble
                 eff.statups.put(CharacterTemporaryStat.PASSIVE_BLESS, eff.info.get(MapleStatInfo.x));
                 break;
