@@ -4430,11 +4430,11 @@ public class CField {
         }
 
         public static byte[] showItemLevelupEffect() {
-            return showForeignEffect(18);
+            return showForeignEffect(15);
         }
 
         public static byte[] showForeignItemLevelupEffect(int cid) {
-            return showForeignEffect(cid, 18);
+            return showForeignEffect(cid, 15);
         }
 
         public static byte[] showOwnDiceEffect(int skillid, int effectid, int effectid2, int level) {
