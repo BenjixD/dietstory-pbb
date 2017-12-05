@@ -1,3 +1,5 @@
+// Another Informant - (2143004)
+// Cygnus Battle Starter
 var status = -1;
 
 function start() {
@@ -6,13 +8,8 @@ function start() {
 		status = 1;
 		return;
 	}
-		if (cm.getPlayer().getLevel() < 170) {
-			cm.sendOk("There is a level requirement of 170 to attempt Empress Cygnus.");
-			cm.dispose();
-			return;
-		}
-		if (cm.getPlayer().getClient().getChannel() != 13) {
-			cm.sendOk("Cygnus may only be attempted on channel 13.");
+		if (cm.getPlayer().getClient().getChannel() != 1) {
+			cm.sendOk("Cygnus may only be attempted on channel 1.");
 			cm.dispose();
 			return;
 		}
@@ -131,7 +128,14 @@ function action(mode, type, selection) {
 	    break;
 	case 1:
 	    if (mode == 1) {
-		cm.warp(cm.getMap().getAllMonstersThreadsafe().size() == 0 ? 271040200 : 271030000, 0);
+		//cm.warp(cm.getMap().getAllMonstersThreadsafe().size() == 0 ? 271040200 : 271040000, 0);
+		    if(cm.getMonsterCount(271040100) == 0) {
+		    cm.warp(271040200,0);
+		    cm.dispose();
+		    } else {
+		    cm.warp(271040000,0);
+		    cm.dispose();
+		    }
 	    }
 	    cm.dispose();
 	    break;

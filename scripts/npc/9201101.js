@@ -21,14 +21,19 @@ function action(mode, type, selection) {
         buy = true;
     } else {
         if (!cm.canHold(items[sel][0],selection)) {
-            cm.sendOk("Please make more space.");
+            cm.sendSimple("Please make more space.");
+            cm.dispose();
+            return;
+        } else if (cm.getMeso() >= (items[sel][1] * selection)) {
+            cm.gainMeso(-(items[sel][1] * selection));
+            cm.gainItem(items[sel][0], selection);
+            cm.sendOk("There, all done! That was quick, wasn't it? If you need any more items, I'll be waiting here.");
+            cm.dispose();
+            return;
+        } else {
+            cm.sendSimple("You don't have enough mesos.");
             cm.dispose();
             return;
         }
-        cm.gainMeso(-(items[sel][1] * selection));
-        cm.gainItem(items[sel][0], selection);
-        cm.sendOk("There, all done! That was quick, wasn't it? If you need any more items, I'll be waiting here.");
-        cm.dispose();
-        return;
     }
 }

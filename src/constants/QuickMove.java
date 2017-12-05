@@ -68,7 +68,7 @@ public enum QuickMove {
     public enum QuickMoveNPC {
 
         WORLD_TRANSPORT(0x6, 6, true, 9270035, 0, "#Universal NPC#"), //unpc
-        test4(0x17, 17, true, 0, 0, "Change #Game Settings#"),
+        test4(0x17, 17, true, 9201257, 0, "Change #Game Settings#"),
         PVP(0x1, 1, false, 9070004, 30, "Move to the Battle Mode zone #cBattle Square#, where you can fight against other users.\n#cLv. 30 or above can participate in Battle Square."),
         MONSTER_PARK(0x2, 2, false, 9071003, 20, "Move to the party zone \n#cMonster Park#, where you can fight against strong monsters with your party members.\n#cOnly Lv. 20 or above can participate in the Monster Park."),
         MIRROR(0x3, 3, true, 9010022, 10, "Use the #cDimensional Mirror# to move to a variety of party quests."),
@@ -85,7 +85,7 @@ public enum QuickMove {
         test2(0x15, 15, false, 0, 0, "test2"),
         test3(0x16, 16, false, 0, 0, "test3"),
         test5(0x18, 18, false, 0, 0, "test5"),
-        test6(0x19, 19, true, 0, 0, "test6"),
+        test6(0x19, 19, true, 9110000, 0, "GM Warp NPC"),
         test7(0x20, 20, false, 0, 0, "test7"),
         test8(0x21, 21, false, 0, 0, "test8"),
         test9(0x22, 22, false, 0, 0, "test9");
