@@ -347,7 +347,14 @@ public class GameConstants {
 	}
 
 	public static boolean isSeparatedSp(int job) {
-		return JobConstants.isExtendSpJob((short) job);
+		if (isKOC(job)) {
+			if (getTrueJobGrade(job) == 2 || getTrueJobGrade(job) == 4) {
+				return false;
+			}
+		} if (isAran(job)) {
+			return false;
+		}
+		return true;
 	}
 
 	public static int getTrueJobGrade(int job) {

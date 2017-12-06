@@ -5,7 +5,6 @@ import client.MapleStat.Temp;
 import client.MapleTrait.MapleTraitType;
 import client.inventory.*;
 import constants.GameConstants;
-import constants.JobConstants;
 import handling.SendPacketOpcode;
 import handling.channel.DojoRankingsData;
 import handling.channel.MapleGeneralRanking.CandyRankingInfo;
@@ -82,7 +81,7 @@ public class CWvsContext {
                 	pw.writeShort((statupdate.getValue()).shortValue());
                 	pw.writeShort(chr.getSubcategory()); // not sure about it..
                 case AVAILABLESP:
-                    if (JobConstants.isExtendSpJob(chr.getJob())) {
+                    if (GameConstants.isSeparatedSp(chr.getJob())) {
                         pw.write(chr.getRemainingSpSize());
                         for (int i = 0; i < chr.getRemainingSps().length; i++) {
                             if (chr.getRemainingSp(i) > 0) {
