@@ -23,10 +23,16 @@ function action(mode, type, selection) {
     } else if (status == 8) {
 	cm.sendNextPrevS("Huh? Well... Now that you mention it, I do hear something. Yes, I do hear something...", 4, 2159008);
     } else if (status == 9) {
-	cm.updateInfoQuest(23007, "vel00=2;vel01=1");
-	cm.trembleEffect(0,500);
-	cm.MovieClipIntroUI(true);
-	cm.showWZEffect("Effect/Direction4.img/Resistance/TalkInLab");
-    	cm.dispose();
-    }
+	cm.sendNextPrev("Someone must've messed with the power.");
+	} else if (status == 10) {
+	cm.sendNextPrev("Geez, can't anyone around here do their jobs right?");
+	} else if (status == 11) {
+	cm.sendNextPrev("Let's take a look outside");
+	} else if (status == 12) {
+	cm.sendNextPrevS("Yes, Gelimer!", 4, 2159008);
+	} else if (status == 13){
+	cm.warp(931000013);
+    cm.dispose;
+	}
+	cm.dispose;
 }

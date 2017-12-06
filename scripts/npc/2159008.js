@@ -23,7 +23,15 @@ function action(mode, type, selection) {
     } else if (status == 8) {
 	cm.sendNextPrevS("Hold it right there!", 4, 2159010);
     } else if (status == 9) {
-	cm.warp(931000021,1);
-    	cm.dispose();
-    }
+	cm.sendNextPrev("Oh my... What's going on?");
+    } else if (status == 10) {
+	cm.sendNextPrevS("I don't have time to explain!", 4, 2159010);
+	} else if (status == 11) {
+	cm.sendNextPrevS("If you don't want to get caught by Schiller, take my hand! Both of you!", 4, 2159010);
+	} else if (status == 12){
+	cm.warp(931000030);
+	cm.dispose;
+	}
+    cm.dispose;	
+    
 }
