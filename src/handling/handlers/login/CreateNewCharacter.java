@@ -29,7 +29,7 @@ public class CreateNewCharacter {
 		String name;
 		byte gender, skin;
 		short subcategory;
-		int face, hair, hairColor = -1, hat = -1, top, bottom = -1, shoes = -1, weapon = -1, cape = -1, faceMark = -1, shield = -1;
+		int face, hair, hairColor = -1, hat = -1, top, bottom = -1, cape = -1, faceMark = -1, shield = -1, ears = -1, tail = -1, shoes = -1, weapon = -1;
 		
 		name = lea.readMapleAsciiString();
 
@@ -40,10 +40,12 @@ public class CreateNewCharacter {
 
 		lea.skip(4); // key type setting
 		lea.skip(4); // -1
-		
 		int job_type = lea.readInt();
 		JobType job = JobType.getByType(job_type);
-		
+		System.out.print("job type found: " + job_type);
+
+
+
 		if (job == null) {
 			System.out.println("New job type found: " + job_type);
 			return;
@@ -78,7 +80,12 @@ public class CreateNewCharacter {
 		if (job.faceMark) {
 			faceMark = lea.readInt();
 		}
-		
+		if(job.ears) {
+			ears = lea.readInt();
+		}
+		if(job.tail){
+			tail = lea.readInt();
+		}
 		if (job.hat) {
 			hat = lea.readInt();
 		}
@@ -92,21 +99,20 @@ public class CreateNewCharacter {
 		if (job.cape) {
 			cape = lea.readInt();
 		}
-                if (job.shoes && job != JobType.KINESIS) {
-		shoes = lea.readInt();
-                }
-                
-                if (job.weapon && job != JobType.KINESIS) {
-		weapon = lea.readInt();
-                }
-                
+		if (job.shoes) {
+			shoes = lea.readInt();
+		}
+		if (job.weapon) {
+			weapon = lea.readInt();
+		}
+
 		if (lea.available() >= 4) {
 			shield = lea.readInt();
 		}
 
 		int index = 0;
 		boolean noSkin = job == JobType.Demon || job == JobType.Mercedes || job == JobType.Jett;
-		int[] items = new int[] { face, hair, hairColor, noSkin ? -1 : skin, faceMark, hat, top, bottom, cape, shoes, weapon, shield };
+		int[] items = new int[] { face, hair, hairColor, noSkin ? -1 : skin, faceMark, ears, tail, hat, top, bottom, cape, shoes, weapon, shield };
 		for (int i : items) {
 			if (i > -1) {
 				index++;
@@ -117,7 +123,8 @@ public class CreateNewCharacter {
 		newchar.setWorld((byte) c.getWorld());
 		newchar.setFace(face);
 		newchar.setSecondFace(face);
-		
+		int charPosition = c.loadCharacters(c.getWorld()).size();
+
 		if (hairColor < 0) {
 			hairColor = 0;
 		}
@@ -128,8 +135,9 @@ public class CreateNewCharacter {
 		
 		newchar.setHair(hair);
 		newchar.setSecondHair(hair);
-		
+
 		if (job == JobType.AngelicBuster) {
+			newchar.setJob((short)6500);
 			newchar.setSecondFace(21173);
 			newchar.setSecondHair(37141);
 			newchar.setLevel((short) 10);
@@ -141,8 +149,41 @@ public class CreateNewCharacter {
 			newchar.getStat().mp = 1500;
 			newchar.setRemainingSp(3);
 		} else if (job == JobType.Zero) {
+			newchar.setLevel((short)100);
+			newchar.getStat().str = 518;
+			newchar.getStat().maxhp = 6910;
+			newchar.getStat().maxmp = 100;
+			newchar.getStat().mp = 100;
+			newchar.setRemainingSp(3, 0); //alpha
+			newchar.setRemainingSp(3, 1); //beta
 			newchar.setSecondFace(21290);
 			newchar.setSecondHair(37623);
+		} else if (job == JobType.KINESIS) {
+			newchar.setLevel((short) 10);
+			newchar.getStat().str = 4;
+			newchar.getStat().int_ = 52;
+			newchar.getStat().maxhp = 374;
+			newchar.getStat().hp = 374;
+			newchar.getStat().maxmp = 5; // technically pp
+			newchar.getStat().mp = 5;
+		} else if (job == JobType.Luminous) {
+			newchar.setJob((short) 2700);
+			newchar.setLevel((short) 10);
+			newchar.getStat().str = 4;
+			newchar.getStat().int_ = 57;
+			newchar.getStat().maxhp = 500;
+			newchar.getStat().hp = 500;
+			newchar.getStat().maxmp = 1000;
+			newchar.getStat().mp = 1000;
+			newchar.setRemainingSp(3);
+		} else if (job == JobType.BEAST_TAMER) {
+			newchar.setLevel((short) 10);
+			newchar.getStat().maxhp = 567;
+			newchar.getStat().hp = 551;
+			newchar.getStat().maxmp = 270;
+			newchar.getStat().mp = 263;
+			newchar.setRemainingAp(45);
+			newchar.setRemainingSp(3, 0);
 		}
 		
 		newchar.setGender(gender);
@@ -154,6 +195,30 @@ public class CreateNewCharacter {
 		}
 		
 		newchar.setFaceMarking(faceMark);
+		int[] wrongEars = {1004062, 1004063, 1004064};
+		int[] correctEars = {5010116, 5010117, 5010118};
+		int[] wrongTails = {1102661, 1102662, 1102663};
+		int[] correctTails = {5010119, 5010120, 5010121};
+		for (int i = 0; i < wrongEars.length; i++) {
+			if (ears == wrongEars[i]) {
+				ears = correctEars[i];
+			}
+		}
+		for (int i = 0; i < wrongTails.length; i++) {
+			if (tail == wrongTails[i]) {
+				tail = correctTails[i];
+			}
+		}
+		if (ears < 0){
+			ears = 0;
+		}
+		newchar.setEars(ears);
+
+		if (tail < 0){
+			tail = 0;
+		}
+		newchar.setTail(tail);
+		//TODO Probably saves wrong to the db, check ears/tail/facemark id's of the bt characters i made
 		final MapleItemInformationProvider ii = MapleItemInformationProvider.getInstance();
 		final MapleInventory equip = newchar.getInventory(MapleInventoryType.EQUIPPED);
 		Item item;
@@ -182,9 +247,10 @@ public class CreateNewCharacter {
 		 * 
 		 */
 		
-		int[][] skills = new int[][] { { 80001152 }, // Resistance
+		int[][] skills = new int[][] {
+				{ 80001152 }, // Resistance
 				{ 80001152, 1281 }, // Explorer
-				{ 10001244, 10000252, 80001152 }, // Cygnus
+				{ 10001244, 10000252, 10001253, 10001254, 80001152 }, // Cygnus
 				{ 20000194 }, // Aran
 				{ 20010022, 20010194 }, // Evan
 				{ 20020109, 20021110, 20020111, 20020112 }, // Mercedes
@@ -203,9 +269,9 @@ public class CreateNewCharacter {
 				{ 228, 80001151 }, // Jett
 				{}, // Hayato
 				{ 40020000, 40020001, 40020002, 40021023, 40020109 }// Kanna
-		}; /*
+		};
 
-		if (skills[job.type].length > 0) {
+	/*	if ((skills[job.type].length > 0) && (job !=JobType.BEAST_TAMER) && (job != JobType.Kanna) && (job != JobType.Hayato) && (job != JobType.KINESIS)) {
 			final Map<Skill, SkillEntry> ss = new HashMap<>();
 			Skill s;
 			for (int i : skills[job.type]) {
@@ -220,9 +286,15 @@ public class CreateNewCharacter {
 				ss.put(SkillFactory.getSkill(101000103), new SkillEntry((byte) 8, (byte) 10, -1));
 				ss.put(SkillFactory.getSkill(101000203), new SkillEntry((byte) 8, (byte) 10, -1));
 			}
+			if (job == LoginInformationProvider.JobType.Resistance) { // hacky fix for mech.
+				ss.put(SkillFactory.getSkill(35120000), new SkillEntry((byte) 1, (byte) 10, -1));
+			}
+			if (job == LoginInformationProvider.JobType.Demon) { // Demon Blood Pact
+				ss.put(SkillFactory.getSkill(30010242), new SkillEntry((byte) 1, (byte) 1, -1));
+			}
 			newchar.changeSkillLevel_Skip(ss, false);
 		}*/
-		
+
 		final Map<Skill, SkillEntry> ss = new HashMap<>();
 		ss.put(SkillFactory.getSkill(80001770), new SkillEntry((byte) 1, (byte) 1, -1));
 		newchar.changeSkillLevel_Skip(ss, false);
@@ -242,42 +314,13 @@ public class CreateNewCharacter {
 			newchar.getInventory(MapleInventoryType.ETC).addItem(new Item(guidebook, (byte) 0, (short) 1, (byte) 0));
 		}
 
-		if (job == JobType.Zero) {
-			newchar.setLevel((short) 100);
-			newchar.getStat().str = 518;
-			newchar.getStat().maxhp = 6910;
-			newchar.getStat().hp = 6910;
-			newchar.getStat().maxmp = 100;
-			newchar.getStat().mp = 100;
-			newchar.setRemainingSp(3, 0); // alpha
-			newchar.setRemainingSp(3, 1); // beta
-		}
-		
-		if (job == JobType.Luminous) {
-			newchar.setJob((short) 2700);
-			newchar.setLevel((short) 10);
-			newchar.getStat().str = 4;
-			newchar.getStat().int_ = 57;
-			newchar.getStat().maxhp = 500;
-			newchar.getStat().hp = 500;
-			newchar.getStat().maxmp = 1000;
-			newchar.getStat().mp = 1000;
-			newchar.setRemainingSp(3);
-		}
-
-		if(job == JobType.Resistance) {
-			newchar.setMap(310000000);
-			newchar.setLevel((short) 10);
-			newchar.setRemainingAp(50);
-		}
-
 		if (MapleCharacterUtil.canCreateChar(name, c.isGm())
 				&& (!LoginInformationProvider.getInstance().isForbiddenName(name) || c.isGm())
 				&& (c.isGm() || c.canMakeCharacter(c.getWorld()))) {
 			MapleCharacter.saveNewCharToDB(newchar, job, subcategory);
 			c.getSession().write(LoginPacket.addNewCharEntry(newchar, true));
 			c.createdChar(newchar.getId());
-			// newchar.newCharRewards();
+			 newchar.newCharRewards();
 		} else {
 			c.getSession().write(LoginPacket.addNewCharEntry(newchar, false));
 		}

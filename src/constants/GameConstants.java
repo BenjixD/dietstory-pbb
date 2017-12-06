@@ -334,10 +334,25 @@ public class GameConstants {
 		return job == 2003 || (job / 100 == 24);
 	}
 
+	public static boolean isBattleMage(final int job) {
+		return job  >= 3200 && job <= 3212;
+	}
 	public static boolean isWildHunter(final int job) {
-		return job == 3000 || (job >= 3300 && job <= 3312);
+		return job  >= 3300 && job <= 3312;
+	}
+	public static boolean isMechanic(final int job) {
+		return job  >= 3500 && job <= 3512;
+	}
+	public static boolean isBlaster(final int job) {
+		return job  >= 3700 && job <= 3712;
 	}
 
+	public static boolean isBeastTamer(int job) {
+		return job == 11213 || job == 11212 || job == 11000;
+	}
+	public static boolean isPinkBean(final int jobId) {
+		return jobId == 13100;
+	}
 	public static boolean isDawnWarrior(final int job){
 		return job == 1000 || (job >= 1100 && job <= 1112);
 	}
@@ -347,11 +362,7 @@ public class GameConstants {
 	}
 
 	public static boolean isSeparatedSp(int job) {
-		if (isKOC(job)) {
-			if (getTrueJobGrade(job) == 2 || getTrueJobGrade(job) == 4) {
-				return false;
-			}
-		} if (isAran(job)) {
+		if (isBeastTamer(job) || isPinkBean(job)) {
 			return false;
 		}
 		return true;

@@ -2994,7 +2994,7 @@ public class MapScriptMethods {
                         c.getPlayer().changeKeybinding(46, (byte) 1, 30011168);
                         c.getPlayer().changeKeybinding(47, (byte) 1, 30011169);
                         c.getPlayer().changeKeybinding(48, (byte) 1, 30011170);
-                        c.getSession().write(CField.getKeymap(c.getPlayer().getKeyLayout()));
+                        c.getSession().write(CField.getKeymap(c.getPlayer().getKeyLayout(), c.getPlayer().getJob()));
                     }
                 }, 5500);
                 break;
@@ -3056,7 +3056,7 @@ public class MapScriptMethods {
                     c.getPlayer().changeKeybinding(46, (byte) 1, 30011168);
                     c.getPlayer().changeKeybinding(47, (byte) 1, 30011169);
                     c.getPlayer().changeKeybinding(48, (byte) 1, 30011170);
-                    c.getSession().write(CField.getKeymap(c.getPlayer().getKeyLayout()));
+                    c.getSession().write(CField.getKeymap(c.getPlayer().getKeyLayout(), c.getPlayer().getJob()));
                     break;
                 }
             }
@@ -3284,8 +3284,8 @@ public class MapScriptMethods {
     }
 
     private static void showIntro(final MapleClient c, final String data) {
-        c.getSession().write(UIPacket.IntroDisableUI(true));
-        c.getSession().write(UIPacket.IntroLock(true));
+    //    c.getSession().write(UIPacket.IntroDisableUI(true));
+     //   c.getSession().write(UIPacket.IntroLock(true));
         c.getSession().write(EffectPacket.ShowWZEffect(data));
     }
 

@@ -79,7 +79,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             world, fairyExp, numClones, subcategory, cardStack, runningStack, runningBless = 0;
     private short level, job, mulung_energy, combo, force, availableCP, fatigue, totalCP, hpApUsed, scrolledPosition,
             kaiserCombo, xenonSurplus, exceed, exceedAttack = 0;
-    public int accountid, id, hair, face, secondHair, secondFace, faceMarking, elf, mapid, fame, pvpExp, pvpPoints, totalWins, totalLosses,
+    public int accountid, id, hair, face, secondHair, secondFace, faceMarking, ears, tail, elf, mapid, fame, pvpExp, pvpPoints, totalWins, totalLosses,
             guildid = 0, fallcounter, maplepoints, acash, nxcredit, chair, itemEffect, points, vpoints, dpoints, epoints,
             rank = 1, rankMove = 0, jobRank = 1, jobRankMove = 0, marriageId, marriageItemId, dotHP,
             coconutteam, followid, battleshipHP, gachexp, challenge, guildContribution = 0,
@@ -390,6 +390,8 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         ret.hair = ct.hair;
         ret.face = ct.face;
         ret.faceMarking = ct.faceMarking;
+        ret.ears = ct.ears;
+        ret.tail = ct.tail;
         ret.elf = ct.elf;
         ret.accountid = ct.accountid;
         ret.totalWins = ct.totalWins;
@@ -572,6 +574,8 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             ret.hair = rs.getInt("hair");
             ret.face = rs.getInt("face");
             ret.faceMarking = rs.getInt("faceMarking");
+            ret.ears = rs.getInt("ears");
+            ret.tail = rs.getInt("tail");
             ret.elf = rs.getInt("elf");
             ret.accountid = rs.getInt("accountid");
             client.setAccID(ret.accountid);
@@ -1148,8 +1152,8 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             con.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
             con.setAutoCommit(false);
             
-            ps = con.prepareStatement("INSERT INTO characters (level, str, dex, luk, `int`, hp, mp, maxhp, maxmp, sp, hsp, ap, skincolor, gender, job, hair, face, faceMarking, map, meso, party, buddyCapacity, pets, subcategory, elf, friendshippoints, chatcolour, gm, accountid, name, world, starterquest, starterquestid)"
-                    + "                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", DatabaseConnection.RETURN_GENERATED_KEYS);
+            ps = con.prepareStatement("INSERT INTO characters (level, str, dex, luk, `int`, hp, mp, maxhp, maxmp, sp, hsp, ap, skincolor, gender, job, hair, face, faceMarking, ears, tail, map, meso, party, buddyCapacity, pets, subcategory, elf, friendshippoints, chatcolour, gm, accountid, name, world, starterquest, starterquestid)"
+                    + "                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", DatabaseConnection.RETURN_GENERATED_KEYS);
             int index = 0;
 //            if (GameConstants.isZero(chr.getJob())) {
 //               chr.level = 100;
@@ -1187,10 +1191,13 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             ps.setInt(++index, chr.job);
             ps.setInt(++index, chr.hair);
             ps.setInt(++index, chr.face);
+
             ps.setInt(++index, chr.faceMarking);
             if (db < 0 || db > 10) {
                 db = 0;
             }
+            ps.setInt(++index, chr.ears);
+            ps.setInt(++index, chr.tail);
             ps.setInt(++index, db == 2 ? 3000600 : type.map);
             ps.setLong(++index, chr.meso); // Meso
             ps.setInt(++index, -1); // Party
@@ -1383,7 +1390,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             con.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
             con.setAutoCommit(false);
 
-            ps = con.prepareStatement("UPDATE characters SET level = ?, fame = ?, str = ?, dex = ?, luk = ?, `int` = ?, exp = ?, hp = ?, mp = ?, maxhp = ?, maxmp = ?, sp = ?, hsp = ?, ap = ?, gm = ?, skincolor = ?, gender = ?, job = ?, hair = ?, face = ?, faceMarking = ?, map = ?, meso = ?, hpApUsed = ?, spawnpoint = ?, party = ?, buddyCapacity = ?, pets = ?, subcategory = ?, gachexp = ?, fatigue = ?, charm = ?, charisma = ?, craft = ?, insight = ?, sense = ?, will = ?, totalwins = ?, totallosses = ?, pvpExp = ?, pvpPoints = ?, reborns = ?, apstorage = ?, elf = ?, honourExp = ?, honourLevel = ?, friendshippoints = ?, friendshiptoadd = ?, chatcolour = ?, name = ?, starterquest = ?, starterquestid = ? WHERE id = ?", DatabaseConnection.RETURN_GENERATED_KEYS);
+            ps = con.prepareStatement("UPDATE characters SET level = ?, fame = ?, str = ?, dex = ?, luk = ?, `int` = ?, exp = ?, hp = ?, mp = ?, maxhp = ?, maxmp = ?, sp = ?, hsp = ?, ap = ?, gm = ?, skincolor = ?, gender = ?, job = ?, hair = ?, face = ?,  faceMarking = ?, ears = ?, tail = ?, map = ?, meso = ?, hpApUsed = ?, spawnpoint = ?, party = ?, buddyCapacity = ?, pets = ?, subcategory = ?, gachexp = ?, fatigue = ?, charm = ?, charisma = ?, craft = ?, insight = ?, sense = ?, will = ?, totalwins = ?, totallosses = ?, pvpExp = ?, pvpPoints = ?, reborns = ?, apstorage = ?, elf = ?, honourExp = ?, honourLevel = ?, friendshippoints = ?, friendshiptoadd = ?, chatcolour = ?, name = ?, starterquest = ?, starterquestid = ? WHERE id = ?", DatabaseConnection.RETURN_GENERATED_KEYS);
             int index = 0;
             ps.setInt(++index, level);
             ps.setInt(++index, fame);
@@ -1418,6 +1425,8 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
             ps.setInt(++index, hair);
             ps.setInt(++index, face);
             ps.setInt(++index, faceMarking);
+            ps.setInt(++index, ears);
+            ps.setInt(++index, tail);
             if (!fromcs && map != null) {
                 if (map.getForcedReturnId() != 999999999 && map.getForcedReturnMap() != null) {
                     ps.setInt(++index, map.getForcedReturnId());
@@ -2923,6 +2932,26 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
 
     public void setFaceMarking(int mark) {
         this.faceMarking = mark;
+    }
+
+    @Override
+    public int getEars() {
+        return ears;
+    }
+
+    public void setEars(int ears) {
+        this.ears = ears;
+        equipChanged();
+    }
+
+    @Override
+    public int getTail() {
+        return tail;
+    }
+
+    public void setTail(int tail) {
+        this.tail = tail;
+        equipChanged();
     }
 
     @Override
@@ -4547,7 +4576,60 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                     changeJob((short) (job + 1));
                     break;
             }
-        } else if (GameConstants.isMercedes(job)) {
+        } else if(GameConstants.isBattleMage(job)) {
+            switch (getLevel()) {
+                case 30:
+                    changeJob((short) 3210);
+                    break;
+                case 60:
+                    changeJob((short) 3211);
+                    break;
+                case 100:
+                    changeJob((short) 3212);
+                    break;
+            }
+
+        }
+        else if(GameConstants.isWildHunter(job)) {
+            switch (getLevel()) {
+                case 30:
+                    changeJob((short) 3310);
+                    break;
+                case 60:
+                    changeJob((short) 3311);
+                    break;
+                case 100:
+                    changeJob((short) 3312);
+                    break;
+            }
+
+        }else if(GameConstants.isMechanic(job)) {
+            switch (getLevel()) {
+                case 30:
+                    changeJob((short) 3510);
+                    break;
+                case 60:
+                    changeJob((short) 3511);
+                    break;
+                case 100:
+                    changeJob((short) 3512);
+                    break;
+            }
+
+        }else if(GameConstants.isBlaster(job)) {
+            switch (getLevel()) {
+                case 30:
+                    changeJob((short) 3710);
+                    break;
+                case 60:
+                    changeJob((short) 3711);
+                    break;
+                case 100:
+                    changeJob((short) 3712);
+                    break;
+            }
+
+        }else if (GameConstants.isMercedes(job)) {
             switch (getLevel()) {
                 case 10:
                     changeJob((short) 2300);
@@ -6586,6 +6668,8 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
         ret.job = job;
         ret.hair = hair;
         ret.face = face;
+        ret.ears = ears;
+        ret.tail = tail;
         ret.faceMarking = faceMarking;
         ret.elf = elf;
         ret.skinColor = skinColor;

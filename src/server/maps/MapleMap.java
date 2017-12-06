@@ -1945,10 +1945,19 @@ public final class MapleMap {
             }
         }
         if (!chr.isClone()) {
+            switch (chr.getMapId()) {
+                case 552000010: // Tutorial Part 1
+                case 552000021: // Tutorial Part 2
+                case 552000020: // Tutorial Part 3
+                case 552000030: // Tutorial Part 4
+                case 552000040: // Tutorial Part 5
+                    break; // Maps that we don't want using map scripts.
+                default:
             if (!onFirstUserEnter.equals("")) {
                 if (getCharactersSize() == 1) {
                     MapScriptMethods.startScript_FirstUser(chr.getClient(), onFirstUserEnter);
                 }
+            }
             }
             sendObjectPlacement(chr);
 

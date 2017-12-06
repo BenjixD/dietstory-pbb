@@ -185,7 +185,7 @@ public class PlayerLoggedInHandler {
 		if (GameConstants.isZero(player.getJob())) {
 			c.getSession().write(CWvsContext.updateLinkSkill(c.getPlayer().getSkills(), true, false, false));
 		}
-		c.getSession().write(CField.getKeymap(player.getKeyLayout()));
+		c.getSession().write(CField.getKeymap(player.getKeyLayout(), player.getJob()));
 		// player.updatePetAuto();
 		// player.expirationTask(true, transfer == null);
 		// c.getSession().write(CWvsContext.updateMaplePoint(player.getCSPoints(2)));
