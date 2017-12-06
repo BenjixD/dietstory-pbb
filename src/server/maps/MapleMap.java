@@ -2274,6 +2274,10 @@ public final class MapleMap {
             case 271040100:
                 em = "CygnusBattle";
                 break;
+            case 807300110:
+                em = "ChaosRanMaruBattle";
+                em = "NormalRanMaruBattle";
+                break;
             case 262030300:
                 em = "HillaBattle";
                 break;

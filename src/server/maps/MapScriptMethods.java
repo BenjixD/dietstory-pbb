@@ -20,17 +20,7 @@
  */
 package server.maps;
 
-import java.awt.Point;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ScheduledFuture;
-
-import client.MapleCharacter;
-import client.MapleClient;
-import client.Skill;
-import client.SkillEntry;
-import client.SkillFactory;
-import constants.GameConstants;
+import client.*;
 import script.event.EventManager;
 import script.npc.NPCScriptManager;
 import server.MapleItemInformationProvider;
@@ -42,9 +32,8 @@ import server.life.MapleMonster;
 import server.life.OverrideMonsterStats;
 import server.maps.MapleNodes.DirectionInfo;
 import server.quest.MapleQuest;
-import server.quest.MapleQuestStatus;
 import server.quest.MapleQuest.MedalQuest;
-import tools.FileoutputUtil;
+import server.quest.MapleQuestStatus;
 import tools.Randomizer;
 import tools.packet.CField;
 import tools.packet.CField.EffectPacket;
@@ -52,6 +41,11 @@ import tools.packet.CField.NPCPacket;
 import tools.packet.CField.UIPacket;
 import tools.packet.CWvsContext;
 import tools.packet.MobPacket;
+
+import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ScheduledFuture;
 
 public class MapScriptMethods {
 
@@ -451,7 +445,7 @@ public class MapScriptMethods {
                 break;
             case dojang_Eff: {
                 if (c.getPlayer().getMapId() == 925020100 || c.getPlayer().getMapId() == 925030100 || c.getPlayer().getMapId() == 925040100) {
-                    c.getPlayer().getMap().startMapEffect("Don't forget that you have to clear it within the time limit! Take down the monster and head to the next floor!", 5120024);
+                    //c.getPlayer().getMap().startMapEffect("Don't forget that you have to clear it within the time limit! Take down the monster and head to the next floor!", 5120024);
                 }
                 int temp = (c.getPlayer().getMapId() - 925000000) / 100;
                 int stage = (int) (temp - ((temp / 100) * 100));
@@ -478,11 +472,11 @@ public class MapScriptMethods {
             }
 
             case Ranmaru_Before: {
-                if (c.getPlayer().getMap().getMobsSize() == 0) {
-                    c.getPlayer().getMap().spawnMonsterOnGroundBelow(MapleLifeFactory.getMonster(9421581), new Point(109, 123));
-                    break;
-                }
-            }
+                //if (c.getPlayer().getMap().getMobsSize() == 0) {
+                //    c.getPlayer().getMap().spawnMonsterOnGroundBelow(MapleLifeFactory.getMonster(9421583), new Point(-443, 123));
+                //    break;
+                //}
+            } break;
             case pierre_Summon: {
              //   if (c.getPlayer().getMap().getMobsSize() == 0) {
              //       c.getPlayer().getMap().spawnMonsterOnGroundBelow(MapleLifeFactory.getMonster(8900000), new Point(497, 551));
