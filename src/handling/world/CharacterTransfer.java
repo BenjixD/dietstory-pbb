@@ -27,7 +27,7 @@ import tools.Pair;
 
 public class CharacterTransfer implements Externalizable {
 
-    public int characterid, accountid, fame, pvpExp, pvpPoints, hair, face,
+    public int characterid, accountid, fame, pvpExp, pvpPoints, hair, face, ears, tail,
             faceMarking, elf, mapid, honourexp, honourlevel, guildid,
             partyid, messengerid, ACash, nxCredit, MaplePoints,
             mount_itemid, mount_exp, points, vpoints, dpoints, epoints, marriageId, maxhp, maxmp, hp, mp,
@@ -113,6 +113,8 @@ public class CharacterTransfer implements Externalizable {
         this.job = chr.getJob();
         this.hair = chr.getHair();
         this.face = chr.getFace();
+        this.ears = chr.getEars();
+        this.tail = chr.getTail();
         this.faceMarking = chr.getFaceMarking();
         this.elf = chr.getElf();
         this.mapid = chr.getMapId();
@@ -270,6 +272,8 @@ public class CharacterTransfer implements Externalizable {
         this.job = in.readShort();
         this.hair = in.readInt();
         this.face = in.readInt();
+        this.ears = in.readInt();
+        this.tail = in.readInt();
         this.faceMarking = in.readInt();
         this.elf = in.readInt();
         this.mapid = in.readInt();
@@ -490,6 +494,8 @@ public class CharacterTransfer implements Externalizable {
         out.writeShort(this.job);
         out.writeInt(this.hair);
         out.writeInt(this.face);
+        out.writeInt(this.ears);
+        out.writeInt(this.tail);
         out.writeInt(this.faceMarking);
         out.writeInt(this.elf);
         out.writeInt(this.mapid);

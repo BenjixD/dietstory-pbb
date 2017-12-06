@@ -18,9 +18,10 @@ public class BowmanBuff extends AbstractBuffClass {
 
     public BowmanBuff() {
         buffs = new int[]{
+
         	3100010, // quiver cardrige	
             3101002, //Bow Booster
-            3101004, //SoulArrow
+            3101004, //Soul Arrow
             3111011, // reckless hunt
             3201002, //Bow Booster
             3201004, //Soul Arrow xBow

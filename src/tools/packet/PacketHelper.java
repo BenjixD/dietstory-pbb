@@ -542,7 +542,7 @@ public class PacketHelper {
         pw.writeInt(0); // ?
         pw.writeShort(chr.getSubcategory());
         
-        if (GameConstants.isDemonSlayer(chr.getJob()) || GameConstants.isXenon(chr.getJob()) || GameConstants.isDemonAvenger(chr.getJob())) {
+        if (GameConstants.isDemonSlayer(chr.getJob()) || GameConstants.isXenon(chr.getJob()) || GameConstants.isDemonAvenger(chr.getJob()) || GameConstants.isBeastTamer(chr.getJob())) { //TODO do i add beast tamer here?
             pw.writeInt(chr.getFaceMarking());
         }
         
@@ -689,20 +689,22 @@ public class PacketHelper {
         pw.writeInt(0);
         pw.writeInt(0);
         
-	    if (GameConstants.isDemonSlayer(chr.getJob()) || GameConstants.isXenon(chr.getJob()) || GameConstants.isDemonAvenger(chr.getJob())) {
+	    if (GameConstants.isDemonSlayer(chr.getJob()) || GameConstants.isXenon(chr.getJob()) || GameConstants.isDemonAvenger(chr.getJob()) || GameConstants.isBeastTamer(chr.getJob())) {
 	        pw.writeInt(chr.getFaceMarking());
 	    } else if (GameConstants.isZero(chr.getJob())) {
 	        pw.write(1);
 	    }
 	    
-	    /*
-	     if (JobConstants.isBeastTamer(chr.getJob())) { // tale and ears
+
+	     if (GameConstants.isBeastTamer(chr.getJob())) { // tale and ears
 			pw.write(1);
-			pw.writeInt(5010116);
-			pw.write(1);
-			pw.writeInt(5010119);
+			pw.writeInt(chr.getEars());
+            System.out.print("ears :" + chr.getEars());
+            pw.write(1);
+            pw.writeInt(chr.getTail());
+            System.out.print("tails :" + chr.getTail());
 		 }
-	     */
+
 	    pw.write(0); // mixed hair color
 	    pw.write(0); // mixed hair percent
 	}

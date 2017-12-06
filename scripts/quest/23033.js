@@ -1,6 +1,6 @@
 var status = -1;
 
-function end(mode, type, selection) {
+function start(mode, type, selection) {
     if (mode == 0) {
 	if (status == 0) {
 	    qm.sendNext("This is an important decision to make.");

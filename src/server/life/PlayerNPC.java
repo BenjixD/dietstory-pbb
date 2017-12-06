@@ -29,7 +29,7 @@ public class PlayerNPC extends MapleNPC implements MapleCharacterLook {
     public static final boolean Auto_Update = false;
     private Map<Byte, Integer> equips = new HashMap<>();
     private Map<Byte, Integer> secondEquips = new HashMap<>();
-    private int mapid, face, hair, charId, elf, faceMarking, secondFace, secondHair;
+    private int mapid, face, hair, charId, elf, faceMarking, ears, tail, secondFace, secondHair;
     private short job;
     private byte skin, gender, secondSkin, secondGender;
     private final int[] pets = new int[3];
@@ -48,7 +48,11 @@ public class PlayerNPC extends MapleNPC implements MapleCharacterLook {
         secondGender = gender;
         job = rs.getShort("job");
         elf = rs.getInt("elf");
+        ears = rs.getInt("ears");
+        tail = rs.getInt("tail");
         faceMarking = rs.getInt("faceMarking");
+        ears = rs.getInt("ears");
+        tail = rs.getInt("tail");
         setCoords(rs.getInt("x"), rs.getInt("y"), rs.getInt("dir"), rs.getInt("Foothold"));
         String[] pet = rs.getString("pets").split(",");
         for (int i = 0; i < 3; i++) {
@@ -140,7 +144,10 @@ public class PlayerNPC extends MapleNPC implements MapleCharacterLook {
         setPets(chr.getPets());
         setJob(chr.getJob());
         setElf(chr.getElf());
+        setEars(chr.getEars());
+        setTail(chr.getTail());
         setFaceMarking(chr.getFaceMarking());
+
 
         equips = new HashMap<>();
         for (Item item : chr.getInventory(MapleInventoryType.EQUIPPED).newList()) {
@@ -192,7 +199,7 @@ public class PlayerNPC extends MapleNPC implements MapleCharacterLook {
                 return;
             }
             destroy();
-            PreparedStatement ps = con.prepareStatement("INSERT INTO playernpcs(name, hair, face, skin, x, y, map, charid, scriptid, foothold, dir, gender, pets, job, elf, faceMarking) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO playernpcs(name, hair, face, skin, x, y, map, charid, scriptid, foothold, dir, gender, pets, job, elf, faceMarking, ears, tail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             int k = 0;
             ps.setString(++k, getName());
             ps.setInt(++k, getHair());
@@ -216,6 +223,8 @@ public class PlayerNPC extends MapleNPC implements MapleCharacterLook {
             ps.setShort(++k, getJob());
             ps.setInt(++k, getElf());
             ps.setInt(++k, getFaceMarking());
+            ps.setInt(++k, getEars());
+            ps.setInt(++k, getTail());
             ps.executeUpdate();
             ps.close();
 
@@ -242,6 +251,15 @@ public class PlayerNPC extends MapleNPC implements MapleCharacterLook {
         return faceMarking;
     }
 
+    @Override
+    public int getEars() {
+        return ears;
+    }
+
+    @Override
+    public int getTail() {
+        return tail;
+    }
     @Override
     public int getElf() {
         return elf;
@@ -317,6 +335,15 @@ public class PlayerNPC extends MapleNPC implements MapleCharacterLook {
     public void setFaceMarking(int faceMarking) {
         this.faceMarking = faceMarking;
     }
+
+    public void setEars(int ears) {
+        this.ears = ears;
+    }
+
+    public void setTail(int tail) {
+        this.tail = tail;
+    }
+
 
     public void setElf(int elf) {
         this.elf = elf;

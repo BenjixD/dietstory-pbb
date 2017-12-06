@@ -2191,7 +2191,7 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
 
     public void putKey(int key, int type, int action) {
         getPlayer().changeKeybinding(key, (byte) type, action);
-        getClient().getSession().write(CField.getKeymap(getPlayer().getKeyLayout()));
+        getClient().getSession().write(CField.getKeymap(getPlayer().getKeyLayout(), getPlayer().getJob()));
     }
 
     public void doRing(final String name, final int itemid) {

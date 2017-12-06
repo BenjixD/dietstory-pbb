@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
 import script.npc.NPCTalk;
 import server.MaplePackageActions;
 import server.MapleTrade;
@@ -3052,11 +3053,11 @@ public class CField {
         return pw.getPacket();
     }
 
-    public static byte[] getKeymap(MapleKeyLayout layout) {
+    public static byte[] getKeymap(MapleKeyLayout layout, int jobid) {
         PacketWriter pw = new PacketWriter();
 
         pw.writeShort(SendPacketOpcode.KEYMAP.getValue());
-        layout.encode(pw);
+        layout.encode(pw, jobid);
 
         return pw.getPacket();
     }
@@ -4118,6 +4119,7 @@ public class CField {
             pw.write(enable ? 1 : 0);
             pw.writeInt(0);
 
+
             return pw.getPacket();
         }
 
@@ -4125,7 +4127,7 @@ public class CField {
             PacketWriter pw = new PacketWriter();
 
             pw.writeShort(SendPacketOpcode.SET_IN_GAME_DIRECTION_MODE.getValue());
-            pw.write(enable > 0 ? 1 : 0);
+            pw.write(enable > 0? 1 : 0);
             if (enable > 0) {
                 pw.write(enable);
                 pw.writeShort(0);
@@ -4163,7 +4165,7 @@ public class CField {
         }
 
         public static byte[] summonMessage(String message) {
-            PacketWriter pw = new PacketWriter();
+            PacketWriter pw = new PacketWriter(80);
 
             pw.writeShort(SendPacketOpcode.TUTOR_MSG.getValue());
             pw.write(0);
@@ -4363,7 +4365,7 @@ public class CField {
             AvatarOrientedMultipleRepeat((byte) 0x1D),
             IncubatorUse((byte) 0x1E),
             PlaySoundWithMuteBGM((byte) 0x1F), // This may be wrong, I can't confirm it
-            PlayExclSoundWithDownBGM((byte) 0x20), // This may be wrong, I can't confirm it
+            PlaySoundWithMuteBgm((byte) 0x20), // This may be wrong, I can't confirm it
             // Something new is in here, missing in KMST 0x21
             SpiritStoneUse((byte) 0x22),
             IncDecHPEffect_EX((byte) 0x23),
@@ -4376,7 +4378,7 @@ public class CField {
             PvPRevive((byte) 0x2A), // character flickers lol
             JobEffect((byte) 0x2B),
             FadeInOut((byte) 0x2C),
-            MobSkillHit((byte) 0x2D),
+            SetUserBlind((byte) 0x2D),
             AswanSiegeAttack((byte) 0x2E), // some map arrows it seems
             BlindEffect((byte) 0x2F),
             BossShieldCount((byte) 0x30),
@@ -4624,13 +4626,15 @@ public class CField {
 
         public static byte[] ShowWZEffect(String data) {
             PacketWriter pw = new PacketWriter();
-
+            boolean show = true;
             pw.writeShort(SendPacketOpcode.EFFECT.getValue());
-            pw.write(0x26); // updated.
+           // pw.write(UserEffectCodes.ReservedEffectRepeat.getEffectId());
+            pw.write(0x20);
+
+            pw.write(show); // bool
             pw.writeMapleAsciiString(data);
-            pw.write(0); // bool
             pw.writeInt(0); // bUpgrade
-            pw.writeInt(4); // nRet
+            pw.writeInt(0); // nRet
 
             return pw.getPacket();
         }
@@ -4715,7 +4719,7 @@ public class CField {
         final PacketWriter pw = new PacketWriter();
 
         pw.writeShort(SendPacketOpcode.EFFECT.getValue());
-        pw.write(0x20);
+        pw.write(EffectPacket.UserEffectCodes.PlaySoundWithMuteBgm.getEffectId());
         pw.writeMapleAsciiString(effect);
         pw.write(1);
         pw.writeInt(0);// weird high number is it will keep showing it lol
@@ -4729,7 +4733,7 @@ public class CField {
 
         pw.writeShort(SendPacketOpcode.EFFECT_REMOTE.getValue());
         pw.writeInt(chrId);
-        pw.write(0x20);
+        pw.write(EffectPacket.UserEffectCodes.PlaySoundWithMuteBgm.getEffectId());
         pw.writeMapleAsciiString(effect);
         pw.write(1);
         pw.writeInt(0);// weird high number is it will keep showing it lol

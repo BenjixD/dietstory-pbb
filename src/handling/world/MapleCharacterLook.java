@@ -1,5 +1,6 @@
 package handling.world;
 
+import java.util.List;
 import java.util.Map;
 
 public interface MapleCharacterLook {
@@ -21,6 +22,10 @@ public interface MapleCharacterLook {
     public int getSecondHair();
 
     public int getFaceMarking();
+
+    public int getEars();
+
+    public int getTail();
 
     public int getElf();
 
