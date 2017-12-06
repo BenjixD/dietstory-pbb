@@ -20,20 +20,7 @@
  */
 package server.maps;
 
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.locks.ReentrantLock;
-
 import com.mysql.jdbc.Connection;
-
 import constants.GameConstants;
 import constants.MapConstants;
 import lib.data.MapleData;
@@ -52,6 +39,13 @@ import server.maps.MapleNodes.MaplePlatform;
 import tools.Pair;
 import tools.Randomizer;
 import tools.StringUtil;
+
+import java.awt.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
+import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class MapleMapFactory {
 
@@ -97,18 +91,29 @@ public class MapleMapFactory {
 
     public static void loadCustomNPC() {
         List<Pair<Integer, AbstractLoadedMapleLife>> customNPC = new LinkedList<Pair<Integer, AbstractLoadedMapleLife>>();
+        //customNPC.add(new Pair<>(401100200, loadLife(2159361, 0, false, 3, -188, 583, 583, 583, -188, "n", 0))); // BlackMage Battle Starter NPC
        // customNPC.add(new Pair<>(910000000, loadLife(9010038, 0, false, 78, 34, 312, 312, 312, 34, "n", 0)));
-        customNPC.add(new Pair<>(910000000, loadLife(9010037, 0, false, 46, -266, 932, 932, 932, -266, "n", 0)));
 //        customNPC.add(new Pair<>(910000000, loadLife(9000019, 0, true, 47, -266, 650, 650, 650, -266, "n", 0)));//cuz RPS no works..
   //      customNPC.add(new Pair<>(910000000, loadLife(9000031, 0, false, 108, -326, 72, 170, 120, -329, "n", 0)));
  //       customNPC.add(new Pair<>(910000000, loadLife(9010029, 0, false, 107, -326, -729, -729, -729, -329, "n", 0)));
 //        customNPC.add(new Pair<>(910000000, loadLife(1033225, 0, true, 42, -266, 638, 638, 638, -266, "n", 0)));//Shadow Knight cuz not coded..
   //      customNPC.add(new Pair<>(910000000, loadLife(9072000, 0, false, 40, -266, 1098, 1098, 1098, -266, "n", 0)));
-        customNPC.add(new Pair<>(910000000, loadLife(9010034, 0, false, 59, 4, 749, 749, 749, 4, "n", 0)));
- //       customNPC.add(new Pair<>(910000000, loadLife(9010035, 0, false, 61, 4, 1116, 1116, 1116, 4, "n", 0)));
-        customNPC.add(new Pair<>(910000000, loadLife(9010036, 0, false, 62, 4, 935, 935, 935, 4, "n", 0)));
+        //customNPC.add(new Pair<>(910000000, loadLife(9010035, 0, false, 61, 4, 1116, 1116, 1116, 4, "n", 0)));
  //       customNPC.add(new Pair<>(910000000, loadLife(9201117, 0, false, 45, -266, 1092, 1092, 1092, -266, "n", 0)));
         //customNPC.add(new Pair<>(910000000, loadLife(9900002, 0, false, 57, 4, 603, 603, 603, 4, "n", 0)));
+
+        customNPC.add(new Pair<>(925020001, loadLife(9010037, 0, false, 6, 7, 73, 73, 73, 7, "n", 0)));  // Randolf, Dojo Points NPC (in Dojo)
+
+        // FM NPCs
+        //customNPC.add(new Pair<>(910000000, loadLife(9010037, 0, false, 46, -266, 932, 932, 932, -266, "n", 0)));  // Randolf, Dojo Points NPC (in FM)
+        customNPC.add(new Pair<>(910000000, loadLife(9010034, 0, false, 59, 4, 749, 749, 749, 4, "n", 0)));   // Cygnus Vote points NPC
+        customNPC.add(new Pair<>(910000000, loadLife(9010036, 0, false, 62, 4, 935, 935, 935, 4, "n", 0)));  // Lilin Cash NPC
+        customNPC.add(new Pair<>(910000000, loadLife(9000039, 0, false, 90, -266, 538, 538, 538, -266, "n", 0))); // Agent W - Donor NPC
+        customNPC.add(new Pair<>(910000000, loadLife(9270064, 0, false, 40, -266, 634, 634, 634, -266, "n", 0))); // ThemeParkOwner - Cubing NPC
+        customNPC.add(new Pair<>(910000000, loadLife(9201117, 0, false, 42, -266, 1079, 1079, 1079, -266, "n", 0))); // TohRelicseeker - KIN Npc
+        customNPC.add(new Pair<>(910000000, loadLife(9062008, 0, false, 99, -326, -407, -407, -407, -326, "n", 0))); // Miss Richfield - Owl NPC
+        customNPC.add(new Pair<>(910000000, loadLife(9201182, 0, false, 68, 34, -533, -533, -533, 34, "n", 0))); // Bo - Nebulite NPC
+
         //id, face, hide, fh, y, x, x, x, y, "n", 1000
         for (int i = 0; i < customNPC.size(); i++) {
             final int mapid = customNPC.get(i).getLeft();

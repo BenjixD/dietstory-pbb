@@ -1,15 +1,5 @@
 package server;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.ScheduledFuture;
-
 import client.MapleCharacter;
 import handling.channel.ChannelServer;
 import handling.world.World;
@@ -20,11 +10,40 @@ import tools.Pair;
 import tools.packet.CField;
 import tools.packet.CWvsContext;
 
+import java.lang.ref.WeakReference;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.ScheduledFuture;
+
 public class MapleSquad {
 
     public static enum MapleSquadType {
-
-        bossbalrog(2), zak(2), chaoszak(3), horntail(2), chaosht(3), pinkbean(2), nmm_squad(2), vergamot(2), dunas(2), nibergen_squad(2), dunas2(2), core_blaze(2), aufheben(2), cwkpq(3), tokyo_2095(2), vonleon(3), scartar(2), cygnus(3), hilla(2), darkhilla(2), arkarium(3), blackmage(3);
+// (0) = Number of members req. to enter
+        bossbalrog(0),
+        zak(0),
+        chaoszak(0),
+        horntail(0),
+        chaosht(0),
+        pinkbean(0),
+        nmm_squad(0),
+        vergamot(0),
+        dunas(0),
+        nibergen_squad(0),
+        dunas2(0),
+        core_blaze(0),
+        aufheben(0),
+        cwkpq(3),
+        tokyo_2095(0),
+        vonleon(0),
+        scartar(0),
+        cygnus(0),
+        hilla(0),
+        darkhilla(0),
+        arkarium(0),
+        nran(0),
+        cran(0),
+        ctengu(0),
+        blackmage(0);
 
         private MapleSquadType(int i) {
             this.i = i;
