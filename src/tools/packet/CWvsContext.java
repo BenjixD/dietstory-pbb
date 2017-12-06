@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
 public class CWvsContext {
 
     public static byte[] enableActions() {
-        return updatePlayerStats(new EnumMap<MapleStat, Long>(MapleStat.class), true, null);
+        return updatePlayerStats(new EnumMap<>(MapleStat.class), true, null);
     }
 
     public static byte[] updatePlayerStats(Map<MapleStat, Long> stats, MapleCharacter chr) {
@@ -96,7 +96,7 @@ public class CWvsContext {
                     break;
                 case EXP:
                 case MESO:
-                    pw.writeLong((statupdate.getValue()).longValue());
+                    pw.writeLong(statupdate.getValue());
                     pw.write(-1);
                 	pw.writeInt(0);
                     break;
@@ -147,16 +147,16 @@ public class CWvsContext {
     public static byte[] setTemporaryStats(short str, short dex, short _int, short luk, short watk, short matk, short acc, short avoid, short speed, short jump) {
         Map<Temp, Integer> stats = new EnumMap<>(MapleStat.Temp.class);
 
-        stats.put(MapleStat.Temp.STR, Integer.valueOf(str));
-        stats.put(MapleStat.Temp.DEX, Integer.valueOf(dex));
-        stats.put(MapleStat.Temp.INT, Integer.valueOf(_int));
-        stats.put(MapleStat.Temp.LUK, Integer.valueOf(luk));
-        stats.put(MapleStat.Temp.WATK, Integer.valueOf(watk));
-        stats.put(MapleStat.Temp.MATK, Integer.valueOf(matk));
-        stats.put(MapleStat.Temp.ACC, Integer.valueOf(acc));
-        stats.put(MapleStat.Temp.AVOID, Integer.valueOf(avoid));
-        stats.put(MapleStat.Temp.SPEED, Integer.valueOf(speed));
-        stats.put(MapleStat.Temp.JUMP, Integer.valueOf(jump));
+        stats.put(MapleStat.Temp.STR, (int) str);
+        stats.put(MapleStat.Temp.DEX, (int) dex);
+        stats.put(MapleStat.Temp.INT, (int) _int);
+        stats.put(MapleStat.Temp.LUK, (int) luk);
+        stats.put(MapleStat.Temp.WATK, (int) watk);
+        stats.put(MapleStat.Temp.MATK, (int) matk);
+        stats.put(MapleStat.Temp.ACC, (int) acc);
+        stats.put(MapleStat.Temp.AVOID, (int) avoid);
+        stats.put(MapleStat.Temp.SPEED, (int) speed);
+        stats.put(MapleStat.Temp.JUMP, (int) jump);
 
         return temporaryStats(stats);
     }
@@ -1692,6 +1692,19 @@ public class CWvsContext {
         PacketWriter pw = new PacketWriter();
 
         pw.writeShort(SendPacketOpcode.RED_CUBE_RESULT.getValue());
+        pw.writeInt(charId);
+        pw.write(hasRankedUp ? 1 : 0);
+        pw.writeInt(itemId);
+        pw.writeInt(dst);
+        PacketHelper.addItemInfo(pw, equip);
+
+        return pw.getPacket();
+    }
+
+    public static byte[] onBonusCubeResult(int charId, boolean hasRankedUp, int itemId, short dst, Equip equip) {
+        PacketWriter pw = new PacketWriter();
+
+        pw.writeShort(SendPacketOpcode.BONUS_CUBE_RESULT.getValue());
         pw.writeInt(charId);
         pw.write(hasRankedUp ? 1 : 0);
         pw.writeInt(itemId);

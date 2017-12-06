@@ -3164,10 +3164,18 @@ public class CField {
         pw.writeInt(skillz.isEmpty() ? 2 : 4);
         pw.writeInt(chr.getJob());
         pw.writeInt(skillz.size());
-        for (Iterator<Integer> i$ = skillz.iterator(); i$.hasNext();) {
-            int i = i$.next().intValue();
+        for (Integer i : skillz) {
             pw.writeInt(i);
         }
+
+        return pw.getPacket();
+    }
+
+    public static byte[] showItemSkillSocketUpgradeEffect(boolean worked) {
+        PacketWriter pw = new PacketWriter();
+
+        pw.writeShort(SendPacketOpcode.SHOW_ITEM_SKILL_OPTION_UPGRADE_EFFECT.getValue());
+        pw.write(worked);
 
         return pw.getPacket();
     }

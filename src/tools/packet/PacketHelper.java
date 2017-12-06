@@ -2438,7 +2438,7 @@ public class PacketHelper {
 				pw.writeInt(0);
 			}
 
-			if (stat == CharacterTemporaryStat.QuiverCatridge) {
+            if (stat == CharacterTemporaryStat.QuiverCatridge) {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
@@ -2519,6 +2519,10 @@ public class PacketHelper {
 				pw.writeShort(0);
 				pw.writeInt(0);
 			}
+
+			if(stat == CharacterTemporaryStat.WizardIgnite) {
+
+            }
 
 			if (stat == CharacterTemporaryStat.FireBarrier) {
 				pw.writeShort(0);
