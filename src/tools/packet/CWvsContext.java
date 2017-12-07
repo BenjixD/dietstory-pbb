@@ -3604,6 +3604,10 @@ public class CWvsContext {
             	if (stat.getKey() == CharacterTemporaryStat.CrossOverChain) {
             		pw.writeInt(effect.getX()); // xCrossOverChain
             	}
+
+            	if(stat.getKey() == CharacterTemporaryStat.ChargeBuff) {
+            	    pw.write(0); // fuck if I know
+                }
             	
             	if (stat.getKey() == CharacterTemporaryStat.Reincarnation) {
             		pw.writeInt(effect.getX()); // xReincarnation

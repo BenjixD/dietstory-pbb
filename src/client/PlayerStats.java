@@ -231,7 +231,7 @@ public class PlayerStats implements Serializable {
             pvpDamage += equip.getPVPDamage();
             bossdam_r += equip.getBossDamage();
             ignoreTargetDEF += equip.getIgnorePDR();
-            dam_r *= (Double.valueOf(equip.getTotalDamage()) + 100.0) / 100.0;
+            dam_r *= ((double) equip.getTotalDamage() + 100.0) / 100.0;
             percent_str += equip.getAllStat();
             percent_dex += equip.getAllStat();
             percent_int += equip.getAllStat();
@@ -271,7 +271,7 @@ public class PlayerStats implements Serializable {
             if (set != null && set > 0) {
                 int value = 1;
                 if (setHandling.containsKey(set)) {
-                    value += setHandling.get(set).intValue();
+                    value += setHandling.get(set);
                 }
                 setHandling.put(set, value); //id of Set, number of items to go with the set
             }
@@ -327,9 +327,7 @@ public class PlayerStats implements Serializable {
                 equipLevelHandling.add((Equip) equip);
             }
         }
-        final Iterator<Entry<Integer, Integer>> iter = setHandling.entrySet().iterator();
-        while (iter.hasNext()) {
-            final Entry<Integer, Integer> entry = iter.next();
+        for (Entry<Integer, Integer> entry : setHandling.entrySet()) {
             final StructSetItem set = ii.getSetItem(entry.getKey());
             if (set != null) {
                 final Map<Integer, SetItem> itemz = set.getItems();
@@ -348,7 +346,7 @@ public class PlayerStats implements Serializable {
                         localmaxmp_ += se.incMMP;
                         percent_hp += se.incMHPr;
                         percent_mp += se.incMMPr;
-                        
+
                         wdef += se.incPDD;
                         mdef += se.incMDD;
                         if (se.option1 > 0 && se.option1Level > 0) {
