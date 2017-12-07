@@ -6,12 +6,16 @@ import client.skills.ForceAtomInfo;
 import handling.PacketHandler;
 import handling.RecvPacketOpcode;
 import server.life.MapleMonster;
+import server.maps.MapleMapObject;
+import server.maps.MapleMapObjectType;
 import tools.data.LittleEndianAccessor;
 import tools.packet.CField;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created on 12/7/2017.
@@ -56,13 +60,13 @@ public class OrbitalFlameHandler {
                 angle = 180;
                 break;
         }
-        ForceAtomInfo forceAtomInfo = new ForceAtomInfo(0, orbType, 5, 5, angle,
-                0, (int) System.currentTimeMillis(), 1, 12001020, new Point()
+        ForceAtomInfo forceAtomInfo = new ForceAtomInfo(0, orbType, 30, 13, angle,
+                0, (int) System.currentTimeMillis(), 0, 0, new Point()
         );
         List<ForceAtomInfo> faiList = new ArrayList<>();
         faiList.add(forceAtomInfo);
-        c.getSession().write(CField.createForceAtom(0, c.getPlayer().getId(), -1, ForceAtomInfo.Type.NO_TARGET, false, new ArrayList<>(),
-                faiList, null, 0,
-                direction, 300, null, 0));
+
+        c.getSession().write(CField.createForceAtom(0, c.getPlayer().getId(), skillId, ForceAtomInfo.Type.NO_TARGET, true,
+                new ArrayList<>(),faiList, null, 0, direction, 0, null, 0));
     }
 }
