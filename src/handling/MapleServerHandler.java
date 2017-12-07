@@ -886,6 +886,10 @@ public class MapleServerHandler extends IoHandlerAdapter {
                 break;
             case BLACK_FRIDAY:
                 PlayersHandler.blackFriday(lea, c);
+                break;
+            case SOCKET_CREATE:
+                PlayerHandler.onSocketCreate(lea, c);
+                break;
             case UPDATE_RED_LEAF:
                 PlayersHandler.updateRedLeafHigh(lea, c);
                 break;

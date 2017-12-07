@@ -61,6 +61,7 @@ public class OpcodeManager {
 		MagicAttackHandler.class,
 		TakeDamageHandler.class,
 		GeneralChatHandler.class,
+		OrbitalFlameHandler.class,
 
 		DistributeApHandler.class,
 		DistributeSpHandler.class,

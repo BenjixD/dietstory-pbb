@@ -322,6 +322,7 @@ public enum SendPacketOpcode implements IntValueHolder {
 	REWARD,
 	SKILL_MACRO,
 	RED_CUBE_RESULT,
+	BONUS_CUBE_RESULT,
 	MESSENGER_OPEN,
 
 	// CStage::OnPacket
@@ -359,6 +360,7 @@ public enum SendPacketOpcode implements IntValueHolder {
 	VMATRIX_UPDATE,
 	NODESTONE_RESULT,
 	PVP_INFO,// 0x156
+	CREATE_FORCE_ATOM,
 	DIRECTION_STATUS,
 	GAIN_FORCE,
 	ACHIEVEMENT_RATIO,
@@ -397,6 +399,7 @@ public enum SendPacketOpcode implements IntValueHolder {
 	HARVESTED,
 	PLAYER_DAMAGED,
 	NETT_PYRAMID,
+	SKILL_TIMER_IDK,
 	PAMS_SONG,
 
 	// CUser::OnPetPacket
