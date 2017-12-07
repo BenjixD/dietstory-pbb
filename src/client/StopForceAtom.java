@@ -5,7 +5,7 @@ import tools.data.PacketWriter;
 import java.util.ArrayList;
 
 /**
- * Created by Tim on 11/6/2017.
+ * Created on 11/6/2017.
  */
 public class StopForceAtom {
 

@@ -152,8 +152,8 @@ public class MagicianBuff extends AbstractBuffClass {
                 eff.statups.put(CharacterTemporaryStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));
                 eff.statups.put(CharacterTemporaryStat.IncMaxDamage, eff.info.get(MapleStatInfo.indieMaxDamageOver));
                 break;
-         //   case 2121054:
-        //        eff.statups.put(CharacterTemporaryStat.FireAura, eff.info.get(MapleStatInfo.x));
+            case 2121054:
+                eff.statups.put(CharacterTemporaryStat.FireAura, eff.info.get(MapleStatInfo.x));
             case 2321054: //Righteously Indignant
                 eff.statups.put(CharacterTemporaryStat.ANGEL, 1);
                 eff.statups.put(CharacterTemporaryStat.IgnoreTargetDEF, eff.info.get(MapleStatInfo.ignoreMobpdpR));

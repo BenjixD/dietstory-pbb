@@ -1363,4 +1363,13 @@ public class PlayerHandler {
 		}
 		c.getSession().write(CField.messengerOpen(slea.readByte(), null));
 	}
+
+	public static void onSocketCreate(LittleEndianAccessor lea, MapleClient c) {
+		lea.skip(4); // update tick
+		short idk = lea.readShort();
+		int useItemId = lea.readInt();
+		short slot = lea.readShort();
+		// 6 bytes left
+
+	}
 }

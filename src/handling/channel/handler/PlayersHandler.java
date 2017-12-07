@@ -33,6 +33,7 @@ import java.util.TimeZone;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import client.skills.ForceAtomInfo;
 import org.apache.mina.common.WriteFuture;
 
 import client.CharacterTemporaryStat;

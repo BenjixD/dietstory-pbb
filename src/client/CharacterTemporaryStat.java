@@ -635,13 +635,13 @@ public enum CharacterTemporaryStat implements Serializable, Buffstat {
     private final int nPos;
     private final boolean isIndie;
 
-    private CharacterTemporaryStat(int nValue, int nPos) {
+    CharacterTemporaryStat(int nValue, int nPos) {
         this.nValue = nValue;
         this.nPos = nPos;
         this.isIndie = false;
     }
 
-    private CharacterTemporaryStat(int flag) {
+    CharacterTemporaryStat(int flag) {
         this.nValue = (1 << (31 - (flag % 32)));
         this.nPos = 17 - (byte) Math.floor(flag / 32);
         this.isIndie = name().contains("Indie");

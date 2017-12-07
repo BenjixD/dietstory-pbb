@@ -6,6 +6,7 @@ import client.inventory.Item;
 import client.inventory.MapleAndroid;
 import client.inventory.MapleInventoryType;
 import client.inventory.MapleRing;
+import client.skills.ForceAtomInfo;
 import constants.GameConstants;
 import constants.QuickMove.QuickMoveNPC;
 import constants.SkillConstants;
@@ -14,7 +15,8 @@ import handling.channel.handler.PlayerInteractionHandler;
 import handling.world.World;
 import handling.world.guild.MapleGuild;
 import handling.world.guild.MapleGuildAlliance;
-import java.awt.Point;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -3179,6 +3181,125 @@ public class CField {
         pw.write(worked);
 
         return pw.getPacket();
+    }
+
+
+    public static byte[] createForceAtom(int mobArriveId, int targetId, int target, ForceAtomInfo.Type type, boolean isToMob,
+                                         List<Integer> targets, List<ForceAtomInfo> infos, Rectangle rect, int bulletId,
+                                         int arriveDir, int arriveRange, Point forceTargetPoint, int delay) {
+        PacketWriter packetWriter = new PacketWriter();
+
+        packetWriter.writeShort(SendPacketOpcode.CREATE_FORCE_ATOM.getValue());
+
+        packetWriter.write(mobArriveId != 0);
+        if(mobArriveId != 0) {
+            packetWriter.writeInt(mobArriveId);
+        }
+        packetWriter.writeInt(targetId);
+        int forceAtomType = type.getVal();
+        packetWriter.writeInt(forceAtomType);
+        if(forceAtomType != 0 && forceAtomType != 9 && forceAtomType != 14 && forceAtomType != 29) {
+            packetWriter.write(isToMob);
+            switch(forceAtomType) {
+                case 2:
+                case 3:
+                case 6:
+                case 7:
+                case 11:
+                case 12:
+                case 13:
+                case 17:
+                case 19:
+                case 20:
+                case 23:
+                case 24:
+                case 25:
+                case 26:
+                case 27:
+                case 28:
+                    packetWriter.writeInt(targets.size());
+                    for (int targetIt : targets) {
+                        packetWriter.writeInt(targetIt);
+                    }
+                    break;
+                default:
+                    packetWriter.writeInt(targets.get(0));
+                    break;
+            }
+            packetWriter.writeInt(target);
+        }
+        for(ForceAtomInfo fai : infos) {
+            packetWriter.write(1);
+            packetWriter.writeInt(fai.getKey());
+            packetWriter.writeInt(fai.getInc());
+            packetWriter.writeInt(fai.getFirstImpact());
+            packetWriter.writeInt(fai.getSecondImpact());
+            packetWriter.writeInt(fai.getAngle());
+            packetWriter.writeInt(fai.getStartDelay());
+            packetWriter.writeInt((int) fai.getStart().getX());
+            packetWriter.writeInt((int) fai.getStart().getY());
+            packetWriter.writeInt(fai.getCreateTime());
+            packetWriter.writeInt(fai.getMaxHitCount());
+            packetWriter.writeInt(fai.getEffectId());
+        }
+        packetWriter.write(0); // no more info
+        if(rect == null) {
+            rect = new Rectangle();
+        }
+        int left = (int) rect.getX();
+        int right = (int) (rect.getX() + rect.getWidth());
+        int top = (int) rect.getY();
+        int bottom = (int) (rect.getY() + rect.getHeight());
+        switch(forceAtomType) {
+            case 11: // Mark of assassin
+                packetWriter.writeInt(left);
+                packetWriter.writeInt(top);
+                packetWriter.writeInt(right);
+                packetWriter.writeInt(bottom);
+                packetWriter.writeInt(bulletId);
+                break;
+            case 9: // zero force / shadow bat
+            case 15:
+                packetWriter.writeInt(left);
+                packetWriter.writeInt(top);
+                packetWriter.writeInt(right);
+                packetWriter.writeInt(bottom);
+                break;
+            case 16: // shadow bat bound
+                packetWriter.writeInt(left);
+                packetWriter.writeInt(right);
+                break;
+            case 17: // no target
+                packetWriter.writeInt(arriveDir);
+                packetWriter.writeInt(arriveRange);
+                break;
+            case 18: // typing game / spirit stone
+                packetWriter.writeInt((int) forceTargetPoint.getX());
+                packetWriter.writeInt((int) forceTargetPoint.getY());
+                break;
+            case 27:
+            case 28: // note: delay in ms, not s
+            case 30:
+            case 31:
+            case 32:
+            case 33:
+                packetWriter.writeInt(left);
+                packetWriter.writeInt(top);
+                packetWriter.writeInt(right);
+                packetWriter.writeInt(bottom);
+                packetWriter.writeInt(delay);
+                break;
+            case 29:
+                packetWriter.writeInt(left);
+                packetWriter.writeInt(top);
+                packetWriter.writeInt(right);
+                packetWriter.writeInt(bottom);
+                packetWriter.writeInt((int) forceTargetPoint.getX());
+                packetWriter.writeInt((int) forceTargetPoint.getY());
+                break;
+        }
+
+        return packetWriter.getPacket();
     }
 
     public static class InteractionPacket {
