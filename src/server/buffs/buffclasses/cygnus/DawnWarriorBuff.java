@@ -58,13 +58,13 @@ public class DawnWarriorBuff extends AbstractBuffClass {
                        eff.statups.put(CharacterTemporaryStat.SOLUNA_EFFECT, 0);
                        eff.statups.put(CharacterTemporaryStat.AttackCountX, eff.info.get(MapleStatInfo.x));
                        eff.statups.put(CharacterTemporaryStat.IndieCr, eff.info.get(MapleStatInfo.indieCr));
-                       eff.info.put(MapleStatInfo.time, Integer.MAX_VALUE);
+                       eff.info.put(MapleStatInfo.time, 0);
                        break;
                 case 11111022: // Rising Sun
                        eff.statups.put(CharacterTemporaryStat.SOLUNA_EFFECT, 1);
                        eff.statups.put(CharacterTemporaryStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));
                        eff.statups.put(CharacterTemporaryStat.Booster, eff.info.get(MapleStatInfo.indieBooster));
-                       eff.info.put(MapleStatInfo.time, Integer.MAX_VALUE);
+                       eff.info.put(MapleStatInfo.time, 0);
                        break;
                 case 11111007: // rad charge
                        eff.statups.put(CharacterTemporaryStat.WeaponCharge, eff.info.get(MapleStatInfo.x));
