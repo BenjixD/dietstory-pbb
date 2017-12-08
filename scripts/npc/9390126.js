@@ -1,33 +1,23 @@
-// Ranmaru Battle Starter (9130087)
+// Gollux: Heart - (9390126)
+// Gollux Battle Starter
 
 
 var status = 0;
 var leve = 0;
 
 function action(mode, type, selection) {
-    if (cm.getPlayer().getMapId() == 211041700) {
-		    cm.warp(807300100,0);
-		    cm.dispose();
-
-		if (cm.getPlayer().getClient().getChannel() == 4) {
-		cm.getPlayer().dropMessage(5,"Boss Ranmaru: Chaos");
-		} else {
-		cm.getPlayer().dropMessage(5,"Boss Ranmaru: Normal");
-		}
-		return;
-
-	} else if (cm.getPlayer().getClient().getChannel() == 4) {
+	if (cm.getPlayer().getClient().getChannel() == 4) {
     switch (status) {
 	case 0:
 
-        if (cm.getPlayer().getMapId() == 807300110 || cm.getPlayer().getMapId() == 807300210) {
+        if (cm.getPlayer().getMapId() == 863010100) {
         cm.sendYesNo("Would you like to leave?");
         leve = 1;
         status = 1;
         }
 
-        //Chaos Ranmaru start
-	    var em = cm.getEventManager("ChaosRanMaruBattle");
+        //Hell Gollux start
+	    var em = cm.getEventManager("HGolluxBattle");
 
 	    if (em == null) {
 		cm.sendOk("The event isn't started, please contact a GM.");
@@ -43,7 +33,7 @@ function action(mode, type, selection) {
 	    }
 	    var time = parseInt(data);
 	if (prop == null || prop.equals("0")) {
-	    var squadAvailability = cm.getSquadAvailability("CRan");
+	    var squadAvailability = cm.getSquadAvailability("hgol");
 	    if (squadAvailability == -1) {
 		status = 1;
 	    if (time + (22 * 3600000) >= cm.getCurrentTime() && !cm.getPlayer().isGM()) {
@@ -51,6 +41,7 @@ function action(mode, type, selection) {
 		cm.dispose();
 		return;
 	    }
+	    cm.getPlayer().dropMessage(5,"Boss Gollux: Hell");
 		cm.sendYesNo("Are you interested in becoming the leader of the expedition Squad?");
 
 	    } else if (squadAvailability == 1) {
@@ -60,12 +51,12 @@ function action(mode, type, selection) {
 		return;
 	    }
 		// -1 = Cancelled, 0 = not, 1 = true
-		var type = cm.isSquadLeader("CRan");
+		var type = cm.isSquadLeader("hgol");
 		if (type == -1) {
 		    cm.sendOk("The squad has ended, please re-register.");
 		    cm.safeDispose();
 		} else if (type == 0) {
-		    var memberType = cm.isSquadMember("CRan");
+		    var memberType = cm.isSquadMember("hgol");
 		    if (memberType == 2) {
 			cm.sendOk("You been banned from the squad.");
 			cm.safeDispose();
@@ -85,9 +76,9 @@ function action(mode, type, selection) {
 		// TODO viewing!
 		}
 	    } else {
-			var eim = cm.getDisconnected("ChaosRanMaruBattle");
+			var eim = cm.getDisconnected("HGolluxBattle");
 			if (eim == null) {
-				var squd = cm.getSquad("CRan");
+				var squd = cm.getSquad("hgol");
 				if (squd != null) {
 	    if (time + (22 * 3600000) >= cm.getCurrentTime() && !cm.getPlayer().isGM()) {
 		cm.sendOk("You have already went to Chaos Ranmaru in the past 22 hours. Time left: " + cm.getReadableMillis(cm.getCurrentTime(), time + (22 * 3600000)));
@@ -106,9 +97,9 @@ function action(mode, type, selection) {
 			}
 	    }
 	} else {
-			var eim = cm.getDisconnected("ChaosRanMaruBattle");
+			var eim = cm.getDisconnected("HGolluxBattle");
 			if (eim == null) {
-				var squd = cm.getSquad("CRan");
+				var squd = cm.getSquad("hgol");
 				if (squd != null) {
 	    if (time + (12 * 3600000) >= cm.getCurrentTime() && !cm.getPlayer().isGM()) {
 		cm.sendOk("You have already went to Chaos Ranmaru in the past 22 hours. Time left: " + cm.getReadableMillis(cm.getCurrentTime(), time + (22 * 3600000)));
@@ -129,7 +120,7 @@ function action(mode, type, selection) {
 	    break;
 	case 1:
 	    	if (mode == 1) {
-			if (cm.registerSquad("CRan", 5, " has been named the Leader of the squad (Chaos). If you would you like to join please register for the Expedition Squad within the time period.")) {
+			if (cm.registerSquad("hgol", 5, " has been named the Leader of the squad (Hell). If you would you like to join please register for the Expedition Squad within the time period.")) {
 				cm.sendOk("You have been named the Leader of the Squad. For the next 5 minutes, you can add the members of the Expedition Squad.");
 			} else {
 				cm.sendOk("An error has occurred adding your squad.");
@@ -140,7 +131,7 @@ function action(mode, type, selection) {
 	    cm.safeDispose();
 	    break;
 	case 2:
-		if (!cm.reAdd("ChaosRanMaruBattle", "CRan")) {
+		if (!cm.reAdd("HGollux", "hgol")) {
 			cm.sendOk("Error... please try again.");
 		}
 		cm.dispose();
@@ -148,7 +139,7 @@ function action(mode, type, selection) {
 	case 3:
 		if (leve == 1) {
 		    if (mode == 1) {
-		        cm.warp(807300100,0);
+		        cm.warp(863010000,0);
 		        cm.dispose();
 		        } else {
 		        cm.dispose();
@@ -157,7 +148,7 @@ function action(mode, type, selection) {
 		} else {
 
 		if (mode == 1) {
-			var squd = cm.getSquad("CRan");
+			var squd = cm.getSquad("hgol");
 			if (squd != null && !squd.getAllNextPlayer().contains(cm.getPlayer().getName())) {
 				squd.setNextPlayer(cm.getPlayer().getName());
 				cm.sendOk("You have reserved the spot.");
@@ -168,14 +159,14 @@ function action(mode, type, selection) {
 		break;
 	case 5:
 	    if (selection == 0) {
-		if (!cm.getSquadList("CRan", 0)) {
+		if (!cm.getSquadList("hgol", 0)) {
 		    cm.sendOk("Due to an unknown error, the request for squad has been denied.");
 		    cm.safeDispose();
 		} else {
 		    cm.dispose();
 		}
 	    } else if (selection == 1) { // join
-		var ba = cm.addMember("CRan", true);
+		var ba = cm.addMember("hgol", true);
 		if (ba == 2) {
 		    cm.sendOk("The squad is currently full, please try again later.");
 		    cm.safeDispose();
@@ -187,7 +178,7 @@ function action(mode, type, selection) {
 		    cm.safeDispose();
 		}
 	    } else {// withdraw
-		var baa = cm.addMember("CRan", false);
+		var baa = cm.addMember("hgol", false);
 		if (baa == 1) {
 		    cm.sendOk("You have withdrawed from the squad successfully");
 		    cm.safeDispose();
@@ -199,28 +190,28 @@ function action(mode, type, selection) {
 	    break;
 	case 10:
 	    if (selection == 0) {
-		if (!cm.getSquadList("CRan", 0)) {
+		if (!cm.getSquadList("hgol", 0)) {
 		    cm.sendOk("Due to an unknown error, the request for squad has been denied.");
 		}
 		cm.safeDispose();
 	    } else if (selection == 1) {
 		status = 11;
-		if (!cm.getSquadList("CRan", 1)) {
+		if (!cm.getSquadList("hgol", 1)) {
 		    cm.sendOk("Due to an unknown error, the request for squad has been denied.");
 		cm.safeDispose();
 		}
 
 	    } else if (selection == 2) {
 		status = 12;
-		if (!cm.getSquadList("CRan", 2)) {
+		if (!cm.getSquadList("hgol", 2)) {
 		    cm.sendOk("Due to an unknown error, the request for squad has been denied.");
 		cm.safeDispose();
 		}
 
 	    } else if (selection == 3) { // get insode
-		if (cm.getSquad("CRan") != null) {
-		    var dd = cm.getEventManager("ChaosRanMaruBattle");
-		    dd.startInstance(cm.getSquad("CRan"), cm.getMap(), 160113);
+		if (cm.getSquad("hgol") != null) {
+		    var dd = cm.getEventManager("HGolluxBattle");
+		    dd.startInstance(cm.getSquad("hgol"), cm.getMap(), 160113);
 		    cm.dispose();
 		} else {
 		    cm.sendOk("Due to an unknown error, the request for squad has been denied.");
@@ -229,18 +220,18 @@ function action(mode, type, selection) {
 	    }
 	    break;
 	case 11:
-	    cm.banMember("CRan", selection);
+	    cm.banMember("hgol", selection);
 	    cm.dispose();
 	    break;
 	case 12:
 	    if (selection != -1) {
-		cm.acceptMember("CRan", selection);
+		cm.acceptMember("hgol", selection);
 	    }
 	    cm.dispose();
 	    break;
     case 35:
         if (mode == 1) {
-        cm.warp(807300100,0);
+        cm.warp(863010000,0);
         cm.dispose();
         } else {
         cm.dispose();
@@ -257,15 +248,15 @@ function action(mode, type, selection) {
     switch (status) {
 	case 0:
 
-        if (cm.getPlayer().getMapId() == 807300110 || cm.getPlayer().getMapId() == 807300210) {
+        if (cm.getPlayer().getMapId() == 863010100) {
         cm.sendYesNo("Would you like to leave?");
         leve = 1;
         status = 3;
         }
 
-		//Normal Ranmaru start
+		//Easy Gollux start
 
-		var em = cm.getEventManager("NormalRanMaruBattle");
+		var em = cm.getEventManager("EGolluxBattle");
 
 	    if (em == null) {
 		cm.sendOk("The event isn't started, please contact a GM.");
@@ -281,7 +272,7 @@ function action(mode, type, selection) {
 	    }
 	    var time = parseInt(data);
 	if (prop == null || prop.equals("0")) {
-	    var squadAvailability = cm.getSquadAvailability("nran");
+	    var squadAvailability = cm.getSquadAvailability("egol");
 	    if (squadAvailability == -1) {
 		status = 1;
 	    if (time + (12 * 3600000) >= cm.getCurrentTime() && !cm.getPlayer().isGM()) {
@@ -289,6 +280,7 @@ function action(mode, type, selection) {
 		cm.dispose();
 		return;
 	    }
+	    cm.getPlayer().dropMessage(5,"Boss Gollux: Easy");
 		cm.sendYesNo("Are you interested in becoming the leader of the expedition Squad?");
 
 	    } else if (squadAvailability == 1) {
@@ -298,12 +290,12 @@ function action(mode, type, selection) {
 		return;
 	    }
 		// -1 = Cancelled, 0 = not, 1 = true
-		var type = cm.isSquadLeader("nran");
+		var type = cm.isSquadLeader("egol");
 		if (type == -1) {
 		    cm.sendOk("The squad has ended, please re-register.");
 		    cm.safeDispose();
 		} else if (type == 0) {
-		    var memberType = cm.isSquadMember("nran");
+		    var memberType = cm.isSquadMember("egol");
 		    if (memberType == 2) {
 			cm.sendOk("You been banned from the squad.");
 			cm.safeDispose();
@@ -323,9 +315,9 @@ function action(mode, type, selection) {
 		// TODO viewing!
 		}
 	    } else {
-			var eim = cm.getDisconnected("NormalRanMaruBattle");
+			var eim = cm.getDisconnected("EGolluxBattle");
 			if (eim == null) {
-				var squd = cm.getSquad("nran");
+				var squd = cm.getSquad("egol");
 				if (squd != null) {
 	    if (time + (12 * 3600000) >= cm.getCurrentTime() && !cm.getPlayer().isGM()) {
 		cm.sendOk("You have already went to Normal Ranmaru in the past 12 hours. Time left: " + cm.getReadableMillis(cm.getCurrentTime(), time + (12 * 360000)));
@@ -344,9 +336,9 @@ function action(mode, type, selection) {
 			}
 	    }
 	} else {
-			var eim = cm.getDisconnected("NormalRanMaruBattle");
+			var eim = cm.getDisconnected("EGolluxBattle");
 			if (eim == null) {
-				var squd = cm.getSquad("nran");
+				var squd = cm.getSquad("egol");
 				if (squd != null) {
 	    if (time + (12 * 3600000) >= cm.getCurrentTime() && !cm.getPlayer().isGM()) {
 		cm.sendOk("You have already went to Normal Ranmaru in the past 12 hours. Time left: " + cm.getReadableMillis(cm.getCurrentTime(), time + (12 * 360000)));
@@ -367,7 +359,7 @@ function action(mode, type, selection) {
 	    break;
 	case 1:
 	    	if (mode == 1) {
-			if (cm.registerSquad("nran", 5, " has been named the Leader of the squad (Normal). If you would you like to join please register for the Expedition Squad within the time period.")) {
+			if (cm.registerSquad("egol", 5, " has been named the Leader of the squad (Easy). If you would you like to join please register for the Expedition Squad within the time period.")) {
 				cm.sendOk("You have been named the Leader of the Squad. For the next 5 minutes, you can add the members of the Expedition Squad.");
 			} else {
 				cm.sendOk("An error has occurred adding your squad.");
@@ -378,7 +370,7 @@ function action(mode, type, selection) {
 	    cm.safeDispose();
 	    break;
 	case 2:
-		if (!cm.reAdd("NormalRanMaruBattle", "nran")) {
+		if (!cm.reAdd("EGolluxBattle", "egol")) {
 			cm.sendOk("Error... please try again.");
 		}
 		cm.safeDispose();
@@ -386,7 +378,7 @@ function action(mode, type, selection) {
 	case 3:
 		if (leve == 1) {
 		    if (mode == 1) {
-		    cm.warp(807300100,0);
+		    cm.warp(863010000,0);
 		    cm.dispose();
 		    } else {
 		    cm.dispose();
@@ -394,7 +386,7 @@ function action(mode, type, selection) {
 		} else {
 
 		if (mode == 1) {
-			var squd = cm.getSquad("nran");
+			var squd = cm.getSquad("egol");
 			if (squd != null && !squd.getAllNextPlayer().contains(cm.getPlayer().getName())) {
 				squd.setNextPlayer(cm.getPlayer().getName());
 				cm.sendOk("You have reserved the spot.");
@@ -405,14 +397,14 @@ function action(mode, type, selection) {
 		break;
 	case 5:
 	    if (selection == 0) {
-		if (!cm.getSquadList("nran", 0)) {
+		if (!cm.getSquadList("egol", 0)) {
 		    cm.sendOk("Due to an unknown error, the request for squad has been denied.");
 		    cm.safeDispose();
 		} else {
 		    cm.dispose();
 		}
 	    } else if (selection == 1) { // join
-		var ba = cm.addMember("nran", true);
+		var ba = cm.addMember("egol", true);
 		if (ba == 2) {
 		    cm.sendOk("The squad is currently full, please try again later.");
 		    cm.safeDispose();
@@ -424,7 +416,7 @@ function action(mode, type, selection) {
 		    cm.safeDispose();
 		}
 	    } else {// withdraw
-		var baa = cm.addMember("nran", false);
+		var baa = cm.addMember("egol", false);
 		if (baa == 1) {
 		    cm.sendOk("You have withdrawed from the squad successfully");
 		    cm.safeDispose();
@@ -436,28 +428,28 @@ function action(mode, type, selection) {
 	    break;
 	case 10:
 	    if (selection == 0) {
-		if (!cm.getSquadList("nran", 0)) {
+		if (!cm.getSquadList("egol", 0)) {
 		    cm.sendOk("Due to an unknown error, the request for squad has been denied.");
 		}
 		cm.safeDispose();
 	    } else if (selection == 1) {
 		status = 11;
-		if (!cm.getSquadList("nran", 1)) {
+		if (!cm.getSquadList("egol", 1)) {
 		    cm.sendOk("Due to an unknown error, the request for squad has been denied.");
 		cm.safeDispose();
 		}
 
 	    } else if (selection == 2) {
 		status = 12;
-		if (!cm.getSquadList("nran", 2)) {
+		if (!cm.getSquadList("egol", 2)) {
 		    cm.sendOk("Due to an unknown error, the request for squad has been denied.");
 		cm.safeDispose();
 		}
 
 	    } else if (selection == 3) { // get insode
-		if (cm.getSquad("nran") != null) {
-		    var dd = cm.getEventManager("NormalRanMaruBattle");
-		    dd.startInstance(cm.getSquad("nran"), cm.getMap(), 160114);
+		if (cm.getSquad("egol") != null) {
+		    var dd = cm.getEventManager("EGolluxBattle");
+		    dd.startInstance(cm.getSquad("egol"), cm.getMap(), 160114);
 		    cm.dispose();
 		} else {
 		    cm.sendOk("Due to an unknown error, the request for squad has been denied.");
@@ -466,18 +458,18 @@ function action(mode, type, selection) {
 	    }
 	    break;
 	case 11:
-	    cm.banMember("nran", selection);
+	    cm.banMember("egol", selection);
 	    cm.dispose();
 	    break;
 	case 12:
 	    if (selection != -1) {
-		cm.acceptMember("nran", selection);
+		cm.acceptMember("egol", selection);
 	    }
 	    cm.dispose();
 	    break;
     case 35:
         if (mode == 1) {
-        cm.warp(807300100,0);
+        cm.warp(863010000,0);
         cm.dispose();
         } else {
         cm.dispose();

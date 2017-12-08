@@ -1,8 +1,4 @@
-/* Dawnveil
-    Enter Gollux Head
-	Heart Tree Guardian
-    Made by Daenerys
-*/
+/*
 var status = -1;
 var selection = -1;
 
@@ -36,3 +32,4 @@ function action(mode, type, selection) {
      }
    }
 }
+*/

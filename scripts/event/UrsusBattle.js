@@ -1,9 +1,4 @@
-/**
- * @revisor: Eric
- * @function: Cygnus Expedition Map Instancing
- * @notes: Fixed map reloading, fixed spawning, fixed instancing
- *
-*/
+// UrsusBattle
 
 function init() {
 	em.setProperty("leader", "true");
@@ -12,19 +7,21 @@ function init() {
 
 function setup(eim, leaderid) {
 	em.setProperty("leader", "true");
-    var eim = em.newInstance("ChaosCygnus");
-    var map = eim.setInstanceMap(271040100);
+    var eim = em.newInstance("Ursus");
+    var map = eim.setInstanceMap(970072000);
     map.resetFully();
-    var mob1 = em.getMonster(8850000);
-    eim.registerMonster(mob1);
-    map.spawnMonsterOnGroundBelow(mob1, new java.awt.Point(-363, 100));
+
+    var ursus = em.getMonster(8881000);
+    eim.registerMonster(ursus);
+    map.spawnMonsterOnGroundBelow(ursus, new java.awt.Point(0, -2));
+
     em.setProperty("state", "1");
     eim.startEventTimer(3600000); // 1 hr
     return eim;
 }
 
 function playerEntry(eim, player) {
-    var map = eim.getMapFactory().getMap(271040100);
+    var map = eim.getMapFactory().getMap(970072000);
     player.changeMap(map, map.getPortal(0));
 }
 
@@ -33,13 +30,13 @@ function playerRevive(eim, player) {
 }
 
 function scheduledTimeout(eim) {
-    eim.disposeIfPlayerBelow(100, 271040210);
+    eim.disposeIfPlayerBelow(100, 970072200);
     em.setProperty("state", "0");
 	em.setProperty("leader", "true");
 }
 
 function changedMap(eim, player, mapid) {
-    if (mapid != 271040100) {
+    if (mapid != 970072000) {
 			eim.unregisterPlayer(player);
 		if (eim.disposeIfPlayerBelow(0, 0)) {
 			em.setProperty("state", "0");
@@ -52,20 +49,6 @@ function playerDisconnected(eim, player) {
     return 0;
 }
 
-function monsterValue(eim, mobId) {	
-    var map = eim.setInstanceMap(271040100);
-	if (mobId == 8850000 || mobId == 8850001  || mobId == 8850002 || mobId == 8850003) {
-		var mob5 = em.getMonster(mobId + 1);
-		eim.registerMonster(mob5);
-		map.spawnMonsterOnGroundBelow(mob5, new java.awt.Point(-363, 100));
-	} else if (mobId == 8850004) {
-		var mob5 = em.getMonster(8850012);
-		eim.registerMonster(mob5);
-		map.spawnMonsterOnGroundBelow(mob5, new java.awt.Point(-363, 100));
-	}
-    return 1;
-}
-
 function playerExit(eim, player) {
 		eim.unregisterPlayer(player);
     if (eim.disposeIfPlayerBelow(0, 0)) {
@@ -75,7 +58,7 @@ function playerExit(eim, player) {
 }
 
 function end(eim) {
-    if (eim.disposeIfPlayerBelow(100, 271040210)) {
+    if (eim.disposeIfPlayerBelow(100, 970072200)) {
 		em.setProperty("state", "0");
 		em.setProperty("leader", "true");
     }

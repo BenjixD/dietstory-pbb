@@ -130,6 +130,17 @@ public class AdminCommand {
         }
     }
 
+    public static class NP extends CommandExecute {
+
+        @Override
+        public int execute(MapleClient c, String[] splitted) {
+            MaplePortal portal = c.getPlayer().getMap().findClosestPortal(c.getPlayer().getTruePosition());
+            c.getPlayer().dropMessage(5,"Map: "+c.getPlayer().getMap().getId());
+            c.getPlayer().dropMessage(5,portal.getName() + "    id: " + portal.getId() + "    script: " + portal.getScriptName());
+            return 1;
+        }
+    }
+
     public static class GainMP extends CommandExecute {
 
         @Override

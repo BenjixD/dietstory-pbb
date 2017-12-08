@@ -3,7 +3,7 @@
 var status = -1;
 
 function start() {
-	if (cm.getPlayer().getMapId() == 271040100) {
+	if (cm.getPlayer().getMapId() == 271040100 || cm.getPlayer().getMapId() == 271041100) {
 		cm.sendYesNo("Would you like to get out?");
 		status = 1;
 		return;
@@ -29,7 +29,7 @@ function start() {
 	    }
 	    var time = parseInt(data);
 	if (eim_status == null || eim_status.equals("0")) {
-    var squadAvailability = cm.getSquadAvailability("Cygnus");
+    var squadAvailability = cm.getSquadAvailability("ChaosCygnus");
     if (squadAvailability == -1) {
 	status = 0;
 	    if (time + (24 * 3600000) >= cm.getCurrentTime() && !cm.getPlayer().isGM()) {
@@ -46,12 +46,12 @@ function start() {
 		return;
 	    }
 	// -1 = Cancelled, 0 = not, 1 = true
-	var type = cm.isSquadLeader("Cygnus");
+	var type = cm.isSquadLeader("ChaosCygnus");
 	if (type == -1) {
 	    cm.sendOk("The squad has ended, please re-register.");
 	    cm.dispose();
 	} else if (type == 0) {
-	    var memberType = cm.isSquadMember("Cygnus");
+	    var memberType = cm.isSquadMember("ChaosCygnus");
 	    if (memberType == 2) {
 		cm.sendOk("You been banned from the squad.");
 		cm.dispose();
@@ -73,7 +73,7 @@ function start() {
 	    } else {
 			var eim = cm.getDisconnected("CygnusBattle");
 			if (eim == null) {
-				var squd = cm.getSquad("Cygnus");
+				var squd = cm.getSquad("ChaosCygnus");
 				if (squd != null) {
 	    if (time + (24 * 3600000) >= cm.getCurrentTime() && !cm.getPlayer().isGM()) {
 		cm.sendOk("You have already went to Cygnus in the past 24 hours. Time left: " + cm.getReadableMillis(cm.getCurrentTime(), time + (24 * 3600000)));
@@ -94,7 +94,7 @@ function start() {
 	} else {
 			var eim = cm.getDisconnected("CygnusBattle");
 			if (eim == null) {
-				var squd = cm.getSquad("Cygnus");
+				var squd = cm.getSquad("ChaosCygnus");
 				if (squd != null) {
 	    if (time + (24 * 3600000) >= cm.getCurrentTime() && !cm.getPlayer().isGM()) {
 		cm.sendOk("You have already went to Cygnus in the past 24 hours. Time left: " + cm.getReadableMillis(cm.getCurrentTime(), time + (24 * 3600000)));
@@ -118,7 +118,7 @@ function action(mode, type, selection) {
     switch (status) {
 	case 0:
 	    if (mode == 1) {
-			if (cm.registerSquad("Cygnus", 5, " has been named the Leader of the squad. If you would you like to join please register for the Expedition Squad within the time period.")) {
+			if (cm.registerSquad("ChaosCygnus", 5, " has been named the Leader of the squad. If you would you like to join please register for the Expedition Squad within the time period.")) {
 				cm.sendOk("You have been named the Leader of the Squad. For the next 5 minutes, you can add the members of the Expedition Squad.");
 			} else {
 				cm.sendOk("An error has occurred adding your squad.");
@@ -140,14 +140,14 @@ function action(mode, type, selection) {
 	    cm.dispose();
 	    break;
 	case 2:
-		if (!cm.reAdd("CygnusBattle", "Cygnus")) {
+		if (!cm.reAdd("CygnusBattle", "ChaosCygnus")) {
 			cm.sendOk("Error... please try again.");
 		}
 		cm.safeDispose();
 		break;
 	case 3:
 		if (mode == 1) {
-			var squd = cm.getSquad("Cygnus");
+			var squd = cm.getSquad("ChaosCygnus");
 			if (squd != null && !squd.getAllNextPlayer().contains(cm.getPlayer().getName())) {
 				squd.setNextPlayer(cm.getPlayer().getName());
 				cm.sendOk("You have reserved the spot.");
@@ -157,7 +157,7 @@ function action(mode, type, selection) {
 		break;
 	case 5:
 	    if (selection == 0) { // join
-		var ba = cm.addMember("Cygnus", true);
+		var ba = cm.addMember("ChaosCygnus", true);
 		if (ba == 2) {
 		    cm.sendOk("The squad is currently full, please try again later.");
 		} else if (ba == 1) {
@@ -166,14 +166,14 @@ function action(mode, type, selection) {
 		    cm.sendOk("You are already part of the squad.");
 		}
 	    } else if (selection == 1) {// withdraw
-		var baa = cm.addMember("Cygnus", false);
+		var baa = cm.addMember("ChaosCygnus", false);
 		if (baa == 1) {
 		    cm.sendOk("You have withdrawed from the squad successfully");
 		} else {
 		    cm.sendOk("You are not part of the squad.");
 		}
 	    } else if (selection == 2) {
-		if (!cm.getSquadList("Cygnus", 0)) {
+		if (!cm.getSquadList("ChaosCygnus", 0)) {
 		    cm.sendOk("Due to an unknown error, the request for squad has been denied.");
 		}
 	    }
@@ -182,26 +182,26 @@ function action(mode, type, selection) {
 	case 10:
 	    if (mode == 1) {
 		if (selection == 0) {
-		    if (!cm.getSquadList("Cygnus", 0)) {
+		    if (!cm.getSquadList("ChaosCygnus", 0)) {
 			cm.sendOk("Due to an unknown error, the request for squad has been denied.");
 		    }
 		    cm.dispose();
 		} else if (selection == 1) {
 		    status = 11;
-		    if (!cm.getSquadList("Cygnus", 1)) {
+		    if (!cm.getSquadList("ChaosCygnus", 1)) {
 			cm.sendOk("Due to an unknown error, the request for squad has been denied.");
 			cm.dispose();
 		    }
 		} else if (selection == 2) {
 		    status = 12;
-		    if (!cm.getSquadList("Cygnus", 2)) {
+		    if (!cm.getSquadList("ChaosCygnus", 2)) {
 			cm.sendOk("Due to an unknown error, the request for squad has been denied.");
 			cm.dispose();
 		    }
 		} else if (selection == 3) { // get insode
-		    if (cm.getSquad("Cygnus") != null) {
+		    if (cm.getSquad("ChaosCygnus") != null) {
 			var dd = cm.getEventManager("CygnusBattle");
-			dd.startInstance(cm.getSquad("Cygnus"), cm.getMap(), 160109);
+			dd.startInstance(cm.getSquad("ChaosCygnus"), cm.getMap(), 160109);
 		    } else {
 			cm.sendOk("Due to an unknown error, the request for squad has been denied.");
 		    }
@@ -212,12 +212,12 @@ function action(mode, type, selection) {
 	    }
 	    break;
 	case 11:
-	    cm.banMember("Cygnus", selection);
+	    cm.banMember("ChaosCygnus", selection);
 	    cm.dispose();
 	    break;
 	case 12:
 	    if (selection != -1) {
-		cm.acceptMember("Cygnus", selection);
+		cm.acceptMember("ChaosCygnus", selection);
 	    }
 	    cm.dispose();
 	    break;
