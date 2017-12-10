@@ -7,6 +7,7 @@ import client.inventory.Item;
 import client.inventory.MapleInventory;
 import client.inventory.MapleInventoryType;
 import client.inventory.MaplePet;
+import client.skills.ForceAtomInfo;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import constants.EventConstants;
@@ -14,6 +15,7 @@ import constants.GameConstants;
 import constants.ServerConstants.PlayerGMRank;
 import handling.cashshop.CashShopServer;
 import handling.channel.ChannelServer;
+import handling.channel.handler.PlayerHandler;
 import handling.world.CharacterTransfer;
 import handling.world.MapleMessengerCharacter;
 import handling.world.PlayerBuffStorage;
@@ -26,6 +28,7 @@ import server.MaplePortal;
 import server.ShutdownServer;
 import server.Timer.EventTimer;
 import server.Timer.WorldTimer;
+import server.life.MapleMonster;
 import tools.HexTool;
 import tools.Randomizer;
 import tools.StringUtil;
@@ -42,6 +45,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class AdminCommand {
 
@@ -217,6 +222,26 @@ public class AdminCommand {
                     c.getSession().write(CField.EffectPacket.showRewardItemAnimation(2028162, "")); //sealed box
                 }
             }, 10000);
+            return 1;
+        }
+    }
+
+    public static class TestPacket extends CommandExecute {
+        @Override
+        public int execute(MapleClient c, String[] splitted) {
+
+            int type = Integer.parseInt(splitted[1]);
+            ForceAtomInfo forceAtomInfo = new ForceAtomInfo(0, 1, 30, 13, 0,
+                    0, (int) System.currentTimeMillis(), 0, 0, new Point()
+            );
+            List<ForceAtomInfo> faiList = new ArrayList<>();
+            faiList.add(forceAtomInfo);
+
+
+            c.getSession().write(CField.createForceAtom(0, c.getPlayer().getObjectId(), 12001020, ForceAtomInfo.getByInt(type), true,
+                    c.getPlayer().getMap().getAllMonster().stream().map(MapleMonster::getId).collect(Collectors.toList())
+                    ,faiList, null, 0, 2, 0, null, 0));
+
             return 1;
         }
     }
