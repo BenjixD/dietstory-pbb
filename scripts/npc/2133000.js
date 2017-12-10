@@ -1,3 +1,5 @@
+// Ellin (2133000) NPC - PQ NPC
+
 var status = -1;
 
 function action(mode, type, selection) {

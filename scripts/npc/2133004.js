@@ -1,3 +1,5 @@
+// Sprite (2133004) - Ellin PQ NPC
+
 var status = -1;
 
 function action(mode, type, selection) {

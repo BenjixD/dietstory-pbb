@@ -1,3 +1,4 @@
+// Kenta Party Quest
 var minPlayers = 2;
 
 function init() {

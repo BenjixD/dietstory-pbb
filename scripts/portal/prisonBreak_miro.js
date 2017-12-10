@@ -1,5 +1,5 @@
 function enter(pi) {
-        if (pi.getPlayer().getParty() != null && pi.getPlayer().getMap().getAllMonstersThreadsafe().size() == 0) {
+        if (pi.getPlayer().getParty() != null && pi.getMonsterCount(pi.getMapId()) == 0) {
 				var cleared = java.lang.Math.random() > 0.9;
 				if (cleared) {
 					pi.warpParty(921160400);

@@ -282,6 +282,15 @@ public class InternCommand {
 			gotomaps.put("chu", 450002000);
 			gotomaps.put("lachelein", 450003000);
 			gotomaps.put("nameless", 450001000);
+			gotomaps.put("pq", 910002000);
+			gotomaps.put("h", 100000000);
+			gotomaps.put("gollux", 863010000);
+			gotomaps.put("lotus", 350060300);
+			gotomaps.put("damien", 105300303);
+			gotomaps.put("lucid", 450004000);
+			gotomaps.put("ursus", 970072200);
+			gotomaps.put("pno", 811000008);
+			gotomaps.put("cygnus", 271040000);
 		}
 
 		@Override

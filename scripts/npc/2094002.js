@@ -104,8 +104,8 @@ function action(mode, type, selection) {
 	   cm.dispose();
 	   break;
 	case 925100500:
-	   if (cm.getMap().getAllMonstersThreadsafe().size() == 0) {
-		cm.warpParty(925100600);
+	   if (cm.getMonsterCount(925100500) == 0) {
+		cm.warpParty(910002000,5);
 	   } else {
 	   	cm.sendNext("Defeat all monsters! Even Lord Pirate's minions!");
 	   }

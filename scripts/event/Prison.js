@@ -1,3 +1,5 @@
+// Prison Party Quest
+
 var minPlayers = 2;
 
 function init() {
@@ -24,8 +26,8 @@ function setup(level, leaderid) {
 	map.resetPQ(level);
 	map.spawnNpc(9020006, new java.awt.Point(-2161, -186));
 	var mob1 = em.getMonster(9300454);
-	eim.registerMonster(mob1);
 	mob1.changeLevel(level);
+	eim.registerMonster(mob1);
 	map.spawnMonsterOnGroundBelow(mob1, new java.awt.Point(-2161, -186));
     eim.startEventTimer(1200000); //20 mins
 	eim.setProperty("entryTimestamp", "" + java.lang.System.currentTimeMillis());
@@ -92,7 +94,7 @@ function playerExit(eim, player) {
 }
 
 function end(eim) {
-    eim.disposeIfPlayerBelow(100, 921160000);
+    eim.disposeIfPlayerBelow(100, 910002000);
 	em.setProperty("state", "0");
 	em.setProperty("leader", "true");
 }

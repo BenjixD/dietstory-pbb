@@ -1,3 +1,5 @@
+// Ellin (2133001) NPC - INSIDE PQ NPC
+
 var status = -1;
 
 function action(mode, type, selection) {
@@ -20,11 +22,11 @@ function action(mode, type, selection) {
 	    cm.warpParty(930000400);
 	    break;
 	case 930000400:
-	    if (cm.haveItem(4001169,20)) {
+	    if (cm.haveItem(4001169,5)) {
 		cm.warpParty(930000500);
-		cm.gainItem(4001169,-20);
+		cm.gainItem(4001169,-5);
 	    } else if (!cm.haveItem(2270004)) {
-		cm.gainItem(2270004,10);
+		cm.gainItem(2270004,5);
 		cm.sendOk("Good luck in purifying these monsters!");
 	    } else {
 		cm.sendOk("We have to purify all these contaminated monsters! Get me 20 Monster Marbles from them!");

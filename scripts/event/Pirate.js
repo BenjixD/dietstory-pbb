@@ -1,4 +1,5 @@
 var minPlayers = 2;
+var pqmap = 910002000;
 
 function init() {
 em.setProperty("state", "0");
@@ -131,7 +132,7 @@ function playerExit(eim, player) {
 }
 
 function end(eim) {
-    eim.disposeIfPlayerBelow(100, 925100700);
+    eim.disposeIfPlayerBelow(100, pqmap);
 	em.setProperty("state", "0");
 		em.setProperty("leader", "true");
 }

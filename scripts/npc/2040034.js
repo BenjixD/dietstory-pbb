@@ -6,7 +6,7 @@ var status = -1;
 var minLevel = 20; // 35
 var maxLevel = 255; // 65
 
-var minPartySize = 2; //CHANGE after BB
+var minPartySize = 0; //CHANGE after BB
 var maxPartySize = 6;
 
 function action(mode, type, selection) {

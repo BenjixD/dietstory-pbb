@@ -13,7 +13,7 @@ function action(mode, type, selection) {
 	    var stage4leader = eim.getProperty("stage4leader");
 	    if (stage4leader == "done") {
 
-		if (cm.getMap(922010401).getAllMonstersThreadsafe().size() == 0 && cm.getMap(922010402).getAllMonstersThreadsafe().size() == 0 && cm.getMap(922010403).getAllMonstersThreadsafe().size() == 0 && cm.getMap(922010404).getAllMonstersThreadsafe().size() == 0 && cm.getMap(922010405).getAllMonstersThreadsafe().size() == 0) { // Clear stage
+		if (cm.getAllMonstersThreadsafe((922010401)) == 0 && cm.getAllMonstersThreadsafe((922010402)) == 0 && cm.getAllMonstersThreadsafe((922010403)) == 0 && cm.getAllMonstersThreadsafe((922010404)) == 0 && cm.getAllMonstersThreadsafe((922010405)) == 0) { // Clear stage
 		    cm.sendNext("Congratulations! You've passed the 2nd stage. Hurry on now, to the 3rd stage.");
 		    cm.removeAll(4001022);
 		    clear(4,eim,cm);

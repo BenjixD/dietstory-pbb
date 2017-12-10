@@ -3,7 +3,7 @@
 var status = -1;
 
 function start() {
-	if (cm.getPlayer().getMapId() == 271040100 || cm.getPlayer().getMapId() == 271041100) {
+	if (cm.getPlayer().getMapId() == 450004450) {
 		cm.sendYesNo("Would you like to get out?");
 		status = 1;
 		return;
@@ -129,13 +129,8 @@ function action(mode, type, selection) {
 	case 1:
 	    if (mode == 1) {
 		//cm.warp(cm.getMap().getAllMonstersThreadsafe().size() == 0 ? 271040200 : 271040000, 0);
-		    if(cm.getMonsterCount(271040100) == 0) {
-		    cm.warp(271040200,0);
+		    cm.warp(450004000,0);
 		    cm.dispose();
-		    } else {
-		    cm.warp(271040000,0);
-		    cm.dispose();
-		    }
 	    }
 	    cm.dispose();
 	    break;

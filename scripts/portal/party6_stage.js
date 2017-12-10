@@ -4,7 +4,7 @@ function enter(pi) {
 			pi.warp(930000100,0);
 			break;
 		case 930000100:
-			if (pi.getMap().getAllMonstersThreadsafe().size() == 0) {
+			if (pi.getMonsterCount(pi.getMap()) == 0) {
 				pi.warp(930000200,0);
 			} else {
 				pi.playerMessage(5, "Eliminate all the monsters.");

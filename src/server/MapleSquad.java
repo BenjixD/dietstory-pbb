@@ -43,12 +43,13 @@ public class MapleSquad {
         nran(0),
         cran(0),
         ursus(0),
+        pno(0),
         egol(0),
         hgol(0),
         ctengu(0),
         damien(0),
         lucid(0),
-        blackmage(0);
+        bm(0);
 
         private MapleSquadType(int i) {
             this.i = i;

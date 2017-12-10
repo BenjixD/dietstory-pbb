@@ -19,7 +19,7 @@ function action(mode, type, selection) {
 	    var stage7leader = eim.getProperty("stage7leader");
 	    if (stage7leader == "done") {
 
-		if (cm.getMap().getAllMonstersThreadsafe().size() == 0) { // Clear stage
+		if (cm.getAllMonstersThreadsafe(cm.getMap()) == 0) { // Clear stage
 		    cm.sendNext("Congratulations! You've passed the 4th stage. Hurry on now, to the 5th stage.");
 		    cm.removeAll(4001022);
 		    clear(7, eim, cm);

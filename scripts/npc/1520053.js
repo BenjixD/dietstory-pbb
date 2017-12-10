@@ -7,8 +7,8 @@ function start() {
         status = 1;
         return;
     }
-    if (cm.getPlayer().getLevel() < 250) {
-        cm.sendOk("There is a level requirement of 250 to attempt Black Mage."); // 255 when can
+    if (cm.getPlayer().getLevel() < 249) {
+        cm.sendOk("There is a level requirement of 250 to attempt Black Mage.");
         cm.dispose();
         return;
     }
@@ -33,7 +33,7 @@ function start() {
     }
     var time = parseInt(data);
     if (eim_status == null || eim_status.equals("0")) {
-        var squadAvailability = cm.getSquadAvailability("BlackMage");
+        var squadAvailability = cm.getSquadAvailability("bm");
         if (squadAvailability == -1) {
             status = 0;
             if (time + (12 * 3600000) >= cm.getCurrentTime() && !cm.getPlayer().isGM()) {
@@ -50,12 +50,12 @@ function start() {
                 return;
             }
             // -1 = Cancelled, 0 = not, 1 = true
-            var type = cm.isSquadLeader("BlackMage");
+            var type = cm.isSquadLeader("bm");
             if (type == -1) {
                 cm.sendOk("The squad has ended, please re-register.");
                 cm.dispose();
             } else if (type == 0) {
-                var memberType = cm.isSquadMember("BlackMage");
+                var memberType = cm.isSquadMember("bm");
                 if (memberType == 2) {
                     cm.sendOk("You been banned from the squad.");
                     cm.dispose();
@@ -77,7 +77,7 @@ function start() {
         } else {
             var eim = cm.getDisconnected("BlackMBattle");
             if (eim == null) {
-                var squd = cm.getSquad("BlackMage");
+                var squd = cm.getSquad("bm");
                 if (squd != null) {
                     if (time + (12 * 3600000) >= cm.getCurrentTime() && !cm.getPlayer().isGM()) {
                         cm.sendOk("You have already went to Black Mage  in the past 12 hours. Time left: " + cm.getReadableMillis(cm.getCurrentTime(), time + (12 * 3600000)));
@@ -98,7 +98,7 @@ function start() {
     } else {
         var eim = cm.getDisconnected("BlackMBattle");
         if (eim == null) {
-            var squd = cm.getSquad("BlackMage");
+            var squd = cm.getSquad("bm");
             if (squd != null) {
                 if (time + (12 * 3600000) >= cm.getCurrentTime() && !cm.getPlayer().isGM()) {
                     cm.sendOk("You have already went to Black Mage  in the past 12 hours. Time left: " + cm.getReadableMillis(cm.getCurrentTime(), time + (12 * 3600000)));
@@ -122,7 +122,7 @@ function action(mode, type, selection) {
     switch (status) {
         case 0:
             if (mode == 1) {
-                if (cm.registerSquad("BlackMage", 5, " has been named the Leader of the squad. If you would you like to join please register for the Expedition Squad within the time period.")) {
+                if (cm.registerSquad("bm", 5, " has been named the Leader of the squad. If you would you like to join please register for the Expedition Squad within the time period.")) {
                     cm.sendOk("You have been named the Leader of the Squad. For the next 5 minutes, you can add the members of the Expedition Squad.");
                 } else {
                     cm.sendOk("An error has occurred adding your squad.");
@@ -137,14 +137,14 @@ function action(mode, type, selection) {
             cm.dispose();
             break;
         case 2:
-            if (!cm.reAdd("BlackMBattle", "BlackMage")) {
+            if (!cm.reAdd("BlackMBattle", "bm")) {
                 cm.sendOk("Error... please try again.");
             }
             cm.safeDispose();
             break;
         case 3:
             if (mode == 1) {
-                var squd = cm.getSquad("BlackMage");
+                var squd = cm.getSquad("bm");
                 if (squd != null && !squd.getAllNextPlayer().contains(cm.getPlayer().getName())) {
                     squd.setNextPlayer(cm.getPlayer().getName());
                     cm.sendOk("You have reserved the spot.");
@@ -154,7 +154,7 @@ function action(mode, type, selection) {
             break;
         case 5:
             if (selection == 0) { // join
-                var ba = cm.addMember("BlackMage", true);
+                var ba = cm.addMember("bm", true);
                 if (ba == 2) {
                     cm.sendOk("The squad is currently full, please try again later.");
                 } else if (ba == 1) {
@@ -163,14 +163,14 @@ function action(mode, type, selection) {
                     cm.sendOk("You are already part of the squad.");
                 }
             } else if (selection == 1) {// withdraw
-                var baa = cm.addMember("BlackMage", false);
+                var baa = cm.addMember("bm", false);
                 if (baa == 1) {
                     cm.sendOk("You have withdrawed from the squad successfully");
                 } else {
                     cm.sendOk("You are not part of the squad.");
                 }
             } else if (selection == 2) {
-                if (!cm.getSquadList("BlackMage", 0)) {
+                if (!cm.getSquadList("bm", 0)) {
                     cm.sendOk("Due to an unknown error, the request for squad has been denied.");
                 }
             }
@@ -179,26 +179,26 @@ function action(mode, type, selection) {
         case 10:
             if (mode == 1) {
                 if (selection == 0) {
-                    if (!cm.getSquadList("BlackMage", 0)) {
+                    if (!cm.getSquadList("bm", 0)) {
                         cm.sendOk("Due to an unknown error, the request for squad has been denied.");
                     }
                     cm.dispose();
                 } else if (selection == 1) {
                     status = 11;
-                    if (!cm.getSquadList("BlackMage", 1)) {
+                    if (!cm.getSquadList("bm", 1)) {
                         cm.sendOk("Due to an unknown error, the request for squad has been denied.");
                         cm.dispose();
                     }
                 } else if (selection == 2) {
                     status = 12;
-                    if (!cm.getSquadList("BlackMage", 2)) {
+                    if (!cm.getSquadList("bm", 2)) {
                         cm.sendOk("Due to an unknown error, the request for squad has been denied.");
                         cm.dispose();
                     }
                 } else if (selection == 3) { // get inside
-                    if (cm.getSquad("BlackMage") != null) {
+                    if (cm.getSquad("bm") != null) {
                         var dd = cm.getEventManager("BlackMBattle");
-                        dd.startInstance(cm.getSquad("BlackMage"), cm.getMap(), 160111);
+                        dd.startInstance(cm.getSquad("bm"), cm.getMap(), 160111);
                     } else {
                         cm.sendOk("Due to an unknown error, the request for squad has been denied.");
                     }
@@ -209,12 +209,12 @@ function action(mode, type, selection) {
             }
             break;
         case 11:
-            cm.banMember("BlackMage", selection);
+            cm.banMember("bm", selection);
             cm.dispose();
             break;
         case 12:
             if (selection != -1) {
-                cm.acceptMember("BlackMage", selection);
+                cm.acceptMember("bm", selection);
             }
             cm.dispose();
             break;

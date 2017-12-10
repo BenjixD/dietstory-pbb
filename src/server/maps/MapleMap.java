@@ -661,6 +661,8 @@ public final class MapleMap {
             doShrine(true);
         } else if (mobid == 8840000 && mapid == 211070100) {
             doShrine(true);
+        } else if (mobid == 9390600 && mapid == 864010600) {
+            World.Broadcast.broadcastMessage(CWvsContext.broadcastMsg(6,"Gollux is ded."));
         } else if (mobid == 8800002 && mapid == 280030000) {
             doShrine(true);
         } else if (mobid == 8800102 && mapid == 280030001) {
@@ -2205,24 +2207,35 @@ public final class MapleMap {
                 break;
 
             case 863010100:
+            case 863010200:
+            case 863010210:
             case 863010220:
             case 863010230:
-            case 863010400:
-            case 863010410:
+            case 863010240:
             case 863010300:
             case 863010310:
-            case 863010240:
-            case 863010500:
             case 863010320:
-            case 863010420:
             case 863010330:
+            case 863010400:
+            case 863010410:
+            case 863010420:
             case 863010430:
+            case 863010500:
             case 863010600:
                 zz = MapleSquadType.hgol;
                 break;
             case 970072000:
                 zz = MapleSquadType.ursus;
                 break;
+
+            case 811000100:
+            case 811000200:
+            case 811000300:
+            case 811000400:
+            case 811000500:
+                zz = MapleSquadType.pno;
+                break;
+
             case 262030300:
                 zz = MapleSquadType.hilla;
                 break;
@@ -2236,12 +2249,23 @@ public final class MapleMap {
             case 350160240:
                 zz = MapleSquadType.damien;
                 break;
-            case 450004150:
-            case 450004500:
+            case 450004450:
+            case 450004550:
                 zz = MapleSquadType.lucid;
                 break;
-            case 927030060:
-                zz = MapleSquadType.blackmage;
+            case 272010200: // Entrance Map
+            case 401072300: // Von Leon
+            case 401072200: // Hilla
+            case 401070200: // Arkarium
+            case 401072400: // Magnus
+            case 401072700: // Commander Will
+            case 401070100: // Lotus & Orchid
+            case 401072500: // Damien
+            case 401072600: // Lucid
+            case 927030060: // MapBeforeBM
+            case 927030070: // BM Map
+                zz = MapleSquadType.bm;
+                break;
             default:
                 return null;
         }
@@ -2323,19 +2347,22 @@ public final class MapleMap {
             case 807300210:
                 em = "ChaosRanMaruBattle";
                 break;
+
             case 863010100:
+            case 863010200:
+            case 863010210:
             case 863010220:
             case 863010230:
-            case 863010400:
-            case 863010410:
+            case 863010240:
             case 863010300:
             case 863010310:
-            case 863010240:
-            case 863010500:
             case 863010320:
-            case 863010420:
             case 863010330:
+            case 863010400:
+            case 863010410:
+            case 863010420:
             case 863010430:
+            case 863010500:
             case 863010600:
                 em = "HGolluxBattle";
                 break;
@@ -2352,15 +2379,34 @@ public final class MapleMap {
             case 272030400:
                 em = "ArkariumBattle";
                 break;
+            case 811000100:
+            case 811000200:
+            case 811000300:
+            case 811000400:
+            case 811000500:
+                em = "PNoBattle";
+                break;
+
             case 350160200:
             case 350160240:
                 em = "DamienBattle";
                 break;
-            case 450004150:
-            case 450004500:
+            case 450004450:
+            case 450004550:
                 em = "LucidBattle";
                 break;
-            case 927030060:
+
+            case 272010200: // Entrance Map
+            case 401072300: // Von Leon
+            case 401072200: // Hilla
+            case 401070200: // Arkarium
+            case 401072400: // Magnus
+            case 401072700: // Commander Will
+            case 401070100: // Lotus & Orchid
+            case 401072500: // Damien
+            case 401072600: // Lucid
+            case 927030060: // MapBeforeBM
+            case 927030070: // BM Map
                 em = "BlackMBattle";
                 break;
             case 955000100:

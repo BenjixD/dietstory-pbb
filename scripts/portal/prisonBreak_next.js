@@ -8,7 +8,7 @@ function enter(pi) {
 						break;
 					case 9211602:
 					case 9211604:
-						cleared = pi.getMap().getAllMonstersThreadsafe().size() == 0;
+						cleared = pi.getMonsterCount(pi.getMapId()) == 0;
 						break;
 					case 9211606:
 						cleared = pi.getPlayer().getEventInstance() != null && pi.getPlayer().getEventInstance().getProperty("kentaSaving") != null && pi.getPlayer().getEventInstance().getProperty("kentaSaving").equals("0");
