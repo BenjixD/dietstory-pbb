@@ -3184,7 +3184,7 @@ public class CField {
     }
 
 
-    public static byte[] createForceAtom(int mobArriveId, int targetId, int target, ForceAtomInfo.Type type, boolean isToMob,
+    public static byte[] createForceAtom(int mobArriveId, int targetId, int skillId, ForceAtomInfo.Type type, boolean isToMob,
                                          List<Integer> targets, List<ForceAtomInfo> infos, Rectangle rect, int bulletId,
                                          int arriveDir, int arriveRange, Point forceTargetPoint, int delay) {
         PacketWriter packetWriter = new PacketWriter();
@@ -3226,7 +3226,7 @@ public class CField {
                     packetWriter.writeInt(targets.get(0));
                     break;
             }
-            packetWriter.writeInt(target);
+            packetWriter.writeInt(skillId);
         }
         for(ForceAtomInfo fai : infos) {
             packetWriter.write(1);
