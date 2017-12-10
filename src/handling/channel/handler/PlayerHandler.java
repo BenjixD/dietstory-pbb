@@ -20,7 +20,9 @@ import client.SkillMacro;
 import client.inventory.Item;
 import client.inventory.MapleInventory;
 import client.inventory.MapleInventoryType;
+import client.skills.MagicianSkill;
 import constants.GameConstants;
+import constants.JobConstants;
 import constants.MapConstants;
 import handling.channel.ChannelServer;
 import handling.world.World;
@@ -30,6 +32,7 @@ import server.MaplePortal;
 import server.MapleStatEffect;
 import server.Timer;
 import server.Timer.CloneTimer;
+import server.buffs.buffclasses.adventurer.MagicianBuff;
 import server.events.MapleEvent;
 import server.events.MapleEventType;
 import server.events.MapleSnowball;
@@ -664,6 +667,9 @@ public class PlayerHandler {
 				c.getSession().write(CField.skillCooldown(skillid, effect.getCooldown(chr)));
 				chr.addCooldown(skillid, System.currentTimeMillis(), effect.getCooldown(chr) * 1000);
 			}
+		}
+		if(GameConstants.isBlazeWizardSkill(skillid)) {
+			MagicianSkill.handleBWSkill(c, slea, skillid, skillLevel, effect);
 		}
 		int mobID;
 		MapleMonster mob;

@@ -2294,19 +2294,18 @@ public class CField {
         return pw.getPacket();
     }
 
-    public static byte[] instantMapWarp(byte portal) {
+    public static byte[] instantMapWarp(byte userCallingType, int caller, Point position) {
         PacketWriter pw = new PacketWriter();
 
         pw.writeShort(SendPacketOpcode.TELEPORT.getValue());
         pw.write(0);
-        pw.write(portal); // nUserCallingType
+        pw.write(userCallingType); // nUserCallingType
 
-        if (portal <= 0) {
+        if (userCallingType <= 0) {
             pw.writeInt(0); // nIdx
         } else {
-            pw.writeInt(0); // dwCallerID
-            pw.writeShort(0); // x
-            pw.writeShort(0); // y
+            pw.writeInt(caller); // dwCallerID
+            pw.writePos(position);
         }
 
         return pw.getPacket();
