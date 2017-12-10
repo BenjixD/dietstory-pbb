@@ -36,13 +36,18 @@ public class MapleSquad {
         tokyo_2095(0),
         vonleon(0),
         scartar(0),
-        cygnus(0),
+        chaoscygnus(0),
         hilla(0),
         darkhilla(0),
         arkarium(0),
         nran(0),
         cran(0),
+        ursus(0),
+        egol(0),
+        hgol(0),
         ctengu(0),
+        damien(0),
+        lucid(0),
         blackmage(0);
 
         private MapleSquadType(int i) {

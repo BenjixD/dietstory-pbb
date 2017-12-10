@@ -2195,7 +2195,33 @@ public final class MapleMap {
                 zz = MapleSquadType.scartar;
                 break;
             case 271040100:
-                zz = MapleSquadType.cygnus;
+                zz = MapleSquadType.chaoscygnus;
+                break;
+            case 807300110:
+                zz = MapleSquadType.nran;
+                break;
+            case 807300210:
+                zz = MapleSquadType.cran;
+                break;
+
+            case 863010100:
+            case 863010220:
+            case 863010230:
+            case 863010400:
+            case 863010410:
+            case 863010300:
+            case 863010310:
+            case 863010240:
+            case 863010500:
+            case 863010320:
+            case 863010420:
+            case 863010330:
+            case 863010430:
+            case 863010600:
+                zz = MapleSquadType.hgol;
+                break;
+            case 970072000:
+                zz = MapleSquadType.ursus;
                 break;
             case 262030300:
                 zz = MapleSquadType.hilla;
@@ -2205,6 +2231,14 @@ public final class MapleMap {
                 break;
             case 272030400:
                 zz = MapleSquadType.arkarium;
+                break;
+            case 350160200:
+            case 350160240:
+                zz = MapleSquadType.damien;
+                break;
+            case 450004150:
+            case 450004500:
+                zz = MapleSquadType.lucid;
                 break;
             case 927030060:
                 zz = MapleSquadType.blackmage;
@@ -2284,8 +2318,26 @@ public final class MapleMap {
                 em = "CygnusBattle";
                 break;
             case 807300110:
-                em = "ChaosRanMaruBattle";
                 em = "NormalRanMaruBattle";
+                break;
+            case 807300210:
+                em = "ChaosRanMaruBattle";
+                break;
+            case 863010100:
+            case 863010220:
+            case 863010230:
+            case 863010400:
+            case 863010410:
+            case 863010300:
+            case 863010310:
+            case 863010240:
+            case 863010500:
+            case 863010320:
+            case 863010420:
+            case 863010330:
+            case 863010430:
+            case 863010600:
+                em = "HGolluxBattle";
                 break;
             case 262030300:
                 em = "HillaBattle";
@@ -2293,9 +2345,20 @@ public final class MapleMap {
             case 262031300:
                 em = "DarkHillaBattle";
                 break;
+            case 970072000:
+                em = "UrsusBattle";
+                break;
             case 272020110:
             case 272030400:
                 em = "ArkariumBattle";
+                break;
+            case 350160200:
+            case 350160240:
+                em = "DamienBattle";
+                break;
+            case 450004150:
+            case 450004500:
+                em = "LucidBattle";
                 break;
             case 927030060:
                 em = "BlackMBattle";
@@ -2851,6 +2914,8 @@ public final class MapleMap {
     public void spawnMonsterOnGroudBelow(MapleMonster mob, Point pos) {
         spawnMonsterOnGroundBelow(mob, pos);
     }
+
+
 
     private class ActivateItemReactor implements Runnable {
 

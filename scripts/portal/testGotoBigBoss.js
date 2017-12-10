@@ -1,7 +1,7 @@
 /* Dawnveil
 	Portal in Tynerum
-    Made by Daenerys
+    Made by Asura
 */
 function enter(pi) {
-    pi.openNpc(9390120);
+    pi.openNpc(9390126);
 }  

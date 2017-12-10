@@ -7,12 +7,12 @@ function init() {
 
 function setup(eim, leaderid) {
 	em.setProperty("leader", "true");
-    var eim = em.newInstance("NRan");
+    var eim = em.newInstance("NRan" + leaderid);
     var map = eim.setInstanceMap(807300110);
     map.resetFully();
-    var mob1 = em.getMonster(8850000);
-    eim.registerMonster(mob1);
-    map.spawnMonsterOnGroundBelow(mob1, new java.awt.Point(-443, 123));
+    var nran = em.getMonster(9421589);
+    eim.registerMonster(nran);
+    map.spawnMonsterOnGroundBelow(nran, new java.awt.Point(-443, 123));
     em.setProperty("state", "1");
     eim.startEventTimer(3600000); // 1 hr
     return eim;
@@ -45,20 +45,6 @@ function changedMap(eim, player, mapid) {
 
 function playerDisconnected(eim, player) {
     return 0;
-}
-
-function monsterValue(eim, mobId) {
-    var map = eim.setInstanceMap(807300110);
-	if (mobId == 8850000 || mobId == 8850001  || mobId == 8850002 || mobId == 8850003) {
-		var mob5 = em.getMonster(mobId + 1);
-		eim.registerMonster(mob5);
-		map.spawnMonsterOnGroundBelow(mob5, new java.awt.Point(-443, 123));
-	} else if (mobId == 8850004) {
-		var mob5 = em.getMonster(8850012);
-		eim.registerMonster(mob5);
-		map.spawnMonsterOnGroundBelow(mob5, new java.awt.Point(-443, 123));
-	}
-    return 1;
 }
 
 function playerExit(eim, player) {
