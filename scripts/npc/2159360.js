@@ -112,7 +112,7 @@ function action(mode, type, selection) {
     else if (status == 1) {
         switch (status1) {
             case 1: cm.gainItem(4001393,-1);
-                    cm.warp(927030060);
+                    cm.warp(927030060,0);
                     cm.dispose();
             break;
             case 2: cm.warp(bmmaps[0][selection][1],0);

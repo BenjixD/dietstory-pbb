@@ -90,7 +90,13 @@ function playerDisconnected(eim, player) {
     return 0;
 }
 
+
 function monsterValue(eim, mobId) {
+    //var map = eim.setInstanceMap(350160200);
+	if (mobId == 3000000) {
+        em.warpAllPlayer(350160200,350160240);
+	} else {
+	}
     return 1;
 }
 
@@ -117,8 +123,7 @@ function clearPQ(eim) {
 }
 
 function allMonstersDead(eim) {
-    var map = eim.getMapFactory().getMap(350160240);
-    player.changeMap(map, map.getPortal(0));
+    em.warpAllPlayers(350160200,350160240);
 }
 
 function leftParty (eim, player) {}

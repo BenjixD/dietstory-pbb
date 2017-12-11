@@ -2348,6 +2348,25 @@ public final class MapleMap {
                 em = "ChaosRanMaruBattle";
                 break;
 
+            case 863010101:
+            case 863010201:
+            case 863010211:
+            case 863010221:
+            case 863010231:
+            case 863010241:
+            case 863010301:
+            case 863010311:
+            case 863010321:
+            case 863010331:
+            case 863010401:
+            case 863010411:
+            case 863010421:
+            case 863010431:
+            case 863010501:
+            case 863010601:
+                em = "EGolluxBattle";
+                break;
+
             case 863010100:
             case 863010200:
             case 863010210:

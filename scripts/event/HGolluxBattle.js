@@ -1,6 +1,7 @@
 // Hell Gollux Battle
 var mapz = Array(100,200,210,220,230,240,300,310,320,330,400,410,420,430,500,600);
 //var head = 1;
+//var ppl = eim.getPlayerCount;
 
 /*          case 863010100: Road to Gollux
             case 863010200: Lower Right Leg
@@ -27,9 +28,35 @@ function init() {
 function setup(eim, leaderid) {
 	em.setProperty("leader", "true");
     var eim = em.newInstance("hgol");
-    em.setProperty("head", "0");
+    em.setProperty("hell", "true");
+//    em.setProperty("pc", "1");
+/*
+    if (ppl == null) {em.setProperty("pc","1");
+    } else {
+    switch (ppl) {
+    case 0: em.setProperty("pc", "1");
+    break;
 
+    case 1: em.setProperty("pc", "1");
+    break;
 
+    case 2: em.setProperty("pc", "2");
+    break;
+
+    case 3: em.setProperty("pc", "3");
+    break;
+
+    case 4: em.setProperty("pc", "4");
+    break;
+
+    case 5: em.setProperty("pc", "5");
+    break;
+
+    case 6: em.setProperty("pc", "6");
+    break;
+    }
+    }
+*/
 
 	for (var i = 0; i < mapz.length; i++) {
 		var map = eim.setInstanceMap(863010000 + mapz[i]);
@@ -204,6 +231,260 @@ function setup(eim, leaderid) {
 
 			}
 
+            if (map.getId() == 863010310) { // Upper Left Torso
+
+					var mob1 = em.getMonster(9390625); // Conjured Veilprey
+					var mob2 = em.getMonster(9390625); // Conjured Veilprey
+					var mob3 = em.getMonster(9390625); // Conjured Veilprey
+
+					var mob11 = em.getMonster(9390640); // Veiler Boom
+					var mob12 = em.getMonster(9390640); // Veiler Boom
+					var mob13 = em.getMonster(9390640); // Veiler Boom
+
+					var mob21 = em.getMonster(9390640); // Veiler Boom
+					var mob22 = em.getMonster(9390640); // Veiler Boom
+					var mob23 = em.getMonster(9390640); // Veiler Boom
+
+
+					eim.registerMonster(mob1);
+					eim.registerMonster(mob2);
+					eim.registerMonster(mob3);
+
+					eim.registerMonster(mob11);
+					eim.registerMonster(mob12);
+					eim.registerMonster(mob13);
+
+					eim.registerMonster(mob21);
+					eim.registerMonster(mob22);
+					eim.registerMonster(mob23);
+
+
+					map.spawnMonsterOnGroundBelow(mob1, new java.awt.Point(700,100));
+					map.spawnMonsterOnGroundBelow(mob2, new java.awt.Point(500,100));
+					map.spawnMonsterOnGroundBelow(mob3, new java.awt.Point(330,100));
+
+					map.spawnMonsterOnGroundBelow(mob11, new java.awt.Point(700,-300));
+					map.spawnMonsterOnGroundBelow(mob12, new java.awt.Point(500,-270));
+					map.spawnMonsterOnGroundBelow(mob13, new java.awt.Point(450,-240));
+
+					map.spawnMonsterOnGroundBelow(mob21, new java.awt.Point(650,-310));
+					map.spawnMonsterOnGroundBelow(mob22, new java.awt.Point(550,-250));
+					map.spawnMonsterOnGroundBelow(mob23, new java.awt.Point(450,-220));
+
+			}
+
+            if (map.getId() == 863010300) { // Lower Left Torso
+
+					var mob1 = em.getMonster(9390625); // Conjured Veilprey
+					var mob2 = em.getMonster(9390625); // Conjured Veilprey
+					var mob3 = em.getMonster(9390625); // Conjured Veilprey
+
+					var mob11 = em.getMonster(9390640); // Veiler Boom
+					var mob12 = em.getMonster(9390640); // Veiler Boom
+					var mob13 = em.getMonster(9390640); // Veiler Boom
+
+					var mob21 = em.getMonster(9390640); // Veiler Boom
+					var mob22 = em.getMonster(9390640); // Veiler Boom
+					var mob23 = em.getMonster(9390640); // Veiler Boom
+
+
+					eim.registerMonster(mob1);
+					eim.registerMonster(mob2);
+					eim.registerMonster(mob3);
+
+					eim.registerMonster(mob11);
+					eim.registerMonster(mob12);
+					eim.registerMonster(mob13);
+
+					eim.registerMonster(mob21);
+					eim.registerMonster(mob22);
+					eim.registerMonster(mob23);
+
+
+					map.spawnMonsterOnGroundBelow(mob1, new java.awt.Point(0,100));
+					map.spawnMonsterOnGroundBelow(mob2, new java.awt.Point(102,100));
+					map.spawnMonsterOnGroundBelow(mob3, new java.awt.Point(330,100));
+
+					map.spawnMonsterOnGroundBelow(mob11, new java.awt.Point(0,-300));
+					map.spawnMonsterOnGroundBelow(mob12, new java.awt.Point(72,-300));
+					map.spawnMonsterOnGroundBelow(mob13, new java.awt.Point(250,-300));
+
+					map.spawnMonsterOnGroundBelow(mob21, new java.awt.Point(-298,-300));
+					map.spawnMonsterOnGroundBelow(mob22, new java.awt.Point(81,-300));
+					map.spawnMonsterOnGroundBelow(mob23, new java.awt.Point(250,-300));
+
+			}
+
+
+            if (map.getId() == 863010410) { // Upper Right Torso
+
+             		var mob1 = em.getMonster(9390625); // Conjured Veilprey
+             		var mob2 = em.getMonster(9390625); // Conjured Veilprey
+             		var mob3 = em.getMonster(9390625); // Conjured Veilprey
+
+             		var mob11 = em.getMonster(9390640); // Veiler Boom
+             		var mob12 = em.getMonster(9390640); // Veiler Boom
+             		var mob13 = em.getMonster(9390640); // Veiler Boom
+
+             		var mob21 = em.getMonster(9390640); // Veiler Boom
+             		var mob22 = em.getMonster(9390640); // Veiler Boom
+             		var mob23 = em.getMonster(9390640); // Veiler Boom
+
+
+             		eim.registerMonster(mob1);
+             		eim.registerMonster(mob2);
+             		eim.registerMonster(mob3);
+
+             		eim.registerMonster(mob11);
+             		eim.registerMonster(mob12);
+             		eim.registerMonster(mob13);
+
+             					eim.registerMonster(mob21);
+             					eim.registerMonster(mob22);
+             					eim.registerMonster(mob23);
+
+
+             					map.spawnMonsterOnGroundBelow(mob1, new java.awt.Point(-500,-300));
+             					map.spawnMonsterOnGroundBelow(mob2, new java.awt.Point(-400,-300));
+             					map.spawnMonsterOnGroundBelow(mob3, new java.awt.Point(-330,-300));
+
+             					map.spawnMonsterOnGroundBelow(mob11, new java.awt.Point(-600,-300));
+             					map.spawnMonsterOnGroundBelow(mob12, new java.awt.Point(-500,-270));
+             					map.spawnMonsterOnGroundBelow(mob13, new java.awt.Point(-450,-240));
+
+             					map.spawnMonsterOnGroundBelow(mob21, new java.awt.Point(-650,-310));
+             					map.spawnMonsterOnGroundBelow(mob22, new java.awt.Point(-550,-250));
+             					map.spawnMonsterOnGroundBelow(mob23, new java.awt.Point(-400,-220));
+
+             			}
+
+            if (map.getId() == 863010400) { // Lower Right Torso
+
+             		var mob1 = em.getMonster(9390625); // Conjured Veilprey
+             		var mob2 = em.getMonster(9390625); // Conjured Veilprey
+             		var mob3 = em.getMonster(9390625); // Conjured Veilprey
+
+             		var mob11 = em.getMonster(9390640); // Veiler Boom
+             		var mob12 = em.getMonster(9390640); // Veiler Boom
+             		var mob13 = em.getMonster(9390640); // Veiler Boom
+
+             		var mob21 = em.getMonster(9390640); // Veiler Boom
+             		var mob22 = em.getMonster(9390640); // Veiler Boom
+             		var mob23 = em.getMonster(9390640); // Veiler Boom
+
+
+             		eim.registerMonster(mob1);
+             		eim.registerMonster(mob2);
+            		eim.registerMonster(mob3);
+
+             		eim.registerMonster(mob11);
+             		eim.registerMonster(mob12);
+             		eim.registerMonster(mob13);
+
+             		eim.registerMonster(mob21);
+             		eim.registerMonster(mob22);
+             		eim.registerMonster(mob23);
+
+
+             		map.spawnMonsterOnGroundBelow(mob1, new java.awt.Point(0,100));
+             		map.spawnMonsterOnGroundBelow(mob2, new java.awt.Point(102,100));
+            		map.spawnMonsterOnGroundBelow(mob3, new java.awt.Point(330,100));
+
+            		map.spawnMonsterOnGroundBelow(mob11, new java.awt.Point(0,-300));
+            		map.spawnMonsterOnGroundBelow(mob12, new java.awt.Point(72,-300));
+            		map.spawnMonsterOnGroundBelow(mob13, new java.awt.Point(250,-300));
+
+            		map.spawnMonsterOnGroundBelow(mob21, new java.awt.Point(-298,-300));
+            		map.spawnMonsterOnGroundBelow(mob22, new java.awt.Point(81,-300));
+            		map.spawnMonsterOnGroundBelow(mob23, new java.awt.Point(250,-300));
+
+            }
+
+            if (map.getId() == 863010420) { // Upper Left Arm
+
+					var mob1 = em.getMonster(9390637); // Nutrient Flower
+					var mob2 = em.getMonster(9390637); // Nutrient Flower
+					var mob3 = em.getMonster(9390637); // Nutrient Flower
+
+					var mob11 = em.getMonster(9390625); // Conjured Veilprey
+					var mob12 = em.getMonster(9390625); // Conjured Veilprey
+					var mob13 = em.getMonster(9390625); // Conjured Veilprey
+
+					var mob21 = em.getMonster(9390625); // Conjured Veilprey
+					var mob22 = em.getMonster(9390625); // Conjured Veilprey
+					var mob23 = em.getMonster(9390625); // Conjured Veilprey
+
+
+					eim.registerMonster(mob1);
+					eim.registerMonster(mob2);
+					eim.registerMonster(mob3);
+
+					eim.registerMonster(mob11);
+					eim.registerMonster(mob12);
+					eim.registerMonster(mob13);
+
+					eim.registerMonster(mob21);
+					eim.registerMonster(mob22);
+					eim.registerMonster(mob23);
+
+
+					map.spawnMonsterOnGroundBelow(mob1, new java.awt.Point(400,-195));
+					map.spawnMonsterOnGroundBelow(mob2, new java.awt.Point(230,130));
+					map.spawnMonsterOnGroundBelow(mob3, new java.awt.Point(-155,130));
+
+					map.spawnMonsterOnGroundBelow(mob11, new java.awt.Point(-100,130));
+					map.spawnMonsterOnGroundBelow(mob12, new java.awt.Point(0,130));
+					map.spawnMonsterOnGroundBelow(mob13, new java.awt.Point(100,130));
+
+					map.spawnMonsterOnGroundBelow(mob21, new java.awt.Point(150,-195));
+					map.spawnMonsterOnGroundBelow(mob22, new java.awt.Point(-385,-255));
+					map.spawnMonsterOnGroundBelow(mob23, new java.awt.Point(-160,-255));
+
+			}
+
+            if (map.getId() == 863010320) { // Upper Right Arm
+
+					var mob1 = em.getMonster(9390637); // Nutrient Flower
+					var mob2 = em.getMonster(9390637); // Nutrient Flower
+					var mob3 = em.getMonster(9390637); // Nutrient Flower
+
+					var mob11 = em.getMonster(9390625); // Conjured Veilprey
+					var mob12 = em.getMonster(9390625); // Conjured Veilprey
+					var mob13 = em.getMonster(9390625); // Conjured Veilprey
+
+					var mob21 = em.getMonster(9390625); // Conjured Veilprey
+					var mob22 = em.getMonster(9390625); // Conjured Veilprey
+					var mob23 = em.getMonster(9390625); // Conjured Veilprey
+
+
+					eim.registerMonster(mob1);
+					eim.registerMonster(mob2);
+					eim.registerMonster(mob3);
+
+					eim.registerMonster(mob11);
+					eim.registerMonster(mob12);
+					eim.registerMonster(mob13);
+
+					eim.registerMonster(mob21);
+					eim.registerMonster(mob22);
+					eim.registerMonster(mob23);
+
+
+					map.spawnMonsterOnGroundBelow(mob1, new java.awt.Point(400,-255));
+					map.spawnMonsterOnGroundBelow(mob2, new java.awt.Point(230,130));
+					map.spawnMonsterOnGroundBelow(mob3, new java.awt.Point(-155,130));
+
+					map.spawnMonsterOnGroundBelow(mob11, new java.awt.Point(-100,130));
+					map.spawnMonsterOnGroundBelow(mob12, new java.awt.Point(0,130));
+					map.spawnMonsterOnGroundBelow(mob13, new java.awt.Point(100,130));
+
+					map.spawnMonsterOnGroundBelow(mob21, new java.awt.Point(150,-255));
+					map.spawnMonsterOnGroundBelow(mob22, new java.awt.Point(-385,-255));
+					map.spawnMonsterOnGroundBelow(mob23, new java.awt.Point(-160,-255));
+
+			}
+
+
 
             if (map.getId() == 863010240) {
 					var mob = em.getMonster(9390612); //Abdomen Id
@@ -224,28 +505,11 @@ function setup(eim, leaderid) {
                     var dcdummy = em.getMonster(9390603);
                     eim.unregisterMonster(dcdummy);
 
-
-              		//if (parseInt(eim.getProperty("head")) == 0) {
                         var mob = em.getMonster(9390600); //Gollux Jaw Id
                         eim.registerMonster(mob);
                         map.spawnMonsterOnGroundBelow(mob, new java.awt.Point(5,61));
                         eim.setProperty("head", "1");
-                    //    head = 2;
-              		/*}
 
-              		else if (parseInt(eim.getProperty("head")) == 1) {
-                        var mob = em.getMonster(9390601); //Gollux Eyes Id
-                        eim.registerMonster(mob);
-                        map.spawnMonsterOnGroundBelow(mob, new java.awt.Point(5,61));
-                        eim.setProperty("head", "2");
-              		}
-
-              		else if (parseInt(eim.getProperty("head")) == 2) {
-                        var mob = em.getMonster(9390602); //Gollux Jewel Id
-                        eim.registerMonster(mob);
-                        map.spawnMonsterOnGroundBelow(mob, new java.awt.Point(5,61));
-                        eim.setProperty("head", "0");
-              		}*/
 
             }
 		}
@@ -288,33 +552,6 @@ function playerDisconnected(eim, player) {
     return 0;
 }
 
-/*
-function spawnEyes(eim) { // Custom Function
-    var map = eim.setInstanceMap(863010600);
-    if (parseInt(eim.getProperty("head")) == 1 && map.getMonsterCount() == 1) {
-		var mob = em.getMonster(9390601);
-    	eim.registerMonster(mob);
-    	map.spawnMonsterOnGroundBelow(mob, new java.awt.Point(5, 61));
-    	eim.setProperty("head","3")
-    	//head = 3;
-    } else {
-    return;
-    }
-}
-
-function spawnJewel(eim) { // Custom Function
-    var map = eim.setInstanceMap(863010600);
-    if (parseInt(eim.getProperty("head")) == 3 && map.getMonsterCount() == 1) {
-		var mob = em.getMonster(9390602);
-    	eim.registerMonster(mob);
-    	map.spawnMonsterOnGroundBelow(mob, new java.awt.Point(5, 61));
-    	eim.setProperty("head","5")
-    	//head = 5;
-    } else {
-    return;
-    }
-}
-*/
 function playerExit(eim, player) {
 		eim.unregisterPlayer(player);
     if (eim.disposeIfPlayerBelow(0, 0)) {
