@@ -122,4 +122,13 @@ public class ForceAtomInfo {
     public Point getStart() {
         return start;
     }
+
+    public static ForceAtomInfo.Type getByInt(int val) {
+        for(Type t : ForceAtomInfo.Type.values()) {
+            if (t.getVal() == val) {
+                return t;
+            }
+        }
+        return null;
+    }
 }
