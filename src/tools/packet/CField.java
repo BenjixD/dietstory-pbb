@@ -2294,19 +2294,18 @@ public class CField {
         return pw.getPacket();
     }
 
-    public static byte[] instantMapWarp(byte portal) {
+    public static byte[] instantMapWarp(byte userCallingType, int caller, Point position) {
         PacketWriter pw = new PacketWriter();
 
         pw.writeShort(SendPacketOpcode.TELEPORT.getValue());
         pw.write(0);
-        pw.write(portal); // nUserCallingType
+        pw.write(userCallingType); // nUserCallingType
 
-        if (portal <= 0) {
+        if (userCallingType <= 0) {
             pw.writeInt(0); // nIdx
         } else {
-            pw.writeInt(0); // dwCallerID
-            pw.writeShort(0); // x
-            pw.writeShort(0); // y
+            pw.writeInt(caller); // dwCallerID
+            pw.writePos(position);
         }
 
         return pw.getPacket();
@@ -3184,7 +3183,7 @@ public class CField {
     }
 
 
-    public static byte[] createForceAtom(int mobArriveId, int targetId, int target, ForceAtomInfo.Type type, boolean isToMob,
+    public static byte[] createForceAtom(int mobArriveId, int targetId, int skillId, ForceAtomInfo.Type type, boolean isToMob,
                                          List<Integer> targets, List<ForceAtomInfo> infos, Rectangle rect, int bulletId,
                                          int arriveDir, int arriveRange, Point forceTargetPoint, int delay) {
         PacketWriter packetWriter = new PacketWriter();
@@ -3226,7 +3225,7 @@ public class CField {
                     packetWriter.writeInt(targets.get(0));
                     break;
             }
-            packetWriter.writeInt(target);
+            packetWriter.writeInt(skillId);
         }
         for(ForceAtomInfo fai : infos) {
             packetWriter.write(1);

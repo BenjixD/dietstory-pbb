@@ -238,12 +238,12 @@ public class CWvsContext {
     	pw.write(result);
     	pw.write(remove);
     	pw.writeShort(update.size());
-    	update.entrySet().forEach(entry -> {
-    		pw.writeInt(((Skill) entry.getKey()).getId());
-    		pw.writeInt(((SkillEntry) entry.getValue()).skillevel);
-    		pw.writeInt(((SkillEntry) entry.getValue()).masterlevel);
-    		PacketHelper.addExpirationTime(pw, ((SkillEntry) entry.getValue()).expiration);
-    	});
+    	update.forEach((key, value) -> {
+            pw.writeInt(key.getId());
+            pw.writeInt(value.skillevel);
+            pw.writeInt(value.masterlevel);
+            PacketHelper.addExpirationTime(pw, ((SkillEntry) value).expiration);
+        });
     	pw.write(0); // pw.write(hyper ? 0x0C : 4); ??????
     	return pw.getPacket();
     }
@@ -3535,6 +3535,10 @@ public class CWvsContext {
             	if (stat.getKey() == CharacterTemporaryStat.AntiMagicShell) {
             		pw.write(0); // bAntiMagicShell
             	}
+
+            	if (stat.getKey() == CharacterTemporaryStat.KeyDownAreaMoving) {
+                    pw.write(0); // idk
+                }
             	
             	if (stat.getKey() == CharacterTemporaryStat.Larkness) {
             		
@@ -3606,7 +3610,7 @@ public class CWvsContext {
             	}
 
             	if(stat.getKey() == CharacterTemporaryStat.ChargeBuff) {
-            	    pw.write(0); // fuck if I know
+            	    pw.write(0); // idk
                 }
             	
             	if (stat.getKey() == CharacterTemporaryStat.Reincarnation) {
@@ -3662,6 +3666,10 @@ public class CWvsContext {
             	if (stat.getKey() == CharacterTemporaryStat.ShieldAttack) {
             		pw.writeInt(effect.getX()); // xShieldAttack
             	}
+
+                if (stat.getKey() == CharacterTemporaryStat.SOLUNA_EFFECT) {
+                    pw.write(0);
+                }
             	
             	if (stat.getKey() == CharacterTemporaryStat.SSFShootingAttack) {
             		pw.writeInt(0); // xSSFShootingAttack

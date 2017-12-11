@@ -185,7 +185,10 @@ public class TakeDamageHandler {
 
 			boolean mpAttack = (c.getPlayer().getBuffedValue(CharacterTemporaryStat.Mechanic) != null)
 					&& (c.getPlayer().getBuffSource(CharacterTemporaryStat.Mechanic) != 35121005);
-			if (c.getPlayer().getBuffedValue(CharacterTemporaryStat.MagicGuard) != null) {
+			Skill fireRepulsion = c.getPlayer().getSkill(12000024);
+			int fireRepulsionLevel = c.getPlayer().getSkillLevel(12000024);
+			boolean hasPassiveMagicGuard = fireRepulsionLevel > 0;
+			if (c.getPlayer().getBuffedValue(CharacterTemporaryStat.MagicGuard) != null || hasPassiveMagicGuard) {
 				int hploss = 0;
 				int mploss = 0;
 				if (isDeadlyAttack) {
@@ -200,8 +203,12 @@ public class TakeDamageHandler {
 					}
 					c.getPlayer().addMPHP(-hploss, -mploss);
 				} else {
-					mploss = (int) (damage * (c.getPlayer().getBuffedValue(CharacterTemporaryStat.MagicGuard).doubleValue() / 100.0D))
-							+ mpattack;
+					if(hasPassiveMagicGuard) {
+						mploss = (int) (damage * (((double) fireRepulsion.getEffect(fireRepulsionLevel).getX() / 100.0)) + mpattack);
+					} else {
+						mploss = (int) (damage * (c.getPlayer().getBuffedValue(CharacterTemporaryStat.MagicGuard).doubleValue() / 100.0D))
+								+ mpattack;
+					}
 					hploss = damage - mploss;
 					if (c.getPlayer().getBuffedValue(CharacterTemporaryStat.Infinity) != null) {
 						mploss = 0;
@@ -215,7 +222,7 @@ public class TakeDamageHandler {
 				int mesoloss = (int) (damage * (c.getPlayer().getStat().mesoGuardMeso / 100.0D));
 				if (c.getPlayer().getMeso() < mesoloss) {
 					c.getPlayer().gainMeso(-c.getPlayer().getMeso(), false);
-					c.getPlayer().cancelBuffStats(new CharacterTemporaryStat[] { CharacterTemporaryStat.MesoGuard });
+					c.getPlayer().cancelBuffStats(CharacterTemporaryStat.MesoGuard);
 				} else {
 					c.getPlayer().gainMeso(-mesoloss, false);
 				}

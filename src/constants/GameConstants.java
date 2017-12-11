@@ -64,7 +64,12 @@ public class GameConstants {
 		return skillid / 10000 == 2300 || skillid / 10000 == 2310 || skillid / 10000 == 2311 || skillid / 10000 == 2312;
 	}
 
-	public enum Cubes {
+    public static boolean isBlazeWizardSkill(int i) {
+    	int jobId = i / 10000;
+    	return jobId == 1200 || jobId == 1210 || jobId == 1211 || jobId == 1212;
+    }
+
+    public enum Cubes {
 		MIRACLE(5062000),
 		PREMIUM(5062001),
 		SUPER(5062002),
