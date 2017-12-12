@@ -10,6 +10,7 @@ import server.buffs.buffclasses.adventurer.MagicianBuff;
 import server.buffs.buffclasses.adventurer.PirateBuff;
 import server.buffs.buffclasses.adventurer.ThiefBuff;
 import server.buffs.buffclasses.adventurer.WarriorBuff;
+import server.buffs.buffclasses.cygnus.BlazeWizardBuff;
 import server.buffs.buffclasses.cygnus.DawnWarriorBuff;
 import server.buffs.buffclasses.cygnus.MihileBuff;
 import server.buffs.buffclasses.cygnus.WindArcherBuff;
@@ -38,6 +39,7 @@ public class BuffClassFetcher {
         PirateBuff.class,
         DawnWarriorBuff.class,
         WindArcherBuff.class,
+        BlazeWizardBuff.class,
         MihileBuff.class,
         AranBuff.class,
         EvanBuff.class,

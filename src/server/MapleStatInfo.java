@@ -45,6 +45,7 @@ public enum MapleStatInfo {
 	indieBDR(0),
 	indieStance(0),
 	indiePadR(0),
+    indieIgnoreMobpdpR(0),
     madR(0),
     PVPdamage(0), //Battle Mode ATT Increase
     abnormalDamR(0), //Additional Damage on Targets with Abnormal Status

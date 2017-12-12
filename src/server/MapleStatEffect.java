@@ -79,7 +79,7 @@ public class MapleStatEffect implements Serializable {
     private double hpR, mpR;
     private int sourceid, recipe, moveTo, moneyCon, morphId = 0, expinc, exp, consumeOnPickup, charColor, interval, rewardMeso, totalprob, cosmetic;
     private int weapon = 0;
-    private int expBuff, itemup, mesoup, cashup, berserk, illusion, booster, berserk2, cp, nuffSkill;
+    private int expBuff, itemup, mesoup, cashup, berserk, illusion, booster, berserk2, cp, nuffSkill, indieIgnoreMobpdpR;
 
     private static void addBuffStatPairToListIfNotZero(final EnumMap<CharacterTemporaryStat, Integer> list, final CharacterTemporaryStat buffstat, final Integer val) {
         if (val != 0) {
@@ -172,6 +172,7 @@ public class MapleStatEffect implements Serializable {
         ret.indiePdd = (short) parseEval("indiePdd", source, 0, variables, level);
         ret.indieMdd = (short) parseEval("indieMdd", source, 0, variables, level);
         ret.indiePadR = (short) parseEval("indiePadR", source, 0, variables, level);
+        ret.indieIgnoreMobpdpR = (short) parseEval("indieIgnoreMobpdpR", source, 0, variables, level);
         ret.expBuff = parseEval("expBuff", source, 0, variables, level);
         ret.cashup = parseEval("cashBuff", source, 0, variables, level);
         ret.itemup = parseEval("itemupbyitem", source, 0, variables, level);
@@ -369,7 +370,7 @@ public class MapleStatEffect implements Serializable {
             addBuffStatPairToListIfNotZero(ret.statups, CharacterTemporaryStat.PDD, ret.info.get(MapleStatInfo.pdd));
             addBuffStatPairToListIfNotZero(ret.statups, CharacterTemporaryStat.MAD, ret.info.get(MapleStatInfo.mad));
             addBuffStatPairToListIfNotZero(ret.statups, CharacterTemporaryStat.MDD, ret.info.get(MapleStatInfo.mdd));
-            addBuffStatPairToListIfNotZero(ret.statups, CharacterTemporaryStat.ACC, ret.info.get(MapleStatInfo.acc));
+//            addBuffStatPairToListIfNotZero(ret.statups, CharacterTemporaryStat.ACC, ret.info.get(MapleStatInfo.acc));
             addBuffStatPairToListIfNotZero(ret.statups, CharacterTemporaryStat.EVA, ret.info.get(MapleStatInfo.eva));
             addBuffStatPairToListIfNotZero(ret.statups, CharacterTemporaryStat.Speed, sourceid == 32120001 || sourceid == 32101003 ? ret.info.get(MapleStatInfo.x) : ret.info.get(MapleStatInfo.speed));
             addBuffStatPairToListIfNotZero(ret.statups, CharacterTemporaryStat.Jump, ret.info.get(MapleStatInfo.jump));
@@ -443,7 +444,7 @@ public class MapleStatEffect implements Serializable {
                         break;
                     case 2100010: // Ignite
                     case 2101010:
-                        ret.statups.put(CharacterTemporaryStat.WizardIgnite, ret.info.get(MapleStatInfo.y));
+                        ret.statups.put(CharacterTemporaryStat.WizardIgnite, ret.info.get(MapleStatInfo.x));
                         break;
                     case 24111003://Bad Luck Ward
                         ret.statups.put(CharacterTemporaryStat.MaxHP, ret.info.get(MapleStatInfo.indieMhpR));//indieMhpR/x
@@ -794,7 +795,7 @@ public class MapleStatEffect implements Serializable {
                     case 1111007:
                     case 1311007: //magic crash
                     case 51111005: //Mihile's magic crash
-                        ret.monsterStatus.put(MonsterStatus.MAGIC_CRASH, 1);
+                        ret.monsterStatus.put(MonsterStatus.HIT_CRI_DAM_R, 1);
                         break;
                     case 1220013:
                         ret.statups.put(CharacterTemporaryStat.BlessingArmor, ret.info.get(MapleStatInfo.x) + 1);
@@ -840,19 +841,19 @@ public class MapleStatEffect implements Serializable {
                         break;
                     case 4001002: // disorder
                     case 14001002: // cygnus disorder
-                        ret.monsterStatus.put(MonsterStatus.WATK, ret.info.get(MapleStatInfo.x));
-                        ret.monsterStatus.put(MonsterStatus.WDEF, ret.info.get(MapleStatInfo.y));
+                        ret.monsterStatus.put(MonsterStatus.PAD, ret.info.get(MapleStatInfo.x));
+                        ret.monsterStatus.put(MonsterStatus.PDR, ret.info.get(MapleStatInfo.y));
                         break;
                     case 5221009: // Mind Control
-                        ret.monsterStatus.put(MonsterStatus.HYPNOTIZE, 1);
+                        ret.monsterStatus.put(MonsterStatus.BODY_PRESSURE, 1);
                         break;
                     case 4341003: // Monster Bomb
-                        ret.monsterStatus.put(MonsterStatus.MONSTER_BOMB, (int) ret.info.get(MapleStatInfo.damage));
+                        ret.monsterStatus.put(MonsterStatus.ADD_DAM_PARTY, (int) ret.info.get(MapleStatInfo.damage));
                         break;
                     case 1201006: // threaten
-                        ret.monsterStatus.put(MonsterStatus.WATK, ret.info.get(MapleStatInfo.x));
-                        ret.monsterStatus.put(MonsterStatus.WDEF, ret.info.get(MapleStatInfo.x));
-                        ret.monsterStatus.put(MonsterStatus.DARKNESS, ret.info.get(MapleStatInfo.z));
+                        ret.monsterStatus.put(MonsterStatus.PAD, ret.info.get(MapleStatInfo.x));
+                        ret.monsterStatus.put(MonsterStatus.PDR, ret.info.get(MapleStatInfo.x));
+                        ret.monsterStatus.put(MonsterStatus.P_COUNTER, ret.info.get(MapleStatInfo.z));
                         break;
                     case 22141001:
                     case 1211002: // charged blow
@@ -907,25 +908,25 @@ public class MapleStatEffect implements Serializable {
                     case 4321002:
                     case 1111003:
                     case 11111002:
-                        ret.monsterStatus.put(MonsterStatus.DARKNESS, ret.info.get(MapleStatInfo.x));
+                        ret.monsterStatus.put(MonsterStatus.P_COUNTER, ret.info.get(MapleStatInfo.x));
                         break;
                     case 4221003:
                     case 4121003:
                     case 33121005:
-                        ret.monsterStatus.put(MonsterStatus.SHOWDOWN, ret.info.get(MapleStatInfo.x));
-                        ret.monsterStatus.put(MonsterStatus.MDEF, ret.info.get(MapleStatInfo.x)); // removed for taunt
-                        ret.monsterStatus.put(MonsterStatus.WDEF, ret.info.get(MapleStatInfo.x)); // removed for taunt
+                        ret.monsterStatus.put(MonsterStatus.P_COUNTER, ret.info.get(MapleStatInfo.x));
+                        ret.monsterStatus.put(MonsterStatus.MDR, ret.info.get(MapleStatInfo.x)); // removed for taunt
+                        ret.monsterStatus.put(MonsterStatus.PDR, ret.info.get(MapleStatInfo.x)); // removed for taunt
                         break;
                     case 31121003:
-                        ret.monsterStatus.put(MonsterStatus.SHOWDOWN, ret.info.get(MapleStatInfo.w));
-                        ret.monsterStatus.put(MonsterStatus.MDEF, ret.info.get(MapleStatInfo.x));
-                        ret.monsterStatus.put(MonsterStatus.WDEF, ret.info.get(MapleStatInfo.x));
-                        ret.monsterStatus.put(MonsterStatus.MATK, ret.info.get(MapleStatInfo.x));
-                        ret.monsterStatus.put(MonsterStatus.WATK, ret.info.get(MapleStatInfo.x));
+                        ret.monsterStatus.put(MonsterStatus.P_COUNTER, ret.info.get(MapleStatInfo.w));
+                        ret.monsterStatus.put(MonsterStatus.MDR, ret.info.get(MapleStatInfo.x));
+                        ret.monsterStatus.put(MonsterStatus.PDR, ret.info.get(MapleStatInfo.x));
+                        ret.monsterStatus.put(MonsterStatus.MAD, ret.info.get(MapleStatInfo.x));
+                        ret.monsterStatus.put(MonsterStatus.PAD, ret.info.get(MapleStatInfo.x));
                         ret.monsterStatus.put(MonsterStatus.ACC, ret.info.get(MapleStatInfo.x));
                         break;
                     case 23121002: //not sure if negative
-                        ret.monsterStatus.put(MonsterStatus.WDEF, -ret.info.get(MapleStatInfo.x));
+                        ret.monsterStatus.put(MonsterStatus.PDR, -ret.info.get(MapleStatInfo.x));
                         break;
                     case 2201004: // cold beam
                     case 2221003:
@@ -956,17 +957,17 @@ public class MapleStatEffect implements Serializable {
                         break;
                     case 23111002: //TODO LEGEND: damage increase?
                     case 22161002: //phantom imprint
-                        ret.monsterStatus.put(MonsterStatus.IMPRINT, ret.info.get(MapleStatInfo.x));
+                        ret.monsterStatus.put(MonsterStatus.MYSTERY, ret.info.get(MapleStatInfo.x));
                         break;
                     case 90001003:
                         ret.monsterStatus.put(MonsterStatus.POISON, 1);
                         break;
                     case 4121004: // Ninja ambush
                     case 4221004:
-                        ret.monsterStatus.put(MonsterStatus.NINJA_AMBUSH, (int) ret.info.get(MapleStatInfo.damage));
+                        ret.monsterStatus.put(MonsterStatus.BLIND, (int) ret.info.get(MapleStatInfo.damage));
                         break;
                     case 2311005:
-                        ret.monsterStatus.put(MonsterStatus.DOOM, 1);
+                        ret.monsterStatus.put(MonsterStatus.P_IMMUNE, 1);
                         break;
                     case 32111006:
                         ret.statups.put(CharacterTemporaryStat.REAPER, 1);
@@ -1032,7 +1033,7 @@ public class MapleStatEffect implements Serializable {
                     case 35111005:
                         ret.statups.put(CharacterTemporaryStat.SUMMON, 1);
                         ret.monsterStatus.put(MonsterStatus.SPEED, ret.info.get(MapleStatInfo.x));
-                        ret.monsterStatus.put(MonsterStatus.WDEF, ret.info.get(MapleStatInfo.y));
+                        ret.monsterStatus.put(MonsterStatus.PDR, ret.info.get(MapleStatInfo.y));
                         break;
                     case 1321007: // Beholder
                     case 1301013: // Evil Eye
@@ -1097,7 +1098,7 @@ public class MapleStatEffect implements Serializable {
                         break;
                     case 4111003: // shadow web
                     case 14111001:
-                        ret.monsterStatus.put(MonsterStatus.SHADOW_WEB, 1);
+                        ret.monsterStatus.put(MonsterStatus.M_IMMUNE, 1);
                         break;
                     case 4111009: // Shadow Stars
                     case 5201008:
@@ -2260,10 +2261,10 @@ public class MapleStatEffect implements Serializable {
             case 51111005: //Mihile's magic crash
             case 1211009:
             case 1311007:
-                cancel.add(MonsterStatus.WEAPON_DEFENSE_UP);
-                cancel.add(MonsterStatus.MAGIC_DEFENSE_UP);
-                cancel.add(MonsterStatus.WEAPON_ATTACK_UP);
-                cancel.add(MonsterStatus.MAGIC_ATTACK_UP);
+                cancel.add(MonsterStatus.MAGIC_UP);
+                cancel.add(MonsterStatus.M_GUARD_UP);
+                cancel.add(MonsterStatus.POWER_UP);
+                cancel.add(MonsterStatus.P_GUARD_UP);
                 break;
             default:
                 return;
@@ -4098,6 +4099,7 @@ public class MapleStatEffect implements Serializable {
             case 23111010:
                 return SummonMovementType.CIRCLE_FOLLOW;
             case 5211002: // bird - pirate
+            case 12121005: // Burning Conduit
                 return SummonMovementType.CIRCLE_STATIONARY;
             case 32111006: //reaper
             case 5211011:
@@ -4122,6 +4124,7 @@ public class MapleStatEffect implements Serializable {
             case 42101021: // Foxfire
             case 42121021: // Foxfire
             case 3121006: // phoenix
+            case 12120013: // Fires of Creation
                 return SummonMovementType.FOLLOW;
         }
         if (isAngel()) {

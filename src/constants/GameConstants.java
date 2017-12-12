@@ -602,6 +602,9 @@ public class GameConstants {
 		case 36121013:
 		case 36121014:
 			return 36121002;
+		case 12120014:
+		case 12120013:
+			return 12121004;
 		case 21110015:
 		case 21110007:
 		case 21110008:
@@ -3028,7 +3031,7 @@ public class GameConstants {
 		case 1462058:
 		case 1472079:
 		case 1482035:
-			return MonsterStatus.DARKNESS;
+			return MonsterStatus.P_COUNTER;
 		case 1302108:
 		case 1312040:
 		case 1322066:
@@ -3051,7 +3054,7 @@ public class GameConstants {
 
 	public static int getXForStat(MonsterStatus stat) {
 		switch (stat) {
-		case DARKNESS:
+		case P_COUNTER:
 			return -70;
 		case SPEED:
 			return -50;
@@ -3063,7 +3066,7 @@ public class GameConstants {
 
 	public static int getSkillForStat(MonsterStatus stat) {
 		switch (stat) {
-		case DARKNESS:
+		case P_COUNTER:
 			return 1111003;
 		case SPEED:
 			return 3121007;

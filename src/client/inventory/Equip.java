@@ -959,13 +959,13 @@ public class Equip extends Item implements Serializable {
             eq.getStatsTest().put(EquipStat.WDEF, Long.valueOf(eq.getWdef()));
         }
         if (eq.getMdef() > 0) {
-//            eq.getStatsTest().put(EquipStat.MDEF, Long.valueOf(eq.getMdef()));
+//            eq.getStatsTest().put(EquipStat.MDR, Long.valueOf(eq.getMdef()));
         }
         if (eq.getAcc() > 0) {
 //            eq.getStatsTest().put(EquipStat.ACC, Long.valueOf(eq.getAcc()));
         }
         if (eq.getAvoid() > 0) {
-//            eq.getStatsTest().put(EquipStat.AVOID, Long.valueOf(eq.getAvoid()));
+//            eq.getStatsTest().put(EquipStat.EVA, Long.valueOf(eq.getAvoid()));
         }
         if (eq.getHands() > 0) {
             eq.getStatsTest().put(EquipStat.HANDS, Long.valueOf(eq.getHands()));
@@ -1065,13 +1065,13 @@ public class Equip extends Item implements Serializable {
             eq.getStats().add(EquipStat.WDEF);
         }
         if (eq.getMdef() > 0) {
-//            eq.getStats().add(EquipStat.MDEF);
+//            eq.getStats().add(EquipStat.MDR);
         }
         if (eq.getAcc() > 0) {
 //            eq.getStats().add(EquipStat.ACC);
         }
         if (eq.getAvoid() > 0) {
-//            eq.getStats().add(EquipStat.AVOID);
+//            eq.getStats().add(EquipStat.EVA);
         }
         if (eq.getHands() > 0) {
             eq.getStats().add(EquipStat.HANDS);
@@ -1193,7 +1193,7 @@ public class Equip extends Item implements Serializable {
             case WDEF:
                 setWdef(amount);
                 break;
-//            case MDEF:
+//            case MDR:
 //                setMdef(amount);
 //                break;
 //            case ACC:
@@ -1228,7 +1228,7 @@ public class Equip extends Item implements Serializable {
             case WDEF:
                 res = getWdef();
                 break;
-//            case MDEF:
+//            case MDR:
 //                res = getMdef();
 //                break;
 //            case ACC:

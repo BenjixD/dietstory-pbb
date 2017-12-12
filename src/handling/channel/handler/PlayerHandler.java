@@ -33,6 +33,7 @@ import server.MapleStatEffect;
 import server.Timer;
 import server.Timer.CloneTimer;
 import server.buffs.buffclasses.adventurer.MagicianBuff;
+import server.buffs.buffclasses.cygnus.BlazeWizardBuff;
 import server.events.MapleEvent;
 import server.events.MapleEventType;
 import server.events.MapleSnowball;
@@ -669,7 +670,7 @@ public class PlayerHandler {
 			}
 		}
 		if(GameConstants.isBlazeWizardSkill(skillid)) {
-			MagicianSkill.handleBWSkill(c, slea, skillid, skillLevel, effect);
+			BlazeWizardBuff.handleBWSkill(c, slea, skillid, skillLevel, effect);
 		}
 		int mobID;
 		MapleMonster mob;

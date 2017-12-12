@@ -116,22 +116,22 @@ public class MobSkill {
             case 100:
             case 110:
             case 150:
-                stop = monster.isBuffed(MonsterStatus.WEAPON_ATTACK_UP);
+                stop = monster.isBuffed(MonsterStatus.POWER_UP);
                 break;
             case 101:
             case 111:
             case 151:
-                stop = monster.isBuffed(MonsterStatus.MAGIC_ATTACK_UP);
+                stop = monster.isBuffed(MonsterStatus.P_GUARD_UP);
                 break;
             case 102:
             case 112:
             case 152:
-                stop = monster.isBuffed(MonsterStatus.WEAPON_DEFENSE_UP);
+                stop = monster.isBuffed(MonsterStatus.MAGIC_UP);
                 break;
             case 103:
             case 113:
             case 153:
-                stop = monster.isBuffed(MonsterStatus.MAGIC_DEFENSE_UP);
+                stop = monster.isBuffed(MonsterStatus.M_GUARD_UP);
                 break;
             //154-157, don't stop it
             case 140:
@@ -140,7 +140,7 @@ public class MobSkill {
             case 143:
             case 144:
             case 145:
-                stop = monster.isBuffed(MonsterStatus.DAMAGE_IMMUNITY) || monster.isBuffed(MonsterStatus.MAGIC_IMMUNITY) || monster.isBuffed(MonsterStatus.WEAPON_IMMUNITY);
+                stop = monster.isBuffed(MonsterStatus.VENOM) || monster.isBuffed(MonsterStatus.HARD_SKIN) || monster.isBuffed(MonsterStatus.SHADOW_WEB);
                 break;
             case 170:
                 if (monster != null && monster.getMap() != null) {
@@ -162,7 +162,7 @@ public class MobSkill {
                 stop = player.getMap().getNumMonsters() >= limit;
                 break;
         }
-        stop |= monster.isBuffed(MonsterStatus.MAGIC_CRASH);
+        stop |= monster.isBuffed(MonsterStatus.HIT_CRI_DAM_R);
         return stop;
     }
 
@@ -175,28 +175,28 @@ public class MobSkill {
             case 100:
             case 110:
             case 150:
-                stats.put(MonsterStatus.WEAPON_ATTACK_UP, Integer.valueOf(x));
+                stats.put(MonsterStatus.POWER_UP, Integer.valueOf(x));
                 break;
             case 101:
             case 111:
             case 151:
-                stats.put(MonsterStatus.MAGIC_ATTACK_UP, Integer.valueOf(x));
+                stats.put(MonsterStatus.P_GUARD_UP, Integer.valueOf(x));
                 break;
             case 102:
             case 112:
             case 152:
-                stats.put(MonsterStatus.WEAPON_DEFENSE_UP, Integer.valueOf(x));
+                stats.put(MonsterStatus.MAGIC_UP, Integer.valueOf(x));
                 break;
             case 103:
             case 113:
             case 153:
-                stats.put(MonsterStatus.MAGIC_DEFENSE_UP, Integer.valueOf(x));
+                stats.put(MonsterStatus.M_GUARD_UP, Integer.valueOf(x));
                 break;
             case 154:
                 stats.put(MonsterStatus.ACC, Integer.valueOf(x));
                 break;
             case 155:
-                stats.put(MonsterStatus.AVOID, Integer.valueOf(x));
+                stats.put(MonsterStatus.EVA, Integer.valueOf(x));
                 break;
             case 115:
             case 156:
@@ -265,29 +265,29 @@ public class MobSkill {
                 }
                 break;
             case 140:
-                stats.put(MonsterStatus.WEAPON_IMMUNITY, Integer.valueOf(x));
+                stats.put(MonsterStatus.SHADOW_WEB, Integer.valueOf(x));
                 break;
             case 141:
-                stats.put(MonsterStatus.MAGIC_IMMUNITY, Integer.valueOf(x));
+                stats.put(MonsterStatus.HARD_SKIN, Integer.valueOf(x));
                 break;
             case 142: // Weapon / Magic Immunity
-                stats.put(MonsterStatus.DAMAGE_IMMUNITY, Integer.valueOf(x));
+                stats.put(MonsterStatus.VENOM, Integer.valueOf(x));
                 break;
             case 143: // Weapon Reflect
-                stats.put(MonsterStatus.WEAPON_DAMAGE_REFLECT, Integer.valueOf(x));
-                stats.put(MonsterStatus.WEAPON_IMMUNITY, Integer.valueOf(x));
+                stats.put(MonsterStatus.WEAKNESS, Integer.valueOf(x));
+                stats.put(MonsterStatus.SHADOW_WEB, Integer.valueOf(x));
                 reflection.add(x);
                 break;
             case 144: // Magic Reflect
-                stats.put(MonsterStatus.MAGIC_DAMAGE_REFLECT, Integer.valueOf(x));
-                stats.put(MonsterStatus.MAGIC_IMMUNITY, Integer.valueOf(x));
+                stats.put(MonsterStatus.SHOWDOWN, Integer.valueOf(x));
+                stats.put(MonsterStatus.HARD_SKIN, Integer.valueOf(x));
                 reflection.add(x);
                 break;
             case 145: // Weapon / Magic reflect
-                stats.put(MonsterStatus.WEAPON_DAMAGE_REFLECT, Integer.valueOf(x));
-                stats.put(MonsterStatus.WEAPON_IMMUNITY, Integer.valueOf(x));
-                stats.put(MonsterStatus.MAGIC_DAMAGE_REFLECT, Integer.valueOf(x));
-                stats.put(MonsterStatus.MAGIC_IMMUNITY, Integer.valueOf(x));
+                stats.put(MonsterStatus.WEAKNESS, Integer.valueOf(x));
+                stats.put(MonsterStatus.SHADOW_WEB, Integer.valueOf(x));
+                stats.put(MonsterStatus.SHOWDOWN, Integer.valueOf(x));
+                stats.put(MonsterStatus.HARD_SKIN, Integer.valueOf(x));
                 reflection.add(x);
                 reflection.add(x);
                 break;

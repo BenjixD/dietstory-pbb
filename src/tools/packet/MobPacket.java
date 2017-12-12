@@ -428,7 +428,7 @@ public class MobPacket {
 		pw.writeInt(-1);
 		pw.write(0);
 		pw.writeInt(0);
-		pw.writeInt(0x64); // monster scale
+		pw.writeInt(life.getScale()); // monster scale
 		pw.writeInt(-1);
 		pw.write(0);
 		pw.writeInt(0);
@@ -524,11 +524,11 @@ public class MobPacket {
 			boolean ignore_imm) {
 		int[] mask = new int[12];
 		for (MonsterStatusEffect statup : ss) {
-			if ((statup != null) && (statup.getStati() != MonsterStatus.WEAPON_DAMAGE_REFLECT)
-					&& (statup.getStati() != MonsterStatus.MAGIC_DAMAGE_REFLECT)
-					&& ((!ignore_imm) || ((statup.getStati() != MonsterStatus.WEAPON_IMMUNITY)
-							&& (statup.getStati() != MonsterStatus.MAGIC_IMMUNITY)
-							&& (statup.getStati() != MonsterStatus.DAMAGE_IMMUNITY)))) {
+			if ((statup != null) && (statup.getStati() != MonsterStatus.WEAKNESS)
+					&& (statup.getStati() != MonsterStatus.SHOWDOWN)
+					&& ((!ignore_imm) || ((statup.getStati() != MonsterStatus.SHADOW_WEB)
+							&& (statup.getStati() != MonsterStatus.HARD_SKIN)
+							&& (statup.getStati() != MonsterStatus.VENOM)))) {
 				mask[(statup.getStati().getPosition() - 1)] |= statup.getStati().getValue();
 			}
 		}
@@ -561,9 +561,9 @@ public class MobPacket {
 
 		pw.writeShort(SendPacketOpcode.APPLY_MONSTER_STATUS.getValue());
 		pw.writeInt(mons.getObjectId());
-		PacketHelper.writeSingleMask(pw, ms.getStati());
+		PacketHelper.writeSingleMask(pw, ms.getStati(), 3);
 
-		pw.writeInt(ms.getX().intValue());
+		pw.writeInt(ms.getX());
 		if (ms.isMonsterSkill()) {
 			pw.writeShort(ms.getMobSkill().getSkillId());
 			pw.writeShort(ms.getMobSkill().getSkillLevel());
@@ -589,7 +589,7 @@ public class MobPacket {
 		pw.writeInt(mons.getObjectId());
 		MonsterStatusEffect ms = (MonsterStatusEffect) mse.get(0);
 		if (ms.getStati() == MonsterStatus.POISON) {
-			PacketHelper.writeSingleMask(pw, MonsterStatus.EMPTY);
+			PacketHelper.writeSingleMask(pw, MonsterStatus.EMPTY_21);
 			pw.write(mse.size());
 			for (MonsterStatusEffect m : mse) {
 				pw.writeInt(m.getFromID());
@@ -664,7 +664,7 @@ public class MobPacket {
 
 		pw.writeShort(SendPacketOpcode.APPLY_MONSTER_STATUS.getValue());
 		pw.writeInt(mons.getObjectId());
-		PacketHelper.writeSingleMask(pw, MonsterStatus.EMPTY);
+		PacketHelper.writeSingleMask(pw, MonsterStatus.EMPTY_21);
 		pw.write(mse.size());
 		for (MonsterStatusEffect m : mse) {
 			pw.writeInt(m.getFromID());
@@ -705,7 +705,7 @@ public class MobPacket {
 
 		pw.writeShort(SendPacketOpcode.CANCEL_MONSTER_STATUS.getValue());
 		pw.writeInt(oid);
-		PacketHelper.writeSingleMask(pw, MonsterStatus.EMPTY);
+		PacketHelper.writeSingleMask(pw, MonsterStatus.EMPTY_21);
 		pw.writeInt(0);
 		pw.writeInt(1);
 		pw.writeInt(m.getFromID());

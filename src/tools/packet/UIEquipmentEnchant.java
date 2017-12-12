@@ -86,8 +86,8 @@ public class UIEquipmentEnchant {
         if(addStats.containsKey(EnhanceStat.WDEF)){
             pw.writeInt(addStats.get(EnhanceStat.WDEF));
         }
-//        if(addStats.containsKey(EnhanceStat.MDEF)){
-//            pw.writeInt(addStats.get(EnhanceStat.MDEF));
+//        if(addStats.containsKey(EnhanceStat.MDR)){
+//            pw.writeInt(addStats.get(EnhanceStat.MDR));
 //        }
         if(addStats.containsKey(EnhanceStat.MHP)){
             pw.writeInt(addStats.get(EnhanceStat.MHP));
@@ -98,8 +98,8 @@ public class UIEquipmentEnchant {
 //        if(addStats.containsKey(EnhanceStat.ACC)){
 //            pw.writeInt(addStats.get(EnhanceStat.ACC));
 //        }
-//        if(addStats.containsKey(EnhanceStat.AVOID)){
-//            pw.writeInt(addStats.get(EnhanceStat.AVOID));
+//        if(addStats.containsKey(EnhanceStat.EVA)){
+//            pw.writeInt(addStats.get(EnhanceStat.EVA));
 //        }
         if(addStats.containsKey(EnhanceStat.JUMP)){
             pw.writeInt(addStats.get(EnhanceStat.JUMP));

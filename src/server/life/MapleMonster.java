@@ -87,6 +87,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
     private int stolen = -1; //monster can only be stolen ONCE
     private boolean shouldDropItem = false, killed = false;
     private int triangulation = 0;
+    private int scale = 100;
 
     public MapleMonster(final int id, final MapleMonsterStats stats) {
         super(id);
@@ -392,7 +393,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
             highestDamageChar = attacker.getId();
         }
         if (exp > 0) {
-            final MonsterStatusEffect ms = stati.get(MonsterStatus.SHOWDOWN);
+            final MonsterStatusEffect ms = stati.get(MonsterStatus.P_COUNTER);
             if (ms != null) {
                 exp += (int) (exp * (ms.getX() / 100.0));
             }
@@ -850,7 +851,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
     }
 
     public final int getStatusSourceID(final MonsterStatus status) {
-        if (status == MonsterStatus.POISON || status == MonsterStatus.VENOMOUS_WEAPON) {
+        if (status == MonsterStatus.POISON || status == MonsterStatus.DAZZLE) {
             poisonsLock.readLock().lock();
             try {
                 for (MonsterStatusEffect ps : poisons) {
@@ -871,7 +872,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
     }
 
     public final ElementalEffectiveness getEffectiveness(final Element e) {
-        if (stati.size() > 0 && stati.containsKey(MonsterStatus.DOOM)) {
+        if (stati.size() > 0 && stati.containsKey(MonsterStatus.P_IMMUNE)) {
             return ElementalEffectiveness.NORMAL; // like blue snails
         }
         return stats.getEffectiveness(e);
@@ -928,7 +929,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
             duration = 5000; //teleport master
         }
         final MonsterStatus stat = status.getStati();
-        if (stats.isNoDoom() && stat == MonsterStatus.DOOM) {
+        if (stats.isNoDoom() && stat == MonsterStatus.P_IMMUNE) {
             return;
         }
 
@@ -936,26 +937,26 @@ public class MapleMonster extends AbstractLoadedMapleLife {
             if (stat == MonsterStatus.STUN) {
                 return;
             }
-            if (checkboss && stat != (MonsterStatus.SPEED) && stat != (MonsterStatus.NINJA_AMBUSH) && stat != (MonsterStatus.WATK) && stat != (MonsterStatus.POISON) && stat != MonsterStatus.VENOMOUS_WEAPON && stat != (MonsterStatus.DARKNESS) && stat != (MonsterStatus.MAGIC_CRASH)) {
+            if (checkboss && stat != (MonsterStatus.SPEED) && stat != (MonsterStatus.BLIND) && stat != (MonsterStatus.PAD) && stat != (MonsterStatus.POISON) && stat != MonsterStatus.DAZZLE && stat != (MonsterStatus.P_COUNTER) && stat != (MonsterStatus.HIT_CRI_DAM_R)) {
                 return;
             }
             //hack: don't magic crash cygnus boss
-            if (getId() == 8850011 && stat == MonsterStatus.MAGIC_CRASH) {
+            if (getId() == 8850011 && stat == MonsterStatus.HIT_CRI_DAM_R) {
                 return;
             }
         }
         if (stats.isFriendly() || isFake()) {
-            if (stat == MonsterStatus.STUN || stat == MonsterStatus.SPEED || stat == MonsterStatus.POISON || stat == MonsterStatus.VENOMOUS_WEAPON) {
+            if (stat == MonsterStatus.STUN || stat == MonsterStatus.SPEED || stat == MonsterStatus.POISON || stat == MonsterStatus.DAZZLE) {
                 return;
             }
         }
-        if ((stat == MonsterStatus.VENOMOUS_WEAPON || stat == MonsterStatus.POISON) && eff == null) {
+        if ((stat == MonsterStatus.DAZZLE || stat == MonsterStatus.POISON) && eff == null) {
             return;
         }
         if (stati.containsKey(stat)) {
             cancelStatus(stat);
         }
-        if (stat == MonsterStatus.POISON || stat == MonsterStatus.VENOMOUS_WEAPON) {
+        if (stat == MonsterStatus.POISON || stat == MonsterStatus.DAZZLE) {
             int count = 0;
             poisonsLock.readLock().lock();
             try {
@@ -1008,7 +1009,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
             }
         }
         final MapleCharacter con = getController();
-        if (stat == MonsterStatus.POISON || stat == MonsterStatus.VENOMOUS_WEAPON) {
+        if (stat == MonsterStatus.POISON || stat == MonsterStatus.DAZZLE) {
             poisonsLock.writeLock().lock();
             try {
                 poisons.add(status);
@@ -1094,7 +1095,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
     }
 
     public final boolean isBuffed(final MonsterStatus status) {
-        if (status == MonsterStatus.POISON || status == MonsterStatus.VENOMOUS_WEAPON) {
+        if (status == MonsterStatus.POISON || status == MonsterStatus.DAZZLE) {
             return poisons.size() > 0 || stati.containsKey(status);
         }
         return stati.containsKey(status);
@@ -1180,10 +1181,10 @@ public class MapleMonster extends AbstractLoadedMapleLife {
     }
 
     public final void doPoison(final MonsterStatusEffect status, final WeakReference<MapleCharacter> weakChr) {
-        if ((status.getStati() == MonsterStatus.VENOMOUS_WEAPON || status.getStati() == MonsterStatus.POISON) && poisons.size() <= 0) {
+        if ((status.getStati() == MonsterStatus.DAZZLE || status.getStati() == MonsterStatus.POISON) && poisons.size() <= 0) {
             return;
         }
-        if (status.getStati() != MonsterStatus.VENOMOUS_WEAPON && status.getStati() != MonsterStatus.POISON && !stati.containsKey(status.getStati())) {
+        if (status.getStati() != MonsterStatus.DAZZLE && status.getStati() != MonsterStatus.POISON && !stati.containsKey(status.getStati())) {
             return;
         }
         if (weakChr == null) {
@@ -1207,6 +1208,14 @@ public class MapleMonster extends AbstractLoadedMapleLife {
 
     public String getName() {
         return stats.getName();
+    }
+
+    public int getScale() {
+        return scale;
+    }
+
+    public void setScale(int scale) {
+        this.scale = scale;
     }
 
     private static class AttackingMapleCharacter {
@@ -1519,7 +1528,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
 
     public final void handleSteal(MapleCharacter chr) {
         double showdown = 100.0;
-        final MonsterStatusEffect mse = getBuff(MonsterStatus.SHOWDOWN);
+        final MonsterStatusEffect mse = getBuff(MonsterStatus.P_COUNTER);
         if (mse != null) {
             showdown += mse.getX();
         }
@@ -1563,7 +1572,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
     }
 
     public final void cancelStatus(final MonsterStatus stat) {
-        if (stat == MonsterStatus.EMPTY || stat == MonsterStatus.SUMMON) {
+        if (stat == MonsterStatus.EMPTY_21 || stat == MonsterStatus.EMPTY_1) {
             return;
         }
         final MonsterStatusEffect mse = stati.get(stat);
@@ -1585,10 +1594,10 @@ public class MapleMonster extends AbstractLoadedMapleLife {
     }
 
     public final void cancelSingleStatus(final MonsterStatusEffect stat) {
-        if (stat == null || stat.getStati() == MonsterStatus.EMPTY || stat.getStati() == MonsterStatus.SUMMON || !isAlive()) {
+        if (stat == null || stat.getStati() == MonsterStatus.EMPTY_21 || stat.getStati() == MonsterStatus.EMPTY_1 || !isAlive()) {
             return;
         }
-        if (stat.getStati() != MonsterStatus.POISON && stat.getStati() != MonsterStatus.VENOMOUS_WEAPON) {
+        if (stat.getStati() != MonsterStatus.POISON && stat.getStati() != MonsterStatus.DAZZLE) {
             cancelStatus(stat.getStati());
             return;
         }
@@ -1674,7 +1683,7 @@ public class MapleMonster extends AbstractLoadedMapleLife {
     public void setLinkCID(int lc) {
         this.linkCID = lc;
         if (lc > 0) {
-            stati.put(MonsterStatus.HYPNOTIZE, new MonsterStatusEffect(MonsterStatus.HYPNOTIZE, 60000, 30001062, null, false));
+            stati.put(MonsterStatus.BODY_PRESSURE, new MonsterStatusEffect(MonsterStatus.BODY_PRESSURE, 60000, 30001062, null, false));
         }
     }
 

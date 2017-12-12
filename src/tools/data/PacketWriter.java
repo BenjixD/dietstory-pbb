@@ -36,6 +36,11 @@ public class PacketWriter {
         this.baos = new ByteArrayOutputStream(size);
     }
 
+    public PacketWriter(SendPacketOpcode sendPacketOpcode) {
+        this();
+        writeShort(sendPacketOpcode.getValue());
+    }
+
     /**
      * Gets a <code>MaplePacket</code> instance representing this sequence of
      * bytes.

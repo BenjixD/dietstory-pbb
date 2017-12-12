@@ -90,11 +90,11 @@ public class WarriorBuff extends AbstractBuffClass {
                 eff.statups.put(CharacterTemporaryStat.IndieMHPR, eff.info.get(MapleStatInfo.x));
                 break;
             case 1211013: //Threaten
-                eff.monsterStatus.put(MonsterStatus.WATK, eff.info.get(MapleStatInfo.x));
-                eff.monsterStatus.put(MonsterStatus.WDEF, eff.info.get(MapleStatInfo.x));
-                eff.monsterStatus.put(MonsterStatus.MATK, eff.info.get(MapleStatInfo.x));
-                eff.monsterStatus.put(MonsterStatus.MDEF, eff.info.get(MapleStatInfo.x));
-                eff.monsterStatus.put(MonsterStatus.AVOID, eff.info.get(MapleStatInfo.z));
+                eff.monsterStatus.put(MonsterStatus.PAD, eff.info.get(MapleStatInfo.x));
+                eff.monsterStatus.put(MonsterStatus.PDR, eff.info.get(MapleStatInfo.x));
+                eff.monsterStatus.put(MonsterStatus.MAD, eff.info.get(MapleStatInfo.x));
+                eff.monsterStatus.put(MonsterStatus.MDR, eff.info.get(MapleStatInfo.x));
+                eff.monsterStatus.put(MonsterStatus.EVA, eff.info.get(MapleStatInfo.z));
                 break;
             case 1211014: //Parashock Guard
                 eff.statups.put(CharacterTemporaryStat.PARASHOCK_GUARD, eff.info.get(MapleStatInfo.x));

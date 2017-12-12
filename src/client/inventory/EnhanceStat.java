@@ -9,11 +9,11 @@ public enum EnhanceStat {
     INT(0x10),
     LUK(0x20),
     WDEF(0x40),
-//    MDEF(0x80),
+//    MDR(0x80),
     MHP(0x100),
     MMP(0x200),
 //    ACC(0x400),
-//    AVOID(0x800),
+//    EVA(0x800),
     JUMP(0x1000),
     SPEED(0x2000);
 

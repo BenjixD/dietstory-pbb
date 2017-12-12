@@ -57,7 +57,7 @@ public class MobHandler {
         slea.skip(4);
         slea.readInt();
 
-        if ((mobfrom != null) && (mobfrom.getBuff(MonsterStatus.MONSTER_BOMB) != null));
+        if ((mobfrom != null) && (mobfrom.getBuff(MonsterStatus.ADD_DAM_PARTY) != null));
     }
 
     public static final void checkShammos(MapleCharacter chr, MapleMonster mobto, MapleMap map) {

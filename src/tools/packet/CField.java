@@ -3187,7 +3187,6 @@ public class CField {
                                          List<Integer> targets, List<ForceAtomInfo> infos, Rectangle rect, int bulletId,
                                          int arriveDir, int arriveRange, Point forceTargetPoint, int delay) {
         PacketWriter packetWriter = new PacketWriter();
-
         packetWriter.writeShort(SendPacketOpcode.CREATE_FORCE_ATOM.getValue());
 
         packetWriter.write(mobArriveId != 0);
@@ -3243,7 +3242,8 @@ public class CField {
         }
         packetWriter.write(0); // no more info
         if(rect == null) {
-            rect = new Rectangle();
+            Point point = infos.get(0).getStart();
+            rect = new Rectangle((int) point.getX(), (int) point.getY(), 10, 10);
         }
         int left = (int) rect.getX();
         int right = (int) (rect.getX() + rect.getWidth());
@@ -3955,25 +3955,22 @@ public class CField {
             pw.writeInt(summon.getSkill()); // nSkillID
             pw.write(summon.getOwnerLevel() - 1); // nCharLevel
             pw.write(summon.getSkillLevel()); // nSLV (skill level)
-            pw.write(0);
             pw.writePos(summon.getPosition()); // nX, nY
-           // pw.write((summon.getSkill() == 32111006) || (summon.getSkill() == 33101005) ? 5 : 4); // nMoveAction
+            pw.write((summon.getSkill() == 32111006) || (summon.getSkill() == 33101005) ? 5 : 4); // nMoveAction
 
             if ((summon.getSkill() == 35121003) && (summon.getOwner().getMap() != null)) { // Giant Robot SG-88
-          //      pw.writeShort(summon.getOwner().getMap().getFootholds().findBelow(summon.getPosition()).getId());
+                pw.writeShort(summon.getOwner().getMap().getFootholds().findBelow(summon.getPosition()).getId());
             } else {
-            //    pw.write(0); // nCurFoothold
+                pw.writeShort(summon.getOwner().getFH()); // nCurFoothold
             }
 
             pw.writeShort(summon.getMovementType().getValue()); // nMoveAbility
             pw.write(summon.getSummonType()); // nAssistType
             pw.write(animated ? 1 : 0); // nEnterType
-            pw.write(1);
-            pw.write(0);
             pw.writeInt(0); // dwMobID
             pw.write(1); // bFlyMob
             pw.write(0); // bBeforeFirstAttack
-            pw.writeShort(0); // nLookID
+            pw.writeInt(0); // nLookID
             pw.writeInt(0); // nBulletID
 
             boolean mirroredTarget = summon.getSkill() == 4341006 && summon.getOwner() != null;
@@ -3982,19 +3979,27 @@ public class CField {
                 PacketHelper.addCharLook(pw, summon.getOwner(), true, false);
             } else if (summon.getSkill() == 35111002) { // Rock 'n Shock
                 pw.write(0); // nTeslaCoilState
+            } else if (summon.getSkill() == 131003017 || summon.getSkill() == 400011005 || summon.getSkill() == 14121054) {
+                // Pink Shadow / Celestial Dance / Shadow Illusion
+                pw.writeInt(0);
+                pw.writeInt(0);
             } else if (summon.getSkill() == 42111003) { // Kishin Shoukan
+                // probably the 2 positions of the spirits
                 pw.writeShort(0);
                 pw.writeShort(0);
                 pw.writeShort(0);
                 pw.writeShort(0);
+            } else if (summon.getSkill() == 400051014) { // Gravity Crush
+                pw.writeLong(0);
             }
-            pw.write(0); // bJaguarActive
             pw.write(0); // bAttackActive
             pw.writeInt(0);
             pw.write(1);
             pw.writeInt(0);
-            pw.write(1);
-            pw.writeInt(0); // tSummonTerm
+            if(summon.getSkill() >= 33001000 && summon.getSkill() <= 3301007) {
+                pw.write(1);
+                pw.writeInt(0); // tSummonTerm
+            }
 
 
             return pw.getPacket();

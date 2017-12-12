@@ -135,27 +135,27 @@ public class MonsterStatusEffect {
                 return 90001002;
             case POISON:
                 return 90001003;
-            case DARKNESS:
+            case DARK: // Was P_COUNTER
                 return 90001004;
             case SEAL:
                 return 90001005;
             case FREEZE:
                 return 90001006;
-            case MAGIC_CRASH:
+            case HIT_CRI_DAM_R:
                 return 1111007;
-            case SHOWDOWN:
+            case P_COUNTER:
                 return 4121003;
-            case IMPRINT:
+            case MYSTERY:
                 return 22161002;
-            case SHADOW_WEB:
+            case M_IMMUNE:
                 return 4111003;
-            case VENOMOUS_WEAPON:
+            case DAZZLE:
                 return 5211004;
-            case DOOM: //not used
+            case P_IMMUNE: //not used
                 return 2311005;
-            case NINJA_AMBUSH: //not used
+            case BLIND: //not used
                 return 4121004;
-            case TRIANGULATION:
+            case SMITE:
                 return 36110005;
 		default:
 			return 0;

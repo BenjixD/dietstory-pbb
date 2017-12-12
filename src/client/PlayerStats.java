@@ -2406,10 +2406,10 @@ public class PlayerStats implements Serializable {
         if (buff != null) {
             mesoBuff *= buff.doubleValue() / 100.0;
         }
-        buff = chra.getBuffedValue(CharacterTemporaryStat.ACC);
-        if (buff != null) {
-            accuracy += buff.intValue();
-        }
+//        buff = chra.getBuffedValue(CharacterTemporaryStat.ACC);
+//        if (buff != null) {
+//            accuracy += buff.intValue();
+//        }
         buff = chra.getBuffedValue(CharacterTemporaryStat.IndieACC);
         if (buff != null) {
             accuracy += buff.intValue();

@@ -840,13 +840,13 @@ public class PacketHelper {
             if (equip.getStats().contains(EquipStat.WDEF)) {
                 pw.writeShort(equip.getWdef());
             }
-//            if (equip.getStats().contains(EquipStat.MDEF)) {
+//            if (equip.getStats().contains(EquipStat.MDR)) {
 //                pw.writeShort(equip.getMdef());
 //            }
 //            if (equip.getStats().contains(EquipStat.ACC)) {
 //                pw.writeShort(equip.getAcc());
 //            }
-//            if (equip.getStats().contains(EquipStat.AVOID)) {
+//            if (equip.getStats().contains(EquipStat.EVA)) {
 //                pw.writeShort(equip.getAvoid());
 //            }
             if (equip.getStats().contains(EquipStat.HANDS)) {
@@ -1765,10 +1765,14 @@ public class PacketHelper {
         pw.write(parttime.getReward() > 0);
     }
 
-    public static <E extends Buffstat> void writeSingleMask(PacketWriter pw, E statup) {
-        for (int i = GameConstants.MAX_BUFFSTAT; i >= 1; i--) {
+    public static <E extends Buffstat> void writeSingleMask(PacketWriter pw, E statup, int max) {
+        for (int i = max; i >= 1; i--) {
             pw.writeInt(i == statup.getPosition() ? statup.getValue() : 0);
         }
+    }
+
+    public static <E extends Buffstat> void writeSingleMask(PacketWriter pw, E statup) {
+        writeSingleMask(pw, statup, GameConstants.MAX_BUFFSTAT);
     }
 
    public static <E extends Buffstat> void writeMask(PacketWriter pw, Collection<E> statups) {

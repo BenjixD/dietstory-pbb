@@ -139,14 +139,14 @@ public class DamageParse {
 
 				if ((!Tempest) && (!player.isGM())) {
 					if (((player.getJob() >= 3200) && (player.getJob() <= 3212)
-							&& (!monster.isBuffed(MonsterStatus.DAMAGE_IMMUNITY))
-							&& (!monster.isBuffed(MonsterStatus.MAGIC_IMMUNITY))
-							&& (!monster.isBuffed(MonsterStatus.MAGIC_DAMAGE_REFLECT))) || (attack.getSkillId() == 3221007)
+							&& (!monster.isBuffed(MonsterStatus.VENOM))
+							&& (!monster.isBuffed(MonsterStatus.HARD_SKIN))
+							&& (!monster.isBuffed(MonsterStatus.SHOWDOWN))) || (attack.getSkillId() == 3221007)
 							|| (attack.getSkillId() == 23121003)
 							|| (((player.getJob() < 3200) || (player.getJob() > 3212))
-									&& (!monster.isBuffed(MonsterStatus.DAMAGE_IMMUNITY))
-									&& (!monster.isBuffed(MonsterStatus.WEAPON_IMMUNITY))
-									&& (!monster.isBuffed(MonsterStatus.WEAPON_DAMAGE_REFLECT)))) {
+									&& (!monster.isBuffed(MonsterStatus.VENOM))
+									&& (!monster.isBuffed(MonsterStatus.SHADOW_WEB))
+									&& (!monster.isBuffed(MonsterStatus.WEAKNESS)))) {
 						maxDamagePerHit = CalculateMaxWeaponDamagePerHit(player, monster, attack, theSkill, effect,
 								maxDamagePerMonster, Integer.valueOf(CriticalDamage));
 					} else {
@@ -182,14 +182,14 @@ public class DamageParse {
 								eachd = Long.valueOf((int) Math.min(monster.getMobMaxHp(), Long.MAX_VALUE));
 							}
 						} else if (((player.getJob() >= 3200) && (player.getJob() <= 3212)
-								&& (!monster.isBuffed(MonsterStatus.DAMAGE_IMMUNITY))
-								&& (!monster.isBuffed(MonsterStatus.MAGIC_IMMUNITY))
-								&& (!monster.isBuffed(MonsterStatus.MAGIC_DAMAGE_REFLECT)))
+								&& (!monster.isBuffed(MonsterStatus.VENOM))
+								&& (!monster.isBuffed(MonsterStatus.HARD_SKIN))
+								&& (!monster.isBuffed(MonsterStatus.SHOWDOWN)))
 								|| (attack.getSkillId() == 23121003)
 								|| (((player.getJob() < 3200) || (player.getJob() > 3212))
-										&& (!monster.isBuffed(MonsterStatus.DAMAGE_IMMUNITY))
-										&& (!monster.isBuffed(MonsterStatus.WEAPON_IMMUNITY))
-										&& (!monster.isBuffed(MonsterStatus.WEAPON_DAMAGE_REFLECT)))) {
+										&& (!monster.isBuffed(MonsterStatus.VENOM))
+										&& (!monster.isBuffed(MonsterStatus.SHADOW_WEB))
+										&& (!monster.isBuffed(MonsterStatus.WEAKNESS)))) {
 							if (eachd.longValue() > maxDamagePerHit) {
 
 								if (eachd.longValue() > maxDamagePerHit * 2.0D) {
@@ -239,9 +239,9 @@ public class DamageParse {
 						if (monster.getTriangulation() < 3) {
 							monster.setTriangulation(monster.getTriangulation() + 1);
 						}
-						monster.applyStatus(player, new MonsterStatusEffect(MonsterStatus.DARKNESS, eff.getX(),
+						monster.applyStatus(player, new MonsterStatusEffect(MonsterStatus.P_COUNTER, eff.getX(),
 								eff.getSourceId(), null, false), false, eff.getY() * 1000, true, eff);
-						monster.applyStatus(player, new MonsterStatusEffect(MonsterStatus.TRIANGULATION,
+						monster.applyStatus(player, new MonsterStatusEffect(MonsterStatus.SMITE,
 								monster.getTriangulation(), eff.getSourceId(), null, false), false, eff.getY() * 1000,
 								true, eff);
 					}
@@ -280,7 +280,7 @@ public class DamageParse {
 								attack.getSkillId());
 					}
 
-					if (monster.isBuffed(MonsterStatus.WEAPON_DAMAGE_REFLECT)) {
+					if (monster.isBuffed(MonsterStatus.WEAKNESS)) {
 						player.addHP(-(7000 + Randomizer.nextInt(8000)));
 					}
 					player.onAttack(monster.getMobMaxHp(), monster.getMobMaxMp(), attack.getSkillId(), monster.getObjectId(),
@@ -359,8 +359,8 @@ public class DamageParse {
 							MapleStatEffect eff = player.getStatForBuff(CharacterTemporaryStat.BodyPressure);
 
 							if ((eff != null) && (eff.makeChanceResult())
-									&& (!monster.isBuffed(MonsterStatus.NEUTRALISE))) {
-								monster.applyStatus(player, new MonsterStatusEffect(MonsterStatus.NEUTRALISE,
+									&& (!monster.isBuffed(MonsterStatus.DARK))) {
+								monster.applyStatus(player, new MonsterStatusEffect(MonsterStatus.DARK,
 										Integer.valueOf(1), eff.getSourceId(), null, false), false, eff.getX() * 1000,
 										true, eff);
 							}
@@ -622,8 +622,8 @@ public class DamageParse {
 				MapleMonsterStats monsterstats = monster.getStats();
 				int fixeddmg = monsterstats.getFixedDamage();
 				if ((!Tempest) && (!player.isGM())) {
-					if ((!monster.isBuffed(MonsterStatus.MAGIC_IMMUNITY))
-							&& (!monster.isBuffed(MonsterStatus.MAGIC_DAMAGE_REFLECT))) {
+					if ((!monster.isBuffed(MonsterStatus.HARD_SKIN))
+							&& (!monster.isBuffed(MonsterStatus.SHOWDOWN))) {
 						MaxDamagePerHit = CalculateMaxMagicDamagePerHit(player, theSkill, monster, monsterstats, stats,
 								null, Integer.valueOf(CriticalDamage), maxDamagePerHit, effect);
 					} else {
@@ -644,8 +644,8 @@ public class DamageParse {
 							if (eachd.longValue() > monster.getMobMaxHp()) {
 								eachd = Long.valueOf((int) Math.min(monster.getMobMaxHp(), 2147483647L));
 							}
-						} else if ((!monster.isBuffed(MonsterStatus.MAGIC_IMMUNITY))
-								&& (!monster.isBuffed(MonsterStatus.MAGIC_DAMAGE_REFLECT))) {
+						} else if ((!monster.isBuffed(MonsterStatus.HARD_SKIN))
+								&& (!monster.isBuffed(MonsterStatus.SHOWDOWN))) {
 							if (eachd.longValue() > MaxDamagePerHit) {
 								if (eachd.longValue() > MaxDamagePerHit * 2.0D) {
 									eachd = Long.valueOf((int) (MaxDamagePerHit * 2.0D));
@@ -692,7 +692,7 @@ public class DamageParse {
 			// if (totDamageToOneMonster1 > 0) {
 			// monster.damage(player, totDamageToOneMonster1, true,
 			// attack.skill);
-			// if (monster.isBuffed(MonsterStatus.MAGIC_DAMAGE_REFLECT)) {
+			// if (monster.isBuffed(MonsterStatus.SHOWDOWN)) {
 			// player.addHP(-(7000 + Randomizer.nextInt(8000)));
 			// }
 			// if (player.getBuffedValue(CharacterTemporaryStat.Slow) != null) {
@@ -770,7 +770,7 @@ public class DamageParse {
 		}
 
 		int MDRate = monster.getStats().getMDRate();
-		MonsterStatusEffect pdr = monster.getBuff(MonsterStatus.MDEF);
+		MonsterStatusEffect pdr = monster.getBuff(MonsterStatus.MDR);
 		if (pdr != null) {
 			MDRate += pdr.getX().intValue();
 		}
@@ -780,7 +780,7 @@ public class DamageParse {
 		elemMaxDamagePerMob += elemMaxDamagePerMob / 100.0D * CritPercent;
 
 		elemMaxDamagePerMob *= (monster.getStats().isBoss() ? chr.getStat().bossdam_r : chr.getStat().dam_r) / 100.0D;
-		MonsterStatusEffect imprint = monster.getBuff(MonsterStatus.IMPRINT);
+		MonsterStatusEffect imprint = monster.getBuff(MonsterStatus.MYSTERY);
 		if (imprint != null) {
 			elemMaxDamagePerMob += elemMaxDamagePerMob * imprint.getX().intValue() / 100.0D;
 		}
@@ -872,7 +872,7 @@ public class DamageParse {
 		boolean defined = false;
 		int CritPercent = CriticalDamagePercent.intValue();
 		int PDRate = monster.getStats().getPDRate();
-		MonsterStatusEffect pdr = monster.getBuff(MonsterStatus.WDEF);
+		MonsterStatusEffect pdr = monster.getBuff(MonsterStatus.PDR);
 		if (pdr != null) {
 			PDRate += pdr.getX().intValue();
 		}
@@ -1030,7 +1030,7 @@ public class DamageParse {
 
 			elementalMaxDamagePerMonster += elementalMaxDamagePerMonster / 100.0D * CritPercent;
 
-			MonsterStatusEffect imprint = monster.getBuff(MonsterStatus.IMPRINT);
+			MonsterStatusEffect imprint = monster.getBuff(MonsterStatus.MYSTERY);
 			if (imprint != null) {
 				elementalMaxDamagePerMonster += elementalMaxDamagePerMonster * imprint.getX().intValue() / 100.0D;
 			}

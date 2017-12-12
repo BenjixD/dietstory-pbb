@@ -2,6 +2,7 @@ package client;
 
 import handling.Buffstat;
 import java.io.Serializable;
+import java.util.Arrays;
 
 public enum CharacterTemporaryStat implements Serializable, Buffstat {
 
@@ -59,12 +60,12 @@ public enum CharacterTemporaryStat implements Serializable, Buffstat {
     IndieQrPointTerm(48),
     // missing 5
 
-    INDIE_STAT_COUNT(53),// alot of buffstats went -3
-    PAD(54),
-    PDD(55),
-    MAD(56),
-    MDD(57),
-    ACC(58),
+    INDIE_STAT_COUNT(54),
+    PAD(55),
+    PDD(56),
+    MAD(57),
+    MDD(58),
+//    ACC(58),
     EVA(59),
     Craft(60),
     Speed(61),
@@ -213,7 +214,7 @@ public enum CharacterTemporaryStat implements Serializable, Buffstat {
     Roulette(202),
     SpiritLink(203),
     AsrRByItem(204),
-    Event(209), // not updated
+    Event(205),
     CriticalBuff(206),
     //not updated from down on
     DropRate(211),
@@ -230,7 +231,7 @@ public enum CharacterTemporaryStat implements Serializable, Buffstat {
     IncTerR(222),
     IncAsrR(223),
     DeathMark(224),
-    UsefulAdvancedBless(225),
+    UsefulAdvancedBless(218), // was 225
     Lapidification(226),
     VenomSnake(227),
     CarnivalAttack(228),
@@ -329,91 +330,91 @@ public enum CharacterTemporaryStat implements Serializable, Buffstat {
     ACCR(315),
     DEXR(316),
     Albatross(317),
-    //end updated
-    Translucence(320),
-    PoseType(321),
-    LightOfSpirit(322),
-    ElementSoul(323),
-    GlimmeringTime(324),
-    TrueSight(325),
-    SoulExplosion(326),
-    SoulMP(327),
-    FullSoulMP(328),
-    SoulSkillDamageUp(329),
-    ElementalCharge(330),
-    Restoration(331),
-    CrossOverChain(332),
-    ChargeBuff(333),
-    Reincarnation(334),
-    KnightsAura(335),
-    ChillingStep(336),
-    DotBasedBuff(337),
-    BlessEnsenble(338),
-    ComboCostInc(339),
-    ExtremeArchery(340),
-    NaviFlying(341),
-    QuiverCatridge(342),
-    AdvancedQuiver(343),
-    UserControlMob(344),
-    ImmuneBarrier(345),
-    ArmorPiercing(346),
-    ZeroAuraStr(347),
-    ZeroAuraSpd(348),
-    CriticalGrowing(349),
-    QuickDraw(350),
-    BowMasterConcentration(351),
-    TimeFastABuff(352),
-    TimeFastBBuff(353),
-    GatherDropR(354),
-    AimBox2D(355),
-    Unknown355(999),
-    IncMonsterBattleCaptureRate(356),
-    CursorSniping(357),
-    DebuffTolerance(358),
-    DotHealHPPerSecond(359),
-    SpiritGuard(360),
-    PreReviveOnce(361),
-    SetBaseDamageByBuff(362),
-    LimitMP(363),
-    ReflectDamR(364),
-    ComboTempest(365),
-    MHPCutR(366),
-    MMPCutR(367),
-    SelfWeakness(368),
-    ElementDarkness(369),
-    FlareTrick(370),
-    Ember(371),
-    Dominion(372),
-    SiphonVitality(373),
-    DarknessAscension(374),
-    BossWaitingLinesBuff(375),
-    DamageReduce(376),
-    ShadowServant(377),
-    ShadowIllusion(378),
-    KnockBack(379),
-    AddAttackCount(380),
-    ComplusionSlant(381),
-    JaguarSummoned(382),
-    JaguarCount(383),
-    SSFShootingAttack(384),
-    DevilCry(385),
-    ShieldAttack(386),
-    BMageAura(387),
-    DarkLighting(388),
-    AttackCountX(389),
-    BMageDeath(390),
-    BombTime(391),
-    NoDebuff(392),
-    BattlePvP_Mike_Shield(393),
-    BattlePvP_Mike_Bugle(394),
-    XenonAegisSystem(395),
-    AngelicBursterSoulSeeker(396),
-    HiddenPossession(397),
-    NightWalkerBat(398),
-    NightLordMark(399),
-    WizardIgnite(400),
-    FireBarrier(401),
-    ChangeFoxMan(402),
+    Translucence(318),
+    PoseType(319),
+    LightOfSpirit(320),
+    ElementSoul(321),
+    GlimmeringTime(322),
+    TrueSight(323),
+    SoulExplosion(324),
+    SoulMP(325),
+    FullSoulMP(326),
+    SoulSkillDamageUp(327),
+    ElementalCharge(328),
+    Restoration(329),
+    CrossOverChain(330),
+    ChargeBuff(331),
+    Reincarnation(332),
+    KnightsAura(333),
+    ChillingStep(334),
+    DotBasedBuff(335),
+    BlessEnsenble(336),
+    ComboCostInc(337),
+    ExtremeArchery(338),
+    NaviFlying(339),
+    QuiverCatridge(340),
+    AdvancedQuiver(341),
+    UserControlMob(342),
+    ImmuneBarrier(343),
+    ArmorPiercing(344),
+    ZeroAuraStr(345),
+    ZeroAuraSpd(346),
+    CriticalGrowing(347),
+    QuickDraw(348),
+    BowMasterConcentration(349),
+    TimeFastABuff(350),
+    TimeFastBBuff(351),
+    GatherDropR(352),
+    AimBox2D(353),
+    Unknown355(997),
+    IncMonsterBattleCaptureRate(354),
+    CursorSniping(355),
+    DebuffTolerance(356),
+    DotHealHPPerSecond(357),
+    SpiritGuard(358),
+    PreReviveOnce(359),
+    SetBaseDamageByBuff(360),
+    LimitMP(361),
+    ReflectDamR(362),
+    ComboTempest(363),
+    MHPCutR(364),
+    MMPCutR(365),
+    SelfWeakness(366),
+    ElementDarkness(367),
+    FlareTrick(368),
+    Ember(369),
+    Dominion(370),
+    SiphonVitality(371),
+    DarknessAscension(372),
+    BossWaitingLinesBuff(373),
+    DamageReduce(374),
+    ShadowServant(375),
+    ShadowIllusion(376),
+    KnockBack(377),
+    AddAttackCount(378),
+    ComplusionSlant(379),
+    JaguarSummoned(380),
+    JaguarCount(381),
+    SSFShootingAttack(382),
+    DevilCry(383),
+    ShieldAttack(384),
+    BMageAura(385),
+    DarkLighting(386),
+    AttackCountX(387),
+    BMageDeath(388),
+    BombTime(389),
+    NoDebuff(390),
+    BattlePvP_Mike_Shield(391),
+    BattlePvP_Mike_Bugle(392),
+    XenonAegisSystem(393),
+    AngelicBursterSoulSeeker(394),
+    HiddenPossession(395),
+    NightWalkerBat(396),
+    NightLordMark(397),
+    WizardIgnite(398),
+    FireBarrier(399),
+    ChangeFoxMan(400),
+    // end updated
     BattlePvP_Helena_Mark(403),
     BattlePvP_Helena_WindSpirit(404),
     BattlePvP_LangE_Protection(405),
@@ -634,14 +635,17 @@ public enum CharacterTemporaryStat implements Serializable, Buffstat {
     private final int nValue;
     private final int nPos;
     private final boolean isIndie;
+    private final int flag;
 
     CharacterTemporaryStat(int nValue, int nPos) {
         this.nValue = nValue;
         this.nPos = nPos;
         this.isIndie = false;
+        flag = 0;
     }
 
     CharacterTemporaryStat(int flag) {
+        this.flag = flag;
         this.nValue = (1 << (31 - (flag % 32)));
         this.nPos = 17 - (byte) Math.floor(flag / 32);
         this.isIndie = name().contains("Indie");
@@ -728,6 +732,11 @@ public enum CharacterTemporaryStat implements Serializable, Buffstat {
         }
     }
 
+    public static CharacterTemporaryStat getStatFromNumber(int num) {
+        return Arrays.stream(CharacterTemporaryStat.values())
+                .filter(cts -> cts.getFlag() == num).findFirst().orElse(null);
+    }
+
     public static CharacterTemporaryStat getCTSFromTSIndex(int index) {
         switch (index) {
             case 0:
@@ -748,5 +757,9 @@ public enum CharacterTemporaryStat implements Serializable, Buffstat {
                 return RideVehicleExpire;
         }
         return null;
+    }
+
+    public int getFlag() {
+        return flag;
     }
 }
