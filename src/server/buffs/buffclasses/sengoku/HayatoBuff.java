@@ -38,7 +38,7 @@ public class HayatoBuff extends AbstractBuffClass {
         switch (skill) {
             case 41110008:
             case 41001001: // Battoujutsu Stance
-                eff.info.put(MapleStatInfo.time, Integer.valueOf(2100000000));
+                eff.info.put(MapleStatInfo.time, 0); //was Integer.valueOf(2100000000) , now 0
                 eff.statups.put(CharacterTemporaryStat.CriticalBuff, eff.info.get(MapleStatInfo.y));
                 eff.statups.put(CharacterTemporaryStat.BATTOUJUTSU_STANCE, 1);
                 eff.statups.put(CharacterTemporaryStat.Booster, eff.info.get(MapleStatInfo.actionSpeed));

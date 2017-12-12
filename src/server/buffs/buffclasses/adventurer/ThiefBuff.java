@@ -18,34 +18,36 @@ public class ThiefBuff extends AbstractBuffClass {
 
     public ThiefBuff() {
         buffs = new int[]{
-            4001003, //Dark Sight
-            4001005, //Haste
-            4101003, //Claw Booster
-            4201002, //Dagger Booster
-            4201009, //Channel Karma
-            4201011, //Meso Guard
-            4111002, //Shadow Partner
-            4111009, //Shadow Star
-            4211003, //Pick Pocket
-            4211008, //Shadow Partner
-            4121000, //Maple Warrior     
-            4121014, //Dark Harmony
-            4221000, //Maple Warrior     
-            4221013, //Shadow Instinct
-            4301003, // Self haste
-            4311005, // Channel Karma
-            4311009, // Katara Booster
-            4331002, // Mirror Image
-            4341000, // Maple Warrior
-            4341007, // Thorns
-            4341006, // Mirrored Target
-            4341054, // Blade Clone
-            4341053, // Epic Adventure
-            4121053, //Epic Adventure
-            4121054, //Bleed Dart
-            4220015, //prime critical
-            4221053, //Epic Adventure
-            4221054, //Flip of the Coin
+                4001003, //Dark Sight
+                4001005, //Haste
+                4101003, //Claw Booster
+                4101011, //Assassin's Mark
+                4201002, //Dagger Booster
+                4201009, //Channel Karma
+                4201011, //Meso Guard
+                4111002, //Shadow Partner
+                4111009, //Shadow Star
+                4211003, //Pick Pocket
+                4211008, //Shadow Partner
+                4121000, //Maple Warrior
+                4121014, //Dark Harmony
+                4221000, //Maple Warrior
+                4200013, //Cirital Growth
+                4221013, //Shadow Instinct
+                4301003, // Self haste
+                4311005, // Channel Karma
+                4311009, // Katara Booster
+                4331002, // Mirror Image
+                4341000, // Maple Warrior
+                4341007, // Thorns
+                4341006, // Mirrored Target
+                4341054, // Blade Clone
+                4341053, // Epic Adventure
+                4121053, //Epic Adventure
+                4121054, //Bleed Dart
+                4220015, //prime critical
+                4221053, //Epic Adventure
+                4221054, //Flip of the Coin
         };
     }
     
@@ -58,10 +60,16 @@ public class ThiefBuff extends AbstractBuffClass {
     public void handleBuff(MapleStatEffect eff, int skill) {
         switch (skill) {
             case 4001005: //Haste
+                eff.statups.put(CharacterTemporaryStat.Jump, eff.info.get(MapleStatInfo.jump));
+                eff.statups.put(CharacterTemporaryStat.Speed, eff.info.get(MapleStatInfo.speed));
+                //TODO
+                //Add Increase in MAX Speed (20)
                 break;
             case 4301003: // Self haste
                 eff.statups.put(CharacterTemporaryStat.Jump, eff.info.get(MapleStatInfo.jump));
                 eff.statups.put(CharacterTemporaryStat.Speed, eff.info.get(MapleStatInfo.speed));
+                //TODO
+                //Add Increase in MAX Speed (20)
                 break;
             case 4001003: //Dark Sight
                 eff.statups.put(CharacterTemporaryStat.DarkSight, eff.info.get(MapleStatInfo.x));
@@ -71,6 +79,11 @@ public class ThiefBuff extends AbstractBuffClass {
             case 4311009: // Katara Booster
                 eff.statups.put(CharacterTemporaryStat.Booster, eff.info.get(MapleStatInfo.x));
                 break;
+            case 4101011: // Assassin's Mark
+                eff.statups.put(CharacterTemporaryStat.NightLordMark, eff.info.get(MapleStatInfo.x));
+            //  Prop% to place a Mark
+                break;
+
             case 4201011: //Meso Guard
                 eff.statups.put(CharacterTemporaryStat.MesoGuard, eff.info.get(MapleStatInfo.x));
                 break;
@@ -79,8 +92,8 @@ public class ThiefBuff extends AbstractBuffClass {
                  eff.statups.put(CharacterTemporaryStat.PAD, eff.info.get(MapleStatInfo.pad));
                 break;
             case 4211003: //Pick Pocket
-                eff.info.put(MapleStatInfo.time, 2100000000);
-            //    eff.statups.put(CharacterTemporaryStat.PickPocket, eff.info.get(MapleStatInfo.x));
+                eff.info.put(MapleStatInfo.time, 0); // was 2100000000, now 0
+                eff.statups.put(CharacterTemporaryStat.PickPocket, eff.info.get(MapleStatInfo.x));
                 break;
             case 4111002: //Shadow Partner
             case 4211008: //Shadow Partner
@@ -98,6 +111,8 @@ public class ThiefBuff extends AbstractBuffClass {
                 eff.statups.put(CharacterTemporaryStat.EPAD, (int) eff.info.get(MapleStatInfo.epad));
                 break;
             case 4221013: //Shadow Instinct
+                //TODO
+                //Unsure what buff to add. (MP Cost: #mpCon, Duration: #time sec, Attack Power: +#x, additional #kp each point of Body Count (uses entire Body Count).\n[Passive Effects: Enemy DEF Ignored: #ignoreMobpdpR%, Accumulate Kill Body Count upon attack])
                 break;
             case 4121000: //Maple Warrior 
             case 4221000: //Maple Warrior 
@@ -105,9 +120,15 @@ public class ThiefBuff extends AbstractBuffClass {
                 eff.statups.put(CharacterTemporaryStat.BasicStatUp, eff.info.get(MapleStatInfo.x));
                 break;
             case 4121054: //Bleed Dart
+                eff.statups.put(CharacterTemporaryStat.BleedingToxin, eff.info.get(MapleStatInfo.x)); //Is this correct?
+                //TODO
                 break;
+
+            case 4200013: //Cirital Growth
             case 4220015: //prime critical
-            	eff.statups.put(CharacterTemporaryStat.BasicStatUp, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.CriticalGrowing, eff.info.get(MapleStatInfo.x));
+                //TODO
+                // (For every interval or attack - Critical Rate: +#x%, Critical Damage: +#w%, Critical Damage Increase Cap: #q%.\n[Passive Effect - LUK +#lukX, Critical Damage +#criticaldamage%])
                 break;    
             case 4341054: // Blade Clone
                 eff.statups.put(CharacterTemporaryStat.IndiePADR, eff.info.get(MapleStatInfo.damage));
@@ -116,6 +137,7 @@ public class ThiefBuff extends AbstractBuffClass {
             case 4221054: // flip of the coin
             	eff.statups.put(CharacterTemporaryStat.IndieDamR, eff.info.get(MapleStatInfo.indieDamR));
             	eff.statups.put(CharacterTemporaryStat.IndieCr, eff.info.get(MapleStatInfo.x));
+                eff.statups.put(CharacterTemporaryStat.FlipTheCoin, eff.info.get(MapleStatInfo.x)); // Is this correct?
                 break;
             case 4121053: //Epic Adventure
             case 4221053: //Epic Adventure

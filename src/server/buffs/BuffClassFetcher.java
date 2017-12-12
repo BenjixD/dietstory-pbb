@@ -5,25 +5,17 @@
 package server.buffs;
 
 import server.MapleStatEffect;
-import server.buffs.buffclasses.adventurer.BowmanBuff;
-import server.buffs.buffclasses.adventurer.MagicianBuff;
-import server.buffs.buffclasses.adventurer.PirateBuff;
-import server.buffs.buffclasses.adventurer.ThiefBuff;
-import server.buffs.buffclasses.adventurer.WarriorBuff;
-import server.buffs.buffclasses.cygnus.BlazeWizardBuff;
-import server.buffs.buffclasses.cygnus.DawnWarriorBuff;
-import server.buffs.buffclasses.cygnus.MihileBuff;
-import server.buffs.buffclasses.cygnus.WindArcherBuff;
-import server.buffs.buffclasses.hero.AranBuff;
-import server.buffs.buffclasses.hero.EvanBuff;
-import server.buffs.buffclasses.hero.LuminousBuff;
+import server.buffs.buffclasses.adventurer.*;
+import server.buffs.buffclasses.cygnus.*;
+import server.buffs.buffclasses.hero.*;
 import server.buffs.buffclasses.nova.AngelicBusterBuff;
-import server.buffs.buffclasses.resistance.DemonBuff;
-import server.buffs.buffclasses.resistance.WildHunterBuff;
-import server.buffs.buffclasses.resistance.XenonBuff;
+import server.buffs.buffclasses.nova.KaiserBuff;
+import server.buffs.buffclasses.resistance.*;
 import server.buffs.buffclasses.sengoku.HayatoBuff;
 import server.buffs.buffclasses.sengoku.KannaBuff;
 import server.buffs.buffclasses.zero.ZeroBuff;
+import server.buffs.buffclasses.special.PinkBeanBuff;
+import server.buffs.buffclasses.special.BeastTamerBuff;
 
 /**
  *
@@ -40,17 +32,28 @@ public class BuffClassFetcher {
         DawnWarriorBuff.class,
         WindArcherBuff.class,
         BlazeWizardBuff.class,
+        NightWalkerBuff.class,
+        ThunderBreakerBuff.class,
         MihileBuff.class,
         AranBuff.class,
         EvanBuff.class,
+        MercedesBuff.class,
+        PhantomBuff.class,
+        ShadeBuff.class,
         LuminousBuff.class,
         AngelicBusterBuff.class,
+        KaiserBuff.class,
         XenonBuff.class,
+        BlasterBuff.class,
         WildHunterBuff.class,
+        MechanicBuff.class,
+        BattleMageBuff.class,
         DemonBuff.class,
         KannaBuff.class,
         HayatoBuff.class,
-        ZeroBuff.class
+        ZeroBuff.class,
+        PinkBeanBuff.class,
+        BeastTamerBuff.class
     };
 
     public static boolean getHandleMethod(MapleStatEffect eff, int skillid) {

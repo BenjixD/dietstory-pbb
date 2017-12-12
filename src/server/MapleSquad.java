@@ -46,6 +46,7 @@ public class MapleSquad {
         pno(0),
         egol(0),
         hgol(0),
+        heka(0),
         ctengu(0),
         damien(0),
         lucid(0),

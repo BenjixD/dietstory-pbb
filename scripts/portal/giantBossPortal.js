@@ -4,6 +4,7 @@ function enter (pi) {
 var mapid = pi.getPlayer().getMapId();
 var portalid = pi.getPortal().getId();
 var gcoin = 4310097;
+var gpenny = 4310098;
 var amount = 30;
 
 switch (mapid) {
@@ -563,6 +564,7 @@ break;
 
 case 863010601: // Head
 var em = pi.getEventManager("HGolluxBattle");
+var em2 = pi.getEventManager("EGolluxBattle");
 
     switch(portalid) {
     case 2:
@@ -608,6 +610,46 @@ var em = pi.getEventManager("HGolluxBattle");
                 } else {
                 pi.gainItem(gcoin,30);
                 pi.playerMessage(5,"You have gained "+ 30 +" Gollux coins.");
+                }
+
+
+            } else if (em2 != null && em2.getProperty("easy").equals("true") )   {
+
+                if (pi.getParty() != null) {
+                switch (pi.getParty().getMembers().size()) {
+                case 1:
+                pi.gainItem(gpenny,108);
+                pi.playerMessage(5,"You have gained "+ 108 +" Gollux penny.");
+                break;
+
+                case 2:
+                pi.gainItem(gpenny,96);
+                pi.playerMessage(5,"You have gained "+ 96 +" Gollux penny.");
+                break;
+
+                case 3:
+                pi.gainItem(gpenny,91);
+                pi.playerMessage(5,"You have gained "+ 91 +" Gollux penny.");
+                break;
+
+                case 4:
+                pi.gainItem(gpenny,88);
+                pi.playerMessage(5,"You have gained "+ 88 +" Gollux penny.");
+                break;
+
+                case 5:
+                pi.gainItem(gpenny,84);
+                pi.playerMessage(5,"You have gained "+ 84 +" Gollux penny.");
+                break;
+
+                case 6:
+                pi.gainItem(gpenny,79);
+                pi.playerMessage(5,"You have gained "+ 79 +" Gollux penny.");
+                break;
+                }
+                } else {
+                pi.gainItem(gpenny,71);
+                pi.playerMessage(5,"You have gained "+ 71 +" Gollux penny.");
                 }
             } else {
             }

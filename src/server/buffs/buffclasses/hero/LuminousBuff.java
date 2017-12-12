@@ -44,7 +44,7 @@ public class LuminousBuff extends AbstractBuffClass {
                 eff.statups.put(CharacterTemporaryStat.Booster, eff.info.get(MapleStatInfo.x));
                 break;
                 case 27111004:
-                    eff.info.put(MapleStatInfo.time, Integer.valueOf(2100000000));
+                    eff.info.put(MapleStatInfo.time, 0); //was Integer.valueOf(2100000000), now 0
                     eff.statups.put(CharacterTemporaryStat.KeyDownAreaMoving, Integer.valueOf(3));
                     break;
             case 27111005: // Dusk Guard

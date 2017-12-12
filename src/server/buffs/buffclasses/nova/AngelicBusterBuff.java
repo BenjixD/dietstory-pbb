@@ -18,7 +18,7 @@ public class AngelicBusterBuff extends AbstractBuffClass {
 
     public AngelicBusterBuff() {
         buffs = new int[]{
-            60011219, // Terms and Conditions
+            60011219, //Terms and Conditions
             65001002, //Melody Cross
             65101002, //Power Transfer
             65111003, //Dragon Whistle

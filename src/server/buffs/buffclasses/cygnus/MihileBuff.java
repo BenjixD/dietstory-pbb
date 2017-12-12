@@ -64,7 +64,7 @@ public class MihileBuff extends AbstractBuffClass {
             case 51121006: // roiling soul
                 eff.statups.put(CharacterTemporaryStat.DamR, eff.info.get(MapleStatInfo.x));
                 eff.statups.put(CharacterTemporaryStat.HowlingCritical, eff.info.get(MapleStatInfo.y));
-                eff.statups.put(CharacterTemporaryStat.HowlingCritical, eff.info.get(MapleStatInfo.z));
+                //eff.statups.put(CharacterTemporaryStat.HowlingCritical, eff.info.get(MapleStatInfo.z)); // z = 0
                 break;
             default:
                 //System.out.println("Unhandled Buff: " + skill);

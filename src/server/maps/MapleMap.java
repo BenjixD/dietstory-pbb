@@ -2249,6 +2249,9 @@ public final class MapleMap {
             case 350160240:
                 zz = MapleSquadType.damien;
                 break;
+            case 924045004:
+                zz = MapleSquadType.heka;
+                break;
             case 450004450:
             case 450004550:
                 zz = MapleSquadType.lucid;
@@ -2405,7 +2408,9 @@ public final class MapleMap {
             case 811000500:
                 em = "PNoBattle";
                 break;
-
+            case 924045004:
+                em = "HekatonBattle";
+                break;
             case 350160200:
             case 350160240:
                 em = "DamienBattle";

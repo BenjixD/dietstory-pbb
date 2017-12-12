@@ -339,6 +339,10 @@ public class GameConstants {
 		return job == 2003 || (job / 100 == 24);
 	}
 
+	public static boolean isShade(final int job) {
+		return job == 2003 || (job / 100 == 25);
+	}
+
 	public static boolean isBattleMage(final int job) {
 		return job  >= 3200 && job <= 3212;
 	}

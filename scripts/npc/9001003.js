@@ -1,4 +1,4 @@
-// Universal NPC  Eunice - 9270035
+//
 
 function start() {
     cm.sendOk("Hello, I like Cola.");
