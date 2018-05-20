@@ -39,7 +39,7 @@ Download Java Development Kit 8 (tested and working jdk1.8.0u144) installer from
 
 **<Your Java Location>\jdk1.8.0u144\jre\lib\ext**
 
-x**<Your Java Location>\jdk1.8.0u144\jre\lib\security**
+**<Your Java Location>\jdk1.8.0u144\jre\lib\security**
 
 Double check your Java version via the CLI:
 ```
