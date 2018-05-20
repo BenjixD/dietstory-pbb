@@ -34,9 +34,12 @@ Extract the WZDumper to any location on your computer.
 Download Java Development Kit 8 (tested and working jdk1.8.0u144) installer from the official provider. Also download from an official provider JCE unlimited strength for java 8. After installing the JDK, extract the JCE contents to the following locations:
 
 **<Your Java Location>\jdk1.8.0u144\lib**
+
 **<Your Java Location>\jdk1.8.0u144\jre\lib**
+
 **<Your Java Location>\jdk1.8.0u144\jre\lib\ext**
-**<Your Java Location>\jdk1.8.0u144\jre\lib\security**
+
+x**<Your Java Location>\jdk1.8.0u144\jre\lib\security**
 
 Double check your Java version via the CLI:
 ```
