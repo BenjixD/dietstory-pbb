@@ -7,6 +7,7 @@ public class ServerConfig {
 	public static String SQL_DATABASE = "mushy";
 	public static String SQL_USER = "root";
 	public static String SQL_PASS = "";
+	public static String SQL_ENDPOINT;
 
 	// Server Configuration	
 	public static String SERVER_NAME;

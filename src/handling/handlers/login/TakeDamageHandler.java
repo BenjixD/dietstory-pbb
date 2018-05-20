@@ -45,6 +45,8 @@ public class TakeDamageHandler {
 		Point pPos = new Point(0, 0);
 		MapleMonster attacker = null;
 
+		System.out.println("===DAMAGE TAKEN===: " + damage);
+
 		if (GameConstants.isXenon(c.getPlayer().getJob())) {
 			if (c.getPlayer().getSkillLevel(36110004) > 0) {
 				c.getPlayer().getMap().broadcastMessage(JobPacket.XenonPacket.EazisSystem(c.getPlayer().getId(), oid));
@@ -177,6 +179,7 @@ public class TakeDamageHandler {
 		}
 		Pair modify = c.getPlayer().modifyDamageTaken(damage, attacker);
 		damage = ((Double) modify.left).intValue();
+		System.out.println("===NEW DAMAGE TAKEN===: " + damage);
 		if (damage > 0) {
 
 			if (c.getPlayer().getBuffedValue(CharacterTemporaryStat.Morph) != null) {
@@ -234,6 +237,7 @@ public class TakeDamageHandler {
 				c.getPlayer().addMPHP(stats.getHp() > 1 ? -(stats.getHp() - 1) : 0,
 						(stats.getMp() > 1) && (!mpAttack) ? -(stats.getMp() - 1) : 0);
 			} else {
+				System.out.println("===ACTUAL DAMAGE TAKEN===: " + damage);
 				c.getPlayer().addMPHP(-damage, mpAttack ? 0 : -mpattack);
 			}
 			if ((c.getPlayer().inPVP()) && (c.getPlayer().getStat().getHPPercent() <= 20)) {
@@ -255,6 +259,7 @@ public class TakeDamageHandler {
 
 		c.getPlayer().getMap().broadcastMessage(c.getPlayer(), CField.damagePlayer(c.getPlayer().getId(), type, damage, monsteridfrom, direction,
 				skillid, pDMG, pPhysical, pID, pType, pPos, offset, offset_d, fake), false);
+
 		if(!c.getPlayer().isAlive()){
 			MapleCharacter chr = c.getPlayer();
 

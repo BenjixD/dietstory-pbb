@@ -4,6 +4,7 @@
  */
 package tools.wztosql;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -11,12 +12,17 @@ import java.nio.charset.CharsetEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Properties;
 
+import constants.ServerConfig;
 import lib.data.MapleData;
 import lib.data.MapleDataProvider;
 import lib.data.MapleDataProviderFactory;
 import lib.data.MapleDataTool;
 import net.DatabaseConnection;
+
+import static tools.wztosql.DumpItems.getByte;
+import static tools.wztosql.DumpItems.getShort;
 
 /**
  *
@@ -36,6 +42,28 @@ public class DumpOxQuizData {
         System.out.println("OXQuiz.img Loading ...");
         //try (PrintWriter writer = new PrintWriter(new FileOutputStream(cashTxt))) {
         //    writer.println("INSERT INTO `wz_oxdata` (`questionset`, `questionid`, `question`, `display`, `answer`) VALUES");
+
+        Properties properties = new Properties();
+        try {
+            properties.load(new FileInputStream("config.properties"));
+        } catch (IOException ex) {
+            System.out.println("Failed to load config.properties");
+        }
+
+        // Load Server Configuration
+        ServerConfig.IP_ADDRESS = properties.getProperty("ip");
+        ServerConfig.SERVER_NAME = properties.getProperty("name");
+        ServerConfig.EVENT_MSG = properties.getProperty("event");
+        ServerConfig.SCROLL_MESSAGE = properties.getProperty("message");
+        ServerConfig.MAX_CHARACTERS = getByte(properties, "characters");
+        ServerConfig.USER_LIMIT = getShort(properties, "users");
+        ServerConfig.CHANNEL_COUNT = getByte(properties, "channels");
+        ServerConfig.SQL_PORT = properties.getProperty("sql_port");
+        ServerConfig.SQL_USER = properties.getProperty("sql_user");
+        ServerConfig.SQL_PASS = properties.getProperty("sql_password");
+        ServerConfig.SQL_DATABASE = properties.getProperty("sql_db");
+        ServerConfig.SQL_ENDPOINT = properties.getProperty("sql_endpoint");
+
         DumpOxQuizData dump = new DumpOxQuizData();
         dump.dumpOxData();
         //    writer.flush();

@@ -121,7 +121,10 @@ public class DatabaseConnection {
         @Override
         protected Connection initialValue() {
             try {
-                return DriverManager.getConnection("jdbc:mysql://127.0.0.1:" + ServerConfig.SQL_PORT + "/" + ServerConfig.SQL_DATABASE + "?autoReconnect=true&useSSL=false", ServerConfig.SQL_USER, ServerConfig.SQL_PASS);
+                return DriverManager.getConnection(String.format("jdbc:mysql://%s:%s/%s?useSSL=false",
+                        ServerConfig.SQL_ENDPOINT, ServerConfig.SQL_PORT, ServerConfig.SQL_DATABASE),
+                        ServerConfig.SQL_USER,
+                        ServerConfig.SQL_PASS);
             } catch (SQLException e) {
                 System.out.println("[SEVERE] Unable to make net.db connection.");
                 e.printStackTrace();

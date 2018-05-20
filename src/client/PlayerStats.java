@@ -165,6 +165,7 @@ public class PlayerStats implements Serializable {
     }
 
     public void recalcLocalStats(boolean first_login, MapleCharacter chra) {
+        System.out.println("===RECALCULATING===");
         if (chra.isClone()) {
             return; //clones share PlayerStats objects and do not need to be recalculated
         }
@@ -592,9 +593,12 @@ public class PlayerStats implements Serializable {
         if (oldmaxhp != 0 && oldmaxhp != localmaxhp) {
             chra.updatePartyMemberHP();
         }
+
+        System.out.println("localmaxhp: " + localmaxhp);
+        System.out.println("localmaxmp: " + localmaxmp);
     }
     
-        public List<Triple<Integer, String, Integer>> getPsdSkills(){
+    public List<Triple<Integer, String, Integer>> getPsdSkills(){
         return psdSkills;
     }
 
@@ -3610,12 +3614,15 @@ public class PlayerStats implements Serializable {
     }
 
     public final boolean setHp(int newhp, boolean silent, MapleCharacter chra) {
+        System.out.println("new HP: " + newhp);
+        System.out.println("Am I dead? :" + !chra.isAlive());
         final int oldHp = hp;
         int thp = newhp;
         if (thp < 0) {
             thp = 0;
         }
         if (thp > localmaxhp) {
+            System.out.println("Local Max HP: " + localmaxhp);
             thp = localmaxhp;
         }
         this.hp = thp;
@@ -3626,6 +3633,7 @@ public class PlayerStats implements Serializable {
                 chra.updatePartyMemberHP();
             }
             if (oldHp > hp && !chra.isAlive()) {
+                System.out.println("HOW DID I DIE??");
                 chra.playerDead();
             }
         }

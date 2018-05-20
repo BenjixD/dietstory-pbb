@@ -62,6 +62,7 @@ public class Start extends Properties {
         ServerConfig.SQL_USER = properties.getProperty("sql_user");
         ServerConfig.SQL_PASS = properties.getProperty("sql_password");
         ServerConfig.SQL_DATABASE = properties.getProperty("sql_db");
+        ServerConfig.SQL_ENDPOINT = properties.getProperty("sql_endpoint");
         
         // Load opcode properties
         System.setProperty("sendops", properties.getProperty("sendops"));
@@ -73,8 +74,8 @@ public class Start extends Properties {
         // Migrate the database
         Flyway flyway = new Flyway();
         
-        String args = String.format("jdbc:mysql://%s:%s/%s?useSSL=false",
-        		ServerConfig.IP_ADDRESS, ServerConfig.SQL_PORT, ServerConfig.SQL_DATABASE);
+        String args = String.format("jdbc:mysql://%s:%s/%s?useSSL=false&autoReconnect=true",
+        		ServerConfig.SQL_ENDPOINT, ServerConfig.SQL_PORT, ServerConfig.SQL_DATABASE);
         
         //flyway.setDataSource(args, ServerConfig.SQL_USER, ServerConfig.SQL_PASS);
         //flyway.setLocations("filesystem:./resources/db/migration");

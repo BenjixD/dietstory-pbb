@@ -524,6 +524,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     }
 
     public static MapleCharacter loadCharFromDB(int charid, MapleClient client, boolean channelserver, final Map<Integer, CardData> cads) {
+        System.out.println("Loading Char from DB!");
         final MapleCharacter ret = new MapleCharacter(channelserver);
         ret.client = client;
         ret.id = charid;
@@ -621,6 +622,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 t.setExp(rs.getInt(t.getType().name()));
             }
             if (channelserver) {
+                System.out.println("IS CHANNEL SERVERING");
                 ret.CRand = new PlayerRandomStream();
                 MapleMapFactory mapFactory = ChannelServer.getInstance(client.getChannel()).getMapFactory();
                 ret.map = mapFactory.getMap(ret.mapid);
@@ -990,7 +992,7 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 rs.close();
                 ps.close();
 
-                ps = con.prepareStatement("SELECT `itemId` FROM extendedSlots WHERE characterid = ?");
+                ps = con.prepareStatement("SELECT `itemId` FROM extendedslots WHERE characterid = ?");
                 ps.setInt(1, charid);
                 rs = ps.executeQuery();
                 while (rs.next()) {
@@ -1096,7 +1098,6 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 ret.mount = new MapleMount(ret, mount != null ? mount.getItemId() : 0, 80001000, rs.getByte("Fatigue"), rs.getByte("Level"), rs.getInt("Exp"));
                 ps.close();
                 rs.close();
-
                 ret.stats.recalcLocalStats(true, ret);
             } else { // Not channel server
                 for (Pair<Item, MapleInventoryType> mit : ItemLoader.INVENTORY.loadItems(true, charid).values()) {
@@ -1785,10 +1786,10 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                 }
             }
             if (changed_extendedSlots) {
-                deleteWhereCharacterId(con, "DELETE FROM extendedSlots WHERE characterid = ?");
+                deleteWhereCharacterId(con, "DELETE FROM extendedslots WHERE characterid = ?");
                 for (int i : extendedSlots) {
                     if (getInventory(MapleInventoryType.ETC).findById(i) != null) { //just in case
-                        ps = con.prepareStatement("INSERT INTO extendedSlots(characterid, itemId) VALUES(?, ?) ");
+                        ps = con.prepareStatement("INSERT INTO extendedslots(characterid, itemId) VALUES(?, ?) ");
                         ps.setInt(1, getId());
                         ps.setInt(2, i);
                         ps.execute();
@@ -2122,7 +2123,8 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
     }  
 
     public boolean canDOT(long now) {
-        return lastDOTTime > 0 && lastDOTTime + 8000 < now;
+        //return lastDOTTime > 0 && lastDOTTime + 8000 < now;
+        return false;
     }
 
     public boolean hasDOT() {

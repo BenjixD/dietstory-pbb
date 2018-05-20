@@ -1101,7 +1101,7 @@ public class MapleClient implements Serializable {
 			MapleCharacter.deleteWhereCharacterId(con, "DELETE FROM trocklocations WHERE characterid = ?", cid);
 			MapleCharacter.deleteWhereCharacterId(con, "DELETE FROM queststatus WHERE characterid = ?", cid);
 			MapleCharacter.deleteWhereCharacterId(con, "DELETE FROM inventoryslot WHERE characterid = ?", cid);
-			MapleCharacter.deleteWhereCharacterId(con, "DELETE FROM extendedSlots WHERE characterid = ?", cid);
+			MapleCharacter.deleteWhereCharacterId(con, "DELETE FROM extendedslots WHERE characterid = ?", cid);
 			return 0;
 		} catch (SQLException e) {
 			e.printStackTrace();

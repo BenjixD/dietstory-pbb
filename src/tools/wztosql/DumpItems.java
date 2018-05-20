@@ -474,6 +474,7 @@ public class DumpItems {
         ServerConfig.SQL_USER = properties.getProperty("sql_user");
         ServerConfig.SQL_PASS = properties.getProperty("sql_password");
         ServerConfig.SQL_DATABASE = properties.getProperty("sql_db");
+        ServerConfig.SQL_ENDPOINT = properties.getProperty("sql_endpoint");
 
 
         int currentQuest = 0;
