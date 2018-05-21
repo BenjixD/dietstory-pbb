@@ -84,9 +84,17 @@ Run the WZDumper, and select the option to dump wz files from a folder. Choose y
 
 **Note2**: I theorize you may need to update your client to v179.4 before dumping the contents (as you may miss assets) but I've yet to test the consequences of not doing so.
 
+## Running the Server
+
+Prior to running the server, use the netsh to construct a virtual network adapter to mimic network calls to that of the live server. On CMD, run as administrator the following command:
+
+```
+netsh int ip add addr 1 8.31.99.141 255.255.255.0 st=ac
+```
+
 ## Running the Game
 
-Build the project as mentioned above. Your application jar will exist under `<project directory>/target/`. Run `launch.bat` to start your local server and ensure that your database is already on and populated. Wait a couple of minutes for the server to finish initialization.
+Build the project as mentioned above. Your application jar will exist under `<project directory>/bin/`. Run `launch.bat` to start your local server and ensure that your database is already on and populated. Wait a couple of minutes for the server to finish initialization.
 
 For local servers, you can launch your client directly through the ```gamelauncher.exe```. If your server exists remotely, then you'll need to run the redirector pointing to your remote server. At this stage, you should be able to reach the login screen with no difficulties.
 
