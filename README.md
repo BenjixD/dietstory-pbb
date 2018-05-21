@@ -1,5 +1,8 @@
 # DietStory v179.4 README
 
+[![DietStory](https://travis-ci.org/BenjixD/dietstory-pbb.svg?branch=master)](https://travis-ci.org/BenjixD/dietstory-pbb)
+---
+
 Credits are given to Nexon, Mushy and SwordieMS teams on the Maplestory v179.4 server base. Distributability and usage of the code is open-source. This server is a monolith maven project built on Java 8 supporting Travis CI. You'll find many broken content ranging from unhandled requests by the client to incomplete gameplay. The goal is to reach a steady server supporting most if not all rich experiences Maplestory has to offer.
 
 ## Download
