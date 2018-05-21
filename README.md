@@ -9,7 +9,7 @@ Credits are given to Nexon, Mushy and SwordieMS teams on the Maplestory v179.4 s
 
 For players, having the client and redirector is sufficient to connect to DietStory v179.4 server.
 
-Client: https://s3.us-east-2.amazonaws.com/maplestory-client/MSSetupv179.rar
+Client: https://s3.us-east-2.amazonaws.com/maplestory-client/MSSetupv179.rar<br />
 Redirector: (Coming Soon)
 
 For developers, you'll need the following WZ Dumper to extract game content from the client to the server. Note this process can take a while. You'll also need an IDE of your choice to work on the maven project along with unlimited strength Java 8 and a MySQL server to connect your running server instance to.
@@ -36,13 +36,10 @@ Extract the WZDumper to any location on your computer.
 
 Download Java Development Kit 8 (tested and working jdk1.8.0u144) installer from the official provider. Also download from an official provider JCE unlimited strength for java 8. After installing the JDK, extract the JCE contents to the following locations:
 
-**<Your Java Location>\jdk1.8.0u144\lib**
-
-**<Your Java Location>\jdk1.8.0u144\jre\lib**
-
-**<Your Java Location>\jdk1.8.0u144\jre\lib\ext**
-
-**<Your Java Location>\jdk1.8.0u144\jre\lib\security**
+**<Your Java Location>\jdk1.8.0u144\lib**<br />
+**<Your Java Location>\jdk1.8.0u144\jre\lib**<br />
+**<Your Java Location>\jdk1.8.0u144\jre\lib\ext**<br />
+**<Your Java Location>\jdk1.8.0u144\jre\lib\security**<br />
 
 Double check your Java version via the CLI:
 ```
